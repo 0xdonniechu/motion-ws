@@ -239,7 +239,20 @@ const server = http.createServer(async (req, res) => {
       const ok = abs.startsWith(ROOT + path.sep) && !rel.split("/").some((s) => s.startsWith("."));
       if (!ok || !fs.existsSync(abs) || fs.statSync(abs).isDirectory())
         return send(res, 404, "not found", "text/plain");
-      res.writeHead(200, { "Content-Type": MIME[path.extname(abs)] || "application/octet-stream" });
+      const type = MIME[path.extname(abs)] || "application/octet-stream";
+      const st = fs.statSync(abs);
+      const rg = req.headers.range;
+      if (rg) {
+        const m2 = rg.match(/bytes=(\d*)-(\d*)/);
+        const start = m2 && m2[1] ? parseInt(m2[1], 10) : 0;
+        const end = m2 && m2[2] ? parseInt(m2[2], 10) : st.size - 1;
+        res.writeHead(206, { "Content-Type": type, "Accept-Ranges": "bytes",
+          "Content-Range": `bytes ${start}-${end}/${st.size}`,
+          "Content-Length": end - start + 1 });
+        return fs.createReadStream(abs, { start, end }).pipe(res);
+      }
+      res.writeHead(200, { "Content-Type": type, "Accept-Ranges": "bytes",
+        "Content-Length": st.size });
       return fs.createReadStream(abs).pipe(res);
     }
     let f = path.join(ROOT, "public", p === "/" ? "index.html" : decodeURIComponent(p.slice(1)));
