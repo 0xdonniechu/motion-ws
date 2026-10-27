@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Workspace</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <strong>Video Workspace</strong>
+  <nav>
+    <button id="tab-board" class="active">Kanban</button>
+    <button id="tab-explorer">Explorer</button>
+  </nav>
+  <form id="ingest">
+    <input id="ingest-url" placeholder="Dán URL video bất kỳ (TikTok, YouTube...) rồi Enter" size="52">
+    <button type="submit">Nhập</button>
+  </form>
+</header>
+<main>
+  <section id="view-board">
+    <div class="cols">
+      <div class="col" data-st="todo"><h2>Tò-do</h2><div class="cards"></div></div>
+      <div class="col" data-st="processing"><h2>Processing</h2><div class="cards"></div></div>
+      <div class="col" data-st="done"><h2>Done</h2><div class="cards"></div></div>
+      <div class="col" data-st="cancel"><h2>Cancel</h2><div class="cards"></div></div>
+    </div>
+  </section>
+  <section id="view-explorer" hidden>
+    <div class="exp">
+      <div id="tree"></div>
+      <div id="preview"><p class="hint">Chọn file bên trái để xem</p></div>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
