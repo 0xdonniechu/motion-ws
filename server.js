@@ -194,6 +194,8 @@ const server = http.createServer(async (req, res) => {
         url: b.url || null, file: b.file || null, status: "processing",
         created: new Date().toISOString(), note: "đang tải + phân tích", output: null };
       fs.mkdirSync(path.join(JOBS_DIR, job.id), { recursive: true });
+      ["analysis", "rebuild", "preview"].forEach((d) =>
+        fs.mkdirSync(path.join(JOBS_DIR, job.id, d), { recursive: true }));
       jobs.unshift(job); saveJobs(jobs);
       runIngest(job);
       return send(res, 200, job);
