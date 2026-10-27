@@ -19,6 +19,9 @@ main { padding: 12px 14px; }
 .col { background: #171a1d; border: 1px solid #2a2e33; border-radius: 8px;
   padding: 8px; min-height: 60vh; }
 .col h2 { margin: 2px 4px 8px; font-size: 13px; color: #9a9a9a; font-weight: 600; }
+.col.over { border-color: #2a6cb6; background: #1b2430; }
+.card { cursor: grab; }
+.card:active { cursor: grabbing; }
 .card { background: #1f2327; border: 1px solid #33383e; border-radius: 8px;
   padding: 8px; margin-bottom: 8px; }
 .card img { width: 100%; border-radius: 4px; display: block; margin-bottom: 6px; }

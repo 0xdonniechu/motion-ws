@@ -13,12 +13,25 @@ async function loadJobs() {
     const box = col.querySelector(".cards");
     box.innerHTML = "";
     jobs.filter((j) => j.status === st).forEach((j) => box.appendChild(card(j)));
+    col.ondragover = (e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; col.classList.add("over"); };
+    col.ondragleave = () => col.classList.remove("over");
+    col.ondrop = async (e) => {
+      e.preventDefault();
+      col.classList.remove("over");
+      const id = e.dataTransfer.getData("text/plain");
+      if (!id || jobs.find((j) => j.id === id)?.status === st) return;
+      await api("/api/jobs/" + id, { method: "PATCH",
+        headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: st }) });
+      loadJobs();
+    };
   });
 }
 
 function card(j) {
   const d = document.createElement("div");
   d.className = "card";
+  d.draggable = true;
+  d.ondragstart = (e) => { e.dataTransfer.setData("text/plain", j.id); e.dataTransfer.effectAllowed = "move"; };
   const dur = j.duration ? Math.round(j.duration) + "s" : "";
   d.innerHTML = `
     ${j.preview ? `<img src="${media(j.preview)}" title="preview dựng lại">`
