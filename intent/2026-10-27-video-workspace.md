@@ -10,3 +10,4 @@
 
 **Quyết định** — Bán tự động (owner 2026-10-27): ingest + phân tích xong chờ duyệt. Nút Duyệt render tạo khung HyperFrames trong job, session dựng scene, gắn output rồi Xong.
 **Quyết định** — Sync Plane MWS (owner 2026-10-27): ingest xong tự tạo ticket Todo, duyệt → In Progress, xong → Done, hủy → Cancelled. Ticket lưu ở job.plane. Không test framework trong repo (xác minh bằng probe sống vì cần secret + mạng thật).
+**Quyết định** — Tool + preview (owner 2026-10-27): tải video bằng `uvx yt-dlp` (khỏi cài), tách frame bằng ffmpeg (không cần watch-cli). Dựng lại duyệt bằng PNG (`hyperframes snapshot`, gắn vào job.preview) trước, đạt mới render MP4.

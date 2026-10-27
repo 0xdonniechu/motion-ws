@@ -21,7 +21,8 @@ function card(j) {
   d.className = "card";
   const dur = j.duration ? Math.round(j.duration) + "s" : "";
   d.innerHTML = `
-    ${j.sheet ? `<img src="${media("jobs/" + j.id + "/" + j.sheet)}">` : ""}
+    ${j.preview ? `<img src="${media(j.preview)}" title="preview dựng lại">`
+      : j.sheet ? `<img src="${media("jobs/" + j.id + "/" + j.sheet)}">` : ""}
     <div class="t">${esc(j.title)}</div>
     <div class="m">${j.plane ? j.plane.num + " · " : ""}${j.id} · ${dur} ${j.frames ? "· " + j.frames + " frames" : ""}</div>
     <div class="m">${esc(j.note || "")}</div>
