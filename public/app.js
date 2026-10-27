@@ -33,25 +33,34 @@ function card(j) {
   d.draggable = true;
   d.ondragstart = (e) => { e.dataTransfer.setData("text/plain", j.id); e.dataTransfer.effectAllowed = "move"; };
   const dur = j.duration ? Math.round(j.duration) + "s" : "";
+  const prevSrc = j.preview ? media(j.preview)
+    : j.sheet ? media("jobs/" + j.id + "/" + j.sheet) : null;
   d.innerHTML = `
-    ${j.preview ? `<img src="${media(j.preview)}" title="preview dựng lại">`
-      : j.sheet ? `<img src="${media("jobs/" + j.id + "/" + j.sheet)}">` : ""}
     <div class="t">${esc(j.title)}</div>
-    <div class="m">${j.plane ? j.plane.num + " · " : ""}${j.id} · ${dur} ${j.frames ? "· " + j.frames + " frames" : ""}</div>
-    <div class="m">${esc(j.note || "")}</div>
+    <div class="m">${j.plane ? j.plane.num + " · " : ""}${dur}${j.frames ? " · " + j.frames + "f" : ""}</div>
+    ${j.note ? `<div class="m">${esc(j.note)}</div>` : ""}
     <div class="row">
       ${j.status === "todo" ? `<button data-a="approve">Duyệt render</button>` : ""}
-      ${j.status !== "done" && j.status !== "cancel" ? `<button data-a="done" class="ghost">Gắn output + Xong</button>` : ""}
+      ${prevSrc ? `<button data-a="preview" class="ghost">Preview</button>` : ""}
+      ${j.src ? `<button data-a="play" class="ghost">Video</button>` : ""}
+      ${j.status !== "done" && j.status !== "cancel" ? `<button data-a="done" class="ghost">Xong</button>` : ""}
       ${j.status !== "cancel" ? `<button data-a="cancel" class="ghost">Hủy</button>` : ""}
       ${j.status === "cancel" ? `<button data-a="todo" class="ghost">Mở lại</button>` : ""}
-      ${j.src ? `<button data-a="play" class="ghost">Xem video</button>` : ""}
     </div>
     <div class="play"></div>`;
   d.querySelectorAll("button").forEach((b) => b.onclick = async () => {
     const a = b.dataset.a;
+    if (a === "preview") {
+      const box = d.querySelector(".play");
+      box.innerHTML = box.dataset.what === "preview" ? "" : `<img src="${prevSrc}">`;
+      box.dataset.what = box.dataset.what === "preview" ? "" : "preview";
+      return;
+    }
     if (a === "play") {
       const box = d.querySelector(".play");
+      if (box.dataset.what === "video") { box.innerHTML = ""; box.dataset.what = ""; return; }
       box.innerHTML = `<video controls src="${media("jobs/" + j.id + "/" + j.src)}"></video>`;
+      box.dataset.what = "video";
       return;
     }
     if (a === "approve") {
