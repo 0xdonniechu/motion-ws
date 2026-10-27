@@ -1,0 +1,11 @@
+# video artifacts (tái tạo được bằng ingest/render, không commit)
+jobs/*/source.*
+jobs/*/frames/
+jobs/*/contact-sheet.jpg
+renders/*.mp4
+renders/*.webm
+# runtime
+node_modules/
+.hyperframes/
+*.log
+.venv/
