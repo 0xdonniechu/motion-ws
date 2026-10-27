@@ -22,6 +22,10 @@ main { padding: 12px 14px; }
 .col.over { border-color: #2a6cb6; background: #1b2430; }
 .card { cursor: grab; }
 .card:active { cursor: grabbing; }
+.card img { cursor: zoom-in; }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 50;
+  display: flex; align-items: center; justify-content: center; cursor: zoom-out; }
+.lightbox img { max-width: 94vw; max-height: 94vh; border-radius: 8px; }
 .card { background: #1f2327; border: 1px solid #33383e; border-radius: 8px;
   padding: 8px; margin-bottom: 8px; }
 .card img { width: 100%; border-radius: 4px; display: block; margin-bottom: 6px; }

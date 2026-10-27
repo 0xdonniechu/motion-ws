@@ -127,6 +127,15 @@ async function loadTree(dir, el, depth) {
   });
 }
 
+document.addEventListener("click", (e) => {
+  const img = e.target.closest(".card img");
+  if (!img) return;
+  const ov = document.createElement("div");
+  ov.className = "lightbox";
+  ov.innerHTML = `<img src="${img.src}">`;
+  ov.onclick = () => ov.remove();
+  document.body.appendChild(ov);
+});
 function preview(p) {
   const box = $("#preview");
   const ext = p.split(".").pop().toLowerCase();
