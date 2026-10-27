@@ -9,3 +9,4 @@
 **Out of scope** — Tự động phân tích nội dung bằng AI, tự render HyperFrames từ job, voice-over trong app. Các bước đó làm trong session rồi gắn kết quả vào job.
 
 **Quyết định** — Bán tự động (owner 2026-10-27): ingest + phân tích xong chờ duyệt. Nút Duyệt render tạo khung HyperFrames trong job, session dựng scene, gắn output rồi Xong.
+**Quyết định** — Sync Plane MWS (owner 2026-10-27): ingest xong tự tạo ticket Todo, duyệt → In Progress, xong → Done, hủy → Cancelled. Ticket lưu ở job.plane. Không test framework trong repo (xác minh bằng probe sống vì cần secret + mạng thật).

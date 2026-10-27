@@ -115,7 +115,69 @@ async function runIngest(job) {
     }
     const a = await buildAnalysis(jobDir, src);
     set({ status: "todo", ...a, note: "ingest xong, chờ phân tích" });
+    const jobs2 = loadJobs();
+    const done = jobs2.find((x) => x.id === job.id);
+    if (done) { const extra = await planeSync(done, "todo"); set(extra); }
   } catch (e) { set({ status: "todo", note: "ingest lỗi: " + String(e.message || e).slice(0, 200) }); }
+}
+
+const PLANE = { projectKey: "MWS", cache: null };
+function planeConf() {
+  if (process.env.PLANE_API_KEY) return { base: process.env.PLANE_BASE_URL,
+    slug: process.env.PLANE_WORKSPACE_SLUG, key: process.env.PLANE_API_KEY };
+  try {
+    const c = JSON.parse(fs.readFileSync(process.env.HOME + "/.claude.json", "utf8"));
+    const env = c.projects["/home/dc-group"].mcpServers.plane.env;
+    return { base: env.PLANE_BASE_URL, slug: env.PLANE_WORKSPACE_SLUG, key: env.PLANE_API_KEY };
+  } catch { return null; }
+}
+async function planeApi(method, p, data) {
+  const conf = planeConf();
+  if (!conf) throw new Error("no plane config");
+  const r = await fetch(`${conf.base}/api/v1/workspaces/${conf.slug}${p}`, {
+    method, headers: { "X-API-Key": conf.key, "User-Agent": "video-workspace/0.1",
+      "Content-Type": "application/json" },
+    body: data ? JSON.stringify(data) : undefined });
+  if (!r.ok) throw new Error(`plane ${r.status} on ${p}`);
+  const t = await r.text();
+  return t ? JSON.parse(t) : null;
+}
+async function planeIds() {
+  if (PLANE.cache) return PLANE.cache;
+  const ps = await planeApi("GET", "/projects/");
+  const items = ps.results || ps;
+  const proj = items.find((p) => p.identifier === PLANE.projectKey);
+  if (!proj) throw new Error("no MWS project");
+  const sts = await planeApi("GET", `/projects/${proj.id}/states/`);
+  const sitems = sts.results || sts;
+  const byGroup = {};
+  sitems.forEach((s) => { byGroup[s.group] = s.id; });
+  PLANE.cache = { projectId: proj.id, byGroup };
+  return PLANE.cache;
+}
+const PLANE_STATE = { todo: "unstarted", processing: "started", done: "completed", cancel: "cancelled" };
+async function planeCreate(job, analysis) {
+  const { projectId, byGroup } = await planeIds();
+  const desc = `<p>Nguồn: ${job.url || job.file || ""}</p>`
+    + (analysis ? `<p>Thời lượng: ${Math.round(analysis.duration || 0)}s · ${analysis.width}x${analysis.height} · ${analysis.frames} frames</p><p>Job: jobs/${job.id}/</p>` : "");
+  const issue = await planeApi("POST", `/projects/${projectId}/issues/`,
+    { name: job.title.slice(0, 255), description_html: desc, state: byGroup.unstarted });
+  return { id: issue.id, num: `${PLANE.projectKey}-${issue.sequence_id}` };
+}
+async function planeMove(planeId, status) {
+  const { projectId, byGroup } = await planeIds();
+  await planeApi("PATCH", `/projects/${projectId}/issues/${planeId}/`,
+    { state: byGroup[PLANE_STATE[status]] });
+}
+async function planeSync(job, status) {
+  try {
+    if (!job.plane && status === "todo") {
+      const a = { duration: job.duration, width: job.width, height: job.height, frames: job.frames };
+      return { plane: await planeCreate(job, a) };
+    }
+    if (job.plane?.id) await planeMove(job.plane.id, status);
+    return {};
+  } catch (e) { return { planeError: String(e.message || e).slice(0, 120) }; }
 }
 
 const server = http.createServer(async (req, res) => {
@@ -144,6 +206,9 @@ const server = http.createServer(async (req, res) => {
       if (jobs[i].status !== "todo") return send(res, 400, { error: "chỉ duyệt job ở todo" });
       const hf = scaffold(jobs[i]);
       jobs[i] = { ...jobs[i], status: "processing", note: "đã duyệt, khung render ở jobs/" + ma[1] + "/" + hf };
+      const ex1 = await planeSync(jobs[i], "processing");
+      if (!ex1.planeError) delete jobs[i].planeError;
+      Object.assign(jobs[i], ex1);
       saveJobs(jobs);
       return send(res, 200, jobs[i]);
     }
@@ -155,6 +220,11 @@ const server = http.createServer(async (req, res) => {
       if (i < 0) return send(res, 404, { error: "no job" });
       if (b.status && !STATUSES.includes(b.status)) return send(res, 400, { error: "bad status" });
       jobs[i] = { ...jobs[i], ...b };
+      if (b.status) {
+        const ex2 = await planeSync(jobs[i], b.status);
+        if (!ex2.planeError) delete jobs[i].planeError;
+        Object.assign(jobs[i], ex2);
+      }
       saveJobs(jobs);
       return send(res, 200, jobs[i]);
     }

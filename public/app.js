@@ -23,7 +23,7 @@ function card(j) {
   d.innerHTML = `
     ${j.sheet ? `<img src="${media("jobs/" + j.id + "/" + j.sheet)}">` : ""}
     <div class="t">${esc(j.title)}</div>
-    <div class="m">${j.id} · ${dur} ${j.frames ? "· " + j.frames + " frames" : ""}</div>
+    <div class="m">${j.plane ? j.plane.num + " · " : ""}${j.id} · ${dur} ${j.frames ? "· " + j.frames + " frames" : ""}</div>
     <div class="m">${esc(j.note || "")}</div>
     <div class="row">
       ${j.status === "todo" ? `<button data-a="approve">Duyệt render</button>` : ""}
