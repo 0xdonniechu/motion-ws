@@ -19,7 +19,8 @@
       "id": "8d92e7bc-2623-4993-8707-14706847afe0",
       "num": "MWS-3"
     },
-    "preview": "jobs/20261027-182519/preview/compare.jpg"
+    "preview": "jobs/20261027-182519/preview/compare.jpg",
+    "preset": "list-vertical+exploded-view"
   },
   {
     "id": "20261027-144139",
@@ -40,6 +41,7 @@
     "plane": {
       "id": "f63db366-7d6a-4df6-8171-e62c08fa17db",
       "num": "MWS-2"
-    }
+    },
+    "preset": "pipeline-diagram"
   }
 ]

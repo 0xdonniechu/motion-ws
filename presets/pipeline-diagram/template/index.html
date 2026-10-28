@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1280, height=720">
+<script src="gsap.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { margin: 0; width: 1280px; height: 720px; overflow: hidden; background: #141414; }
+body { font-family: ui-monospace, Menlo, Consolas, monospace; }
+#root { position: relative; width: 1280px; height: 720px; }
+.clip { position: absolute; inset: 0; }
+.node { position: absolute; }
+.box { border: 2px solid #e8c547; border-radius: 8px; background: #1b1b1b; color: #f2f2f2; display: flex; align-items: center; justify-content: center; font-size: 26px; padding: 20px; text-align: center; }
+.code { border-color: #7bc47f; background: #161f18; color: #d7e0d7; font-size: 20px; text-align: left; display: block; }
+.arr { color: #8a8a8a; font-size: 34px; }
+.cap { color: #9a9a9a; font-size: 20px; text-align: center; }
+#n1 { left: 90px; top: 220px; width: 300px; height: 280px; }
+#a1 { left: 402px; top: 340px; }
+#n2 { left: 446px; top: 220px; width: 360px; height: 280px; }
+#a2 { left: 818px; top: 340px; }
+#n3 { left: 862px; top: 260px; width: 280px; height: 200px; }
+#c1 { left: 90px; top: 520px; width: 300px; }
+#c2 { left: 446px; top: 520px; width: 360px; }
+#c3 { left: 862px; top: 480px; width: 280px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="8" data-width="1280" data-height="720" data-fps="30">
+<div class="clip" data-start="0" data-duration="8" data-track-index="1">
+<div id="n1" class="box code node">function frame(t) {<br>&nbsp;&nbsp;...<br>}</div>
+<div id="a1" class="arr node">→</div>
+<div id="n2" class="box node">KHUNG HÌNH 2</div>
+<div id="a2" class="arr node">→</div>
+<div id="n3" class="box node">KẾT QUẢ</div>
+<div id="c1" class="cap node">bước 1</div>
+<div id="c2" class="cap node">bước 2</div>
+<div id="c3" class="cap node">bước 3</div>
+</div>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo("#n1", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+tl.fromTo("#a1", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.8);
+tl.fromTo("#n2", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 1.1);
+tl.fromTo("#c1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.4);
+tl.fromTo("#c2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+tl.fromTo("#a2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.4);
+tl.fromTo("#n3", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 2.7);
+tl.fromTo("#c3", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.0);
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

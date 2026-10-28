@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #efe9dc; }
+body { font-family: system-ui, sans-serif; }
+.mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+#root { position: relative; width: 1080px; height: 1920px; }
+.clip { position: absolute; inset: 0; }
+.num { position: absolute; left: 80px; top: 120px; font-size: 90px; font-weight: 900; color: #222; }
+.frame { position: absolute; left: 140px; top: 320px; width: 800px; height: 800px; background: #fff; border: 5px solid #222; border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 60px; color: #8a8a8a; }
+.cap { position: absolute; left: 140px; top: 1180px; width: 800px; background: #fff; border-radius: 20px; padding: 30px 36px; box-shadow: 0 8px 0 rgba(0,0,0,.12); }
+.cap h3 { font-size: 52px; margin-bottom: 8px; }
+.cap p { font-size: 38px; color: #555; }
+.sub { position: absolute; bottom: 90px; left: 140px; width: 800px; background: #fff; border-radius: 40px; padding: 22px; text-align: center; font-size: 42px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1080" data-height="1920" data-fps="30">
+<div class="clip" data-start="0" data-duration="5" data-track-index="1">
+<div class="num mono node" id="n1">01</div>
+<div class="frame node" id="f1">ẢNH 1</div>
+<div class="cap node" id="c1"><h3>Tiêu đề 1</h3><p>Dòng phụ 1</p></div>
+<div class="sub node" id="s1">Sub câu 1</div>
+</div>
+<div class="clip" data-start="5" data-duration="5" data-track-index="1">
+<div class="num mono node" id="n2">02</div>
+<div class="frame node" id="f2">ẢNH 2</div>
+<div class="cap node" id="c2"><h3>Tiêu đề 2</h3><p>Dòng phụ 2</p></div>
+<div class="sub node" id="s2">Sub câu 2</div>
+</div>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo("#n1", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.2);
+tl.fromTo("#f1", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, 0.5);
+tl.fromTo("#c1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 1.0);
+tl.fromTo("#s1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.5);
+tl.fromTo("#n2", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 5.2);
+tl.fromTo("#f2", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, 5.5);
+tl.fromTo("#c2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 6.0);
+tl.fromTo("#s2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.5);
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

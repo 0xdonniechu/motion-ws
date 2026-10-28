@@ -37,7 +37,7 @@ function card(j) {
     : j.sheet ? media("jobs/" + j.id + "/" + j.sheet) : null;
   d.innerHTML = `
     <div class="t">${esc(j.title)}</div>
-    <div class="m">${j.plane ? j.plane.num + " · " : ""}${dur}${j.frames ? " · " + j.frames + "f" : ""}</div>
+    <div class="m">${j.plane ? j.plane.num + " · " : ""}${j.preset ? "[" + esc(j.preset) + "] · " : ""}${dur}${j.frames ? " · " + j.frames + "f" : ""}</div>
     ${j.note ? `<div class="m">${esc(j.note)}</div>` : ""}
     <div class="row">
       ${j.status === "todo" ? `<button data-a="approve">Duyệt render</button>` : ""}
