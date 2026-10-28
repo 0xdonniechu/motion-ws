@@ -1,5 +1,5 @@
 ---
-status: draft
+status: shipped
 ---
 
 # Preset 6 continuous-canvas + shared system
