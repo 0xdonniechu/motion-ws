@@ -1,0 +1,54 @@
+{
+  "style_lock": {
+    "note": "KHÓA CỨNG — mọi nhân vật dùng chung, không sửa khi đổi nhân vật",
+    "style": "stylized 3D character portrait, modern comic-cinematic",
+    "reference": "Spider-Verse meets Arcane",
+    "rendering": [
+      "bold graphic shapes",
+      "painterly cel shading",
+      "anime-influenced expressive face",
+      "red-and-blue offset rim light like misregistered comic print",
+      "dramatic key lighting",
+      "clean dark neutral background",
+      "character concept art"
+    ]
+  },
+  "shot": {
+    "framing": "upper-body shot",
+    "pose_energy": "dynamic forward-leaning pose",
+    "note": "đổi framing (profile / full-body / close-up) tùy cảnh, giữ style_lock"
+  },
+  "characters": {
+    "note": "Nhân vật đã tạo — tái dùng nguyên khối look+expression khi cần đúng người này",
+    "pm_nong_tinh": {
+      "name": "PM nóng tính",
+      "age": "mid-30s",
+      "role": "product manager",
+      "gender": "nam",
+      "look": {
+        "face": "rectangular glasses, furrowed brows, light stubble",
+        "clothes": "rolled-up sleeves, loosened tie, staff badge",
+        "props": "holding a marker like a weapon"
+      },
+      "personality": "sharp intellectual but hot-tempered",
+      "expression": "intense glare, slightly open mouth mid-argument"
+    },
+    "pm_can_than": {
+      "name": "PM cẩn thận dễ quạu",
+      "age": "35",
+      "role": "product manager",
+      "gender": "nam",
+      "look": {
+        "face": "thin metal glasses, neat combed hair, tight pressed lips",
+        "clothes": "fully buttoned shirt with precise collar",
+        "props": "red pen circling KPI DATA VALIDATION error on launch checklist"
+      },
+      "personality": "careful, detail-oriented but easily annoyed",
+      "expression": "sharp side-eye glare, one eyebrow raised, rigid upright posture"
+    }
+  },
+  "build_rule": {
+    "note": "Cách ráp thành prompt text: style + reference + rendering + character(role, age, look, expression) + shot. Tính cách viết bằng BIỂU HIỆN cơ thể, không dùng tính từ trừu tượng.",
+    "template": "{style}, {reference}: {role}, {age}, {look.face}, {look.clothes}, {look.props}. {expression}, {shot.pose_energy}. {rendering}. {shot.framing}"
+  }
+}
