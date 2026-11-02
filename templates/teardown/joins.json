@@ -1,0 +1,4 @@
+{
+  "_doc": "Khoá 'sNN' = scene thứ NN. pre = giây scene tràn LÙI về trước mốc vào (chuyển cảnh vào, phần còn lại trong suốt). post = giây scene tràn TIẾP sau mốc ra (thoát ra, scene sau đè lên). Bỏ khoá hoặc để 0 nếu khớp-khung. File render của scene dài đúng pre + (S[k]-S[k-1]) + post. Scene có pre/post > 0 PHẢI là .mov có alpha. Ví dụ scene 2: \"s02\": {\"pre\": 0.15, \"post\": 0.3}",
+  "s01": { "pre": 0, "post": 0 }
+}
