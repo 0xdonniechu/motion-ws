@@ -9,6 +9,7 @@
 //   opts.mode  "step" (mặc định): mỗi `step` giây nhảy sang offset mới ngẫu nhiên theo hash, biên độ ±amp (x), ±ampY (y, mặc định = amp), ±rot (độ)
 //              "saw": răng cưa đo từ gốc — trôi theo hướng dir (−1 = lên) với lũy thừa `power` trong mỗi chu kỳ rồi giật về 0.
 //                     chu kỳ đều: `period`; hoặc liệt kê `cycles: [[t0, dài, biên độ], ...]` (biên độ px theo trục y, hoặc x nếu axis:"x")
+//              bias/biasY/biasRot (chỉ mode "step"): cộng thêm vào offset TRONG [start, end] để dải nhảy lệch khỏi 0 (vd. biasY:24, ampY:24 => y nhảy 0..+48 px)
 //   opts.seed  hạt giống (mỗi phần tử lệch thêm chỉ số của nó; `sync:true` để mọi phần tử cùng một giá trị)
 (function (g) {
   function hash(i, j, s) {
@@ -34,13 +35,13 @@
     }
     const k = Math.floor(rel / o.step + 1e-9);
     const ax = o.axis === "y" ? 0 : 1, ay = o.axis === "x" ? 0 : 1;
-    return [ax * (hash(k, who, o.seed) - 0.5) * 2 * o.amp, ay * (hash(k, who, o.seed + 101) - 0.5) * 2 * (o.ampY == null ? o.amp : o.ampY),
-      o.rot ? (hash(k, who, o.seed + 202) - 0.5) * 2 * o.rot : 0];
+    return [ax * (hash(k, who, o.seed) - 0.5) * 2 * o.amp + (o.bias || 0), ay * (hash(k, who, o.seed + 101) - 0.5) * 2 * (o.ampY == null ? o.amp : o.ampY) + (o.biasY || 0),
+      (o.rot ? (hash(k, who, o.seed + 202) - 0.5) * 2 * o.rot : 0) + (o.biasRot || 0)];
   }
   g.boil = function (tl, targets, opts) {
     const o = Object.assign({ mode: "step", amp: 6, ampY: null, step: 0.1, start: 0, end: 1, seed: 1, rot: 0, axis: "xy", period: 0.18, power: 2.2, dir: -1, sync: false }, opts || {});
     const list = typeof targets === "string" ? [...document.querySelectorAll(targets)] : (targets && targets.length != null && !targets.nodeType ? [...targets] : [targets]);
-    const clock = { t: o.start };
+    const clock = { t: 0 };
     function apply() {
       list.forEach((el, i) => {
         const [x, y, r] = offset(o, clock.t, i);
@@ -48,7 +49,8 @@
         el.style.rotate = r ? `${r.toFixed(2)}deg` : "";
       });
     }
-    tl.fromTo(clock, { t: o.start }, { t: o.end, duration: Math.max(0.001, o.end - o.start), ease: "none", onUpdate: apply, immediateRender: false }, o.start);
+    // tween chạy từ 0 tới end (không phải từ start): seek lùi về trước start vẫn gọi apply với t thật => offset 0 (hàm thuần của thời gian, không phụ thuộc hướng seek)
+    tl.fromTo(clock, { t: 0 }, { t: o.end, duration: Math.max(0.001, o.end), ease: "none", onUpdate: apply, immediateRender: false }, 0);
     return clock;
   };
 })(window);

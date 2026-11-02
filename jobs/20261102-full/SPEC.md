@@ -65,7 +65,7 @@ Ghép bằng `compose.sh`: scene k nằm ở `[S[k-1]-pre, S[k]+post]`, scene sa
 | J5 | 6.70 | Chữ SplitText giãn ra + mờ; hình tròn cam nở ra | s06 pre (chỉ hình tròn + nền mở dần); s05 post chữ giãn + mờ | 0.15/0.15 |
 | J6 | 7.90 | Chữ G tan thành mây chấm cam | s06 kết thúc ở G bắt đầu tan; s07 khung đầu là mây chấm đúng vị trí/kích thước G | khớp-khung, 0/0 |
 | J7 | 9.20 | Lưới halftone cam bị quét chéo, cảnh hộp SCROLL lộ ra sau mép chéo | s08 pre (mặt nạ chéo mở dần); s07 post giữ lưới | 0.25/0.25 |
-| J8 | 13.00 | Hộp phóng to bay lên khỏi mép trên; cảnh terminal tối trồi lên từ dưới | s08 post (hộp scale + bay lên); s09 pre (nền tối trượt lên từ dưới, trong suốt phía trên) | 0.35/0.35 |
+| J8 | 13.00 | Hộp phóng to bay lên khỏi mép trên; cảnh terminal tối trồi lên từ dưới | s08 post (hộp scale + bay lên, rời khung ~13.57 như đo); s09 pre (nền tối trượt lên từ dưới, trong suốt phía trên) | 0.35/0.60 (đo theo gốc) |
 | J9 | 16.20 | s09 lùi xa + xám; chấm cam ở giữa nở thành vòng tròn mở ra cảnh 10 (viền cam) | s10 (mặt nạ tròn từ chấm, viền cam, trong suốt); s09 post lùi + xám tới khi vòng tròn phủ kín (gốc 16.20–16.45) | 0/0.25 (đo theo gốc) |
 | J10 | 18.70 | Khớp: tiêu đề + thẻ Tasks đã có từ ~18.3 trong s10 | s10 kết thúc đúng bố cục khung đầu s11 (tiêu đề "THÊM BỚT", thẻ Tasks cùng vị trí) | khớp-khung, 0/0 |
 | J11 | 19.40 | Thẻ Tasks ngả ra sau rơi xuống; chữ "spring" mọc + thẻ bounce rơi đè lên | s12 pre (trong suốt trừ thanh/chữ/thẻ; nền kem mở dần); s11 post thẻ Tasks ngả + rơi | 0.30/0.30 |

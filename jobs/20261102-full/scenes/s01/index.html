@@ -134,8 +134,8 @@ R1.forEach((r, i) => {
 // Chỉ áp cho các chữ đó (boil bước 1 khung); mọi chữ còn lại giữ nguyên.
 const sp1 = document.querySelectorAll("#l1 span"), sp2 = document.querySelectorAll("#l2 span");
 boil(tl, [sp1[0], sp1[1], sp1[2]], { mode: "step", step: 1 / 30, amp: 45, ampY: 12, start: 0.70, end: 0.80, seed: 7 });
-boil(tl, [sp2[1], sp2[2]], { mode: "step", step: 1 / 30, axis: "y", amp: 24, start: 0.733, end: 0.967, seed: 11 });
-boil(tl, [sp2[0]], { mode: "step", step: 1 / 30, axis: "y", amp: 9, start: 0.733, end: 0.967, seed: 5 });
+boil(tl, [sp2[1], sp2[2]], { mode: "step", step: 1 / 30, axis: "y", amp: 24, biasY: 24, start: 0.733, end: 0.967, seed: 11 });   // y 0..+48 (gốc)
+boil(tl, [sp2[0]], { mode: "step", step: 1 / 30, axis: "y", amp: 9, biasY: -9, start: 0.733, end: 0.967, seed: 5 });   // y −18..0 (gốc −9±9)
 
 // 3 sọc cam: kéo vào từ trái (gốc 0.17-0.37, gần tuyến tính), rồi quét RA phải (mép trái chạy sang phải, ease-out ~10 khung, mỗi sọc lệch 1 khung),
 // rồi bật lại từ trái lúc vòng bùng ra. Đo từng khung trên gốc (mép trái/phải của mỗi sọc, 540px -> nhân 2; khung f = t*30).

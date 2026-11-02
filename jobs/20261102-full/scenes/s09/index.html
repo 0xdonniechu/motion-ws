@@ -89,7 +89,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
       <svg id="tri" viewBox="0 0 1080 420" width="1080" height="420"><path id="triPath" fill="none" stroke="#c9451c" stroke-width="4" opacity=".8" d=""/><g id="triGs"></g></svg>
       <div id="motionPath">motionPath: { autoRotate: true }</div>
     </div>
-    <svg id="loop" viewBox="0 0 1080 1920" width="1080" height="1920" style="position:absolute;left:0;top:0;opacity:0"><path id="loopP" fill="none" stroke="#c9451c" stroke-width="4" opacity=".55" d=""/><g id="loopG"></g></svg>
+    <svg id="loop" viewBox="0 0 1080 1920" width="1080" height="1920" style="position:absolute;left:0;top:0;opacity:0;filter:blur(4.5px)"><path id="loopP" fill="none" stroke="#c9451c" stroke-width="4" opacity=".3" d=""/><g id="loopG"></g></svg>
     <svg id="tiles" viewBox="0 0 1080 1920" width="1080" height="1920" style="position:absolute;left:0;top:0"></svg>
   </div>
   <div id="cards" class="clip layer" data-start="0" data-duration="3.8" data-track-index="3" style="inset:auto; left:0; top:0; width:1080px; height:1920px; overflow:hidden">
@@ -164,6 +164,8 @@ for (let f = 0; f < NF; f++) {
 // ---------- vòng tam giác quanh terminal ----------
 // gốc 14.05-14.9 (heatmap |Δkhung| + khung): chuỗi tam giác play không trượt thẳng mà chạy vòng quanh terminal theo hình chữ nhật bo góc
 // (trái x~20, phải ~1060, trên y~470, dưới ~1520), nhoè mạnh, ~100 px/khung (3000 px/s) cùng tốc độ với ô play đo được.
+// Đo độ sáng/độ nhoè vùng viền trái (x 0-100, y 700-1300, 14.4-15.1): gốc đỉnh 143 (p99 129), cạnh p99|dx| = 10 (nhoè ~4-5 px); bản cũ đỉnh 177, p99|dx| = 54 (nét)
+// => nhoè 4.5 px, tam giác trong mờ (0.4-0.7), nét viền nhạt (0.3).
 const LRX = { x0: 70, y0: 480, x1: 1010, y1: 1500, r: 230 };
 const LSEG = (() => { const { x0, y0, x1, y1, r } = LRX, w = x1 - x0 - 2 * r, h = y1 - y0 - 2 * r, q = Math.PI * r / 2;
   return { w, h, q, L: 2 * w + 2 * h + 4 * q }; })();
@@ -185,7 +187,7 @@ const LTRI = [];
   $("loopP").setAttribute("d", d + " Z");
   for (let i = 0; i < 30; i++) {
     const g = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-    g.setAttribute("points", "-30,-34 38,0 -30,34"); g.setAttribute("fill", "#b4aea5"); g.setAttribute("opacity", 0.55 + (i % 4) * 0.1);
+    g.setAttribute("points", "-30,-34 38,0 -30,34"); g.setAttribute("fill", "#b4aea5"); g.setAttribute("opacity", 0.4 + (i % 4) * 0.1);
     $("loopG").appendChild(g); LTRI.push(g);
   }
 }

@@ -84,7 +84,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
       <div class="fly" id="fyB"><div class="orient" style="transform: rotateY(180deg) translateZ(240px)"><div class="face" id="fBack"><b>GSAP</b></div></div></div>
       <div class="fly" id="fyR"><div class="orient" style="transform: rotateY(90deg) translateZ(300px)"><div class="face" id="fRight"><b>PIN</b></div></div></div>
       <div class="fly" id="fyL"><div class="orient" style="transform: rotateY(-90deg) translateZ(300px)"><div class="face" id="fLeft"><b>SCRUB</b></div></div></div>
-      <div class="fly" id="fyT"><div class="orient" style="transform: rotateX(90deg) translateZ(250px)"><div class="face" id="fTop"></div></div></div>
+      <div class="fly" id="fyT"><div class="fly" id="hgT"><div class="orient" style="transform: rotateX(90deg) translateZ(250px)"><div class="face" id="fTop"></div></div></div></div>
       <div class="fly" id="fyU"><div class="orient" style="transform: rotateX(-90deg) translateZ(250px)"><div class="face" id="fBot"></div></div></div>
     </div></div></div>
   </div>
@@ -202,24 +202,28 @@ tl.fromTo("#mq1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
 // hộp: ráp từ 6 tấm bay vào, rồi xoay theo scrollY
 const FLY = { fyF: [-700, -500, 300, 25, -70, -60], fyR: [650, -350, 500, -30, 120, 40], fyB: [-450, 700, -250, 80, -40, 25],
   fyL: [500, 560, 380, -60, 70, -50], fyT: [-420, -800, 100, 90, 30, -40], fyU: [380, 800, -200, -70, -60, 70] };
-// gốc (9.45-9.85): 6 tấm bay rất nhanh và to (gần ống kính), quay mạnh, nắp đóng phẳng ~9.82 rồi khối nảy; bản cũ chậm, nắp còn hở tới ~10.0
+// gốc (đo lại 30fps, 9.6-10.4, đáy hộp / mép trên / tâm chữ SCROLL): 6 tấm bay rất nhanh và to, đáy hộp chạm chỗ cuối ở 9.77 (khung 1389 -> 1347 -> 1343) rồi
+// ĐỨNG YÊN (đáy 1343-1351, tâm mặt trước 1081-1091 tới 10.4): KHÔNG nảy, không chìm/bật. Nắp (cánh hộp) còn hở tới ~9.93 (mép trên 610-612),
+// khép dần 9.93-10.03 (mép trên 634 -> 660 = nắp phẳng), từ 10.07 nắp phẳng hẳn. => các tấm tới chỗ cuối ở tl 0.57 tối đa lố nhẹ của back.out rồi vào chỗ đúng lúc 0.57 (không còn chuyển động nào sau khi đáp), nắp bản lề khép 0.73-0.83.
 Object.entries(FLY).forEach(([id, [x, y, z, rx, ry, rz]], i) => {
+  const t0 = 0.14 + i * 0.022;
   tl.fromTo("#" + id, { x: x * 1.5, y: y * 1.5, z: z * 1.8 + 300, rotationX: rx * 6, rotationY: ry * 6, rotationZ: rz * 6, opacity: 0 },
-    { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 0.42, ease: "back.out(1.4)" }, 0.14 + i * 0.022);
+    { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 0.57 - t0, ease: "back.out(1.4)" }, t0);
 });
-// nảy khi đáp (9.85-10.1): khối chìm rồi bật lên, tắt dần
-tl.to("#cubeWrap", { y: 70, duration: 0.09, ease: "power2.in" }, 0.62);
-tl.to("#cubeWrap", { y: -38, duration: 0.12, ease: "power2.out" }, 0.71);
-tl.to("#cubeWrap", { y: 18, duration: 0.1, ease: "sine.inOut" }, 0.83);
-tl.to("#cubeWrap", { y: 0, duration: 0.1, ease: "sine.inOut" }, 0.93);
-tl.fromTo("#tilt", { rotationX: -8, y: -30 }, { rotationX: -20, y: 0, duration: 0.7, ease: "power2.out" }, 0.12);
+// nắp hộp: bản lề ở mép trước mặt trên (mép sau nâng lên, mặt trong nắp hướng ống kính); hở LID độ tới 0.73 (9.93), khép phẳng 0.73-0.83 (10.03)
+const LID = 14;
+tl.set("#hgT", { transformOrigin: "0px -250px 240px", rotationX: -LID }, 0);
+tl.to("#hgT", { rotationX: 0, duration: 0.1, ease: "power2.inOut" }, 0.73);
+// hộp ĐỨNG YÊN sau khi đáp: #cubeWrap không có tween y nào (đáy hộp gốc 1343-1351 suốt 9.8-10.4; bản làm lại trôi mượt 1386 -> 1359 theo xoay Y, không nảy); #tilt hạ 30 px và nghiêng tới -20° xong ở 0.57 (lúc đáp)
+tl.fromTo("#tilt", { rotationX: -8 }, { rotationX: -20, duration: 0.45, ease: "power2.out" }, 0.12);
+tl.fromTo("#tilt", { y: -30 }, { y: 0, duration: 0.45, ease: "power2.out" }, 0.12);
 // xoay Y: SCROLL -> SCRUB -> GSAP -> PIN -> SCROLL
 const SP = [[0.12, -60], [0.75, -28], [1.5, -22], [1.9, -20], [2.025, 15], [2.15, 45], [2.275, 75], [2.4, 125], [2.525, 175], [2.65, 215],
   [2.775, 245], [2.9, 262], [3.025, 295], [3.15, 322], [3.275, 340], [3.4, 345], [3.8, 346]];
 tl.set("#spin", { rotationY: SP[0][1] }, 0);
 for (let k = 1; k < SP.length; k++) tl.to("#spin", { rotationY: SP[k][1], duration: SP[k][0] - SP[k - 1][0], ease: k < 4 ? "sine.inOut" : "none" }, SP[k - 1][0]);
 // nghiêng Z nhẹ khi quay
-const RZ = [[0.12, 8], [0.3, -14], [0.5, 10], [0.65, -9], [0.8, 5], [0.95, -3], [1.1, 1.5], [1.5, -2], [1.9, -2], [2.15, -9], [2.5, 4], [2.9, -3], [3.3, 0], [3.8, 0]];
+const RZ = [[0.12, 8], [0.3, -14], [0.45, 8], [0.57, -1], [1.1, -1.5], [1.5, -2], [1.9, -2], [2.15, -9], [2.5, 4], [2.9, -3], [3.3, 0], [3.8, 0]];
 tl.set("#tilt", { rotationZ: RZ[0][1] }, 0);
 for (let k = 1; k < RZ.length; k++) tl.to("#tilt", { rotationZ: RZ[k][1], duration: RZ[k][0] - RZ[k - 1][0], ease: "sine.inOut" }, RZ[k - 1][0]);
 tl.fromTo("#cubeWrap", { y: 0, scale: 1 }, { y: 0, scale: 1.07, duration: 0.35, ease: "power1.inOut" }, 3.45);
