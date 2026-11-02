@@ -161,3 +161,64 @@ s02 và s07 đạt cổng. Các cảnh khác: file `.mov` không đổi (md5), `
 - **s03 SSIM** thấp hơn lần trước (0.351 → 0.343) sau khi thẻ hiện theo số đo: vị trí/xoay từng thẻ vẫn lệch so với gốc.
 - **s02:** đường kính vòng nan robot (198 / 279 / 319 / 346 / 352 px ở f24–f28) và góc xoay ~30° chỉ là ước lượng bằng mắt trên ảnh cắt; phép đo số bị thẻ che nên chưa có số. Màu đỏ robot đo được không thiếu (xem trên).
 - **s07:** mép mặt quét gốc cong (nửa trái phẳng hơn), remake là đường thẳng; khe giữa các ô ở khung đen kín remake 1–2px, gốc 3px.
+
+## Hộp 3D (mục 4: s08, s09)
+
+Đo từ khung 30fps của `source.mp4` (khung file f01 = đầu cảnh; t cảnh = (f−1)/30; s08 lấy 4.4s để có cả post, f115 của s08 = f01 của s09). Script đo lặp lại được: `measure_cube.py` (lệnh `cam`, `track`, `back`, `tail`, `tail2`, `overlay`, `shade`, `shadow`, `export`; đầu file ghi cách chạy).
+Mô hình: hộp lập phương + camera phối cảnh khớp thẳng với CSS (`translate3d · rotateZ · rotateX · rotateY` trên phần tử `preserve-3d`, `perspective` ở cha). Mỗi khung khớp 6 tham số (x, y, z, rx, ry, rz) bằng mất mát "hằng màu":
+mỗi mặt nhìn thấy phải phủ vùng cam MỘT sắc, nắp phủ vùng trắng, vùng cam ngoài hình chiếu bị phạt; kiểm bằng `overlay` (hình chiếu chồng khung gốc). Kết quả từng khung: `cube_track_s08.json` (cam: `cube_cam.json`).
+
+### Số đo và cách dựng
+
+**Camera và hình hộp.** Khớp chung trên 9 khung (f36…f108): `P = 1621` px (khoảng cách camera; = CSS `perspective`), cạnh hộp 600 × 605 × 593 (hy/hx = 1.008, hz/hx = 0.988 ⇒ lập phương 600, sai ≤1%).
+Tâm phối cảnh cố định (540, 960): để tự do thì trôi tới oy 580–630 và lẫn với `y`/nghiêng X. Bản cũ dùng `perspective: 2100px` và hộp 600×500×480 (không phải lập phương) ⇒ sai dáng và phối cảnh ⇒ SSIM thấp.
+Hộp đứng ở z ≈ −350 (tỉ lệ ảnh 0.82), x ≈ 0, y ≈ +5 so với (540, 960), KHÔNG chạm đất (lơ lửng trên bóng).
+
+**Tư thế theo thời gian** (độ; ry bám liên tục nên đúng thứ tự mặt SCROLL → SCRUB → GSAP → PIN → SCROLL, kiểm bằng mắt ở f72 SCRUB, f78 GSAP, f87 PIN):
+- f30–f52: đứng yên ở SCROLL: rx −21.6, ry −29.7 → −27 (PIN lộ bên phải), rz −10.8 → −10.
+- f53–f87: quay ry −23 → +270 (SCRUB f72 ≈ 99, GSAP f78 ≈ 183, PIN f87 ≈ 270), đỉnh vận tốc 23°/khung (f76–f77), rx −24.7 (f60) → +8.4 (f75) → −8 (f90), rz +21 (f69–f72) → −8 (f87).
+- f88–f105: ry 289 → 332 (SCROLL, giảm tốc: +17, +13, +9, +4 độ mỗi 3 khung), rx −8.4, rz −3.7; f105–f112 đứng yên (332–334).
+- Bản cũ: đứng yên tới 2.0s rồi quay đều ry 15° → 346° (`ease: none`) với nghiêng X cố định −20 — thiếu cú ngoặt đầu, không có đổi rx +8, rz ±21.
+
+**Màu mặt (PHẲNG, không có ánh sáng).** Mỗi mặt một màu hằng: SCROLL `#c23f0c` (194,63,12), PIN `#882c07` (136,44,7), GSAP `#97340d` (151,52,13), SCRUB `#71280a` (113,40,10) — 63/61/13/15 mẫu, 0 mẫu khác màu. Mặt PIN vẫn 136 khi quay thẳng ra trước (n_z = 0.85) ⇒ không phải Lambert (hồi quy tuyến tính theo pháp tuyến cho sai số chuẩn 18.2 mức, Lambert phi tuyến ~16).
+Nắp trắng `#ffffff` kèm băng keo `#2d2a25` rộng 17.7% bề sâu nắp, cách mép xa 39.6% (đo f60 qua ánh xạ đồng phẳng); đáy xám `#a19e9c` (mặt đáy chỉ thấy lúc ráp và lúc hộp bay lên).
+Viền đen `#211b12` dày 6 px ở tỉ lệ 0.82 ⇒ 7 px CSS (như bản cũ). Chữ trắng trên mặt: Anton, nghiêng −6° như bản cũ, chưa đo lại cỡ.
+
+**Cú phình 10.067–10.10s (f27–f28).** z (tư thế khớp): f26 −364, f27 −186, f28 −213, f29 −308, f30 −334 ⇒ tỉ lệ ảnh so với f30: 0.985, **1.082**, 1.066, 1.013, 1.0 (đỉnh +8% so với f30, +10% so với f26, ở f27; hồi trong 2 khung). Bản làm lại có sẵn trong bảng tư thế (không làm riêng).
+
+**Bóng, vòng quỹ đạo, thanh trượt, tay cầm và bộ đếm.** Bóng elip ĐỨNG YÊN (không bám hộp): lõi tối x 245–830, y 1320–1377 (kể cả mờ y 1307–1383) từ f24 tới f116 ⇒ `left 240, top 1311, rộng 600, cao 72, blur 8` (bản cũ 520×80 ở y 1300–1380). Từ f117 (13.067s) trôi lên: mép trên bóng (s09 f1, f3, f4, f13, f14, f15, f17, f19, f20, f21, f22) = 1308, 1284, 1229, 646, 579, 513, 378, 245, 178, 112, 45 (thẳng ~−66.8 px/khung = −2005 px/s) ⇒ dy = −23 (f3), −78 (f4), −661 (f13), −1262 (f22), ra khỏi khung ở f23 (13.73s). Khớp mẫu từng khung (cột x 1000–1080, s09 f3–f23) cho thanh trượt đỏ/tay cầm: −53, −57, −61, −64, −66 px/khung rồi đều −66.7 (cùng bảng với bóng) và bộ đếm chữ "scrollY 3270" (đứng ở 3270 từ f117; 3138, 3178, 3222 ở f114–f116) cũng thế. s08 hết ở 13.6s (joins.json cố định) nên s09 vẽ tiếp cùng một phần tử (`#grd`: bóng + vòng + thanh/tay cầm/bộ đếm) từ 13.6s tới 13.8s, cùng bảng dy (liên tục ở 13.6s: −1037 px). Sau khi dời bảng +0.0125s (lần đầu bóng cao hơn gốc ~25 px), mép trên bóng remake: 1317 (f1), 1289 (f3), 645 (f13), 578, 512, 245 (f19), 179, 112, 45 (f22) so với gốc 1308, 1284, 646, 579, 513, 245, 178, 112, 45 — khớp ≤1 px từ f13, +5/+9 px ở f1/f3 (đang đứng/bắt đầu). Đỉnh năng lượng 1/3 khung trên (gốc 26, 24, 21, 20, 17, 21, 20, 15 ở 13.53–13.77s; remake 15, 30, 12, 13, 13, 19, 18, 13) không còn "≈1".
+**Tay cầm thanh trượt**: tâm vòng đen gốc (x 1028–1064) = 834 (f50), 1128 (f80), 1324 (f100), 1442 (f112), 1464 (f114), 9.84 px/khung; bản cũ chạy xuống 1545 (lệch 73–91 px): sửa thành tâm y = 834 + 295.2·(t − 1.633) Reviewer đo lại trên remake: lệch ≤ 8 px ở f40, f60, f80, f100, f112, f115; lúc bay lên (f117–f121) chạy trước gốc 30–46 px vì dùng chung bảng `GD` với bóng và quỹ đạo (khoảng hụt).
+
+**Bay lên + phóng to (post, f113–f131; 13.1–13.57s).** Chuẩn so sánh là CẠNH ĐÁY MẶT TRƯỚC (hàng thấp nhất của vùng cam sáng liên thông lớn nhất, ảnh 1080×1920, hàm `front_masks`) đo trên ảnh gốc VÀ ảnh remake bằng cùng một hàm. Gốc (f112 → f131): 1292, 1273, 1244, 1192, 1100, 972, 916, 858, 796, 730, 696, 630, 562, 496, 430, 362, 296, 230, 162, 96 — nhanh dần 25, 29, 52, 92, 128 px/khung rồi ĐỀU ~66 px/khung (≈1990 px/s) từ 13.1s, hộp rời khung lúc ~13.57s.
+Lần khớp IoU đầu (`tail2`) trông khớp bằng mắt nhưng cạnh đáy lệch 120–270 px (remake cao hơn gốc, gần đứng yên ở 13.1–13.17s, rời khung sớm ở 13.45s): nhận xét "hình chiếu khớp bằng mắt" ở bản trước là SAI, đã bỏ. Bản này: `tail3` (IoU mặt trước/mặt bên + sai lệch cạnh đáy), rồi `ybottom` (f112–f114 giữ tư thế chỉ giải y; f115–f116 nội suy giữa f114 và f117 rồi giải y; f129–f131 giữ tư thế f128 rồi giải y), rồi `closeloop` (so [đáy, trái, phải] của mặt trước giữa gốc và remake đã dựng rồi dời x, y, z; hai vòng dựng–đo).
+Kết quả đo lại trên remake (đáy, px): f112–f131 = 1288, 1279, 1254, 1184, 1082, 960, 906, 844, 768, 710, 696, 631, 562, 492, 428, 362, 298, 230, 160, 90 so với gốc ở trên: lệch ≤12 px ở 15 trong 20 khung (remake − gốc); lớn nhất f120 −28, f121 −20, f116 −18, f119 −14, f118 −10; mép phải mặt trước lệch ≤20 px từ f113 (f108–f110: remake rộng hơn gốc ~30–46 px — tư thế f≤112 chưa chỉnh, xem Còn thiếu). Dấu "mất mát null" trong `cube_track_s08.json` = f112–f116 và f129–f131 chỉnh theo số đo ảnh, không phải mất mát tự khớp; f132 không có số đo (hộp rời khung), `export` ngoại suy theo bước y của hai khung cuối.
+Độ rộng/diện tích vùng cam KHÔNG so được (chữ marquee lớn che phần trên mặt trước ở gốc và ở remake khác nhau): dùng đáy/trái/phải, không dùng đỉnh.
+Chuyển động này thay cho `scale 1.8 / 1.6 + y −1100` của bản cũ.
+
+**Chữ SCRUB lớn (s08) mờ đi.** Độ đục α (trung vị kênh G của điểm ảnh cam so với nền kem/đỏ #c9451c) ở gốc: 1.0 tới f109, 0.93, 0.71, 0.58, 0.47 (f110–f113), mờ nốt tới 0 ở f117 (f114–f116 nội suy tuyến tính theo bóng mờ thấy được). Bản cũ để 0.55 rồi BẬT LẠI ở f117–f119 (hai tween chồng lên nhau): sửa bằng một bảng độ đục.
+
+**Xám phủ hộp lúc post (s09, `#shade`)**: độ sáng nền ở 3 điểm sạch (20,200), (1060,200), (1060,1000) = 237, 239, 213, 188, 162, 149, 138, 134, 129, 128 (s09 f1–f10) ⇒ GIẢM ĐỀU, không chớp; α = (239−v)/221 = 0, 0.11, 0.24, 0.33, 0.41, 0.46, 0.48, 0.50. Kiểm trên remake dựng ra (cùng 3 điểm): 224, 232, 213, 186, 165, 147 so với gốc 237, 239, 213, 188, 162, 149 ở f1–f6 (lệch ≤3 từ f3); mốc α được dời +0.025s so với dãy gốc vì lần dựng đầu chạy sớm ~1 khung (đo ảnh). (Lần đo đầu một điểm ở góc phải-dưới cho dãy 145, 183, 165… "chớp": sai, điểm đó bị vật khác che.)
+**Cửa sổ terminal (s09, `#term`)**: rộng (vùng `#141210`, px) f3–f12 của s09 = 598, 688, 756, 805, 854, 870, 877 (đỉnh f9), 877, 870, 860 ⇒ tỉ lệ so với bản cũ (833 px): 0.72 → 0.83 → 0.91 → 0.97 → 1.02 → 1.045 → 1.05 (f9–f10) → 1.0 trước 0.5s (bản cũ: mờ vào ở 0.94 → 1).
+**Nền tối quét lên (s09, `#dark`)**: mép trên đo MỘT cách cho cả đoạn (cột x 15–95, độ sáng trung bình 15 hàng < 105, quét từ đáy lên; s09 f3–f31): đi lên ĐỀU, y = 2128.9 − 66.83·f (f = số khung s09; sai số lớn nhất 14 px) = 2062 − 2005·t: 1920 lúc 0.071s, tới đỉnh lúc 1.029s (gốc: 1914, 1861, 1797, … 1462 (f10), 1261 (f13), 1128 (f15), 929 (f18), 661 (f22), 323 (f27), 56 (f31)). Bản cũ: 4 đoạn đặt tay (một số theo power1.out) rồi dừng ở 480 lúc 0.6–0.75s: sớm tới 0.05s ở 0.3–0.5s, sớm hơn nữa ở 0.6s. Dựng một tween tuyến tính dời +0.019s (38 px) vì cùng hàm đo trên remake lệch −38 px so với phương trình; đo lại remake: 1920, 1867, 1798, 1731, 1663, 1595, 1528, 1461 (f3–f10), 1128 (f15), 928 (f18), 327 (f27) — khớp gốc ≤7 px.
+
+**Ráp hộp (f1–f17).** Chỉ khớp được thân hộp từ f18 (fit mất mát 0.46–0.7 vì nắp còn hở); trước đó 6 tấm bay rời. Giữ cách dựng cũ (6 tấm bay vào từ xa, `back.out`, đến lúc 0.57s = f18), tăng biên độ bay (×2.6 vị trí, ×9 góc, +700 px độ sâu) để năng lượng chuyển động đạt cổng, tấm đáy (xám) tới trễ ở 0.85s (thấy dải xám dưới mặt trước ở f19–f26 của gốc), nắp bản lề khép 0.73–0.83s (như cũ, bản lề dời theo hộp 600). Lưới halftone của `#cover` (đầu s08) xoay ngẫu nhiên mỗi khung với biên độ ±A đo ở s08 f1–f10 (`measure_cube.py jit`, cùng cách đo `jit` của s07): 34, 39, 41, 38, 41, 36, 34, 31, 30, 32° (f8–f10 lẫn cạnh của tấm bay vào nên là cận trên).
+**Mã dựng**: `scenes/s08/index.html`: `CP` (bảng t, x, y, z, rx, ry, rz mỗi khung f18–f132, làm trơn 3 điểm trừ f26–f30 và f113+), `cubePose(t)` nội suy tuyến tính, `setCube()` gán `transform` CSS — một tween `TP.t` 0 → 4.4s (`ease: none`) nên là hàm thuần của thời gian, seek an toàn (render hai lần cho cùng md5 từng khung).
+
+### Kết quả cổng (trước → sau)
+
+| Cảnh | SSIM | Tỉ lệ biên độ | Cửa sổ 0.2s kém nhất |
+|---|---|---|---|
+| s08 | 0.307 → 0.373 | 0.85 → 0.868 ĐẠT | 0.50 (9.3s) → 0.504 (9.3s) |
+| s09 | 0.443 → 0.478 | 0.82 → 0.826 ĐẠT | 0.53 (15.3s) → 0.531 (15.3s) |
+
+Các cảnh khác: file `.mov` không đổi (md5), `joins.json` không đổi; ảnh J07–J09 cùng kiểu chuyển/hướng/nhịp với gốc; `hyperframes check` s08 và s09: 0 lỗi, 0 cảnh báo. (SSIM s10–s14 lệch ở chữ số thứ 5 giữa các lần ghép vì x264 của `remake.mp4`, file `.mov` các cảnh đó không đổi.)
+Lịch sử: bản sửa vòng 1 để s09 ở 0.7985 (CHƯA); cổng đạt lại khi sửa theo số đo (nền tối đi lên đều ~2000 px/s thay vì dừng ở 480, hộp và bóng/vòng/thanh trượt bay lên đúng nhịp ~66 px/khung đến 13.8s), không thêm chuyển động nào không có ở gốc.
+
+### Còn thiếu (đã đo)
+
+- **Ráp hộp f1–f17**: chưa đo từng tấm (6 tấm tư thế riêng, nắp hở, tấm đáy); biên độ và thời điểm tới chỉ đặt theo năng lượng chuyển động và dáng ở f11–f17. Tư thế thân hộp f18–f25 chỉ khớp tạm (mất mát 0.46–0.7).
+- **Bay lên f113–f131**: tư thế tự khớp (IoU) không đủ tin (mất mát 0.23–0.33 ở f117–f128, bị chữ khổng lồ và terminal che); cạnh đáy mặt trước đã được chỉnh bằng vòng kín nên khớp ≤12 px ở 15/20 khung, lệch lớn nhất f120 −28, f121 −20, f116 −18 px; chưa khớp độ rộng/diện tích mặt trước (bị chữ che) và tư thế f108–f112 (mép phải mặt trước remake rộng hơn gốc 30–46 px ở f108–f110). Màu mặt đáy xám khi bị phủ xám chưa đo riêng.
+- **Cửa sổ terminal ở f3 của s09** hơi nghiêng phối cảnh (gốc), bản làm lại chỉ co giãn đều.
+- **s09 cuối cảnh**: thẻ PIN cam / SCRUB đen là thẻ phẳng (không phải khối 3D), giữ nguyên; năng lượng 15.3–15.8s của s09 vẫn hụt (gốc 8–9, remake 4–5: bộ đếm px, nhịp con trỏ) — ngoài mục này.
+- **s08**: nhãn lớp (far/mid/near/…) mất sớm hơn ở gốc; chữ SCRUB lớn mờ dần tới f117 (gốc còn chữ mờ ở f114–f116); bộ đếm scrollY f108–f114 cao hơn gốc 52–60 và lùi một bước ở f115 (3191 → 3178); lớp xám s09 nhạt dần về 0.40 lúc 0.6s trong khi gốc giữ 0.50; khung lệch nhất của cạnh đáy hộp là f120, 32 px; nền kem của remake sáng hơn gốc; cửa sổ 0.2s 9.3s (0.50) nằm sát ngưỡng vì lưới halftone s07 (mục 2/3), không phải hộp.
+- Cỡ và nghiêng chữ trên mặt hộp chưa đo lại.
