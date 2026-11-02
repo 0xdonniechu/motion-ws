@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<style>
+@font-face { font-family: "Anton"; src: url(fonts/Anton-400.woff) format("woff"); }
+@font-face { font-family: "Inter"; src: url(fonts/Inter-var.woff) format("woff"); font-weight: 100 900; }
+@font-face { font-family: "ISerif"; src: url(fonts/instrument-serif-latin-400-italic.woff2) format("woff2"); font-style: italic; }
+@font-face { font-family: "JBMono"; src: url(fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2"); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #efece6; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #efece6; }
+.layer { position: absolute; inset: 0; }
+
+/* nền: giao diện mờ nghiêng phối cảnh */
+#ui { perspective: 1400px; }
+#ui .plane { position: absolute; left: -200px; top: 500px; width: 1480px; height: 1700px;
+  transform: rotateX(48deg); transform-origin: 50% 0; display: grid;
+  grid-template-columns: repeat(5, 1fr); gap: 46px; filter: blur(5px); opacity: .55; }
+#ui .card { background: #fbfaf7; border-radius: 34px; box-shadow: 0 10px 0 #ddd8cf; position: relative; height: 260px; }
+#ui .card i { position: absolute; left: 34px; top: 40px; width: 52px; height: 52px; border-radius: 50%; }
+#ui .card b { position: absolute; left: 34px; top: 120px; width: 60%; height: 18px; border-radius: 9px; background: #d4d0c8; }
+#ui .card u { position: absolute; left: 34px; bottom: 36px; width: 40px; height: 70px; border-radius: 6px; }
+
+/* sóng chấm cam */
+#dots { display: grid; grid-template-columns: repeat(18, 60px); grid-auto-rows: 60px; top: 720px; }
+#dots s { width: 26px; height: 26px; margin: 17px; border-radius: 50%; background: #c9451c; opacity: 0; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+#cap { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/1.08 Inter, sans-serif;
+  color: #141414; letter-spacing: -1.5px; }
+#cap span { display: inline-block; opacity: 0; }
+#cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+
+#titleMask { position: absolute; left: 0; width: 1080px; top: 380px; height: 284px; overflow: hidden; }
+#title { position: absolute; left: 0; width: 1080px; bottom: 14px; text-align: center;
+  font: 400 230px/1 Anton, sans-serif; letter-spacing: 2px; }
+#title span { display: inline-block;
+  background: linear-gradient(#2a2a2a 30%, #8d8a86 100%); -webkit-background-clip: text; color: transparent; }
+
+#bar { position: absolute; left: 26px; top: 640px; width: 1028px; height: 24px; border-radius: 12px; background: #161616; }
+#springs { position: absolute; left: 26px; top: 660px; width: 1028px; height: 600px; }
+.spring { position: absolute; top: 0; transform-origin: 50% 0; }
+.spring svg { display: block; overflow: visible; }
+
+.chip { position: absolute; top: 1150px; width: 188px; height: 188px; border-radius: 30px;
+  border: 7px solid #141414; box-shadow: 10px 12px 0 #141414; text-align: center; }
+.chip .n { font: 400 118px/1 Anton, sans-serif; margin-top: 14px; display: block; }
+.chip .l { font: 600 30px Inter, sans-serif; display: block; margin-top: -2px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="2.6" data-width="1080" data-height="1920" data-fps="30">
+  <div class="clip layer" id="ui" data-start="0" data-duration="2.6" data-track-index="0"><div class="plane" id="plane"></div></div>
+  <div class="clip layer" id="dots" data-start="0" data-duration="2.6" data-track-index="1"></div>
+  <div class="clip layer" data-start="0" data-duration="2.6" data-track-index="2">
+    <div id="tag">AI Tips</div>
+    <div id="cap"><span>mọi</span> <span>thứ</span> <span>nảy</span> <span>như</span> <span><em>lò</em></span> <span>xo</span> <span>thật.</span></div>
+    <div id="titleMask"><div id="title"></div></div>
+    <div id="springs"></div>
+    <div id="bar"></div>
+    <div id="chips"></div>
+  </div>
+</div>
+<script>
+// ---------- dựng DOM tĩnh (xác định, không random) ----------
+const plane = document.getElementById("plane");
+const uiCols = ["#7b6cf0", "#3fae7a", "#e0a312", "#4b7bec", "#c9c4bb"];
+for (let i = 0; i < 25; i++) {
+  const c = document.createElement("div"); c.className = "card";
+  c.innerHTML = `<i style="background:${uiCols[i % 5]}"></i><b></b><u style="background:${uiCols[(i * 3 + 1) % 5]}"></u>`;
+  plane.appendChild(c);
+}
+const dots = document.getElementById("dots");
+for (let i = 0; i < 18 * 20; i++) dots.appendChild(document.createElement("s"));
+
+const title = document.getElementById("title");
+title.innerHTML = [..."spring"].map(ch => `<span>${ch}</span>`).join("");
+
+// 12 lò xo: x, độ dài, màu bi (khớp ảnh gốc: phần lớn xám, vài bi màu)
+const SPR = [
+  [36, 230, "#2f5bea"], [118, 330, "#d9d6d0"], [205, 420, "#d9d6d0"], [290, 380, "#7a3cf0"],
+  [376, 460, "#d9d6d0"], [458, 260, "#d9d6d0"], [540, 380, "#e0a312"], [632, 470, "#d9d6d0"],
+  [720, 250, "#d9d6d0"], [808, 470, "#2a9a5c"], [890, 300, "#d9d6d0"], [975, 420, "#d9d6d0"]];
+const springs = document.getElementById("springs");
+SPR.forEach(([x, len, col], i) => {
+  const coils = Math.round(len / 22); let d = "M0 0";
+  for (let k = 1; k <= coils; k++) d += ` L${k % 2 ? 14 : -14} ${(k * (len - 30)) / coils}`;
+  d += ` L0 ${len - 18}`;
+  const el = document.createElement("div"); el.className = "spring"; el.id = "sp" + i;
+  el.style.left = (x - 20) + "px";
+  el.innerHTML = `<svg width="40" height="${len + 24}" viewBox="-20 0 40 ${len + 24}">
+    <path d="${d}" fill="none" stroke="#3a3a3a" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="0" cy="${len}" r="19" fill="${col}" stroke="#8e8a84" stroke-width="3"/></svg>`;
+  springs.appendChild(el);
+});
+
+const CHIPS = [
+  ["0",   0.0, "#2f5bea", "#ffffff", "#ffffff"],
+  ["0.2", 0.2, "#ffffff", "#1d8a52", "#1d8a52"],
+  ["0.4", 0.4, "#e0a312", "#141414", "#141414"],
+  ["0.6", 0.6, "#ffffff", "#7a3cf0", "#7a3cf0"],
+  ["0.8", 0.8, "#c9451c", "#141414", "#141414"]];
+const chipsEl = document.getElementById("chips");
+CHIPS.forEach(([n, , bg, fg, lc], i) => {
+  const c = document.createElement("div"); c.className = "chip"; c.id = "ch" + i;
+  c.style.left = (40 + i * 202) + "px"; c.style.background = bg;
+  c.innerHTML = `<span class="n" style="color:${fg}">${n}</span><span class="l" style="color:${lc}">bounce</span>`;
+  chipsEl.appendChild(c);
+});
+
+// ---------- ease lò xo: bounce = 1 - hệ số tắt dần (như Motion "bounce") ----------
+function springEase(bounce) {
+  const w = 14, z = Math.max(0.0001, 1 - bounce);          // tần số, tỉ số tắt dần
+  if (bounce === 0) return p => p >= 1 ? 1 : 1 - (1 + w * p) * Math.exp(-w * p);
+  const wd = w * Math.sqrt(1 - z * z);
+  return p => p >= 1 ? 1 : 1 - Math.exp(-z * w * p) * (Math.cos(wd * p) + (z * w / wd) * Math.sin(wd * p));
+}
+
+// ---------- timeline (một timeline paused, seek-safe) ----------
+const tl = gsap.timeline({ paused: true });
+
+// nền trôi nhẹ
+tl.fromTo("#plane", { y: 40 }, { y: -40, duration: 2.6, ease: "none" }, 0);
+
+// thanh ngang kéo ra
+tl.fromTo("#bar", { scaleX: 0.2, transformOrigin: "50% 50%" }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 0);
+
+// chữ "spring" mọc từ dưới thanh, lệch từng chữ
+tl.fromTo("#title span", { yPercent: 105 }, { yPercent: 0, duration: 0.5, ease: "back.out(1.4)", stagger: 0.055 }, 0.02);
+
+// phụ đề hiện từng từ theo nhịp lời đọc
+const capT = [0.0, 0.32, 0.52, 0.74, 0.95, 1.5, 1.72];
+document.querySelectorAll("#cap span").forEach((s, i) =>
+  tl.fromTo(s, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, capT[i]));
+
+// lò xo thả xuống rồi nhún (repeat hữu hạn => xác định)
+SPR.forEach((_, i) => {
+  const t0 = 0.18 + i * 0.03;
+  tl.fromTo("#sp" + i, { scaleY: 0.05 }, { scaleY: 1, duration: 0.7, ease: springEase(0.55) }, t0);
+  tl.to("#sp" + i, { scaleY: 0.9 + (i % 3) * 0.03, duration: 0.32 + (i % 4) * 0.04,
+    ease: "sine.inOut", yoyo: true, repeat: 3 }, t0 + 0.7);
+});
+
+// 5 thẻ rơi từ thanh xuống, nảy theo đúng hệ số bounce trên thẻ
+CHIPS.forEach(([, b], i) => {
+  const t0 = 0.08 + i * 0.07;
+  tl.fromTo("#ch" + i, { y: -560, rotation: -8 + i * 4 }, { y: 0, rotation: 0, duration: 1.15, ease: springEase(b) }, t0);
+});
+
+// sóng chấm cam quét từ trên xuống rồi tan
+tl.fromTo("#dots s", { opacity: 0, scale: 0.3 }, { opacity: 0.85, scale: 1, duration: 0.18, ease: "power1.out",
+  stagger: { grid: [20, 18], from: "start", axis: "y", each: 0.025 } }, 0.85);
+tl.to("#dots s", { opacity: 0, scale: 0.4, duration: 0.2, ease: "power1.in",
+  stagger: { grid: [20, 18], from: "start", axis: "y", each: 0.025 } }, 1.2);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

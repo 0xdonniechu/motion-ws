@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#bg { position: absolute; inset: 0; background: #f3f0e9; opacity: 0; }
+.layer { position: absolute; inset: 0; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+#cap { position: absolute; left: 130px; top: 248px; width: 780px; font: 500 78px/1.08 Inter, sans-serif;
+  color: #141414; letter-spacing: -1.5px; }
+#cap span { display: inline-block; opacity: 0; }
+#cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+#cap2 { position: absolute; left: 130px; top: 248px; width: 780px; font: 500 78px/1.08 Inter, sans-serif; color: #55524c; letter-spacing: -1.5px; opacity: 0; }
+
+#rays { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+
+#chips { position: absolute; left: 0; width: 1080px; top: 1408px; height: 104px; }
+.pill { position: absolute; left: 0; right: 0; margin: 0 auto; width: max-content; height: 100px; padding: 0 34px;
+  border-radius: 50px; background: #131211; color: #fff; font: 700 66px/100px JBMono, monospace; opacity: 0; white-space: pre; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="1.35" data-width="1080" data-height="1920" data-fps="30">
+  <div id="bg"></div>
+  <div class="clip layer" data-start="0" data-duration="1.35" data-track-index="0">
+    <svg id="rays" viewBox="0 0 1080 1920" width="1080" height="1920"><g id="raysG"></g></svg>
+  </div>
+  <div class="clip layer" data-start="0" data-duration="1.35" data-track-index="1">
+    <svg id="stage" viewBox="0 0 1080 1920" width="1080" height="1920">
+      <defs>
+        <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#d4501a"/><stop offset="0.28" stop-color="#c4430c"/><stop offset="1" stop-color="#c4430c"/>
+        </linearGradient>
+      </defs>
+      <g id="shapeG" transform="translate(540 950)">
+        <g id="ghosts"></g>
+        <g id="main"><path id="shp" fill="url(#gl)" stroke="#141414" stroke-width="9" stroke-linejoin="round" d=""/></g>
+      </g>
+    </svg>
+  </div>
+  <div class="clip layer" data-start="0" data-duration="1.35" data-track-index="2">
+    <div id="tag">AI Tips</div>
+    <div id="cap"><span><em>hình</em></span> <span>này</span> <span>biến</span> <span>thành</span> <span><em>hình</em></span> <span>khác,</span></div>
+    <div id="cap2">cả</div>
+    <div id="chips"></div>
+  </div>
+</div>
+<script>
+// ---------- hình học: mọi hình là đa giác N điểm lấy mẫu theo độ dài cung (xác định) ----------
+const N = 220;
+function resample(poly, n) {
+  const m = poly.length; const cum = [0];
+  for (let i = 0; i < m; i++) {
+    const a = poly[i], b = poly[(i + 1) % m];
+    cum.push(cum[i] + Math.hypot(b[0] - a[0], b[1] - a[1]));
+  }
+  const L = cum[m]; const out = []; let k = 0;
+  for (let i = 0; i < n; i++) {
+    const d = (i * L) / n;
+    while (cum[k + 1] < d) k++;
+    const a = poly[k], b = poly[(k + 1) % m]; const f = (d - cum[k]) / (cum[k + 1] - cum[k] || 1);
+    out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
+  }
+  return out;
+}
+const rad = d => (d * Math.PI) / 180;
+
+// tròn
+const circle = []; for (let i = 0; i < 360; i++) { const a = rad(i - 90); circle.push([385 * Math.cos(a), 385 * Math.sin(a)]); }
+// sao 5 cánh (lệch nhẹ như vẽ tay)
+const star = []; for (let i = 0; i < 10; i++) {
+  const a = rad(i * 36 - 90), r = i % 2 ? 215 : 450;
+  star.push([r * Math.cos(a) + (i % 3) * 4, r * Math.sin(a) + 40 + ((i * 7) % 5) * 3]);
+}
+// blob
+const blob = []; for (let i = 0; i < 360; i++) {
+  const a = rad(i - 90), r = 375 * (1 + 0.075 * Math.sin(2 * a + 0.8) + 0.05 * Math.sin(3 * a + 2.1));
+  blob.push([r * Math.cos(a) * 1.02, r * Math.sin(a) * 0.98]);
+}
+// vuông bo (siêu elip), nghiêng nhẹ
+const sq = []; for (let i = 0; i < 360; i++) {
+  const a = rad(i - 90), c = Math.cos(a), s = Math.sin(a), n = 5;
+  const r = 395 / Math.pow(Math.pow(Math.abs(c), n) + Math.pow(Math.abs(s), n), 1 / n);
+  const x = r * c, y = r * s, t = rad(-2.5);
+  sq.push([x * Math.cos(t) - y * Math.sin(t), x * Math.sin(t) + y * Math.cos(t)]);
+}
+// chữ G (một đường viền kín, chữ nghiêng)
+const G = []; { const a = 330, b = 430, ai = 175, bi = 280;
+  for (let p = -90; p <= -40; p += 2) G.push([a * Math.cos(rad(p)), b * Math.sin(rad(p))]);
+  for (let p = -40; p >= -336; p -= 3) G.push([ai * Math.cos(rad(p)), bi * Math.sin(rad(p))]);
+  const iy = bi * Math.sin(rad(24));
+  G.push([ai * Math.cos(rad(24)), iy], [20, iy], [20, -10], [a * 0.985, -10]);
+  for (let p = -2; p <= 268; p += 3) G.push([a * Math.cos(rad(p)), b * Math.sin(rad(p))]);
+  for (let i = 0; i < G.length; i++) G[i] = [G[i][0] - 0.2 * G[i][1] - 20, G[i][1] + 10];
+}
+const toD = pts => "M" + pts.map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join("L") + "Z";
+const S = [circle, star, blob, sq, G].map(p => toD(resample(p, N)));
+
+// ---------- DOM ----------
+const ghosts = document.getElementById("ghosts");
+const NG = 5, ghostEls = [];
+for (let k = 0; k < NG; k++) {
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  p.setAttribute("fill", "none"); p.setAttribute("stroke", k % 2 ? "#c4430c" : "#141414");
+  p.setAttribute("stroke-width", k % 2 ? 4 : 3); p.setAttribute("d", S[0]); p.setAttribute("id", "gh" + k);
+  p.setAttribute("opacity", 0.85 - k * 0.08);
+  ghosts.appendChild(p); ghostEls.push(p);
+}
+const raysG = document.getElementById("raysG");
+for (let i = 0; i < 18; i++) {
+  const a = rad(-10 + i * (200 / 17)), r = 1700;
+  const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  l.setAttribute("x1", 540); l.setAttribute("y1", 1000);
+  l.setAttribute("x2", 540 + r * Math.cos(a)); l.setAttribute("y2", 1000 + r * Math.sin(a));
+  l.setAttribute("stroke", "#e4e0d7"); l.setAttribute("stroke-width", 9 + (i % 3) * 3);
+  l.setAttribute("stroke-linecap", "round"); raysG.appendChild(l);
+}
+document.getElementById("shp").setAttribute("d", S[0]);
+
+// chip: các biến thể chữ (nhiễu khi đang morph) theo thời gian
+const CHIP = [
+  ['morphSVG: "#circle"', 0.00, 0.25], ['morphSV{}#>{&l', 0.25, 0.35], ['morphSVG: "#star{', 0.35, 0.45],
+  ['morphSVG: "#star"', 0.45, 0.57], ['morph<><', 0.57, 0.66], ['morphSVG: "#bl}{}', 0.66, 0.76],
+  ['morp{><#}{#}', 0.76, 0.85], ['morphSVG: "#sqt;###', 0.85, 0.95], ['mogt;{<<<', 0.95, 1.05],
+  ['morphSVG: ">', 1.05, 1.13], ['morphSVG: "#G"', 1.13, 1.2]];
+const chips = document.getElementById("chips");
+CHIP.forEach(([t], i) => { const d = document.createElement("div"); d.className = "pill"; d.id = "pc" + i; d.textContent = t; chips.appendChild(d); });
+
+// ---------- timeline ----------
+const PRE = 0.15, CAPOFF = 1.3167;
+const master = gsap.timeline({ paused: true });
+const tl = gsap.timeline();
+
+// cam: trong khung gốc hình chiếm 0.05s đầu để bật lên
+// J5: hình tròn nở ra từ chấm nhỏ sau khi chữ SplitText (s05, post) giãn + mờ
+gsap.set("#main", { opacity: 0, scale: 0.05, svgOrigin: "0 0" });
+tl.fromTo("#main", { scale: 0.05, opacity: 1, svgOrigin: "0 0" }, { scale: 1, opacity: 1, duration: 0.13, ease: "power2.in", immediateRender: false }, 0.04);
+tl.fromTo("#raysG", { opacity: 0, rotation: -6, transformOrigin: "540px 1000px" }, { rotation: 3, duration: 1.15, ease: "power1.out" }, 0.05);
+tl.fromTo("#raysG", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out", immediateRender: false }, 0.05);
+
+// morph: tròn -> sao -> blob -> vuông -> G ; bóng ma lần lượt chậm hơn, to dần
+const TR = [[0.2, 0.15, "power2.inOut"], [0.52, 0.17, "power2.inOut"], [0.7, 0.14, "power2.inOut"], [0.86, 0.27, "power2.inOut"]];
+const mainEls = [document.getElementById("shp")];
+TR.forEach(([t0, dur, ez], i) => {
+  tl.fromTo("#shp", { attr: { d: S[i] } }, { attr: { d: S[i + 1] }, duration: dur, ease: ez, immediateRender: i === 0 }, t0);
+  ghostEls.forEach((g, k) => {
+    tl.fromTo("#gh" + k, { attr: { d: S[i] } }, { attr: { d: S[i + 1] }, duration: dur + 0.1, ease: ez, immediateRender: i === 0 }, t0 + 0.05 * (k + 1));
+  });
+});
+// bóng ma phình ra và trôi lên-trái
+ghostEls.forEach((g, k) => {
+  tl.fromTo("#gh" + k, { scale: 1, x: 0, y: 0, transformOrigin: "0px 0px" },
+    { scale: 1.03 + 0.04 * k, x: -6 * k, y: -22 * k, duration: 1.2, ease: "power1.out" }, 0);
+  tl.fromTo("#gh" + k, { opacity: 0 }, { opacity: 0.85 - k * 0.08, duration: 0.1 }, 0.2 + 0.03 * k);
+});
+// nhún nhẹ khi đổi hình
+[0.28, 0.6, 0.78, 1.0].forEach((t, i) => {
+  tl.fromTo("#main", { scale: 1 }, { scale: 1.05, duration: 0.07, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, t);
+});
+tl.to("#shapeG", { rotation: -2, duration: 0.2, ease: "power1.inOut", transformOrigin: "0px 0px" }, 0.7);
+tl.to("#shapeG", { rotation: 0, duration: 0.3, ease: "power1.inOut" }, 0.9);
+
+// chip đổi chữ
+CHIP.forEach(([, t0, t1], i) => {
+  tl.set("#pc" + i, { opacity: 1 }, t0);
+  if (i < CHIP.length - 1) tl.set("#pc" + i, { opacity: 0 }, t1);
+});
+tl.fromTo("#chips", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.15, ease: "back.out(1.6)" }, 0.12);
+
+// phụ đề theo nhịp đọc
+const capT = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
+document.querySelectorAll("#cap span").forEach((s, i) =>
+  tl.fromTo(s, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, capT[i]));
+
+window.__timelines = window.__timelines || {};
+// J5 (pre): trong suốt (s05 còn chạy bên dưới); nền kem mở dần quanh mốc cắt
+master.fromTo("#bg", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none", immediateRender: true }, PRE);
+master.add(tl, PRE);
+// J6: phụ đề cũ tắt ở khung cuối của s06 (gốc f236) và "cả" mờ hiện ngay khung đó; s07 tiếp tục từ "cả nghìn" (không có khung trống)
+master.set("#cap", { opacity: 0 }, CAPOFF);
+master.set("#cap2", { opacity: 0.5 }, CAPOFF);
+window.__timelines["main"] = master;
+</script>
+</body>
+</html>
