@@ -3,6 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=1080, height=1920">
 <script src="gsap.min.js"></script>
+<script src="boil.js"></script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -103,31 +104,62 @@ document.querySelectorAll("#cap2 span").forEach((s, i) => {
 const rot = [-34, 22, -18, 30, -26, 16];
 const rot2 = [28, -20, 34, -16];
 document.querySelectorAll("#l1 span").forEach((s, i) => {
-  const t0 = 0.10 + i * 0.016;
+  const t0 = 0.067 + i * 0.016;   // gốc: mảnh chữ đã bay giữa chừng ở khung 0.067 (bản cũ trễ ~2 khung)
   tl.fromTo(s, { x: -330 + i * 40, y: 70, rotation: rot[i], scale: 0.55, opacity: 0, skewX: -30 },
-    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, skewX: 0, duration: 0.17, ease: "back.out(1.6)" }, t0);
+    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, skewX: 0, duration: 0.25, ease: "back.out(1.6)" }, t0);
 });
 document.querySelectorAll("#l2 span").forEach((s, i) => {
-  const t0 = 0.12 + i * 0.02;
+  const t0 = 0.083 + i * 0.02;
   tl.fromTo(s, { x: -300 + i * 70, y: 140, rotation: rot2[i], scale: 0.5, opacity: 0, skewX: 30 },
-    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, skewX: 0, duration: 0.18, ease: "back.out(1.5)" }, t0);
+    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, skewX: 0, duration: 0.26, ease: "back.out(1.5)" }, t0);
 });
-// rung 0.4 -> 0.75 (giá trị cố định, xác định)
-const sh = [[8, -5, 1.2], [-9, 4, -1.5], [6, 7, 1], [-7, -4, -1.2], [9, 3, 1.4], [-5, -6, -.8], [4, 5, .6], [-3, -2, -.4]];
-document.querySelectorAll("#l1 span, #l2 span").forEach((s, i) => {
-  sh.forEach(([x, y, r], k) => tl.to(s, { x: x * (1 + (i % 3) * .25), y: y, rotation: r * (i % 2 ? -1 : 1), duration: 0.04, ease: "none" }, 0.36 + k * 0.045 + (i % 2) * 0.01));
-  tl.to(s, { x: 0, y: 0, rotation: 0, duration: 0.03 }, 0.74);
-});
-// lúc vòng bùng ra: mảnh chữ giật lệch
-document.querySelectorAll("#l1 span, #l2 span").forEach((s, i) => {
-  tl.to(s, { x: (i % 2 ? 22 : -18), y: (i % 3 - 1) * 16, rotation: (i % 2 ? 5 : -6), skewX: (i % 2 ? -8 : 7), duration: 0.07, ease: "power2.out" }, 0.76 + (i % 4) * 0.012);
-  tl.to(s, { x: (i % 3 - 1) * 10, y: (i % 2 ? -8 : 10), rotation: (i % 2 ? -3 : 4), duration: 0.1, ease: "none" }, 0.86);
+// ---------- nghiêng + trôi sau khi chữ về chỗ (ECC từng khung trên gốc, 540px -> nhân 2; khung f = t*30) ----------
+// gốc KHÔNG rung ở 0.37-0.65: hai dòng chữ nghiêng ngược chiều kim đồng hồ từ từ (CHUYỂN tới -6°, ĐỘNG tới -3°), co ~5%,
+// trôi sang phải/xuống; sau 0.73 vòng halftone bùng ra.
+const Qf = 1 / 30, Q0 = 1 / 30;
+const R1 = [-0.23, -0.66, -1.26, -2.55, -3.33, -3.96, -4.46, -4.92, -5.43, -6.06, -5.56, -4.3, -3.06, -2.8, -2.66, -2.9, -3.2];       // f13..f29
+const S1 = [0.998, 0.993, 0.987, 0.975, 0.965, 0.955, 0.945, 0.944, 0.957, 0.998, 1.043, 1.05, 1.054, 1.1, 1.137, 1.13, 1.15];
+const X1 = [0.7, 1.8, 3.4, 6.7, 8.3, 9.3, 9.9, 10.1, 10.5, 8.0, 3.3, 2.2, 1.0, -3.7, -8.5, -6.7, -3.1];
+const Y1 = [0.4, 1.0, 1.9, 3.9, 5.1, 6.1, 7.1, 8.1, 8.8, 9.9, 9.5, 6.9, 4.3, 3.8, 3.3, 2.9, -3.2];
+const R2 = [-0.07, -0.18, -0.37, -0.87, -1.18, -2.11, -2.5, -2.9, -3.0, -3.0, -3.0, -3.0, -3.0, -3.0, -3.0, -3.0, -3.0];
+const X2 = [0.9, 2.1, 3.3, 5.0, 5.9, 7.1, 8.3, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0];
+R1.forEach((r, i) => {
+  const t0 = (13 + i - 1) * Qf;
+  tl.to("#l1", { rotation: r, scaleX: S1[i], x: X1[i] * 2, y: Y1[i] * 2, duration: Qf, ease: "none" }, t0);
+  tl.to("#l2", { rotation: R2[i], scaleX: i < 8 ? 1 - 0.006 * i : 0.95, x: X2[i] * 2, duration: Qf, ease: "none" }, t0);
 });
 
-// 3 sọc cam kéo từ trái
-tl.fromTo("#b1", { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, 0.2);
-tl.fromTo("#b2", { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, 0.25);
-tl.fromTo("#b3", { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, 0.3);
+// 0.70 -> 1.0: đo lại từng chữ trên gốc (matchTemplate mặt nạ đen/cam, cửa sổ ±48 px, khung 0.60-0.97; các chữ khác đứng yên dx 0-6, dy 0-12):
+// CHUYỂN: chỉ C/H/U nhảy ngang ±45 px (dy ±12) trong 0.70-0.80, mỗi khung một chỗ; ĐỘNG: Ộ và N nhảy dọc 0..+48 px (tâm +24, ±24) 0.73-0.97, Đ dọc ~-9±9, G đứng yên.
+// Chỉ áp cho các chữ đó (boil bước 1 khung); mọi chữ còn lại giữ nguyên.
+const sp1 = document.querySelectorAll("#l1 span"), sp2 = document.querySelectorAll("#l2 span");
+boil(tl, [sp1[0], sp1[1], sp1[2]], { mode: "step", step: 1 / 30, amp: 45, ampY: 12, start: 0.70, end: 0.80, seed: 7 });
+boil(tl, [sp2[1], sp2[2]], { mode: "step", step: 1 / 30, axis: "y", amp: 24, start: 0.733, end: 0.967, seed: 11 });
+boil(tl, [sp2[0]], { mode: "step", step: 1 / 30, axis: "y", amp: 9, start: 0.733, end: 0.967, seed: 5 });
+
+// 3 sọc cam: kéo vào từ trái (gốc 0.17-0.37, gần tuyến tính), rồi quét RA phải (mép trái chạy sang phải, ease-out ~10 khung, mỗi sọc lệch 1 khung),
+// rồi bật lại từ trái lúc vòng bùng ra. Đo từng khung trên gốc (mép trái/phải của mỗi sọc, 540px -> nhân 2; khung f = t*30).
+// Dùng clip-path inset (mép phải neo / mép trái neo) thay cho scaleX.
+const BARS = {
+  b1: { R: { 5: 0, 6: 61, 7: 123, 8: 242, 9: 339, 10: 454, 11: 540 },
+        L: { 14: 0, 15: 25, 16: 161, 17: 233, 18: 292, 19: 339, 20: 376, 21: 403, 22: 423, 23: 436, 24: 203, 25: 136, 26: 90, 27: 68, 28: 29, 29: 4, 30: 0 } },
+  b2: { R: { 5: 9, 6: 97, 7: 185, 8: 347, 9: 477, 10: 540 },
+        L: { 13: 0, 14: 62, 15: 152, 16: 258, 17: 313, 18: 356, 19: 389, 20: 414, 21: 430, 22: 441, 23: 447, 24: 450, 27: 450, 28: 208, 29: 117, 30: 4, 31: 0 } },
+  b3: { R: { 4: 0, 5: 63, 6: 181, 7: 299, 8: 514, 9: 540 },
+        L: { 12: 0, 13: 99, 14: 184, 15: 254, 16: 334, 17: 373, 18: 402, 19: 423, 20: 436, 21: 445, 22: 448, 23: 450, 28: 450, 29: 453, 30: 49, 31: 0 } },
+};
+Object.entries(BARS).forEach(([id, { R, L }]) => {
+  const keys = [...new Set([...Object.keys(R), ...Object.keys(L)].map(Number))].sort((x, y) => x - y);
+  let r = 0, l = 0;
+  const clip = () => `inset(0px ${(1080 - r * 2).toFixed(1)}px 0px ${(l * 2).toFixed(1)}px)`;
+  tl.set("#" + id, { clipPath: "inset(0px 1080px 0px 0px)" }, 0);
+  keys.forEach(f => {
+    const nr = R[f] != null ? R[f] : r, nl = L[f] != null ? L[f] : l;
+    // giữ nguyên giá trị tới khung trước nếu có khoảng trống (L[24]=450 giữ tới 27)
+    tl.to("#" + id, { clipPath: `inset(0px ${(1080 - nr * 2).toFixed(1)}px 0px ${(nl * 2).toFixed(1)}px)`, duration: Q0, ease: "none" }, (f - 1) / 30);
+    r = nr; l = nl;
+  });
+});
 
 // vòng halftone cam bùng ra quanh chữ
 tl.fromTo("#ringWrap", { scale: 0.55, opacity: 0 }, { scale: 1.45, opacity: 1, duration: 0.25, ease: "power2.out" }, 0.74);

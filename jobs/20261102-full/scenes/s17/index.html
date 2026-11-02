@@ -102,7 +102,8 @@ tl.set("#paper, #main1", { opacity: 0 }, 0);
 tl.set("#paper, #main1", { opacity: 1 }, 0.18);
 // khung đầu (33.0): chấm đã có ở góc trên-trái (cỡ ~1), mép quét chéo xuống dưới-phải
 tl.fromTo("#ht s", { scale: (i) => Math.max(0, 0.9 - dly(i) / 0.22 * 1.5) }, { scale: 1.5, duration: 0.07, ease: "none", stagger: (i) => dly(i) * 0.3 }, 0);
-tl.fromTo("#ht s", { scale: 1.5 }, { scale: 0, duration: 0.14, ease: "power2.inOut", stagger: (i) => dly(i) * 0.85, immediateRender: false }, 0.2);
+// gốc: co chấm bắt đầu ~33.18 (năng lượng nhảy lên 28 ngay khung 33.20, đỉnh 48 ở 33.33); bản cũ bắt đầu .2 power2.inOut nên trễ ~0.07s và vụt gắt
+tl.fromTo("#ht s", { scale: 1.5 }, { scale: 0, duration: 0.2, ease: "power1.out", stagger: (i) => dly(i) * 0.85, immediateRender: false }, 0.16);
 
 // ---- LƯU + bookmark ----
 tl.fromTo("#luu span", { yPercent: 40, opacity: 0, rotation: -6 }, { yPercent: 0, opacity: 1, rotation: 0, duration: 0.3, ease: "back.out(1.8)", stagger: 0.05 }, 0.26);
@@ -122,23 +123,38 @@ tl.set("#cur", { x: 980, y: 1560, opacity: 0, scale: 1 }, 0);
 tl.to("#cur", { opacity: 1, duration: 0.1 }, 0.66);
 tl.to("#cur", { x: 898, y: 1421, duration: 0.17, ease: "power2.inOut" }, 0.66);
 tl.to("#cur", { x: 520, y: 1056, duration: 0.34, ease: "power3.inOut" }, 0.83);
-tl.to("#cur", { scale: 0.8, duration: 0.07, ease: "power2.in" }, 1.1);
-tl.to("#cur", { scale: 1, duration: 0.1, ease: "power2.out" }, 1.17);
-burst("b2", 540, 1060, 1.12, 10);
-tl.to("#ft1", { opacity: 0, duration: 0.08 }, 1.12);
-tl.fromTo("#ft2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, 1.14);
-tl.to("#folbg", { scaleX: 1, backgroundColor: "#141414", duration: 0.22, ease: "back.out(1.5)" }, 1.12);
-tl.fromTo("#chk", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 1.3);
-tl.to("#cur", { x: 580, y: 1150, duration: 0.5, ease: "power2.inOut" }, 1.3);
-tl.to("#cur", { opacity: 0, duration: 0.12 }, 1.72);
+// gốc: pha bấm -> FOLLOWING nằm ở 34.13-34.37 (đo diện tích đỏ/đen theo khung), muộn hơn bản cũ ~0.07s => dời cả cụm +0.07
+tl.to("#cur", { scale: 0.8, duration: 0.07, ease: "power2.in" }, 1.17);
+tl.to("#cur", { scale: 1, duration: 0.1, ease: "power2.out" }, 1.24);
+burst("b2", 540, 1060, 1.19, 10);
+// gốc 34.13-34.37: FOLLOW bị ép dẹt (~0.4 chiều cao) trong 2 khung, đổi sang thanh đen, rồi bật dày lên vọt ~12-15% (diện tích 27k -> 37.8k -> 30k) rồi lún về
+tl.to("#fol", { scaleY: 0.4, duration: 0.067, ease: "power2.in" }, 1.16);
+tl.to("#fol", { scaleY: 1.15, duration: 0.067, ease: "power2.out" }, 1.227);
+tl.to("#fol", { scaleY: 1, duration: 0.1, ease: "power2.inOut" }, 1.294);
+tl.to("#ft1", { opacity: 0, duration: 0.08 }, 1.19);
+tl.fromTo("#ft2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, 1.21);
+tl.to("#folbg", { scaleX: 1, backgroundColor: "#141414", duration: 0.22, ease: "back.out(2.2)" }, 1.19);
+tl.fromTo("#chk", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 1.37);
+tl.to("#cur", { x: 580, y: 1150, duration: 0.5, ease: "power2.inOut" }, 1.37);
+tl.to("#cur", { opacity: 0, duration: 0.12 }, 1.79);
 
 // ---- 3 icon nhỏ ----
 tl.fromTo(".ic", { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(2)", stagger: 0.07 }, 1.62);
 
 // ---- avatar ----
 tl.fromTo("#av", { y: 400, scale: 0.8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.4)" }, 0.12);
-tl.to("#av", { y: -14, rotation: 3, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 4 }, 0.55);
-tl.to("#av", { scale: 1.04, duration: 0.2, yoyo: true, repeat: 1, ease: "sine.inOut" }, 1.13);
+// gốc: nhân vật không nhún đều; trọng tâm (khối áo tối, vùng dưới-phải) nhảy từng khung theo tư thế tay: đỉnh +/-10-17px dọc, lệch ngang tới +42px
+// (đo 33.50-35.40, 540->1080). Avatar thay nhân vật nên bám quỹ đạo y đo được (đủ biên độ) và nghiêng theo độ lệch x (0.07°/px, tới ~3°);
+// bản cũ: dao động sin ±14px/3° đều đặn 2.25s, không có trong gốc. Dùng CSS translate/rotate (không đè transform GSAP của lúc vào).
+const AVX = [5.0, 5.9, 4.3, 42.4, 40.6, 37.0, 21.9, 18.2, 28.4, 27.8, 26.1, 23.5, 17.4, 11.5, 9.0, 10.3, 12.0, 12.2, 12.2, 12.3, 12.5, 12.6, 32.2, 32.7, 29.2, 25.8, 27.8, 27.0, 26.5, 26.7, 26.5, 26.3, 40.9, 40.4, 37.9, 32.6, 25.2, 19.4, 18.5, 20.1, 22.3, 22.5, 22.6, 22.6, 22.8, 23.7, 23.2, 21.3, 22.0, 21.8, 21.8, 3.2, 0.1, 0.1, 0.2, 0.1, 0.2, 0.2, 0.1, 0.0], AVY = [3.1, 3.7, 2.7, 7.9, 8.6, 9.8, 9.7, 3.9, -4.4, -4.9, -5.8, -8.2, -5.6, -2.2, -11.3, -2.9, 2.3, 2.9, 2.8, 2.7, 2.7, 2.7, 3.5, 4.5, 11.7, 4.1, -4.5, -5.7, -5.6, -3.8, -2.3, -1.1, 3.6, 2.0, -0.5, -4.6, -10.2, -15.6, -16.8, -10.6, -2.0, -0.0, 1.6, 1.1, -0.4, 0.0, 7.2, 13.2, 9.4, 8.1, 8.2, -0.4, -0.5, -0.5, -0.3, -0.2, -0.1, 0.0, -0.1, 0.0];
+const AVC = { t: 0 };
+function applyAv() {
+  const k = Math.round((AVC.t - 0.5) * 30);
+  const el = document.getElementById("av");
+  if (k < 0 || k >= AVY.length) { el.style.translate = ""; el.style.rotate = ""; return; }
+  el.style.translate = `0px ${AVY[k].toFixed(1)}px`; el.style.rotate = `${(AVX[k] * 0.07).toFixed(2)}deg`;
+}
+tl.fromTo(AVC, { t: 0 }, { t: 2.45, duration: 2.45, ease: "none", onUpdate: applyAv }, 0);
 
 window.__timelines = window.__timelines || {};
 window.__timelines["main"] = tl;

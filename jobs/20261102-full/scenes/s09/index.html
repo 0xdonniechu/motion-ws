@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#bg { position: absolute; inset: 0; background: #efece6; opacity: 0; }
+.layer { position: absolute; inset: 0; }
+
+#shade { background: rgba(20, 18, 16, 0.4); opacity: 0; }
+
+/* nền tối */
+#dark { background: #1b1714; clip-path: inset(1920px 0 0 0); }
+#cells { position: absolute; inset: 0; }
+#cells s { position: absolute; display: block; width: 88px; height: 88px; border-radius: 16px; background: #2c2723; }
+#oc s { position: absolute; display: block; width: 88px; height: 88px; border-radius: 16px; background: #c9451c; transform: scale(0); opacity: .9; }
+#pct { position: absolute; left: 56px; top: 0; width: 600px; height: 340px; }
+#pct b { position: absolute; left: 0; top: 0; font: 400 290px/1 Anton, sans-serif; color: #b9b3a9; opacity: 0; white-space: nowrap; letter-spacing: 0; }
+#pct b small { font-size: 120px; color: #c9451c; margin-left: 12px; }
+#pxw { position: absolute; left: 380px; top: 0; width: 650px; height: 260px; }
+#pxw b { position: absolute; right: 0; top: 0; font: 400 215px/1 Anton, sans-serif; color: #c9451c; opacity: 0; white-space: nowrap; }
+#pxw b small { font-size: 130px; }
+.bgrow { position: absolute; left: 0; font: 400 200px/1 Anton, sans-serif; white-space: nowrap; letter-spacing: 4px; color: #c9451c; opacity: .22; }
+#tri { position: absolute; left: 0; top: 0; width: 1080px; height: 400px; }
+#motionPath { position: absolute; left: 50px; top: 270px; font: 500 46px/1 JBMono, monospace; color: #c9451c; opacity: .5; white-space: pre; }
+
+/* thẻ lộ ra khi lùi xa */
+#cards { position: absolute; left: 140px; top: 566px; width: 0; height: 0; }
+.card { position: absolute; top: 0; width: 820px; height: 1190px; border: 8px solid #141414; border-radius: 40px; box-shadow: 16px 18px 0 #141414; }
+#cardO { left: 0; background: linear-gradient(#cf4a12, #c4430c 30%); }
+#cardK { left: 860px; background: #1d1a17; border-color: #141414; box-shadow: 16px 18px 0 #0b0a09; }
+.card h2 { position: absolute; left: 36px; top: 20px; font: 400 300px/1 Anton, sans-serif; color: #fff; }
+.card code { position: absolute; left: 40px; bottom: 36px; font: 500 40px JBMono, monospace; color: #e9c36a; }
+#cardK h2 { color: #ece7de; }
+
+/* terminal */
+#term { position: absolute; left: 120px; top: 720px; width: 840px; height: 500px; background: #141210; border: 3px solid #4a4640; border-radius: 28px;
+  box-shadow: 0 8px 0 #0a0908, 0 24px 60px rgba(0,0,0,.45); overflow: hidden; opacity: 0; }
+#tbar { position: absolute; left: 0; top: 0; right: 0; height: 62px; background: #22201d; border-bottom: 2px solid #34312c; font: 500 24px/62px JBMono, monospace; color: #e2dcd2; }
+#tbar i { position: absolute; top: 25px; width: 11px; height: 11px; border-radius: 50%; background: #6a655e; }
+#tbar span { position: absolute; left: 112px; }
+#tbar span b { color: #c9451c; margin-right: 10px; font-weight: 400; }
+.band { position: absolute; left: 4px; width: 824px; border-radius: 14px; background: rgba(255,255,255,.07); opacity: 0; }
+#band1 { top: 104px; height: 150px; } #band2 { top: 291px; height: 148px; }
+.prompt { position: absolute; left: 36px; font: 500 40px/69px JBMono, monospace; color: #c9451c; opacity: 0; }
+.ln { position: absolute; left: 92px; font: 500 47px/69px JBMono, monospace; color: #f2eee6; white-space: pre; }
+.ln span { opacity: 0; }
+.cur { position: absolute; width: 20px; height: 44px; background: #ddd8cf; opacity: 0; }
+.badge { position: absolute; width: 38px; height: 38px; border-radius: 50%; background: #c9451c; border: 2px solid #f4d8c8; color: #fff; font: 700 26px/34px Inter, sans-serif; text-align: center; opacity: 0; }
+#minh { position: absolute; right: 18px; bottom: 14px; height: 38px; padding: 0 16px; border: 2px solid #6a655e; border-radius: 19px; font: 700 22px/34px JBMono, monospace; color: #e8e2d8; }
+
+#chipRow { position: absolute; left: 0; top: 1250px; width: 1080px; height: 160px; }
+#logo { position: absolute; left: 119px; top: 0; width: 156px; height: 156px; background: #141414; border: 6px solid #f4f1ea; border-radius: 24px;
+  box-shadow: 8px 10px 0 #0b0a09; display: flex; align-items: center; justify-content: center; opacity: 0; }
+#logo b { font: 400 54px/1 Anton, sans-serif; font-style: italic; color: #0ae448; transform: skewX(-8deg); letter-spacing: 1px; display: block; }
+#ring { position: absolute; left: 100px; top: -20px; width: 194px; height: 194px; border-radius: 50%; border: 5px solid #c9451c; opacity: 0; }
+#pill { position: absolute; left: 302px; top: 38px; height: 86px; padding: 0 40px; border-radius: 43px; background: #f6f3ec; border: 5px solid #141414;
+  box-shadow: 6px 8px 0 #0b0a09; font: 700 38px/76px JBMono, monospace; color: #141414; white-space: nowrap; opacity: 0; }
+
+/* J9 (post): cảnh xám mờ giữ lại cho vòng tròn của s10 mở ra */
+#prev { background: linear-gradient(#efece6 0, #efece6 380px, #86837e 1560px, #86837e 100%); filter: blur(3px); opacity: 0; }
+#prev .pc { position: absolute; top: 390px; height: 1190px; border-radius: 34px; }
+#prev .pc.o { left: -60px; width: 400px; background: #6b2a12; }
+#prev .pc.d { left: 400px; width: 760px; background: #17120d; }
+#prev .pc.b { left: 1190px; width: 400px; background: #2a49b8; }
+#prev .pt { position: absolute; left: 460px; top: 430px; font: 400 200px/1 Anton, sans-serif; color: #a9a7a3; letter-spacing: 2px; }
+#prev .pm { position: absolute; left: 460px; top: 1475px; font: 500 28px JBMono, monospace; color: #6a655f; }
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+.ph { position: absolute; left: 130px; top: 248px; width: 760px; font: 500 78px/1.08 Inter, sans-serif; color: #141414; letter-spacing: -1.5px; opacity: 0; }
+.ph span { display: inline-block; opacity: 0; }
+.ph em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="3.8" data-width="1080" data-height="1920" data-fps="30">
+  <div id="bg"></div>
+  <div id="shade" class="clip layer" data-start="0" data-duration="3.8" data-track-index="1"></div>
+  <div id="dark" class="clip layer" data-start="0" data-duration="3.8" data-track-index="2">
+    <div id="cells"></div><div id="oc"></div>
+    <div class="bgrow" id="bg1" style="top:1780px">SCROLL · PIN · SCRUB · SCROLL · PIN · SCRUB</div>
+    <div class="bgrow" id="bg2" style="top:1500px; opacity:.1">SCROLL · PIN · SCRUB · SCROLL · PIN · SCRUB</div>
+    <div id="pct"></div>
+    <div id="pxw"></div>
+    <div id="triG" style="position:absolute;left:0;top:0;width:1080px;height:420px">
+      <svg id="tri" viewBox="0 0 1080 420" width="1080" height="420"><path id="triPath" fill="none" stroke="#c9451c" stroke-width="4" opacity=".8" d=""/><g id="triGs"></g></svg>
+      <div id="motionPath">motionPath: { autoRotate: true }</div>
+    </div>
+    <svg id="loop" viewBox="0 0 1080 1920" width="1080" height="1920" style="position:absolute;left:0;top:0;opacity:0"><path id="loopP" fill="none" stroke="#c9451c" stroke-width="4" opacity=".55" d=""/><g id="loopG"></g></svg>
+    <svg id="tiles" viewBox="0 0 1080 1920" width="1080" height="1920" style="position:absolute;left:0;top:0"></svg>
+  </div>
+  <div id="cards" class="clip layer" data-start="0" data-duration="3.8" data-track-index="3" style="inset:auto; left:0; top:0; width:1080px; height:1920px; overflow:hidden">
+    <div id="cardsG" style="position:absolute;left:140px;top:566px;width:0;height:0">
+      <div class="card" id="cardO"><h2>PIN</h2><code>pin: true</code></div>
+      <div class="card" id="cardK"><h2>SCRUB</h2><code>scrub: true</code></div>
+    </div>
+  </div>
+  <div id="termL" class="clip layer" data-start="0" data-duration="3.8" data-track-index="4">
+    <div id="term">
+      <div id="tbar"><i style="left:24px"></i><i style="left:44px"></i><i style="left:64px"></i><span><b>✦</b>Claude Code</span></div>
+      <div class="band" id="band1"></div><div class="band" id="band2"></div>
+      <div class="prompt" id="pr1" style="top:110px">&gt;</div><div class="prompt" id="pr2" style="top:297px">&gt;</div>
+      <div class="ln" id="c1l1" style="top:110px"></div><div class="ln" id="c1l2" style="top:179px"></div>
+      <div class="ln" id="c2l1" style="top:297px"></div><div class="ln" id="c2l2" style="top:366px"></div>
+      <div class="cur" id="cur"></div>
+      <div class="badge" id="bd1" style="left:762px;top:162px">1</div>
+      <div class="badge" id="bd2" style="left:766px;top:344px; width:30px; height:30px; font-size:20px; line-height:26px">2</div>
+      <div id="minh">Minh hoạ</div>
+    </div>
+    <div id="chipRow"><div id="ring"></div><div id="logo"><b>GSAP</b></div><div id="pill">greensock/gsap-skills</div></div>
+  </div>
+  <div id="prev" class="clip layer" data-start="0" data-duration="3.8" data-track-index="6">
+    <div class="pc o"></div><div class="pc d"></div><div class="pc b"></div>
+    <div class="pt">SCRUB</div><div class="pm">scrub: true</div>
+  </div>
+  <div id="capL" class="clip layer" data-start="0" data-duration="3.8" data-track-index="7">
+    <div id="tag">AI Tips</div>
+    <div class="ph" id="p0"><span>sản</span> <span>phẩm</span> <span>xoay</span> <span>theo</span> <span>từng</span> <span>nhịp</span> <span><em>cuộn.</em></span></div>
+    <div class="ph" id="p1"><span>Để</span> <span>Claude</span> <span>viết</span> <span><em>đúng</em></span> <span>như</span> <span>vậy,</span></div>
+    <div class="ph" id="p2"><span>cài</span> <span>skill</span> <span><em>chính</em></span> <span><em>chủ</em></span> <span>của</span> <span><em>GSAP</em></span> <span>bằng</span></div>
+    <div class="ph" id="p3"><span><em>hai</em></span> <span>lệnh</span> <span>plugin.</span></div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+['.card h2','.card code','#tbar span','.bgrow','#pct b','#pxw b','#motionPath','.ph','.ln'].forEach(q => document.querySelectorAll(q).forEach(e => { e.setAttribute('data-layout-allow-overlap',''); e.setAttribute('data-layout-allow-occlusion',''); }));
+const PRE = 0.35, DUR = 3.2, POST = 0.25, FPS = 30, NF = Math.round(DUR * FPS);
+function hash(i, j, s) { let h = (i * 374761393 + j * 668265263 + s * 2147483647) | 0; h = (h ^ (h >>> 13)) * 1274126177 | 0; return ((h ^ (h >>> 16)) >>> 0) / 4294967295; }
+const lerpK = (u, pts) => { if (u <= pts[0][0]) return pts[0][1]; for (let k = 1; k < pts.length; k++) if (u <= pts[k][0]) { const a = pts[k - 1], b = pts[k]; return a[1] + (b[1] - a[1]) * (u - a[0]) / (b[0] - a[0]); } return pts[pts.length - 1][1]; };
+
+// ---------- lưới ô tối + ô cam ----------
+const cells = $("cells"), oc = $("oc"), ocs = [];
+for (let j = 0; j < 20; j++) for (let i = 0; i < 11; i++) {
+  const x = i * 100 + 6, y = j * 100 + 6;
+  const d = document.createElement("s"); d.style.left = x + "px"; d.style.top = y + "px"; cells.appendChild(d);
+  if (hash(i, j, 3) < 0.34) { const o = document.createElement("s"); o.style.left = x + "px"; o.style.top = y + "px"; o.id = "oc" + ocs.length; oc.appendChild(o); ocs.push([o, i, j]); }
+}
+
+// ---------- số % lớn và px ----------
+const PCT = [[0.375, 12], [0.875, 30], [1.5, 50], [1.975, 67], [2.25, 78]];
+const PCTY = [[0.375, 1760], [0.5, 1560], [0.625, 1320], [0.875, 620], [1.6, 560], [2.25, 250], [2.55, -300]].map(([t, y]) => [t, y - 145]);
+const pctEls = [], pxEls = [];
+for (let f = 0; f < NF; f++) {
+  const t = f / FPS;
+  if (t >= 0.36 && t <= 2.5) { const b = document.createElement("b"); b.textContent = String(Math.round(lerpK(t, PCT))); const sm = document.createElement("small"); sm.textContent = "%"; b.appendChild(sm); $("pct").appendChild(b); pctEls.push([b, f]); }
+  if (t >= 0.68 && t <= 2.55) { const b = document.createElement("b"); b.textContent = String(Math.round(4704 + 2000 * (t - 0.75))); const sm = document.createElement("small"); sm.textContent = "px"; b.appendChild(sm); $("pxw").appendChild(b); pxEls.push([b, f]); }
+}
+
+// ---------- chuỗi tam giác play ----------
+{
+  let d = "M-40 230"; for (let x = -40; x <= 1160; x += 20) d += " L" + x + " " + (230 + 90 * Math.sin(x / 120)).toFixed(1);
+  $("triPath").setAttribute("d", d);
+  const g = $("triGs"); let h = "";
+  for (let i = 0; i < 16; i++) {
+    const x = 20 + i * 76, y = 230 + 90 * Math.sin(x / 120), ang = Math.atan(90 / 120 * Math.cos(x / 120)) * 57.3 + (i % 3 === 1 ? 180 : 0);
+    h += `<polygon points="-30,-34 38,0 -30,34" fill="#b4aea5" opacity="${0.55 + (i % 4) * 0.1}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(1.5)"/>`;
+  }
+  g.innerHTML = h;
+}
+
+// ---------- vòng tam giác quanh terminal ----------
+// gốc 14.05-14.9 (heatmap |Δkhung| + khung): chuỗi tam giác play không trượt thẳng mà chạy vòng quanh terminal theo hình chữ nhật bo góc
+// (trái x~20, phải ~1060, trên y~470, dưới ~1520), nhoè mạnh, ~100 px/khung (3000 px/s) cùng tốc độ với ô play đo được.
+const LRX = { x0: 70, y0: 480, x1: 1010, y1: 1500, r: 230 };
+const LSEG = (() => { const { x0, y0, x1, y1, r } = LRX, w = x1 - x0 - 2 * r, h = y1 - y0 - 2 * r, q = Math.PI * r / 2;
+  return { w, h, q, L: 2 * w + 2 * h + 4 * q }; })();
+function loopAt(s) {   // thuận kim đồng hồ, bắt đầu ở đầu cạnh trên (sau góc trái-trên)
+  const { x0, y0, x1, y1, r } = LRX, { w, h, q, L } = LSEG; s = ((s % L) + L) % L;
+  const arc = (cx, cy, a0, u) => { const a = a0 + u / r; return [cx + r * Math.cos(a), cy + r * Math.sin(a), a * 57.2958 + 90]; };
+  if (s < w) return [x0 + r + s, y0, 0]; s -= w;
+  if (s < q) return arc(x1 - r, y0 + r, -Math.PI / 2, s); s -= q;
+  if (s < h) return [x1, y0 + r + s, 90]; s -= h;
+  if (s < q) return arc(x1 - r, y1 - r, 0, s); s -= q;
+  if (s < w) return [x1 - r - s, y1, 180]; s -= w;
+  if (s < q) return arc(x0 + r, y1 - r, Math.PI / 2, s); s -= q;
+  if (s < h) return [x0, y1 - r - s, 270]; s -= h;
+  return arc(x0 + r, y0 + r, Math.PI, s);
+}
+const LTRI = [];
+{
+  let d = ""; for (let k = 0; k <= 200; k++) { const [x, y] = loopAt(LSEG.L * k / 200); d += (k ? " L" : "M") + x.toFixed(1) + " " + y.toFixed(1); }
+  $("loopP").setAttribute("d", d + " Z");
+  for (let i = 0; i < 30; i++) {
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    g.setAttribute("points", "-30,-34 38,0 -30,34"); g.setAttribute("fill", "#b4aea5"); g.setAttribute("opacity", 0.55 + (i % 4) * 0.1);
+    $("loopG").appendChild(g); LTRI.push(g);
+  }
+}
+function placeLoop(t) {
+  const s0 = 3000 * (t - 1.0);
+  LTRI.forEach((g, i) => { const [x, y, a] = loopAt(s0 + i * LSEG.L / LTRI.length); g.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${a.toFixed(1)}) scale(1.5)`); });
+}
+
+// ---------- gõ chữ: mỗi ký tự một span (bật theo thời gian) ----------
+const CH = 28.3; // bề rộng ký tự mono 47px
+const CMD = [
+  { l1: "/plugin marketplace add ", l2: "greensock/gsap-skills", t0: 1.2, rate: 75, a: ["c1l1", "c1l2"], y1: 110, y2: 179 },
+  { l1: "/plugin install ", l2: "gsap-skills@gsap-skills", t0: 2.42, rate: 85, a: ["c2l1", "c2l2"], y1: 297, y2: 366 }];
+const typing = [];
+CMD.forEach(c => {
+  let k = 0;
+  [c.l1, c.l2].forEach((txt, li) => {
+    const host = $(c.a[li]);
+    [...txt].forEach((ch, i) => { const s = document.createElement("span"); s.textContent = ch; host.appendChild(s);
+      typing.push({ el: s, t: c.t0 + k / c.rate, x: 92 + (i + 1) * CH, y: li ? c.y2 : c.y1 }); k++; });
+  });
+});
+
+// ---------- timeline ----------
+const master = gsap.timeline({ paused: true });
+const tl = gsap.timeline();
+
+// J8: lớp xám phủ lên hộp (s08, post) đang bay lên
+tl.fromTo("#shade", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0);
+
+// nền tối quét từ dưới lên, về cuối thì thu lại cho thẻ cam lộ ra
+const WIPE = [[0.25, 1460], [0.375, 1200], [0.5, 1000], [0.625, 480], [0.75, 470], [0.875, 0]];
+for (let k = 0; k < WIPE.length; k++) {
+  const t0 = k ? WIPE[k - 1][0] : 0.2, y0 = k ? WIPE[k - 1][1] : 1920;
+  tl.fromTo("#dark", { clipPath: `inset(${y0}px 0px 0px 0px)` }, { clipPath: `inset(${WIPE[k][1]}px 0px 0px 0px)`, duration: WIPE[k][0] - t0, ease: "power1.out", immediateRender: k === 0 }, t0);
+}
+// đo độ sáng vùng trên: gốc sáng lên 15.8-16.0 (bản cũ 15.6-15.7, sớm ~0.15 s) => mép đáy co lên chậm ở nửa sau
+const BOT = [[2.1, 1740], [2.225, 1440], [2.35, 1180], [2.5, 900], [2.75, 500], [2.9, 200], [3.05, 0]];
+// đáy nền tối co lên (clipPath inset đáy), ghép với đỉnh = 0
+for (let k = 0; k < BOT.length; k++) {
+  const t0 = k ? BOT[k - 1][0] : 2.0, y0 = k ? BOT[k - 1][1] : 1920;
+  tl.fromTo("#dark", { clipPath: `inset(0px 0px ${1920 - y0}px 0px)` }, { clipPath: `inset(0px 0px ${1920 - BOT[k][1]}px 0px)`, duration: BOT[k][0] - t0, ease: "power1.out", immediateRender: false }, t0);
+}
+
+// ô cam gợn theo mặt sóng đi lên
+ocs.forEach(([el, i, j], n) => {
+  const tw = 0.6 + ((1920 - j * 100) / 1920) * 1.8 + hash(i, j, 5) * 0.12;
+  tl.fromTo(el, { scale: 0 }, { scale: 1, duration: 0.14, ease: "back.out(2)" }, tw);
+  tl.to(el, { scale: 0, duration: 0.2, ease: "power1.in" }, tw + 0.35 + hash(i, j, 7) * 0.25);
+});
+
+// bảng chữ nền chạy ngang
+tl.fromTo("#bg1", { x: 200 }, { x: -700, duration: 2.2, ease: "none" }, 0.5);
+tl.fromTo("#bg1", { y: 0 }, { y: -2200, duration: 0.5, ease: "power2.in" }, 2.1);
+tl.fromTo("#bg2", { x: -300 }, { x: 100, duration: 2.0, ease: "none" }, 0.5);
+
+// số %: đi lên từ đáy rồi ghim, mỗi khung một số
+tl.set("#pct", { y: PCTY[0][1] }, 0);
+for (let k = 1; k < PCTY.length; k++) tl.to("#pct", { y: PCTY[k][1], duration: PCTY[k][0] - PCTY[k - 1][0], ease: "none" }, PCTY[k - 1][0]);
+pctEls.forEach(([el, f], n) => {
+  tl.set(el, { opacity: 0.55 }, f / FPS + 0.001);
+  if (n < pctEls.length - 1) tl.set(el, { opacity: 0 }, (f + 1) / FPS + 0.001); else tl.set(el, { opacity: 0 }, 2.55);
+});
+// số px (cam): trôi lên
+const PXY = [[0.68, 1900], [1.0, 1600], [1.6, 1420], [2.1, 1380], [2.35, 700], [2.5, 300]].map(([t, y]) => [t, y - 107]);
+tl.set("#pxw", { y: PXY[0][1] }, 0);
+for (let k = 1; k < PXY.length; k++) tl.to("#pxw", { y: PXY[k][1], duration: PXY[k][0] - PXY[k - 1][0], ease: "none" }, PXY[k - 1][0]);
+pxEls.forEach(([el, f], n) => {
+  tl.set(el, { opacity: 0.62 }, f / FPS + 0.001);
+  if (n < pxEls.length - 1) tl.set(el, { opacity: 0 }, (f + 1) / FPS + 0.001);
+});
+
+// chuỗi tam giác: trượt ngang, rồi bay lên
+tl.set("#triG", { y: 1260 }, 0);
+tl.fromTo("#triG", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+tl.fromTo("#tri", { x: 120 }, { x: -380, duration: 1.8, ease: "none" }, 0.3);
+tl.to("#triG", { y: -300, duration: 0.7, ease: "power2.in" }, 1.6);
+
+
+// ---------- ô play bắn qua lại + chuỗi tam giác giật ----------
+// Đo từ gốc (30fps): ô play lao ngang ~80-90 px/khung (~2500 px/s), quét ~±500 px rồi bật ngược, cuối cùng bay vọt lên khỏi cảnh;
+// chuỗi tam giác không trượt đều mà giật qua lại ±60 px/khung (chu kỳ ~0.2 s) trong 14.0-14.55 (tl 0.65-1.2).
+// Đường đi ô A đo trực tiếp (toạ độ trang 1080x1920, tâm ô); B/C/D cùng biên độ/tốc độ, lệch pha/đối xứng.
+const TA = [[0.65, 188, 1500, -10], [0.68, 270, 1460, 5], [0.72, 394, 1440, 12], [0.75, 436, 1447, 8], [0.78, 546, 1465, 0], [0.82, 570, 1462, -8],
+  [0.85, 432, 1457, -14], [0.88, 322, 1447, -10], [0.92, 240, 1451, -4], [0.95, 140, 1470, 5], [0.98, 54, 1496, 12], [1.02, 56, 1465, 12],
+  [1.05, 54, 1381, 10], [1.08, 45, 1303, 5], [1.12, 40, 1218, 0]];
+const TILES = [
+  TA,
+  TA.map(([t, x, y, r]) => [t - 0.12, 1080 - x, y + 30, -r]),
+  TA.map(([t, x, y, r]) => [t + 0.1, x + 300, y - 40, r + 8]),
+  TA.map(([t, x, y, r]) => [t + 0.02, 1080 - x - 260, y + 60, -r - 6]),
+  TA.map(([t, x, y, r]) => [t + 0.4, 1080 - x, y + 20, -r + 4]),
+  TA.map(([t, x, y, r]) => [t + 0.55, x + 200, y - 20, r - 6]),
+  // gốc: ô play + vòng tam giác còn chạy tới ~15.2 (khung 14.85-15.2); dùng lại đường đo của ô A, lệch pha
+  TA.map(([t, x, y, r]) => [t + 0.95, 1080 - x + 40, y - 700, -r]),
+  TA.map(([t, x, y, r]) => [t + 1.1, x + 220, y - 640, r + 10])];
+const tileEls = TILES.map(() => {
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.innerHTML = '<rect x="-62" y="-62" width="124" height="124" rx="30" fill="#c9451c" stroke="#d9c9b8" stroke-width="3"/><polygon points="-20,-30 34,0 -20,30" fill="#efe9df"/>';
+  g.setAttribute("opacity", 0); $("tiles").appendChild(g); return g;
+});
+const tclk = { t: 0 };
+function applyTiles() {
+  const t = tclk.t;
+  TILES.forEach((P, i) => {
+    const el = tileEls[i];
+    if (t < P[0][0] || t > P[P.length - 1][0]) { el.setAttribute("opacity", 0); return; }
+    let k = 1; while (k < P.length - 1 && P[k][0] < t) k++;
+    const a = P[k - 1], b = P[k], u = (t - a[0]) / (b[0] - a[0]);
+    el.setAttribute("opacity", 1);
+    el.setAttribute("transform", `translate(${(a[1] + (b[1] - a[1]) * u).toFixed(1)} ${(a[2] + (b[2] - a[2]) * u).toFixed(1)}) rotate(${(a[3] + (b[3] - a[3]) * u).toFixed(1)})`);
+  });
+  const w = t >= 0.65 && t <= 1.0 ? 57 * Math.sin((t - 0.65) * Math.PI * 2 / 0.2) : 0;
+  $("triG").style.translate = `${w.toFixed(1)}px 0px`;
+  placeLoop(t);
+}
+tl.fromTo(tclk, { t: 0 }, { t: 2.3, duration: 2.3, ease: "none", onUpdate: applyTiles }, 0);
+
+// vòng tam giác thay chuỗi ngang: hiện 14.0-14.9
+tl.set("#triG", { opacity: 0 }, 1.0);
+tl.fromTo("#loop", { opacity: 0 }, { opacity: 1, duration: 0.03, ease: "none", immediateRender: false }, 1.0);
+tl.to("#loop", { opacity: 0, duration: 0.08, ease: "none" }, 2.2);
+
+// terminal
+tl.fromTo("#term", { opacity: 0, y: 24, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.1, ease: "power2.out" }, 0.04);
+tl.fromTo("#band1", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 1.2);
+tl.fromTo("#band2", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 2.42);
+tl.set("#pr1", { opacity: 1 }, 1.125);
+tl.set("#pr2", { opacity: 1 }, 2.4);
+// con trỏ chạy sau ký tự cuối
+const curSteps = [{ t: 1.125, x: 92, y: 110 }].concat(typing.map(s => ({ t: s.t, x: s.x, y: s.y })));
+typing.forEach((s, n) => {
+  tl.set(s.el, { opacity: 1 }, s.t);
+});
+curSteps.forEach((c, n) => {
+  tl.set("#cur", { opacity: 1, x: c.x - 0, y: c.y + 12, left: 0, top: 0 }, c.t + (n ? 0.0005 : 0));
+});
+tl.set("#cur", { opacity: 0 }, 2.42 + 0.0005 + (CMD[1].l1.length + CMD[1].l2.length) / CMD[1].rate + 0.25);
+tl.fromTo("#bd1", { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2.5)" }, 1.7);
+tl.fromTo("#bd2", { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2.5)" }, 2.85);
+
+// logo + chip
+tl.fromTo("#logo", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, 1.55);
+tl.set("#ring", { opacity: 0 }, 0);
+tl.fromTo("#ring", { opacity: 0.9, scale: 0.7 }, { opacity: 0, scale: 1.25, duration: 0.45, ease: "power2.out", immediateRender: false }, 1.55);
+tl.fromTo("#pill", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, 1.68);
+
+// thẻ cam lộ ra rồi lùi xa
+tl.fromTo("#cardsG", { y: 1350 }, { y: 0, duration: 0.65, ease: "power3.out" }, 2.2);
+// J9: gốc làm tối thẻ khi chúng trượt đi
+tl.to("#cards", { opacity: 0.62, duration: 0.25, ease: "power1.inOut" }, 2.75);
+// J9: như bản gốc — thẻ trượt trái và nhích lên (không thu nhỏ), rồi mờ vào cảnh xám (#prev) để s10 mở vòng tròn
+tl.fromTo("#cardsG", { y: 0 }, { y: -186, duration: 0.2, ease: "power2.out", immediateRender: false }, 2.85);
+tl.fromTo("#cardsG", { x: 0 }, { x: -594, duration: 0.2, ease: "none", immediateRender: false }, 3.0);
+tl.fromTo("#prev", { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none", immediateRender: false }, 3.12);
+
+// terminal + chip mờ khi lùi
+tl.to("#term", { opacity: 0.22, duration: 0.15, ease: "power1.in" }, 3.0);
+tl.to("#chipRow", { opacity: 0.25, duration: 0.15, ease: "power1.in" }, 3.0);
+
+// nhãn AI Tips: mờ khi nền tối
+tl.to("#tag", { color: "#8d877e", duration: 0.2 }, 0.5);
+tl.to("#tag", { color: "#1a1a1a", duration: 0.2 }, 2.5);
+// J9: nhãn + phụ đề hết đúng 16.2; s10 vẽ nhãn của nó
+tl.set("#tag", { opacity: 0 }, 3.2);
+tl.set("#p3", { opacity: 0 }, 3.2);
+
+// phụ đề
+const PH = [["p1", 0, 1.1, [0.04, 0.25, 0.375, 0.5, 0.625, 0.75]],
+  ["p2", 1.1, 2.3, [1.125, 1.25, 1.5, 1.725, 1.85, 1.975, 2.2]],
+  ["p3", 2.3, DUR, [2.35, 2.475, 2.6]]];
+PH.forEach(([id, a, b, ts]) => {
+  tl.set("#" + id, { opacity: 1 }, a);
+  if (b < DUR) tl.set("#" + id, { opacity: 0 }, b);
+  document.querySelectorAll("#" + id + " span").forEach((s, i) => {
+    if (id === "p0") tl.set(s, { opacity: 1 }, 0);
+    else tl.fromTo(s, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.13, ease: "power2.out" }, ts[i]);
+  });
+});
+// màu chữ phụ đề: trắng trên nền tối/xám, đen khi nền sáng lại
+["p1", "p2", "p3"].forEach(id => tl.set("#" + id, { color: "#f4f1ea" }, 0));
+tl.to("#p3", { color: "#141414", duration: 0.2 }, 2.5);
+tl.to("#p2", { color: "#f4f1ea", duration: 0.01 }, 1.1);
+
+// J9 (post): kéo dài timeline tới hết post
+tl.to({}, { duration: 0.01 }, DUR + POST - 0.01);
+window.__timelines = window.__timelines || {};
+// J8 (pre): trong suốt; hộp của s08 (post) còn bay lên bên dưới. Nền kem chỉ bật khi s08 hết (sau 0.35s)
+master.set("#bg", { opacity: 1 }, PRE + 0.6);   // s08 giờ còn hộp bay lên tới 13.6 (post 0.6): nền kem chỉ bật khi s08 hết
+master.add(tl, PRE);
+window.__timelines["main"] = master;
+</script>
+</body>
+</html>

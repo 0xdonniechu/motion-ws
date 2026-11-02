@@ -3,6 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=1080, height=1920">
 <script src="gsap.min.js"></script>
+<script src="boil.js"></script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -227,6 +228,17 @@ tl.set("#ring", { opacity: 0 }, 0.25);
 
 // nền trôi nhẹ
 tl.fromTo("#plane", { y: 16 }, { y: -26, duration: 2.5, ease: "none" }, 0);
+// Đo từ gốc (30fps, 17.0-17.6, lệch giữa hai khung liền nhau ở dải đáy): lớp thẻ nền trượt LÊN 82 px (đỉnh 18 px/khung lúc 17.17-17.23) rồi
+// trượt xuống lại đúng 82 px (17.37-17.43), nửa sin ~0.5 s: 17.05 -> 17.30 -> 17.55 (tl 0.85 -> 1.10 -> 1.35).
+tl.to("#ui", { y: -82, duration: 0.25, ease: "sine.inOut" }, 0.85);
+tl.to("#ui", { y: 0, duration: 0.25, ease: "sine.inOut" }, 1.10);
+// Đo từ gốc: lúc 17.87 nền giật xuống nảy: -16 px rồi +8,+24,+32,+34 px (tốc độ 24,16,8,2 px/khung) trong 0.15 s, đứng yên tới 18.25;
+// trả về 0 trong lúc các thẻ bay ngang (18.3-18.45, bị thẻ che) để đuôi s10 khớp khung đầu s11 (J10).
+tl.to("#ui", { keyframes: [{ y: -16, duration: 0.033, ease: "none" }, { y: 34, duration: 0.13, ease: "power2.out" }] }, 1.67);
+tl.to("#ui", { y: 0, duration: 0.2, ease: "sine.inOut" }, 2.1);
+// BOIL đuôi (đo từ gốc 18.47-18.70): lớp thẻ nền trôi lên ~38 px theo nhịp 0,-4,-14,-26,-34,-38 rồi giật về 0.
+// Gốc giật về đúng khung đầu s11 (18.73); ở đây giật về 0 ở khung cuối của s10 (2.467) để J10 vẫn khớp-khung.
+boil(tl, "#ui", { mode: "saw", cycles: [[2.27, 0.1967, 38]], power: 1.3, dir: -1, start: 2.27, end: 2.4667, sync: true });
 
 // ----- chữ lớn: từng ký tự lật vào / ra -----
 function lettersIn(sel, t0, st) {
@@ -278,18 +290,19 @@ gsap.set(c8, { x: 50, y: 1360, width: 220, height: 220 }); gsap.set(c8.cw, { opa
 // trạng thái Code: [x, y, w, h, xoay]
 const CODE = [null, [-10, 770, 220, 220, -3], [620, 730, 200, 220, 2], [840, 730, 215, 250, 3], [300, 736, 230, 234, -2],
   [550, 1020, 230, 236, 2], [230, 1280, 300, 220, -3], [780, 1000, 270, 220, 4]];
+// gốc (30fps): ở 17.62 thanh ngang đổi ngay thành cột đứng, các thẻ lao về bố cục Code trong ~0.3 s (17.62-17.92), khởi động gắt (ease-out)
 cardEls.forEach((c, i) => {
-  const t0 = 1.42 + i * 0.025;
+  const t0 = 1.40 + i * 0.02;
   if (i === 0) {
-    tl.to(c, { x: 40, y: 970, width: 320, height: 290, duration: 0.36, ease: "power3.inOut" }, t0);
-    tl.to(c.querySelector(".hb"), { opacity: 0, duration: 0.15 }, t0);
-    tl.to(c.querySelector(".vb"), { opacity: 1, duration: 0.15 }, t0 + 0.15);
+    tl.to(c, { x: 40, y: 970, width: 320, height: 290, duration: 0.3, ease: "power3.out" }, t0);
+    tl.to(c.querySelector(".hb"), { opacity: 0, duration: 0.05 }, t0 + 0.02);
+    tl.to(c.querySelector(".vb"), { opacity: 1, duration: 0.05 }, t0 + 0.05);
     return;
   }
   const [x, y, w, h, rot] = CODE[i];
-  tl.to(c, { x: x, y: y, width: w, height: h, rotation: rot, duration: 0.38, ease: "power3.inOut" }, t0);
-  tl.to(c.querySelector(".hb"), { opacity: 0, duration: 0.14 }, t0);
-  tl.to(c.querySelector(".vb"), { opacity: 1, duration: 0.14 }, t0 + 0.14);
+  tl.to(c, { x: x, y: y, width: w, height: h, rotation: rot, duration: 0.32, ease: "power3.out" }, t0);
+  tl.to(c.querySelector(".hb"), { opacity: 0, duration: 0.05 }, t0 + 0.02);
+  tl.to(c.querySelector(".vb"), { opacity: 1, duration: 0.05 }, t0 + 0.05);
 });
 tl.fromTo(c8.cw, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(1.5)" }, 1.55);
 // sau khi Tasks mở: thẻ còn lại mờ dần, rơi xuống chồng ở đáy

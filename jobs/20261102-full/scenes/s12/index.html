@@ -185,11 +185,16 @@ function applyKicks() {
 }
 ent.fromTo(kclock, { t: 0 }, { t: 2.0, duration: 2.0, ease: "none", onUpdate: applyKicks }, 0);
 
-// sóng chấm cam quét từ trên xuống rồi tan
-sample.fromTo("#dots s", { opacity: 0, scale: 0.3 }, { opacity: 0.85, scale: 1, duration: 0.18, ease: "power1.out",
-  stagger: { grid: [20, 18], from: "start", axis: "y", each: 0.025 } }, 0.85);
-sample.to("#dots s", { opacity: 0, scale: 0.4, duration: 0.2, ease: "power1.in",
-  stagger: { grid: [20, 18], from: "start", axis: "y", each: 0.025 } }, 1.2);
+// sóng chấm cam: đo từ gốc (30fps) là HAI đợt dâng từ đáy lên, không phải một lượt quét từ trên xuống:
+// đợt 1 hiện ~19.97 (đáy) -> 20.1 (đầy), tan ~20.15-20.25; đợt 2 hiện ~20.4, tan ~20.55-20.65. (sample 0 = 19.0 trên đồng hồ gốc)
+sample.fromTo("#dots s", { opacity: 0, scale: 0.3 }, { opacity: 0.85, scale: 1, duration: 0.07, ease: "power1.out",
+  stagger: { grid: [20, 18], from: "end", axis: "y", each: 0.0065 } }, 0.97);
+sample.to("#dots s", { opacity: 0, scale: 0.4, duration: 0.07, ease: "power1.in",
+  stagger: { grid: [20, 18], from: "end", axis: "y", each: 0.004 } }, 1.15);
+sample.to("#dots s", { opacity: 0.85, scale: 1, duration: 0.06, ease: "power1.out",
+  stagger: { grid: [20, 18], from: "end", axis: "y", each: 0.004 } }, 1.4);
+sample.to("#dots s", { opacity: 0, scale: 0.4, duration: 0.06, ease: "power1.in",
+  stagger: { grid: [20, 18], from: "end", axis: "y", each: 0.004 } }, 1.55);
 
 const tl = gsap.timeline({ paused: true });
 // file bắt đầu ở 19.1 (pre 0.3): đồng hồ mẫu = file + 0.1 (khớp cũ: 19.4 -> 0.4)

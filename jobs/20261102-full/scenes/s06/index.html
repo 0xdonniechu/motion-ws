@@ -109,27 +109,40 @@ const NG = 5, ghostEls = [];
 for (let k = 0; k < NG; k++) {
   const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
   p.setAttribute("fill", "none"); p.setAttribute("stroke", k % 2 ? "#c4430c" : "#141414");
-  p.setAttribute("stroke-width", k % 2 ? 4 : 3); p.setAttribute("d", S[0]); p.setAttribute("id", "gh" + k);
+  p.setAttribute("stroke-width", 5); p.setAttribute("d", S[0]); p.setAttribute("id", "gh" + k);
   p.setAttribute("opacity", 0.85 - k * 0.08);
   ghosts.appendChild(p); ghostEls.push(p);
 }
 const raysG = document.getElementById("raysG");
-for (let i = 0; i < 18; i++) {
-  const a = rad(-10 + i * (200 / 17)), r = 1700;
+// tia nền: gốc có ~10 tia cách nhau 21.2° (không phải 18 tia/11.8°), nét ~24px; góc đo từ phương thẳng đứng hướng xuống
+for (let k = -5; k <= 5; k++) {
+  const a = rad(90 - 21.2 * k), r = 1700;   // a đo từ trục +x
   const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
   l.setAttribute("x1", 540); l.setAttribute("y1", 1000);
   l.setAttribute("x2", 540 + r * Math.cos(a)); l.setAttribute("y2", 1000 + r * Math.sin(a));
-  l.setAttribute("stroke", "#e4e0d7"); l.setAttribute("stroke-width", 9 + (i % 3) * 3);
+  l.setAttribute("stroke", "#e4e0d7"); l.setAttribute("stroke-width", 24);
   l.setAttribute("stroke-linecap", "round"); raysG.appendChild(l);
+}
+// "boil" của cả quạt tia (gốc, đo vị trí tia tại y=1840 mỗi khung 6.90-7.93): nhảy từng khung quanh vị trí giữa ±8°, có 3-4 khung giữ nguyên
+// (7.23-7.30, 7.67-7.70), nhảy lớn nhất ~11-17° giữa hai khung. Chuỗi góc đã mở bọc (mod 21.2°) theo bước nhỏ nhất. Bản cũ: trôi đều -6° -> +3° trong 1.15s.
+const RAYU = [-6.8, -9.1, -10.2, -13.7, -7.9, -18.3, -23.1, -25.1, -24.8, -24.7, -21.5, -21.5, -21.4, -30.1, -27.9, -18.9, -24.7, -26.6, -24.9, -22.8,
+  -28.3, -25.5, -14.1, -18.9, -18.9, -15.9, -11.6, -9.8, -19.9, -23.0, -22.2, -19.4];   // khung k <-> thật 6.90 + k/30  <-> tl 0.2 + k/30
+const RAYMEAN = -21;
+const RC = { t: 0 };
+function applyRays() {
+  const k = Math.min(RAYU.length - 1, Math.max(0, Math.round((RC.t - 0.2) * 30)));
+  const u = RC.t < 0.2 ? RAYU[0] : RAYU[k];
+  raysG.setAttribute("transform", `rotate(${(-(u - RAYMEAN)).toFixed(2)} 540 1000)`);
 }
 document.getElementById("shp").setAttribute("d", S[0]);
 
-// chip: các biến thể chữ (nhiễu khi đang morph) theo thời gian
-const CHIP = [
-  ['morphSVG: "#circle"', 0.00, 0.25], ['morphSV{}#>{&l', 0.25, 0.35], ['morphSVG: "#star{', 0.35, 0.45],
-  ['morphSVG: "#star"', 0.45, 0.57], ['morph<><', 0.57, 0.66], ['morphSVG: "#bl}{}', 0.66, 0.76],
-  ['morp{><#}{#}', 0.76, 0.85], ['morphSVG: "#sqt;###', 0.85, 0.95], ['mogt;{<<<', 0.95, 1.05],
-  ['morphSVG: ">', 1.05, 1.13], ['morphSVG: "#G"', 1.13, 1.2]];
+// chip: chữ nhiễu đổi từng 1-2 khung khi morph (đo theo khung từ gốc, mốc tl = thật - 6.70); bản cũ giữ mỗi biến thể 0.1s
+const CHIP0 = [['morphSVG: "#circle"', 0.15], ['m{>>>{', 0.283], ['morpt;>>>', 0.317], ['morphSV{}#>{&l', 0.35], ['morphSVG: >{&l', 0.383],
+  ['morphSVG: "#slt;{', 0.417], ['morphSVG: "#star{', 0.45], ['morphSVG: "#star"', 0.483], ['molt;<><', 0.617], ['morph<><', 0.65],
+  ['morphSVG><}', 0.683], ['morphSVG: ";<}', 0.717], ['morphSVG: "#bl}{}', 0.75], ['mlt;{><#}{#}', 0.817], ['morp{><#}{#}', 0.85],
+  ['morphSVG<{>#&', 0.883], ['morphSVG: ";{>&', 0.917], ['morphSVG: "#sqt;###', 0.95], ['morphSVG: "#square"', 0.983], ['mogt;{<<<', 1.05],
+  ['morphS#>>', 1.083], ['morphSVG:t;>', 1.117], ['morphSVG: ">', 1.15], ['morphSVG: "#G"', 1.2]];
+const CHIP = CHIP0.map(([t, a], i) => [t, a, i < CHIP0.length - 1 ? CHIP0[i + 1][1] : 99]);
 const chips = document.getElementById("chips");
 CHIP.forEach(([t], i) => { const d = document.createElement("div"); d.className = "pill"; d.id = "pc" + i; d.textContent = t; chips.appendChild(d); });
 
@@ -138,34 +151,34 @@ const PRE = 0.15, CAPOFF = 1.3167;
 const master = gsap.timeline({ paused: true });
 const tl = gsap.timeline();
 
-// cam: trong khung gốc hình chiếm 0.05s đầu để bật lên
 // J5: hình tròn nở ra từ chấm nhỏ sau khi chữ SplitText (s05, post) giãn + mờ
+// gốc (đo bbox thành phần cam, 540px, mốc tl = thật - 6.70): chấm 54px lúc .02, 114px lúc .12, rồi BẬT 1 khung tới 382px (đủ tròn) lúc .15,
+// vọt quá 436px (x1.14) lúc .18, 404 lúc .22, 393 lúc .25, 382 lúc .28 — đối ngược bản cũ: nở đều 4 khung, không vọt.
 gsap.set("#main", { opacity: 0, scale: 0.05, svgOrigin: "0 0" });
-tl.fromTo("#main", { scale: 0.05, opacity: 1, svgOrigin: "0 0" }, { scale: 1, opacity: 1, duration: 0.13, ease: "power2.in", immediateRender: false }, 0.04);
-tl.fromTo("#raysG", { opacity: 0, rotation: -6, transformOrigin: "540px 1000px" }, { rotation: 3, duration: 1.15, ease: "power1.out" }, 0.05);
+const POP = [[0.02, 0.07], [0.1, 0.15], [0.1333, 1.0], [0.1667, 1.14], [0.2, 1.06], [0.2333, 1.03], [0.2667, 1.0]];   // đã dịch -1 khung theo so khớp năng lượng gốc/remake
+tl.set("#main", { opacity: 1, scale: 0.05, svgOrigin: "0 0" }, 0.02 - 1 / 30);
+POP.forEach(([t, sc]) => tl.to("#main", { scale: sc, duration: 1 / 30, ease: "none", svgOrigin: "0 0" }, t - 1 / 30));
+tl.fromTo(RC, { t: 0 }, { t: 1.3, duration: 1.3, ease: "none", onUpdate: applyRays }, 0);
 tl.fromTo("#raysG", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out", immediateRender: false }, 0.05);
 
 // morph: tròn -> sao -> blob -> vuông -> G ; bóng ma lần lượt chậm hơn, to dần
-const TR = [[0.2, 0.15, "power2.inOut"], [0.52, 0.17, "power2.inOut"], [0.7, 0.14, "power2.inOut"], [0.86, 0.27, "power2.inOut"]];
+// gốc (diện tích cam theo khung): tròn->sao chỉ 0.07s (.25-.32), sao->blob 0.07s (.58-.65), blob->vuông .72-.85, vuông->G vỡ trong 3 khung (.97-1.08);
+// giữ hình ~0.25-0.3s giữa các cú đổi (yên) — bản cũ đổi 0.14-0.27s, chậm và đều.
+const TR = [[0.25, 0.07, "power1.inOut"], [0.58, 0.07, "power1.inOut"], [0.72, 0.12, "power1.inOut"], [0.97, 0.11, "power1.in"]];   // khớp đỉnh năng lượng theo khung với gốc
 const mainEls = [document.getElementById("shp")];
 TR.forEach(([t0, dur, ez], i) => {
   tl.fromTo("#shp", { attr: { d: S[i] } }, { attr: { d: S[i + 1] }, duration: dur, ease: ez, immediateRender: i === 0 }, t0);
   ghostEls.forEach((g, k) => {
-    tl.fromTo("#gh" + k, { attr: { d: S[i] } }, { attr: { d: S[i + 1] }, duration: dur + 0.1, ease: ez, immediateRender: i === 0 }, t0 + 0.05 * (k + 1));
+    tl.fromTo("#gh" + k, { attr: { d: S[i] } }, { attr: { d: S[i + 1] }, duration: dur + 0.1, ease: ez, immediateRender: i === 0 }, t0 + 0.045 * (k + 1));   // gốc: bóng ma ngoài cùng còn hình cũ tới ~0.2s sau thân
   });
 });
-// bóng ma phình ra và trôi lên-trái
+// bóng ma (đo trên gốc ở 7.2): 5 bản sao viền CHỈ DỊCH LÊN (không phóng to), cách nhau tăng dần: 20/54/95/150/250 px lên, ~2-20 px sang trái,
+// nét 5px đen/cam xen kẽ, đậm như thân. Bắn lên khi hình tròn bật, còn trồi tới ~7.1 (.14 -> .45). Bản cũ: mảnh mờ, phình to 3-15% rồi trôi chậm 1.2s.
+const GDY = [20, 54, 95, 150, 250], GDX = [3, 7, 11, 15, 20];
 ghostEls.forEach((g, k) => {
-  tl.fromTo("#gh" + k, { scale: 1, x: 0, y: 0, transformOrigin: "0px 0px" },
-    { scale: 1.03 + 0.04 * k, x: -6 * k, y: -22 * k, duration: 1.2, ease: "power1.out" }, 0);
-  tl.fromTo("#gh" + k, { opacity: 0 }, { opacity: 0.85 - k * 0.08, duration: 0.1 }, 0.2 + 0.03 * k);
+  tl.fromTo("#gh" + k, { x: 0, y: 0 }, { x: -GDX[k], y: -GDY[k], duration: 0.26 + 0.02 * k, ease: "power1.out" }, 0.14);
+  tl.fromTo("#gh" + k, { opacity: 0 }, { opacity: 0.95, duration: 1 / 30, ease: "none" }, 0.15 + 0.01 * k);
 });
-// nhún nhẹ khi đổi hình
-[0.28, 0.6, 0.78, 1.0].forEach((t, i) => {
-  tl.fromTo("#main", { scale: 1 }, { scale: 1.05, duration: 0.07, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, t);
-});
-tl.to("#shapeG", { rotation: -2, duration: 0.2, ease: "power1.inOut", transformOrigin: "0px 0px" }, 0.7);
-tl.to("#shapeG", { rotation: 0, duration: 0.3, ease: "power1.inOut" }, 0.9);
 
 // chip đổi chữ
 CHIP.forEach(([, t0, t1], i) => {

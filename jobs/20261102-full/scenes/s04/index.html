@@ -12,6 +12,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #streaks i { position: absolute; top: 0; width: 6px; height: 1920px; opacity: 0; }
 .layer { position: absolute; inset: 0; }
 
+#tband { position: absolute; left: 0; top: 0; width: 1080px; height: 640px; opacity: 0; background: linear-gradient(#f3f0ea 82%, rgba(243,240,234,0)); }
 #tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
 .cap { position: absolute; left: 130px; width: 900px; font: 500 78px/94px Inter, sans-serif; color: #141414; letter-spacing: -1.5px; white-space: nowrap; }
 .cap span { display: inline-block; opacity: 0; }
@@ -57,6 +58,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
     <div id="play"></div><div id="playT"></div>
   </div>
   <div class="clip layer" id="top" data-start="0" data-duration="2.35" data-track-index="2">
+    <div id="tband"></div>
     <div id="tag">AI Tips</div>
     <div class="cap" id="cL1"><span><em>GSAP</em></span> <span>mạnh</span> <span>nhất</span> <span>ở</span></div>
     <div class="cap" id="cL2"><span>những</span> <span>chuỗi</span> <span>chuyển</span></div>
@@ -82,19 +84,25 @@ hi.setAttribute("d", P_D);
 
 // ---------- chuỗi ô vuông ----------
 const COLS = ["#d4491b", "#e0a312", "#2f5bea", "#7a3cf0", "#1d8a52", "#ffffff", "#151311"];
-const N = 74, GAP = 27, SZ = 26;
+const N = 54, GAP = 28, SZ = 31;   // gốc đo: ô ~68px (vuông + viền), bước 56px, hơi chồng lên nhau
+const PAL = [0, 3, 5, 2, 6, 1, 4, 2, 5, 0, 6, 3, 1, 4];   // gốc: đủ 7 màu (cả đen, xanh dương, xanh lá) xen kẽ, tương phản mạnh
 const chain = document.getElementById("chain"), SQ = [];
 for (let i = 0; i < N; i++) {
   const g = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  g.setAttribute("x", -SZ / 2); g.setAttribute("y", -SZ / 2); g.setAttribute("width", SZ); g.setAttribute("height", SZ); g.setAttribute("rx", 4.5);
-  g.setAttribute("fill", COLS[(i * 5 + (i >> 2)) % 7]);
-  if (COLS[(i * 5 + (i >> 2)) % 7] === "#ffffff") { g.setAttribute("stroke", "#2a2622"); g.setAttribute("stroke-width", 1.2); }
+  const big = i === 0 || i === N - 1, sz = big ? 44 : SZ;   // gốc: ô đầu (cam đỏ) và ô đuôi (xanh lá) to hơn ~1.4 lần
+  g.setAttribute("x", -sz / 2); g.setAttribute("y", -sz / 2); g.setAttribute("width", sz); g.setAttribute("height", sz); g.setAttribute("rx", 5.5);
+  const ci = i === 0 ? 0 : i === N - 1 ? 4 : PAL[i % 14];
+  g.setAttribute("fill", COLS[ci]);
+  g.setAttribute("stroke", "#1a1714"); g.setAttribute("stroke-width", 2);
   chain.appendChild(g); SQ.push(g);
 }
 const H = { h: -40, hi: 0, hiOn: 0 };
+// gốc: chuỗi cũng bị "giật tick" cùng nhịp với thước (mỗi 8 khung: 5.333, 5.6 đo được +55 px thêm ở khung giật, tức +27.5 đơn vị)
+const JF = [136, 144, 152, 160, 168, 176], JU = 27.5;   // khung gốc f = t*30
 function drawChain() {
+  const fr = 123 + (H.h - 497) / 1600 * 30 + 1e-6, hh = H.h + JU * JF.filter(f => f + 1 <= fr).length;
   for (let i = 0; i < N; i++) {
-    const d = H.h - i * GAP;
+    const d = hh - i * GAP;
     const el = SQ[i];
     if (d < 0 || d >= LT - 2) { el.setAttribute("opacity", 0); continue; }
     const a = PTS[Math.floor(d)], b = PTS[Math.min(PTS.length - 1, Math.floor(d) + 2)];
@@ -111,7 +119,7 @@ function drawChain() {
   const g = document.getElementById("ruler"); let h = "";
   for (let x = 0; x <= 4200; x += 40) {
     const major = (x % 200 === 0);
-    h += `<rect x="${x - 1.5}" y="${major ? 1508 : 1514}" width="3" height="${major ? 56 : 30}" fill="#2a2622"/>`;
+    h += `<rect x="${x - 2.25}" y="${major ? 1508 : 1514}" width="4.5" height="${major ? 56 : 30}" fill="#2a2622"/>`;
     if (major) h += `<text x="${x}" y="1484" font-family="JBMono" font-size="21" fill="#8b867d" text-anchor="middle">${(x / 400).toFixed(1)}s</text>`;
   }
   for (let k = 0; k * 280 <= 4200; k++) {
@@ -154,16 +162,33 @@ tl.fromTo("#g1", { x: 0 }, { x: -900, duration: 1.9, ease: "none" }, 0);
 tl.fromTo("#g2", { x: -500 }, { x: 100, duration: 1.9, ease: "none" }, 0);
 tl.fromTo("#bgl", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 0.05);
 
-// thước thời gian cuộn nhanh, playhead cố định
-tl.fromTo("#ruler", { x: 180 }, { x: -3000, duration: 1.9, ease: "power1.out" }, 0);
+// thước thời gian: đo từng khung trên gốc (phase-correlation vùng thước, px@1080 mỗi khung).
+// Vận tốc hình chuông: -28 (4.30) tăng đều 1.85/khung tới -64 (5.00) rồi giảm đều tới -14 (5.93); thêm giật 1 khung mỗi 8 khung
+// (khung 136,144,...,176 theo đồng hồ gốc, bonus thêm 20,27,31,24,17,10 px) — pha giật là điều chỉnh "tick" của gốc. Ngược với bản cũ (nhanh trước, chậm sau).
+const RUL = [0], RF0 = 123, JOLT = { 136: 20, 144: 27, 152: 31, 160: 24, 168: 17, 176: 10 };   // khung gốc f = t*30; tl 0 = khung 123
+for (let k = 0; k < 70; k++) {
+  const f = RF0 + k;
+  const v = f < 129 ? 28 : f <= 150 ? 28 + 1.85 * (f - 129) : Math.max(8, 64 - 1.85 * (f - 150));
+  RUL.push(RUL[k] + v + (JOLT[f] || 0));
+}
+const RC = { t: 0 };
+function applyRuler() {
+  const q = RC.t * 30, k = Math.floor(q + 1e-6), fr = q - k;
+  const d = RUL[k] + (RUL[Math.min(k + 1, RUL.length - 1)] - RUL[k]) * fr;
+  document.getElementById("ruler").setAttribute("transform", `translate(${(180 - d).toFixed(2)} 0)`);
+}
+tl.fromTo(RC, { t: 0 }, { t: 2.3, duration: 2.3, ease: "none", onUpdate: applyRuler }, 0);
 
 // chuỗi ô vuông chạy dọc đường
-tl.fromTo(H, { h: -40 }, { h: LT + N * GAP + 40, duration: 2.8, ease: "power1.out", onUpdate: drawChain }, 0.05);
+// gốc (matchTemplate trên dải chuỗi ở đáy, 5.1-5.9): chuỗi chảy ĐỀU ~110 px/khung (=55 đơn vị 540) từ lúc vào tới khi ra khỏi màn, không chậm dần.
+// Bản cũ: ease power1.out (nhanh rồi chậm hẳn, chuỗi gần đứng yên sau 5.5). Gốc 4.27: đầu chuỗi đã ở cuối vòng ngoài (h~1000), đầu vào vòng trong ~4.36.
+// tl 0 = 4.10 thật; mốc đo đầu chuỗi qua các điểm trên đường: 4.383 tại s=950, 4.85 tại s=1700, 5.03 tại s=1944 (tốc độ 1600 đơn vị/s) => h = 497 + 1600 t
+tl.fromTo(H, { h: 497 }, { h: 497 + 1600 * 2.3, duration: 2.3, ease: "none", onUpdate: drawChain }, 0);
 
-// vệt cam chạy trên vòng trong
-tl.fromTo(H, { hi: 1180 }, { hi: 1560, duration: 0.5, ease: "none", onUpdate: drawChain, immediateRender: false }, 1.2);
-tl.fromTo(H, { hiOn: 0 }, { hiOn: 150, duration: 0.05, ease: "none", onUpdate: drawChain, immediateRender: false }, 1.2);
-tl.to(H, { hiOn: 0, duration: 0.15, ease: "none", onUpdate: drawChain }, 1.55);
+// vệt cam chạy trên vòng trong: dẫn trước ô xanh lục cuối chuỗi (gốc 5.37-5.9); đuôi chuỗi = h - N*GAP + giật ~ 1600*t - 1000 => qua 1180 lúc t=1.33
+tl.fromTo(H, { hi: 1180 }, { hi: 1560, duration: 0.24, ease: "none", onUpdate: drawChain, immediateRender: false }, 1.33);
+tl.fromTo(H, { hiOn: 0 }, { hiOn: 150, duration: 0.05, ease: "none", onUpdate: drawChain, immediateRender: false }, 1.31);
+tl.to(H, { hiOn: 0, duration: 0.12, ease: "none", onUpdate: drawChain }, 1.56);
 
 // logo GSAP + vòng
 tl.fromTo("#logo", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.15, ease: "back.out(2)" }, 0.1);
@@ -180,11 +205,11 @@ const put = (sel, ts) => document.querySelectorAll(sel + " span").forEach((s, i)
   tl.fromTo(s, { opacity: 0, color: "#77736c" }, { opacity: 1, color: "#141414", duration: 0.12, ease: "power2.out" }, ts[i]));
 put("#cL1", w1); put("#cL2", w2); put("#cL3", w3);
 // "GSAP" serif giữ nguyên màu cam
-tl.fromTo("#cL1 span:nth-of-type(1)", { opacity: 0, color: "#c9451c" }, { opacity: 1, color: "#c9451c", duration: 0.07 }, 0.05);
+tl.fromTo("#cL1 span:nth-of-type(1)", { opacity: 0, color: "#c9451c" }, { opacity: 1, color: "#c9451c", duration: 0.03 }, 0.04);
 
 window.__timelines = window.__timelines || {};
 // J3 (pre): cảnh trượt lên từ dưới, nhoè dọc, có vệt dọc; phần trước đó trong suốt để s03 lộ ra
-const SL = ["#bg", "#bgl", "#mid"], VB = { b: 0 }, SLIDE_AT = 0.18, SLIDE_D = 0.12;
+const SL = ["#bg", "#bgl", "#mid"], VB = { b: 0 }, SLIDE_AT = 0.18, SLIDE_D = 0.16;
 const SK = [[90, "#9a968f"], [210, "#c9451c"], [330, "#b5b0a8"], [470, "#9a968f"], [610, "#c9451c"], [760, "#b5b0a8"], [880, "#9a968f"], [990, "#c9451c"]];
 SK.forEach(([x, c], i) => { const d = document.createElement("i"); d.style.left = x + "px"; d.style.background = c; d.id = "sk" + i; document.getElementById("streaks").appendChild(d); });
 function setVB() {
@@ -192,11 +217,14 @@ function setVB() {
   SL.forEach(s => { document.querySelector(s).style.filter = VB.b > 0.3 ? "url(#vb)" : "none"; });
 }
 gsap.set(SL, { y: 1920 });
-main.fromTo(SL, { y: 1920 }, { y: 0, duration: SLIDE_D, ease: "power2.out", immediateRender: false }, SLIDE_AT);
+main.fromTo(SL, { y: 1920 }, { y: 0, duration: SLIDE_D, ease: "power1.out", immediateRender: false }, SLIDE_AT);
 main.fromTo(VB, { b: 46 }, { b: 0, duration: SLIDE_D + 0.03, ease: "power1.out", onUpdate: setVB, immediateRender: false }, SLIDE_AT);
 SK.forEach((_, i) => {
   main.fromTo("#sk" + i, { opacity: 0.6, y: 900 + (i % 3) * 300 }, { opacity: 0, y: -200, duration: 0.14, ease: "power1.out", immediateRender: false }, SLIDE_AT + 0.02 + i * 0.006);
 });
+// C1: gốc đổi phụ đề ngay khung 4.167 (còn "GSAP và Motion." ở 4.133, chỉ còn "GSAP" ở 4.167): dải kem phủ vùng phụ đề bật trong ~1 khung,
+// không đợi mép cảnh trượt từ dưới lên tới vùng chữ.
+main.fromTo("#tband", { opacity: 0 }, { opacity: 1, duration: 0.033, ease: "none", immediateRender: false }, 0.2);
 main.add(tl, PRE);
 // J4 (post): mờ dần về 0 trong 0.15s đầu của post, nền kem giữ để s05 đè lên
 // phụ đề cũ tắt cứng đúng tại mốc cắt (gốc: f179 còn, f180 đã sang "chữ" của s05)

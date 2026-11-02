@@ -67,16 +67,16 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="4.4" data-width="1080" data-height="1920" data-fps="30">
+<div id="root" data-composition-id="main" data-start="0" data-duration="4.65" data-width="1080" data-height="1920" data-fps="30">
   <div id="bg"></div>
-  <div id="dotbg" class="clip layer" data-start="0" data-duration="4.4" data-track-index="0"></div>
-  <div id="outl" class="clip layer" data-start="0" data-duration="4.4" data-track-index="1"></div>
-  <div id="flFar" class="clip layer" data-start="0" data-duration="4.4" data-track-index="2"></div>
-  <div id="mqL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="3">
+  <div id="dotbg" class="clip layer" data-start="0" data-duration="4.65" data-track-index="0"></div>
+  <div id="outl" class="clip layer" data-start="0" data-duration="4.65" data-track-index="1"></div>
+  <div id="flFar" class="clip layer" data-start="0" data-duration="4.65" data-track-index="2"></div>
+  <div id="mqL" class="clip layer" data-start="0" data-duration="4.65" data-track-index="3">
     <div id="mq1" class="mq"></div>
     <div id="mq2" class="mq"></div>
   </div>
-  <div id="boxL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="4">
+  <div id="boxL" class="clip layer" data-start="0" data-duration="4.65" data-track-index="4">
     <svg id="orbit" viewBox="0 0 1080 1920" width="1080" height="1920"><ellipse cx="540" cy="1340" rx="470" ry="170" fill="none" stroke="#8d887f" stroke-width="3" stroke-dasharray="14 12"/></svg>
     <div id="shadow"></div>
     <div id="cubeWrap"><div id="tilt"><div id="spin">
@@ -88,24 +88,17 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
       <div class="fly" id="fyU"><div class="orient" style="transform: rotateX(-90deg) translateZ(250px)"><div class="face" id="fBot"></div></div></div>
     </div></div></div>
   </div>
-  <div id="flNear" class="clip layer" data-start="0" data-duration="4.4" data-track-index="5"></div>
-  <div id="uiL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="6">
+  <div id="flNear" class="clip layer" data-start="0" data-duration="4.65" data-track-index="5"></div>
+  <div id="uiL" class="clip layer" data-start="0" data-duration="4.65" data-track-index="6">
     <div id="scrub">SCRUB</div>
     <div id="labs"></div>
     <div id="trk"></div><div id="hdl"></div>
     <div id="sy"></div>
   </div>
-  <div id="cover" class="clip layer" data-start="0" data-duration="4.4" data-track-index="9">
-    <svg width="1080" height="1920" viewBox="0 0 1080 1920" id="coverSvg" style="position:absolute;left:0;top:0">
-      <defs><pattern id="plaid" width="72" height="72" patternUnits="userSpaceOnUse">
-        <rect width="72" height="72" fill="#f3f0e9"/>
-        <rect x="2" y="2" width="31" height="31" rx="8" fill="#c4430c"/><rect x="38" y="2" width="31" height="31" rx="8" fill="#141414"/>
-        <rect x="2" y="38" width="31" height="31" rx="8" fill="#141414"/><rect x="38" y="38" width="31" height="31" rx="8" fill="#c4430c"/>
-      </pattern></defs>
-      <rect id="coverR" width="1080" height="1920" fill="url(#plaid)"/>
-    </svg>
+  <div id="cover" class="clip layer" data-start="0" data-duration="4.65" data-track-index="9">
+    <canvas id="coverSvg" width="1080" height="1920" style="position:absolute;left:0;top:0"></canvas>
   </div>
-  <div id="capL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="7">
+  <div id="capL" class="clip layer" data-start="0" data-duration="4.65" data-track-index="7">
     <div id="tag">AI Tips</div>
     <div class="ph" id="p0" style="width:820px;letter-spacing:-1.5px">cả nghìn ô gợn sóng cùng một lúc.</div>
     <div class="ph" id="p1"><span><em>Cuộn</em></span> <span>tới</span> <span>đâu,</span></div>
@@ -178,9 +171,21 @@ setCover();
 tl.to(CV, { e: 2100, duration: 0.15, ease: "none", onUpdate: setCover, immediateRender: false }, 0.195);
 // vùng chấm co nhỏ thành mảng kem (cảnh hộp lộ qua) ở giữa-dưới trước khi mép quét tới
 const BL = { r: 0 };
-const setBlob = () => { const r = BL.r, m = r > 1 ? `radial-gradient(ellipse ${r * 1.05}px ${r}px at 520px 1420px, rgba(0,0,0,0.12) 0, rgba(0,0,0,0.12) ${r * 0.35}px, #000 ${r}px)` : "none";
-  const el = document.getElementById("coverSvg"); el.style.webkitMaskImage = m; el.style.maskImage = m; };
-tl.to(BL, { r: 460, duration: 0.12, ease: "power1.out", onUpdate: setBlob, immediateRender: false }, 0.0);
+// lưới halftone cam-đen của s07 (ô 36 px, xen kẽ cam/đen): gốc 9.2-9.45 có vùng sáng nở dần từ giữa-dưới, ô co lại quanh mép vùng sáng và gợn sóng chạy ra ngoài
+const cvs = document.getElementById("coverSvg"), cx2 = cvs.getContext("2d");
+const setBlob = () => {
+  const R = BL.r; cx2.clearRect(0, 0, 1080, 1920);
+  for (let j = 0; j < 54; j++) for (let i = 0; i < 30; i++) {
+    const x = i * 36 + 18, y = j * 36 + 18, d = Math.hypot((x - 520) / 1.05, y - 1420);
+    let w = R <= 1 ? 1 : Math.min(1, Math.max(0.1, (d - R * 0.55) / 320));
+    if (R > 1) w *= 0.88 + 0.12 * Math.sin(d / 55 - R / 38);
+    const sz = 31 * Math.min(1, w); if (sz < 2) continue;
+    cx2.fillStyle = (i + j) % 2 ? "#141414" : "#c4430c";
+    cx2.beginPath(); cx2.roundRect(x - sz / 2, y - sz / 2, sz, sz, sz * 0.26); cx2.fill();
+  }
+};
+setBlob();
+tl.to(BL, { r: 1100, duration: 0.24, ease: "power1.out", onUpdate: setBlob, immediateRender: false }, 0.0);
 
 // nền
 tl.to("#dotbg", { opacity: 0.55, duration: 0.35 }, 1.5);
@@ -197,10 +202,16 @@ tl.fromTo("#mq1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
 // hộp: ráp từ 6 tấm bay vào, rồi xoay theo scrollY
 const FLY = { fyF: [-700, -500, 300, 25, -70, -60], fyR: [650, -350, 500, -30, 120, 40], fyB: [-450, 700, -250, 80, -40, 25],
   fyL: [500, 560, 380, -60, 70, -50], fyT: [-420, -800, 100, 90, 30, -40], fyU: [380, 800, -200, -70, -60, 70] };
+// gốc (9.45-9.85): 6 tấm bay rất nhanh và to (gần ống kính), quay mạnh, nắp đóng phẳng ~9.82 rồi khối nảy; bản cũ chậm, nắp còn hở tới ~10.0
 Object.entries(FLY).forEach(([id, [x, y, z, rx, ry, rz]], i) => {
-  tl.fromTo("#" + id, { x, y, z, rotationX: rx * 3, rotationY: ry * 3, rotationZ: rz * 3, opacity: 0 },
-    { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 0.5, ease: "back.out(1.1)" }, 0.12 + i * 0.05);
+  tl.fromTo("#" + id, { x: x * 1.5, y: y * 1.5, z: z * 1.8 + 300, rotationX: rx * 6, rotationY: ry * 6, rotationZ: rz * 6, opacity: 0 },
+    { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 0.42, ease: "back.out(1.4)" }, 0.14 + i * 0.022);
 });
+// nảy khi đáp (9.85-10.1): khối chìm rồi bật lên, tắt dần
+tl.to("#cubeWrap", { y: 70, duration: 0.09, ease: "power2.in" }, 0.62);
+tl.to("#cubeWrap", { y: -38, duration: 0.12, ease: "power2.out" }, 0.71);
+tl.to("#cubeWrap", { y: 18, duration: 0.1, ease: "sine.inOut" }, 0.83);
+tl.to("#cubeWrap", { y: 0, duration: 0.1, ease: "sine.inOut" }, 0.93);
 tl.fromTo("#tilt", { rotationX: -8, y: -30 }, { rotationX: -20, y: 0, duration: 0.7, ease: "power2.out" }, 0.12);
 // xoay Y: SCROLL -> SCRUB -> GSAP -> PIN -> SCROLL
 const SP = [[0.12, -60], [0.75, -28], [1.5, -22], [1.9, -20], [2.025, 15], [2.15, 45], [2.275, 75], [2.4, 125], [2.525, 175], [2.65, 215],
@@ -208,7 +219,7 @@ const SP = [[0.12, -60], [0.75, -28], [1.5, -22], [1.9, -20], [2.025, 15], [2.15
 tl.set("#spin", { rotationY: SP[0][1] }, 0);
 for (let k = 1; k < SP.length; k++) tl.to("#spin", { rotationY: SP[k][1], duration: SP[k][0] - SP[k - 1][0], ease: k < 4 ? "sine.inOut" : "none" }, SP[k - 1][0]);
 // nghiêng Z nhẹ khi quay
-const RZ = [[0.12, 8], [0.4, -6], [0.75, 3], [1.5, -2], [1.9, -2], [2.15, -9], [2.5, 4], [2.9, -3], [3.3, 0], [3.8, 0]];
+const RZ = [[0.12, 8], [0.3, -14], [0.5, 10], [0.65, -9], [0.8, 5], [0.95, -3], [1.1, 1.5], [1.5, -2], [1.9, -2], [2.15, -9], [2.5, 4], [2.9, -3], [3.3, 0], [3.8, 0]];
 tl.set("#tilt", { rotationZ: RZ[0][1] }, 0);
 for (let k = 1; k < RZ.length; k++) tl.to("#tilt", { rotationZ: RZ[k][1], duration: RZ[k][0] - RZ[k - 1][0], ease: "sine.inOut" }, RZ[k - 1][0]);
 tl.fromTo("#cubeWrap", { y: 0, scale: 1 }, { y: 0, scale: 1.07, duration: 0.35, ease: "power1.inOut" }, 3.45);
@@ -255,11 +266,16 @@ tl.set("#p0", { opacity: 0 }, 0.1);
 
 window.__timelines = window.__timelines || {};
 // J8 (post): hộp phóng to rồi bay lên khỏi mép trên (s09 đè lên với lớp xám + nền tối trồi từ dưới)
-tl.to("#cubeWrap", { scale: 1.9, x: -20, y: -330, duration: 0.2, ease: "power2.out" }, 3.74);
-tl.to("#tilt", { rotationX: 38, rotationZ: -6, duration: 0.45, ease: "power1.in" }, 3.8);
+// Đo từ gốc (30fps, 13.0-13.6): hộp lớn lên rồi trôi lên đều ~2000-2300 px/s từ ~13.04 (mép trên chạm đỉnh khung ~13.30, mép dưới qua y=670 lúc 13.33
+// và y=330 lúc 13.50, hết hẳn ~13.57); vòng quỹ đạo + bóng đi cùng hộp; thanh đỏ/bộ đếm scrollY đứng yên rồi mất. => post 0.6 s (tl 3.8-4.4).
+tl.to("#cubeWrap", { scale: 1.8, x: -20, duration: 0.22, ease: "power2.out" }, 3.84);
+tl.to("#cubeWrap", { scale: 1.6, duration: 0.3, ease: "none" }, 4.06);   // gốc: khối lượng cam giảm đều sau đỉnh 13.23 (hộp xa dần)
+tl.to("#tilt", { rotationX: 30, rotationZ: -6, duration: 0.5, ease: "power1.out" }, 3.84);
 tl.set("#labs", { opacity: 0 }, 3.8);
 tl.to("#flNear, #flFar", { opacity: 0, duration: 0.05 }, 3.8);
-tl.to("#boxL, #mqL, #uiL", { y: -1900, duration: 0.3, ease: "power1.in" }, 3.8);
+tl.to("#boxL, #mqL", { y: -1100, duration: 0.55, ease: "none" }, 3.86);
+tl.to("#uiL", { opacity: 0, duration: 0.1, ease: "none" }, 4.3);
+tl.to({}, { duration: 0.01 }, 4.39);   // kéo dài timeline tới hết post 0.6 s
 tl.set("#capL", { opacity: 0 }, 3.84);
 tl.to("#outl, #scrub", { opacity: 0, duration: 0.06 }, 3.8);
 
