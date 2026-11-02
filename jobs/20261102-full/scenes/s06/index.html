@@ -3,6 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=1080, height=1920">
 <script src="gsap.min.js"></script>
+<script src="morph.js"></script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,7 +40,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
           <stop offset="0" stop-color="#d4501a"/><stop offset="0.28" stop-color="#c4430c"/><stop offset="1" stop-color="#c4430c"/>
         </linearGradient>
       </defs>
-      <g id="shapeG" transform="translate(540 950)">
+      <g id="shapeG">
         <g id="ghosts"></g>
         <g id="main"><path id="shp" fill="url(#gl)" stroke="#141414" stroke-width="9" stroke-linejoin="round" d=""/></g>
       </g>
@@ -53,55 +54,10 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
   </div>
 </div>
 <script>
-// ---------- hình học: mọi hình là đa giác N điểm lấy mẫu theo độ dài cung (xác định) ----------
-const N = 220;
-function resample(poly, n) {
-  const m = poly.length; const cum = [0];
-  for (let i = 0; i < m; i++) {
-    const a = poly[i], b = poly[(i + 1) % m];
-    cum.push(cum[i] + Math.hypot(b[0] - a[0], b[1] - a[1]));
-  }
-  const L = cum[m]; const out = []; let k = 0;
-  for (let i = 0; i < n; i++) {
-    const d = (i * L) / n;
-    while (cum[k + 1] < d) k++;
-    const a = poly[k], b = poly[(k + 1) % m]; const f = (d - cum[k]) / (cum[k + 1] - cum[k] || 1);
-    out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
-  }
-  return out;
-}
+// ---------- hình học: shared/morph.js (đa giác N điểm; bbox từng khung đo từ gốc; hàm thuần của thời gian) ----------
 const rad = d => (d * Math.PI) / 180;
-
-// tròn
-const circle = []; for (let i = 0; i < 360; i++) { const a = rad(i - 90); circle.push([385 * Math.cos(a), 385 * Math.sin(a)]); }
-// sao 5 cánh (lệch nhẹ như vẽ tay)
-const star = []; for (let i = 0; i < 10; i++) {
-  const a = rad(i * 36 - 90), r = i % 2 ? 215 : 450;
-  star.push([r * Math.cos(a) + (i % 3) * 4, r * Math.sin(a) + 40 + ((i * 7) % 5) * 3]);
-}
-// blob
-const blob = []; for (let i = 0; i < 360; i++) {
-  const a = rad(i - 90), r = 375 * (1 + 0.075 * Math.sin(2 * a + 0.8) + 0.05 * Math.sin(3 * a + 2.1));
-  blob.push([r * Math.cos(a) * 1.02, r * Math.sin(a) * 0.98]);
-}
-// vuông bo (siêu elip), nghiêng nhẹ
-const sq = []; for (let i = 0; i < 360; i++) {
-  const a = rad(i - 90), c = Math.cos(a), s = Math.sin(a), n = 5;
-  const r = 395 / Math.pow(Math.pow(Math.abs(c), n) + Math.pow(Math.abs(s), n), 1 / n);
-  const x = r * c, y = r * s, t = rad(-2.5);
-  sq.push([x * Math.cos(t) - y * Math.sin(t), x * Math.sin(t) + y * Math.cos(t)]);
-}
-// chữ G (một đường viền kín, chữ nghiêng)
-const G = []; { const a = 330, b = 430, ai = 175, bi = 280;
-  for (let p = -90; p <= -40; p += 2) G.push([a * Math.cos(rad(p)), b * Math.sin(rad(p))]);
-  for (let p = -40; p >= -336; p -= 3) G.push([ai * Math.cos(rad(p)), bi * Math.sin(rad(p))]);
-  const iy = bi * Math.sin(rad(24));
-  G.push([ai * Math.cos(rad(24)), iy], [20, iy], [20, -10], [a * 0.985, -10]);
-  for (let p = -2; p <= 268; p += 3) G.push([a * Math.cos(rad(p)), b * Math.sin(rad(p))]);
-  for (let i = 0; i < G.length; i++) G[i] = [G[i][0] - 0.2 * G[i][1] - 20, G[i][1] + 10];
-}
-const toD = pts => "M" + pts.map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join("L") + "Z";
-const S = [circle, star, blob, sq, G].map(p => toD(resample(p, N)));
+// lịch morph (tc = giây của cảnh): khớp đỉnh năng lượng theo khung với gốc
+const TR = [[0.25, 0.07, "power1.inOut"], [0.58, 0.07, "power1.inOut"], [0.72, 0.12, "power1.inOut"], [0.97, 0.11, "power1.in"]];
 
 // ---------- DOM ----------
 const ghosts = document.getElementById("ghosts");
@@ -109,8 +65,7 @@ const NG = 5, ghostEls = [];
 for (let k = 0; k < NG; k++) {
   const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
   p.setAttribute("fill", "none"); p.setAttribute("stroke", k % 2 ? "#c4430c" : "#141414");
-  p.setAttribute("stroke-width", 5); p.setAttribute("d", S[0]); p.setAttribute("id", "gh" + k);
-  p.setAttribute("opacity", 0.85 - k * 0.08);
+  p.setAttribute("stroke-width", 5); p.setAttribute("id", "gh" + k); p.setAttribute("opacity", 0);
   ghosts.appendChild(p); ghostEls.push(p);
 }
 const raysG = document.getElementById("raysG");
@@ -134,7 +89,6 @@ function applyRays() {
   const u = RC.t < 0.2 ? RAYU[0] : RAYU[k];
   raysG.setAttribute("transform", `rotate(${(-(u - RAYMEAN)).toFixed(2)} 540 1000)`);
 }
-document.getElementById("shp").setAttribute("d", S[0]);
 
 // chip: chữ nhiễu đổi từng 1-2 khung khi morph (đo theo khung từ gốc, mốc tl = thật - 6.70); bản cũ giữ mỗi biến thể 0.1s
 const CHIP0 = [['morphSVG: "#circle"', 0.15], ['m{>>>{', 0.283], ['morpt;>>>', 0.317], ['morphSV{}#>{&l', 0.35], ['morphSVG: >{&l', 0.383],
@@ -151,34 +105,27 @@ const PRE = 0.15, CAPOFF = 1.3167;
 const master = gsap.timeline({ paused: true });
 const tl = gsap.timeline();
 
-// J5: hình tròn nở ra từ chấm nhỏ sau khi chữ SplitText (s05, post) giãn + mờ
-// gốc (đo bbox thành phần cam, 540px, mốc tl = thật - 6.70): chấm 54px lúc .02, 114px lúc .12, rồi BẬT 1 khung tới 382px (đủ tròn) lúc .15,
-// vọt quá 436px (x1.14) lúc .18, 404 lúc .22, 393 lúc .25, 382 lúc .28 — đối ngược bản cũ: nở đều 4 khung, không vọt.
-gsap.set("#main", { opacity: 0, scale: 0.05, svgOrigin: "0 0" });
-const POP = [[0.02, 0.07], [0.1, 0.15], [0.1333, 1.0], [0.1667, 1.14], [0.2, 1.06], [0.2333, 1.03], [0.2667, 1.0]];   // đã dịch -1 khung theo so khớp năng lượng gốc/remake
-tl.set("#main", { opacity: 1, scale: 0.05, svgOrigin: "0 0" }, 0.02 - 1 / 30);
-POP.forEach(([t, sc]) => tl.to("#main", { scale: sc, duration: 1 / 30, ease: "none", svgOrigin: "0 0" }, t - 1 / 30));
+// Hình + bóng ma: MỘT hàm thuần của thời gian tc (xem shared/morph.js). Gốc: chấm 227px ở f4 (0.10s), tròn 763px bật ở f5 (0.133s) rồi bbox
+// đổi từng khung vài px (một nhịp phình +3-6% ở f13-f15 của sao) suốt cảnh — bản cũ giữ nguyên hình ở mọi khoảng yên (diện tích đổi < 0.01%).
+// Bóng ma (đo gốc, Morph.ghost): bản của hình hiện tại dịch lên 50, 100, 150, 200, 250 px khi hình là sao (đứng yên so với mép hình), 1 nét cách 38-66 px ở các hình sau;
+// nét 5px đen/cam xen kẽ từ nét gần nhất (đen). Chồng sao còn loe ngang (Morph.ghostW; đo theo hàng y 1100 và 700, xem shared/morph.js).
+const shpEl = document.getElementById("shp"), DRV = { t: 0 };
+function drawMorph() {
+  // Cảnh có pre 0.15s = 4.5 khung nên file .mov lấy mẫu dòng thời gian ở nửa khung (tl = (f - 0.5)/30 ở khung ghép f, đo trên remake: f04 hiện hình của f05
+  // khi tra theo khung tròn). Bảng bbox khoá theo khung gốc f (f = 1 là 6.70s): f = round(tl*30 + 0.5), chịu được sai số nửa khung; lịch morph TR tra theo tl liên tục.
+  const tc = DRV.t, f = Math.round(tc * 30 + 0.5);
+  shpEl.setAttribute("opacity", f >= 4 ? 1 : 0);
+  const pts = f >= 4 ? Morph.frame(tc, 0, TR, f) : null, gd = pts ? Morph.ghost(f) : [];
+  if (pts) shpEl.setAttribute("d", Morph.d(pts));
+  ghostEls.forEach((g, k) => {
+    g.setAttribute("opacity", k < gd.length ? 0.95 : 0);
+    if (k < gd.length) { const [sx, tx] = Morph.ghostW(k, gd.length); g.setAttribute("d", Morph.d(pts.map(p => [540 + (p[0] - 540) * sx + tx, p[1] - gd[k]]))); }
+  });
+}
+drawMorph();
 tl.fromTo(RC, { t: 0 }, { t: 1.3, duration: 1.3, ease: "none", onUpdate: applyRays }, 0);
 tl.fromTo("#raysG", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out", immediateRender: false }, 0.05);
-
-// morph: tròn -> sao -> blob -> vuông -> G ; bóng ma lần lượt chậm hơn, to dần
-// gốc (diện tích cam theo khung): tròn->sao chỉ 0.07s (.25-.32), sao->blob 0.07s (.58-.65), blob->vuông .72-.85, vuông->G vỡ trong 3 khung (.97-1.08);
-// giữ hình ~0.25-0.3s giữa các cú đổi (yên) — bản cũ đổi 0.14-0.27s, chậm và đều.
-const TR = [[0.25, 0.07, "power1.inOut"], [0.58, 0.07, "power1.inOut"], [0.72, 0.12, "power1.inOut"], [0.97, 0.11, "power1.in"]];   // khớp đỉnh năng lượng theo khung với gốc
-const mainEls = [document.getElementById("shp")];
-TR.forEach(([t0, dur, ez], i) => {
-  tl.fromTo("#shp", { attr: { d: S[i] } }, { attr: { d: S[i + 1] }, duration: dur, ease: ez, immediateRender: i === 0 }, t0);
-  ghostEls.forEach((g, k) => {
-    tl.fromTo("#gh" + k, { attr: { d: S[i] } }, { attr: { d: S[i + 1] }, duration: dur + 0.1, ease: ez, immediateRender: i === 0 }, t0 + 0.045 * (k + 1));   // gốc: bóng ma ngoài cùng còn hình cũ tới ~0.2s sau thân
-  });
-});
-// bóng ma (đo trên gốc ở 7.2): 5 bản sao viền CHỈ DỊCH LÊN (không phóng to), cách nhau tăng dần: 20/54/95/150/250 px lên, ~2-20 px sang trái,
-// nét 5px đen/cam xen kẽ, đậm như thân. Bắn lên khi hình tròn bật, còn trồi tới ~7.1 (.14 -> .45). Bản cũ: mảnh mờ, phình to 3-15% rồi trôi chậm 1.2s.
-const GDY = [20, 54, 95, 150, 250], GDX = [3, 7, 11, 15, 20];
-ghostEls.forEach((g, k) => {
-  tl.fromTo("#gh" + k, { x: 0, y: 0 }, { x: -GDX[k], y: -GDY[k], duration: 0.26 + 0.02 * k, ease: "power1.out" }, 0.14);
-  tl.fromTo("#gh" + k, { opacity: 0 }, { opacity: 0.95, duration: 1 / 30, ease: "none" }, 0.15 + 0.01 * k);
-});
+tl.fromTo(DRV, { t: 0 }, { t: 1.35, duration: 1.35, ease: "none", immediateRender: false, onUpdate: drawMorph }, 0);
 
 // chip đổi chữ
 CHIP.forEach(([, t0, t1], i) => {
