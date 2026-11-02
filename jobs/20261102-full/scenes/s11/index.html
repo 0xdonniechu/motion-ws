@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<script src="boil.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+.layer { position: absolute; inset: 0; }
+
+#scene { background: #efece6; }
+
+/* nền: giao diện mờ nghiêng phối cảnh */
+#ui .plane { position: absolute; inset: 0; filter: blur(2px); opacity: .92; }
+#ui .t { position: absolute; background: #fbfaf7; box-shadow: 0 5px 0 #ddd8cf; }
+#ui .t i { position: absolute; left: 14%; top: 16%; width: 26%; height: 34%; border-radius: 50%; }
+#ui .t b { position: absolute; left: 14%; top: 60%; width: 52%; height: 8%; border-radius: 6px; background: #d4d0c8; }
+#ui .t u { position: absolute; right: 12%; bottom: 14%; width: 14%; height: 34%; border-radius: 4px; }
+#fade { background: linear-gradient(#efece6 0, #efece6 340px, rgba(239,236,230,0) 560px); }
+
+/* J11 (post): nền giao diện nghiêng của s12 (sao chép đúng) lộ ra khi thẻ Tasks rơi */
+#sp { background: #efece6; opacity: 0; perspective: 1400px; }
+#sp .plane { position: absolute; left: -200px; top: 500px; width: 1480px; height: 1700px;
+  transform: rotateX(48deg); transform-origin: 50% 0; display: grid;
+  grid-template-columns: repeat(5, 1fr); gap: 46px; filter: blur(5px); opacity: .55; }
+#sp .card { background: #fbfaf7; border-radius: 34px; box-shadow: 0 10px 0 #ddd8cf; position: relative; height: 260px; }
+#sp .card i { position: absolute; left: 34px; top: 40px; width: 52px; height: 52px; border-radius: 50%; }
+#sp .card b { position: absolute; left: 34px; top: 120px; width: 60%; height: 18px; border-radius: 9px; background: #d4d0c8; }
+#sp .card u { position: absolute; left: 34px; bottom: 36px; width: 40px; height: 70px; border-radius: 6px; }
+#tabs2 { opacity: 0; }
+#tabs2 .pill { position: absolute; top: 650px; height: 74px; border-radius: 37px; background: #f7f5f0;
+  border: 2px solid #e4e0d8; font: 600 30px/70px Inter, sans-serif; color: #2a2a2a; text-align: center; }
+#tabs2 .pill.on { background: #141414; border-color: #141414; color: #fff; }
+#dots s { position: absolute; width: 28px; height: 28px; border-radius: 50%; background: #c9451c; }
+
+.ttl { position: absolute; left: 0; width: 1080px; top: 392px; text-align: center; white-space: nowrap;
+  font: 400 230px/1 Anton, sans-serif; letter-spacing: -5px; }
+.ttl span { display: inline-block; background: linear-gradient(#2a2a2a 30%, #8d8a86 100%);
+  -webkit-background-clip: text; color: transparent; padding: 0 1px; }
+.ttl span.sp { width: 26px; }
+.ttl span { position: relative; }
+.ttl .cr { position: absolute; left: 50%; margin-left: -42px; top: -34px; width: 84px; height: 46px; background: #2a2a2a;
+  clip-path: polygon(0 100%, 50% 0, 100% 100%, 76% 100%, 50% 44%, 24% 100%); }
+.ttl .dt { position: absolute; left: 50%; margin-left: -12px; top: 226px; width: 24px; height: 24px; background: #8d8a86; }
+.ttl .ac { position: absolute; left: 50%; margin-left: -8px; top: -38px; width: 40px; height: 54px; background: #2a2a2a;
+  clip-path: polygon(34% 0, 100% 0, 52% 100%, 0 100%); }
+.ttl .hn { position: absolute; left: 74%; top: 18px; width: 24px; height: 46px; background: #2a2a2a; border-radius: 12px; transform: rotate(18deg); }
+
+#tabs .pill { position: absolute; top: 650px; height: 74px; border-radius: 37px; background: #f7f5f0;
+  border: 2px solid #e4e0d8; font: 600 30px/70px Inter, sans-serif; color: #2a2a2a; text-align: center; }
+#tabsel { position: absolute; left: 0; top: 650px; height: 74px; border-radius: 37px; background: #141414; }
+
+.cw { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.c { position: absolute; left: 0; top: 0; width: 500px; height: 180px; border: 4px solid #141414; border-radius: 24px;
+  background: #fff; box-shadow: 7px 9px 0 #141414; overflow: hidden; }
+.c .av { position: absolute; left: 22px; top: 18px; width: 54px; height: 54px; border-radius: 50%; }
+.c .tb { position: absolute; left: 96px; top: 28px; width: 150px; height: 10px; border-radius: 5px; background: #141414; }
+.c .sb { position: absolute; left: 96px; top: 50px; width: 66px; height: 8px; border-radius: 4px; background: #cfcbc3; }
+.c .hb { position: absolute; left: 20px; top: 84px; width: 444px; height: 56px; display: flex; gap: 8px; align-items: flex-end; }
+.c .hb b { flex: 1; border-radius: 5px; }
+.c .pr { position: absolute; left: 20px; top: 150px; width: 444px; height: 5px; border-radius: 3px; background: #e0dcd3; }
+.c .pr i { display: block; height: 5px; border-radius: 3px; }
+.c .vb { position: absolute; left: 14%; right: 12%; top: 40%; bottom: 14%; display: flex; gap: 6px; align-items: flex-end; opacity: 0; }
+.c .vb b { flex: 1; border-radius: 3px; }
+.c.dark { background: #1b1714; }
+.c.dark .tb { background: #f2efe9; }
+.c.dark .sb { background: #6a645d; }
+.c.dark .pr { background: #3a342e; }
+
+#logo { position: absolute; left: 114px; top: 1272px; width: 116px; height: 116px; border-radius: 26px; background: #fff;
+  border: 5px solid #141414; box-shadow: 5px 6px 0 #141414; }
+#logo svg { position: absolute; left: 21px; top: 21px; }
+#burst { position: absolute; left: 172px; top: 1330px; width: 0; height: 0; }
+#burst .ring { position: absolute; left: -90px; top: -90px; width: 180px; height: 180px; border-radius: 50%; border: 3px solid #c9451c; }
+#burst .tk { position: absolute; left: -2px; top: -110px; width: 4px; height: 22px; background: #c9451c; border-radius: 2px; transform-origin: 2px 110px; }
+
+#tasks { position: absolute; left: 0; top: 0; width: 320px; height: 290px; border-radius: 36px; background: #17120f;
+  box-shadow: 12px 12px 0 #c9451c; overflow: hidden; opacity: 0; }
+#tasks .dot { position: absolute; left: 36px; top: 58px; width: 50px; height: 50px; border-radius: 50%; background: #2f5bea; }
+#tasks .h1 { position: absolute; left: 112px; top: 40px; font: 800 46px/1 Inter, sans-serif; color: #fff; letter-spacing: -1px; }
+#tasks .h2 { position: absolute; left: 112px; top: 100px; font: 500 19px/1 JBMono, monospace; color: #6f675d; white-space: nowrap; }
+#tasks .badge { position: absolute; left: 776px; top: 24px; width: 190px; height: 126px; border-radius: 22px; background: #c9451c; }
+#tasks .badge span { position: absolute; inset: 0; text-align: center; font: 400 104px/126px Anton, sans-serif; color: #fff; opacity: 0; }
+.chip { position: absolute; left: 0; top: 0; width: 466px; height: 112px; border-radius: 28px; background: #fbfaf6;
+  box-shadow: 0 4px 0 #cfcac0; opacity: 0; }
+.chip .ic { position: absolute; left: 20px; top: 20px; width: 72px; height: 72px; border-radius: 18px; color: #fff;
+  font: italic 800 42px/72px Inter, sans-serif; text-align: center; }
+.chip .nm { position: absolute; left: 112px; top: 24px; font: 500 32px/1 JBMono, monospace; color: #1a1a1a; }
+.chip .ln { position: absolute; left: 112px; top: 72px; width: 160px; height: 8px; border-radius: 4px; background: #ebe7df; }
+.chip svg { position: absolute; right: 24px; top: 34px; }
+
+#ring { background: #c9451c; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+.cap { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/1.08 Inter, sans-serif;
+  color: #141414; letter-spacing: -1.5px; }
+.cap span { display: inline-block; opacity: 0; }
+.cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+#cap3 { width: 860px; }
+</style>
+</head>
+<body>
+<div id="root" data-layout-allow-occlusion data-layout-allow-overflow data-layout-allow-overlap data-composition-id="main" data-start="0" data-duration="1" data-width="1080" data-height="1920" data-fps="30">
+  <div id="scene" class="clip layer" data-start="0" data-duration="1" data-track-index="1">
+    <div id="ui" class="layer"><div class="plane" id="plane"></div></div>
+    <div id="fade" class="layer"></div>
+    <div id="dots" class="layer"></div>
+    <div id="sp" class="layer"><div class="plane" id="plane2"></div></div>
+    <div id="tabs2" class="layer"><div class="pill" style="left:40px;width:122px">All</div><div class="pill" style="left:182px;width:178px">Design</div><div class="pill on" style="left:380px;width:154px">Code</div></div>
+    <div id="ttl3" class="ttl"></div>
+    <div id="cards" class="layer"></div>
+    <div id="tasks" data-layout-allow-overflow>
+      <div class="dot"></div><div class="h1">Tasks</div><div class="h2">AnimatePresence · popLayout</div>
+      <div class="badge" id="badge"><span>6</span><span>9</span><span>6</span><span>8</span></div>
+    </div>
+  </div>
+  <div id="top" class="clip layer" data-start="0" data-duration="1" data-track-index="3">
+    <div id="tag">AI Tips</div>
+    <div id="cap3" class="cap"><span>danh</span> <span>sách</span> <span>thêm</span> <span>bớt</span> <span>mượt</span> <span>mà,</span></div>
+      </div>
+</div>
+<script>
+// ---------- dựng DOM tĩnh (xác định, không random) ----------
+const $ = s => document.querySelector(s);
+const plane = $("#plane");
+const uiCols = ["#7b6cf0", "#3fae7a", "#e0a312", "#4b7bec", "#c9c4bb"];
+// mặt phẳng giao diện mờ giả phối cảnh: hàng càng xuống càng to
+const PW = [90, 106, 124, 146, 172, 202, 238, 280, 330, 390];
+{ let y = 400, n = 0;
+  PW.forEach((w, r) => {
+    const h = Math.round(w * 0.78), pitch = w * 1.13;
+    for (let x = -w * 0.6 + (r % 2) * w * 0.5; x < 1080; x += pitch) {
+      const t = document.createElement("div"); t.className = "t";
+      t.style.cssText = `left:${Math.round(x)}px;top:${y}px;width:${w}px;height:${h}px;border-radius:${Math.round(w * 0.16)}px`;
+      t.innerHTML = `<i style="background:${uiCols[n % 5]}"></i><b></b><u style="background:${uiCols[(n * 3 + 1) % 5]}"></u>`;
+      plane.appendChild(t); n++;
+    }
+    y += h + Math.round(w * 0.14);
+  });
+}
+
+const uiCols2 = ["#7b6cf0", "#3fae7a", "#e0a312", "#4b7bec", "#c9c4bb"];
+for (let i = 0; i < 25; i++) {
+  const c = document.createElement("div"); c.className = "card";
+  c.innerHTML = `<i style="background:${uiCols2[i % 5]}"></i><b></b><u style="background:${uiCols2[(i * 3 + 1) % 5]}"></u>`;
+  $("#plane2").appendChild(c);
+}
+// lưới chấm cam 15 cột x 22 hàng, bước 72
+const dotsEl = $("#dots"), DR = 22, DC = 15;
+for (let r = 0; r < DR; r++) for (let c = 0; c < DC; c++) {
+  const s = document.createElement("s");
+  s.style.left = (c * 72 + 22) + "px"; s.style.top = (380 + r * 72 + 22) + "px"; s.dataset.r = r;
+  dotsEl.appendChild(s);
+}
+
+// fonts.css có bộ tiếng Việt: dùng chữ thật, không ráp dấu bằng hình
+const DIA = {};
+function mkTitle(sel, text) {
+  $(sel).innerHTML = [...text].map(ch => {
+    if (ch === " ") return `<span class="sp"> </span>`;
+    const d = DIA[ch];
+    return `<span data-layout-allow-occlusion data-layout-allow-overflow>${d ? d[0] + d[1] : ch}</span>`;
+  }).join("");
+}
+mkTitle("#ttl3", "THÊM BỚT");
+
+// thẻ dashboard
+const CARDS = [
+  // màu, avatar, bar[7], accent, tiến độ, tối?
+  ["#2f5bea", [.5, .5, .5, .5, .5, .5, .5], 2, .22, true],
+  ["#1d8a52", [.55, .55, .55, .7, .55, .35, .55], 3, .3, false],
+  ["#e0a312", [.6, .6, .6, .6, .75, .6, .4], 4, .25, false],
+  ["#7a3cf0", [.6, .6, .6, .55, .5, .3, .5], 5, .6, false],
+  ["#2f5bea", [.6, .55, .5, .45, .4, .35, .3], 6, .4, false],
+  ["#1d8a52", [.4, .6, .6, .6, .6, .55, .5], 0, .5, false],
+  ["#e0a312", [.55, .6, .55, .6, .55, .6, .4], 1, .3, false],
+  ["#7a3cf0", [.5, .55, .6, .5, .55, .5, .45], 2, .7, false]];
+const VB = [[.25, .6, .9, .5, .75, .35], [.7, .45, .85, .3, .55, .2], [.4, .8, .5, .95, .6, .45], [.3, .55, .8, .45, .9, .25]];
+const cardsEl = $("#cards");
+const cardEls = CARDS.map(([col, bars, acc, prog, dark], i) => {
+  const c = document.createElement("div"); c.className = "c" + (dark ? " dark" : ""); c.id = "c" + i;
+  const gcol = dark ? "#78736c" : col;
+  c.innerHTML = `<div class="av" style="background:${col}"></div><div class="tb"></div><div class="sb"></div>
+    <div class="hb">${bars.map((h, k) => `<b style="height:${Math.round(h * 56)}px;background:${k === acc ? "#c9451c" : gcol}"></b>`).join("")}</div>
+    <div class="vb">${VB[i % 4].map((h, k) => `<b style="height:${Math.round(h * 100)}%;background:${k === 3 ? "#c9451c" : (dark ? "#78736c" : col)}"></b>`).join("")}</div>
+    <div class="pr"><i style="width:${Math.round(prog * 100)}%;background:${dark ? "#2f5bea" : col}"></i></div>`;
+  const w = document.createElement("div"); w.className = "cw"; w.appendChild(c); cardsEl.appendChild(w); c.cw = w; return c;
+});
+// extra thẻ vàng nhỏ (chỉ hiện ở trạng thái Code)
+const c8 = document.createElement("div"); c8.className = "c"; c8.id = "c8";
+c8.innerHTML = `<div class="av" style="background:#e0a312"></div><div class="tb"></div><div class="sb"></div>
+  <div class="vb" style="opacity:1">${[.12, .1].map((h, k) => `<b style="height:${h * 100}%;background:#e0a312"></b>`).join("")}</div>`;
+{ const w = document.createElement("div"); w.className = "cw"; w.appendChild(c8); cardsEl.appendChild(w); c8.cw = w; }
+
+// chip Tasks
+const CH = {
+  layout: ["#2f5bea", "l"], exit: ["#1d8a52", "e"], stagger: ["#e0a312", "s"], initial: ["#7a3cf0", "I"],
+  animate: ["#2f5bea", "a"], useSpring: ["#7a3cf0", "u"], spring: ["#7a3cf0", "s"], layoutId: ["#e0a312", "l"],
+  variants: ["#2f5bea", "v"], useAnimate: ["#1d8a52", "u"], whileDrag: ["#e0a312", "w"], popLayout: ["#7a3cf0", "p"]};
+const tasks = $("#tasks"), chipEl = {};
+Object.keys(CH).forEach(n => {
+  const c = document.createElement("div"); c.className = "chip"; c.setAttribute("data-layout-allow-occlusion", "");
+  c.innerHTML = `<div class="ic" style="background:${CH[n][0]}">${CH[n][1]}</div><div class="nm">${n}</div><div class="ln"></div>
+    <svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="none" stroke="#c9d3cb" stroke-width="3"/>
+    <path class="ok" d="M12 23 l7 7 l13 -15" stroke="#2f9e63" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+    <path class="sp" d="M22 3 a19 19 0 0 1 17 11" stroke="#1d8a52" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>`;
+  tasks.appendChild(c); chipEl[n] = c;
+});
+
+// ---------- trạng thái đầu cảnh = cuối cảnh 10 ----------
+// thẻ dashboard còn lại: chồng mờ ở đáy, dưới bảng Tasks
+cardEls.concat([c8]).forEach((c, i) => {
+  if (i === 0) { gsap.set(c.cw, { opacity: 0 }); return; }
+  gsap.set(c, { x: -20 + i * 118, y: 1560 + (i % 2) * 40, width: 330, height: 290, rotation: ((i * 5) % 9) - 4, opacity: 0.22, filter: "blur(5px)" });
+  gsap.set(c.querySelector(".hb"), { opacity: 0 }); gsap.set(c.querySelector(".vb"), { opacity: 1 });
+});
+gsap.set("#tasks", { opacity: 1, x: 40, y: 650, width: 1000, height: 850, transformOrigin: "0 0" });
+gsap.set("#ttl3 span:not(.sp)", { opacity: 1 });
+
+// ---------- timeline (một timeline paused, seek-safe) ----------
+const tl = gsap.timeline({ paused: true });
+
+// nền trôi nhẹ (tiếp nối cảnh 10)
+tl.fromTo("#plane", { y: -26 }, { y: -90, duration: 0.7, ease: "none" }, 0);   // gốc: nền giao diện trôi lên ~3 px/khung
+// gốc: các thẻ dashboard nền cập nhật liên tục (thanh biểu đồ nhảy lên/xuống, chấm màu nảy) trong khi nền trôi
+[...document.querySelectorAll("#plane .t")].forEach((t, n) => {
+  const u = t.querySelector("u"), c = t.querySelector("i"), t0 = 0.02 + ((n * 7) % 11) * 0.045;
+  tl.to(u, { scaleY: 0.45 + (n % 3) * 0.3, transformOrigin: "50% 100%", duration: 0.09, ease: "power2.out" }, t0);
+  tl.to(u, { scaleY: 1.3 - (n % 2) * 0.35, duration: 0.12, ease: "back.out(3)" }, t0 + 0.11);
+  tl.to(c, { scale: 1.25 - (n % 3) * 0.2, duration: 0.1, ease: "power2.out" }, t0 + 0.04);
+  tl.to(c, { scale: 1, duration: 0.14, ease: "back.out(3)" }, t0 + 0.16);
+});
+
+// BOIL (đo từ gốc, 30fps, 18.7-19.2): cả lớp thẻ dashboard nền giật răng cưa — trôi lên theo kiểu tăng tốc rồi giật về chỗ cũ.
+// Chu kỳ 1 (18.73-18.90): dịch cộng dồn 0,-2,-8,-22,-44 px; chu kỳ 2 (18.90-19.10): 0,-4,-16,-36,-60,-84 px; chu kỳ 3 (19.10-19.27) ~ -60 px.
+// Chấm vàng/tím trên nền đo được cùng pha, cùng biên độ (vàng y 1656->1621 trong 4 khung rồi nhảy lại 1649).
+boil(tl, "#ui, #cards", { mode: "saw", cycles: [[0.03, 0.17, 44], [0.2, 0.2, 84], [0.4, 0.17, 60]], power: 2.2, dir: -1, start: 0.03, end: 0.57, sync: true });
+
+// chip: thêm / bớt (trượt vào, đổi chỗ, mờ đi); chip đã có sẵn ở đầu cảnh
+function runChips(states) {
+  const shown = {}, pos = {};
+  states.forEach(st => {
+    let mv = 0;   // gốc: các chip đổi chỗ nối đuôi nhau (~0.03 s/chip), không đồng loạt
+    Object.keys(CH).forEach((n, k) => {
+      const el = chipEl[n], slot = st.slots[n], t = st.t + (st.instant ? 0 : (mv++) * 0.028);
+      const cur = pos[n] || slot; if (slot) pos[n] = slot;
+      if (slot) {
+        if (!shown[n]) {
+          if (st.instant) {
+            gsap.set(el, { x: slot[0], y: slot[1], opacity: 1, scale: 1 });
+            gsap.set(el.querySelector(".sp"), { opacity: 0 }); gsap.set(el.querySelector(".ok"), { opacity: 1 });
+          } else {
+            const fx = slot[0] + (slot[0] > 300 ? 720 : -720);
+            // gốc: chip lao vào rất nhanh (~3-4 khung), vượt quá chỗ rồi giật về, nghiêng theo hướng bay
+            const dir = fx > slot[0] ? 1 : -1;
+            tl.fromTo(el, { x: fx, y: slot[1], opacity: 0, scale: 1, rotation: dir * 6 }, { x: slot[0], y: slot[1], opacity: 1, rotation: 0, duration: st.d * 0.7, ease: "back.out(1.9)", immediateRender: false }, t);
+          }
+          shown[n] = true;
+        } else {
+          const dx = slot[0] - cur[0], dy = slot[1] - cur[1];
+          // chip đứng yên vẫn bị đẩy nhẹ khi danh sách sắp lại (layout animation): nảy dọc ~14 px
+          const still = Math.abs(dx) + Math.abs(dy) < 8;
+          tl.to(el, still ? { keyframes: [{ y: slot[1] - 14, duration: st.d * 0.25, ease: "power2.out" }, { y: slot[1], duration: st.d * 0.6, ease: "back.out(3)" }] }
+            : { x: slot[0], y: slot[1], duration: st.d * 0.6, ease: "back.out(2.6)" }, t);
+          if (Math.abs(dx) + Math.abs(dy) > 8) {
+            tl.fromTo(el, { rotation: 0 }, { rotation: Math.max(-10, Math.min(10, dx / 30 + dy / 45)), duration: st.d * 0.25, ease: "power2.out", immediateRender: false }, t);
+            tl.to(el, { rotation: 0, duration: st.d * 0.7, ease: "back.out(2.5)" }, t + st.d * 0.25);
+          }
+        }
+      } else if (shown[n]) { tl.to(el, { opacity: 0, scale: 0.8, duration: 0.12, ease: "power1.in" }, t); shown[n] = false; }
+    });
+  });
+}
+runChips([
+  { instant: true, d: 0, t: 0, slots: { layout: [24, 170], exit: [504, 170], stagger: [30, 302], initial: [504, 302], animate: [24, 434], useSpring: [444, 434] } },
+  { t: 0.04, d: 0.22, slots: { spring: [26, 170], layout: [446, 170], exit: [210, 280], stagger: [26, 328], initial: [430, 296], animate: [26, 436], useSpring: [530, 436], layoutId: [100, 568] } },
+  { t: 0.22, d: 0.22, slots: { spring: [0, 170], exit: [460, 170], variants: [130, 302], animate: [24, 434], useSpring: [500, 434] } },
+  { t: 0.39, d: 0.2, slots: { whileDrag: [0, 170], spring: [480, 170], variants: [80, 302], useAnimate: [550, 302], layoutId: [210, 434], useSpring: [510, 434], popLayout: [460, 566] } }]);
+
+// huy hiệu số 6 → 9 → 6 → 8
+const bs = document.querySelectorAll("#badge span");
+tl.set(bs[0], { opacity: 1 }, 0);
+[[1, 0.06, 0], [2, 0.27, 1], [3, 0.46, 2]].forEach(([i, t, prev]) => {
+  tl.set(bs[prev], { opacity: 0 }, t);
+  tl.fromTo(bs[i], { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.12, ease: "back.out(2)", immediateRender: false }, t);
+});
+
+// chấm cam: gợn lại quanh đáy và đỉnh
+tl.set("#dots s", { scale: 0.1, opacity: 0.35 }, 0);
+[...document.querySelectorAll("#dots s")].forEach(s => {
+  const r = +s.dataset.r;
+  if (Math.abs(r - 16) <= 2 || r <= 3) tl.to(s, { scale: 0.5, opacity: 0.85, duration: 0.2, ease: "power1.out" }, 0.3 + Math.abs(r - 16) * 0.02 + (r <= 3 ? r * 0.02 : 0));
+});
+
+// chữ "THÊM BỚT" mờ dần, bảng Tasks nghiêng rơi xuống (J11: gốc bắt đầu rơi ~19.3 = 0.6, qua 1184 lúc 19.4, rơi hết ~19.65)
+tl.to("#ttl3", { opacity: 0, filter: "blur(2px)", duration: 0.13, ease: "none" }, 0.6);   // hết hẳn ~19.43 như gốc
+// thẻ Tasks: đứng yên tới ~19.33, rồi rơi theo từng khung gốc (30fps, 19.25-19.6)
+const FALL = [[0.633, 700, 0.8, 40], [0.667, 1005, 2.4, 48], [0.7, 1187, 3.4, 60], [0.733, 1362, 3.8, 64], [0.767, 1505, 4.1, 66], [0.8, 1609, 4.3, 68],
+  [0.833, 1700, 4.4, 69], [0.9, 1784, 4.5, 70], [0.933, 1829, 4.5, 70], [1.0, 1960, 4.5, 70]];
+tl.to("#tasks", { y: FALL[0][1], rotation: FALL[0][2], x: FALL[0][3], duration: 0.033, ease: "none" }, 0.6);
+for (let k = 1; k < FALL.length; k++) tl.to("#tasks", { y: FALL[k][1], rotation: FALL[k][2], x: FALL[k][3], duration: FALL[k][0] - FALL[k - 1][0], ease: "none" }, FALL[k - 1][0]);
+// nền giao diện của s12 lộ ra dưới thẻ; chấm cam và nền cũ rút đi; hàng tab All/Design/Code (như gốc) lướt qua
+tl.to("#cards", { opacity: 0, duration: 0.15, ease: "none" }, 0.65);
+tl.fromTo("#sp", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" }, 0.65);
+tl.fromTo("#plane2", { y: 40 - 80 * 0.4 / 2.6 }, { y: 40 - 80 * 0.7 / 2.6, duration: 0.3, ease: "none" }, 0.7);
+tl.set("#plane2", { y: 40 - 80 * 0.7 / 2.6 }, 1.0);
+tl.fromTo("#tabs2", { opacity: 0 }, { opacity: 1, duration: 0.05 }, 0.63);
+tl.to("#tabs2", { opacity: 0, duration: 0.12 }, 0.82);
+// nhãn AI Tips: s12 (pre) vẽ nhãn từ 19.1, nên s11 bỏ nhãn ở đó để không chồng nét
+tl.set("#tag", { opacity: 0 }, 0.4);
+// phụ đề
+const cw = document.querySelectorAll("#cap3 span");
+gsap.set(cw, { opacity: 1 });
+tl.fromTo(cw[3], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.1);
+tl.fromTo(cw[4], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.28);
+tl.fromTo(cw[5], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.43);
+// J11: chữ cũ hết đúng 19.233 (khung gốc chuyển sang "mọi"); "mọi" do s12 vẽ
+tl.set("#cap3", { opacity: 0 }, 0.533);
+// kéo dài timeline tới hết post (0.3s)
+tl.to({}, { duration: 0.01 }, 0.99);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
