@@ -3,6 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=1080, height=1920">
 <script src="gsap.min.js"></script>
+<script src="texture.js"></script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,6 +12,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #bg { position: absolute; inset: 0; background: #efece6; }
 .layer { position: absolute; inset: 0; }
 
+#grid { -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 220px, rgba(0,0,0,1) 700px); mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 220px, rgba(0,0,0,1) 700px); }
 #grid svg { position: absolute; left: 0; top: 0; }
 
 #tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
@@ -21,6 +23,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #capB1 { top: 248px; } #capB2 { top: 342px; }
 
 /* chồng thẻ code */
+#upG, #dnG { position: absolute; inset: 0; }
 #stack { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
 .cd { position: absolute; border-radius: 26px; font: 500 34px JBMono, monospace; white-space: nowrap; overflow: hidden; }
 .cd.w { background: #fbfaf7; border: 4px solid #2a2724; color: #3a3631; box-shadow: 0 10px 0 #cdc8be; }
@@ -43,8 +46,6 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #robot svg { position: absolute; inset: 0; }
 #rring { position: absolute; left: 685px; top: 1203px; width: 236px; height: 236px; }
 
-#vig { position: absolute; inset: 0; opacity: 0;
-  background: radial-gradient(ellipse 560px 540px at 540px 1000px, rgba(20,18,16,0) 0%, rgba(20,18,16,0) 38%, rgba(20,18,16,.9) 70%, rgba(20,18,16,0) 100%); }
 #field { position: absolute; inset: 0; }
 </style>
 </head>
@@ -53,21 +54,25 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
   <div id="bg"></div>
   <div class="clip layer" id="grid" data-start="0" data-duration="1.75" data-track-index="0">
     <svg width="1080" height="1920" viewBox="0 0 1080 1920"><defs><pattern id="hp" width="46" height="46" patternUnits="userSpaceOnUse">
-      <rect x="4" y="5" width="38" height="36" rx="9" fill="#e4e0d8"/></pattern></defs><rect width="1080" height="1920" fill="url(#hp)"/></svg>
+      <rect x="4" y="5" width="38" height="36" rx="9" fill="#dbd5ce"/></pattern></defs><rect width="1080" height="1920" fill="url(#hp)"/></svg>
   </div>
   <div class="clip layer" id="fieldLayer" data-start="0" data-duration="1.75" data-track-index="1"><canvas id="field" width="1080" height="1920"></canvas></div>
+  <div class="clip layer" id="ringLayer" data-start="0" data-duration="1.75" data-track-index="5"><canvas id="ring" width="1080" height="1920"></canvas></div>
   <div class="clip layer" id="mid" data-start="0" data-duration="1.75" data-track-index="2">
     <div id="stack" data-layout-ignore>
+      <div id="upG" class="grp">
       <div class="cd w" id="c1" style="left:90px;top:560px;width:880px;height:120px;padding:34px 30px"><i>01</i>gsap.timeline({ paused: true })</div>
       <div class="cd k" id="c2" style="left:260px;top:530px;width:880px;height:130px;padding:36px 30px"><i>02</i>SplitText.create(".hero", { type: "chars" })</div>
       <div class="cd w" id="c3" style="left:40px;top:700px;width:900px;height:130px;padding:36px 30px"><i>03</i>stagger: { grid: [38, 24], from: "center" }</div>
+      </div>
+      <div id="dnG" class="grp">
       <div class="cd k" id="c4" style="left:70px;top:1130px;width:880px;height:130px;padding:36px 30px"><i>08</i>Draggable.create(".card", { type: "x,y" })</div>
       <div class="cd w" id="c5" style="left:330px;top:1220px;width:720px;height:130px;padding:36px 30px"><i>09</i>{ duration: 0.6, text: "GSAP" }</div>
       <div class="cd w" id="c6" style="left:90px;top:1290px;width:640px;height:120px;padding:34px 30px"><i>10</i>scrub: true, pin: true</div>
+      </div>
       <div id="code"><div class="dots"><b style="background:#ec5a47"></b><b style="background:#f0b429"></b><b style="background:#38c172"></b></div>
         <div class="l1" id="m1"></div><div class="l2" id="m2"></div></div>
     </div>
-    <div id="vig"></div>
     <div id="stamp" data-layout-ignore><span>CODE THẬT</span></div>
     <svg id="rring" viewBox="-118 -118 236 236"></svg>
     <div id="robot"><svg viewBox="0 0 170 170"><g fill="#cf4a1f">
@@ -84,81 +89,30 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
   </div>
 </div>
 <script>
-// ---------- canvas: trường hạt gợn sóng -> kéo về dải ngang -> hình chữ "GSAP" (bộ sinh + mẫu mục tiêu GIỐNG HỆT s02/s03, s03 tiếp tục từ trạng thái cuối s02) ----------
+// ---------- canvas: trường hạt gợn sóng -> kéo về dải ngang -> hình chữ "GSAP" ----------
+// Bộ sinh dùng chung với s03 (shared/texture.js: số đo từ gốc, hàm thuần của thời gian); s03 tiếp tục từ trạng thái cuối s02.
 const cv = document.getElementById("field"), cx = cv.getContext("2d");
-const PITCH = 26, COLS = Math.ceil(1080 / PITCH) + 1, ROWS = Math.ceil(1920 / PITCH) + 1, NP = COLS * ROWS;
-const hash = (i, j) => (((i * 73856093) ^ (j * 19349663)) >>> 0) % 1000 / 1000;
-const GY = 967; // tâm dọc chữ GSAP ở gốc (~y 967)
-const C0 = 0.55; // conv cuối s02 = conv đầu s03
-const F = { t: 0, on: 0, conv: 0, fade: 0, lines: 0 };
+const F = { T: 0, reveal: -200, conv: 0, fade: 0, ribFade: 0, lines: 0 };
+function drawField() { TX.buildTargets(document.fonts.check("400 410px Anton")); TX.dotField(cx, F); }
+if (document.fonts && document.fonts.load) document.fonts.load("400 410px Anton").then(drawField);
 
-// mục tiêu: lấy mẫu điểm ảnh đặc của chữ "GSAP" (Anton 410px, nghiêng -9deg) trên lưới cố định, xếp thứ tự cố định theo hash
-let TG = null;
-function buildTargets() {
-  if (TG || !document.fonts.check("400 410px Anton")) return;
-  const oc = document.createElement("canvas"); oc.width = 1080; oc.height = 700;
-  const o = oc.getContext("2d");
-  o.fillStyle = "#000"; o.font = "400 410px Anton"; o.textAlign = "center"; o.textBaseline = "middle";
-  o.setTransform(1, 0, Math.tan(9 * Math.PI / 180), 1, 0, 0); // skewX(-9deg) như chữ GSAP đặc
-  o.fillText("GSAP", 540 - 350 * Math.tan(9 * Math.PI / 180), 350);
-  const d = o.getImageData(0, 0, 1080, 700).data;
-  let x0 = 1e9, x1 = -1, y0 = 1e9, y1 = -1;
-  for (let y = 0; y < 700; y += 2) for (let x = 0; x < 1080; x += 2) if (d[(y * 1080 + x) * 4 + 3] > 128) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
-  const ox = 540 - (x0 + x1) / 2, oy = GY - (y0 + y1) / 2;
-  let pts = [];
-  for (let P = 14; P >= 4; P--) {
-    pts = [];
-    for (let y = y0; y <= y1; y += P) for (let x = x0; x <= x1; x += P) if (d[(y * 1080 + x) * 4 + 3] > 128) pts.push([x + ox, y + oy]);
-    if (pts.length >= NP) break;
-  }
-  const idx = pts.map((_, k) => k).sort((a, b) => hash(a, 7) - hash(b, 7) || a - b);
-  TG = idx.map(k => pts[k]);
-}
-if (document.fonts && document.fonts.load) document.fonts.load("400 410px Anton").then(() => { buildTargets(); drawField(); });
-
-const smooth = p => p * p * (3 - 2 * p);
-function drawField() {
-  cx.clearRect(0, 0, 1080, 1920);
-  buildTargets();
-  const t = F.t;
-  if (F.fade < 0.999) {
-    for (let j = 0; j < ROWS; j++) for (let i = 0; i < COLS; i++) {
-      const h = hash(i, j);
-      const ux = i * PITCH + 14 * Math.sin(j * 0.33 + t * 7) + 6 * Math.sin(i * 0.2 - t * 4);
-      const uy = j * PITCH + 12 * Math.sin(i * 0.27 + t * 6);
-      if (h > F.on) continue;
-      const r = hash(j, i);
-      let col = r < 0.55 ? "#1f1c19" : r < 0.88 ? "#c9451c" : r < 0.95 ? "#2f5bea" : "#555049";
-      let s = 7 + 4 * hash(i + 5, j + 9);
-      let x = ux, y = uy, a = 1;
-      if (F.conv > 0 && TG) {
-        const n = j * COLS + i, tp = TG[n % TG.length];
-        const p = Math.min(1, Math.max(0, (F.conv - 0.35 * h) / 0.65)), e = smooth(p);
-        const ey = smooth(Math.min(1, p * 2)); // y về dải trước, x về chữ sau
-        x += (tp[0] + 3 * Math.sin(n + t * 9) * (1 - e) - x) * e; y += (tp[1] + 3 * Math.cos(n * 1.7 + t * 9) * (1 - ey) - y) * ey;
-        s += (6 - s) * e;
-        if (e > 0.3) col = hash(n, 3) < 0.82 ? "#c9451c" : "#1f1c19";
-      }
-      a *= 1 - F.fade;
-      if (a <= 0.01) continue;
-      cx.globalAlpha = a; cx.fillStyle = col;
-      cx.fillRect(x - s / 2, y - s / 2, s, s);
-    }
-    cx.globalAlpha = 1;
-  }
-  if (F.lines > 0.01) {
-    cx.fillStyle = "#1f1c19";
-    for (let k = 0; k < 24; k++) {
-      const y0 = 160 + k * 66;
-      for (let x = 0; x < 1080; x += 15) {
-        const y = y0 + 46 * Math.sin(x * 0.007 + k * 0.55 + t * 3) + 28 * Math.sin(x * 0.019 - k * 0.8 - t * 2);
-        if (hash(x / 15 | 0, k) > F.lines) continue;
-        cx.fillRect(x - 3, y - 3, 6, 6);
-      }
-    }
-  }
-}
-
+// vòng tối halftone (vignette): khớp từng khung gốc f11–f22 (t = (f−1)/30), [giây, cy, rx, ry, mức tối tại TX.RK]; hết ở f23
+const RING = [
+  [10/30, 959, 2878, 282, [0.15,0.15,0.14,0,0.02,0.02,0.03,0.02,0,0.01,0]],
+  [11/30, 978, 740, 778, [0,0,0,0.02,0.01,0.01,0.01,0,0,0,0]],
+  [12/30, 987, 578, 603, [0,0,0,0.84,0.72,0.24,0.01,0.01,0,0,0.32]],
+  [13/30, 1000, 685, 684, [0,0,0.64,0.94,0.66,0.14,0,0.01,0,0.15,0]],
+  [14/30, 1033, 738, 712, [0,0.49,0.7,0.93,0.77,0.31,0.04,0,0,0.16,0]],
+  [15/30, 1087, 589, 524, [0,0,0,0.45,0.73,0.83,0.9,0.75,0.1,0,0.08]],
+  [16/30, 1477, 974, 610, [0.01,0.9,0.82,0.12,0.4,0.37,0.39,0.41,0.59,0.08,0]],
+  [17/30, 282, 1019, 1681, [0.05,0.04,0.23,0.12,0.87,0.87,0,0.27,0.57,0.68,0.52]],
+  [18/30, 594, 921, 1268, [0,0,0.08,0.03,0.21,0.72,0.94,0.72,0,0,0]],
+  [19/30, 427, 852, 1252, [0,0,0.03,0.03,0.04,0.07,0.17,0.84,0.95,0,0]],
+  [20/30, 516, 901, 1261, [0,0,0.01,0.02,0.03,0.06,0.2,0.91,0.89,0,0]],
+  [21/30, 200, 680, 1159, [0,0,0,0,0.05,0,0.03,0.02,0.07,0.95,0.77]],
+  [22/30, 900, 1000, 1000, [0,0,0,0,0,0,0,0,0,0,0]]];
+const rcx = document.getElementById("ring").getContext("2d"), RT = { t: 0 };
+function drawRing() { TX.cellRing(rcx, RT.t, RING); }
 
 // ---------- gõ code với ký tự nhiễu ----------
 const SYM = "<>{}[]=;:01/&()g]{[<;";
@@ -203,28 +157,49 @@ const CARDS = [["#c1", -8, 0.0], ["#c2", 11, 0.0], ["#c3", -3, 0.02], ["#c4", 3,
 CARDS.forEach(([id, rot, t0], k) => {
   tl.fromTo(id, { x: 700, y: 120 + k * 20, rotation: rot + 24, opacity: 0 }, { x: 0, y: 0, rotation: rot, opacity: 1, duration: 0.2, ease: "power2.out" }, t0);
   tl.to(id, { y: (k % 2 ? 14 : -14), rotation: rot + (k % 2 ? 1.5 : -1.5), duration: 0.7, ease: "sine.inOut" }, 0.5);
-  tl.to(id, { opacity: 0, scale: 1.06, duration: 0.18, ease: "power1.in" }, 1.0 + k * 0.01);
 });
+// xoè thẻ (đo từ mép trên/dưới của chồng thẻ ở f6–f12, xem SPEC): thẻ trên trồi lên từ sau tấm code và quay dần, thẻ dưới tụt xuống
+// khoảng lệch so với tư thế cuối: [khung gốc, dy thẻ trên, góc thẻ trên, dy thẻ dưới]
+const FAN = [[6, 233, -3.7, -250], [7, 192, -2.2, -227], [8, 163, -3.6, -201], [9, 122, -5.2, -153], [10, 87, -9.5, -115], [11, 11, -13, -60], [12, 0, -8.4, -20], [13, 0, 0, 0]];
+gsap.set("#upG", { transformOrigin: "540px 600px" }); gsap.set("#dnG", { transformOrigin: "540px 1300px" });
+tl.set("#upG", { y: FAN[0][1], rotation: FAN[0][2] }, 0); tl.set("#dnG", { y: FAN[0][3] }, 0);
+for (let q = 1; q < FAN.length; q++) {
+  const t0 = (FAN[q - 1][0] - 1) / 30;
+  tl.to("#upG", { y: FAN[q][1], rotation: FAN[q][2], duration: 1 / 30, ease: "none" }, t0);
+  tl.to("#dnG", { y: FAN[q][3], duration: 1 / 30, ease: "none" }, t0);
+}
 tl.fromTo("#code", { y: 260, scale: 0.8, opacity: 0, rotation: 4 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: 0.2, ease: "power2.out", transformOrigin: "50% 50%" }, 0);
-tl.to("#code", { opacity: 0, scale: 1.05, duration: 0.2, ease: "power1.in" }, 1.0);
+// vỡ thẻ code/thẻ (đo độ phủ điểm ảnh tối vùng tấm code f25–f35): tấm code còn nguyên tới f30 rồi 0.80 / 0.25 / 0.15 / 0 ở f31 / f32 / f33 / f34 (bản trước power1.in từ 0.9s tụt 0.2 ngay f31);
+// thẻ: 0.77 (f30), 0.28 (f31), 0.26 (f32), 0.15 (f33), 0 (f34)
+const BRK = { "#code": [[29, 1], [30, 0.99], [31, 0.8], [32, 0.25], [33, 0.15], [34, 0]], "#upG": [[29, 1], [30, 0.77], [31, 0.28], [32, 0.26], [33, 0.15], [34, 0]], "#dnG": [[29, 1], [30, 0.77], [31, 0.28], [32, 0.26], [33, 0.15], [34, 0]] };
+Object.entries(BRK).forEach(([id, K]) => K.slice(1).forEach((k, q) => tl.to(id, { opacity: k[1], duration: 1 / 30, ease: "none", immediateRender: false }, (K[q][0] - 1) / 30)));
 tl.to(T, { p: 1, duration: 0.65, ease: "none", onUpdate: renderCode }, 0);
 
 // tem CODE THẬT
 tl.fromTo("#stamp", { scale: 0.3, rotation: -14, opacity: 0 }, { scale: 1, rotation: -3, opacity: 1, duration: 0.2, ease: "back.out(1.5)" }, 0);
 
 // vignette tối
-tl.fromTo("#vig", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 0.2);
-tl.to("#vig", { opacity: 0, duration: 0.22, ease: "power1.in" }, 0.5);
+tl.fromTo(RT, { t: 0 }, { t: 1.75, duration: 1.75, ease: "none", onUpdate: drawRing, immediateRender: false }, 0);
 
-// robot + vòng
-tl.fromTo("#robot", { scale: 0.2, opacity: 0, rotation: -20 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.25, ease: "back.out(2)" }, 0.62);
-tl.fromTo("#rring", { scale: 0.5, opacity: 0, rotation: 0 }, { scale: 1, opacity: 1, rotation: 40, duration: 0.3, ease: "power2.out" }, 0.62);
-tl.to("#rring", { opacity: 0, duration: 0.3 }, 1.0);
+// robot + vòng (đo từ ô trắng ở tâm (804,1317): cạnh 140/157/167/173 px ở f25–f28; hiện lần đầu ở f23 nhỏ ~85px, xoay −18°; vòng nan đường kính ~198/279/319/346/352 px ở f24–f28, mờ ở f29–f31)
+const RB = [[23, 0.5, -18], [24, 0.7, -8], [25, 0.82, -3], [26, 0.92, 0], [27, 0.98, 0], [28, 1, 0]];
+const RRK = [[24, 0.99], [25, 1.4], [26, 1.6], [27, 1.73], [28, 1.76]];
+tl.set("#robot", { opacity: 0, scale: 0.5, rotation: -18 }, 0); tl.set("#rring", { opacity: 0, scale: 0.99 }, 0);
+tl.set("#robot", { opacity: 1 }, (RB[0][0] - 1) / 30); tl.set("#rring", { opacity: 1 }, (RRK[0][0] - 1) / 30);
+for (let q = 1; q < RB.length; q++) tl.to("#robot", { scale: RB[q][1], rotation: RB[q][2], duration: 1 / 30, ease: "none" }, (RB[q - 1][0] - 1) / 30);
+for (let q = 1; q < RRK.length; q++) tl.to("#rring", { scale: RRK[q][1], duration: 1 / 30, ease: "none" }, (RRK[q - 1][0] - 1) / 30);
+tl.to("#rring", { rotation: 30, duration: 5 / 30, ease: "none" }, (RRK[0][0] - 1) / 30);
+tl.to("#rring", { opacity: 0, duration: 2 / 30, ease: "none" }, 28 / 30);
+
+// thẻ trên còn lệch tiếp sau khi xoè (tương quan chéo vùng x 20–420, y 470–760, NCC ≥ 0.79): f18→f24 = (+24,−20), (+16,−8), (+12,−4), (0,−4), (−12,−4), (−4,0) px
+[[18, 0, 0], [19, 24, -20], [20, 40, -28], [21, 52, -32], [22, 52, -36], [23, 40, -40], [24, 36, -40]].forEach((k, q, A) => { if (q) tl.to("#upG", { x: k[1], y: k[2], duration: 1 / 30, ease: "none", immediateRender: false }, (A[q - 1][0] - 1) / 30); });
 
 // hạt: nổi lên từ 1.0, cuộn sóng, cuối cảnh kéo về dải ngang chữ GSAP (J2)
-tl.to(F, { on: 1, duration: 0.2, ease: "none", onUpdate: drawField }, 0.98);
-tl.to(F, { t: 3.0, duration: 1.75, ease: "none", onUpdate: drawField }, 0);
-tl.fromTo(F, { conv: 0 }, { conv: C0, duration: 0.25, ease: "none", onUpdate: drawField, immediateRender: false }, 1.5);
+tl.fromTo(F, { T: 0 }, { T: 1.75, duration: 1.75, ease: "none", onUpdate: drawField, immediateRender: false }, 0);
+tl.fromTo(F, { reveal: -200 }, { reveal: 1100, duration: 0.12, ease: "none", onUpdate: drawField, immediateRender: false }, 0.94);
+// ô nền biến mất khi trường hạt hiện (gốc: f30 còn ô, f35 hết)
+tl.to("#grid svg", { opacity: 0, duration: 0.13, ease: "none" }, 0.97);
+tl.fromTo(F, { conv: 0 }, { conv: TX.C0, duration: 0.25, ease: "none", onUpdate: drawField, immediateRender: false }, 1.5);
 
 // phụ đề
 tl.set("#capA span:nth-of-type(1), #capA span:nth-of-type(2)", { opacity: 1 }, 0);
