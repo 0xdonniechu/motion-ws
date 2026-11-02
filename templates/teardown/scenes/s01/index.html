@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<script src="boil.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+/* html, body, #root trong suốt; nền của scene là lớp #bg riêng để che/lộ được khi có pre/post */
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#bg { position: absolute; inset: 0; background: #efece6; }
+.layer { position: absolute; inset: 0; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+#cap { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/96px Inter, sans-serif; color: #141414; letter-spacing: -1.5px; }
+#cap span { display: inline-block; opacity: 0; }
+#cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+.line { position: absolute; left: 0; width: 1080px; text-align: center; font-family: Anton, sans-serif; white-space: nowrap; line-height: 1; }
+.line span { display: inline-block; will-change: transform; }
+#l1 { top: 620px; font-size: 300px; color: #1b1613; }
+#l2 { top: 920px; font-size: 400px; color: #c9451c; }
+</style>
+</head>
+<body>
+<!-- data-duration = pre + dài + post của scene (xem joins.json); ở đây: 2.0s, pre = post = 0 -->
+<div id="root" data-composition-id="main" data-start="0" data-duration="2" data-width="1080" data-height="1920" data-fps="30">
+  <div id="bg"></div>
+  <div class="clip layer" id="mid" data-start="0" data-duration="2" data-track-index="0">
+    <div class="line" id="l1" data-layout-ignore></div>
+    <div class="line" id="l2" data-layout-ignore></div>
+  </div>
+  <div class="clip layer" id="top" data-start="0" data-duration="2" data-track-index="1">
+    <div id="tag" data-layout-ignore>AI Tips</div>
+    <div id="cap"><span>Chữ</span> <span>tiếng</span> <span>Việt</span> <span>có</span> <em><span>dấu</span></em> <span>đầy</span> <span>đủ</span></div>
+  </div>
+</div>
+<script>
+// Chữ lớn tách từng ký tự (dấu tiếng Việt do font vẽ, KHÔNG vẽ dấu bằng CSS)
+const mk = (id, txt) => { document.getElementById(id).innerHTML = [...txt].map(c => `<span>${c}</span>`).join(""); };
+mk("l1", "CHUYỂN"); mk("l2", "ĐỘNG");
+
+// MỘT timeline GSAP, tạm dừng, đăng ký ở window.__timelines["main"]; không Math.random, không setTimeout
+const tl = gsap.timeline({ paused: true });
+
+// phụ đề hiện từng từ
+document.querySelectorAll("#cap > span, #cap em span").forEach((s, i) => {
+  tl.fromTo(s, { opacity: 0, color: "#77736c" }, { opacity: 1, color: s.closest("em") ? "#c9451c" : "#141414", duration: 0.12, ease: "power2.out" }, 0.1 + i * 0.1);
+});
+
+// chữ bay vào từng ký tự
+document.querySelectorAll("#l1 span").forEach((s, i) => {
+  tl.fromTo(s, { x: -330 + i * 40, y: 70, rotation: -30 + i * 12, scale: 0.55, opacity: 0 },
+    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.25, ease: "back.out(1.6)" }, 0.07 + i * 0.016);
+});
+document.querySelectorAll("#l2 span").forEach((s, i) => {
+  tl.fromTo(s, { x: -300 + i * 70, y: 140, rotation: 28 - i * 15, scale: 0.5, opacity: 0 },
+    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.26, ease: "back.out(1.5)" }, 0.083 + i * 0.02);
+});
+
+// boil.js: chỉ áp cho phần tử ĐÃ ĐO là rung trong gốc (khoảng [start, end], bước 1 khung)
+const sp2 = document.querySelectorAll("#l2 span");
+boil(tl, [sp2[1], sp2[2]], { mode: "step", step: 1 / 30, axis: "y", amp: 24, biasY: 24, start: 0.73, end: 0.97, seed: 11 });
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

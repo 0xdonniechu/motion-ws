@@ -18,3 +18,15 @@ jobs/*/tmp/
 jobs/*/joins/
 jobs/*/list.txt
 jobs/*/render-log.txt
+# template teardown: cùng quy tắc với jobs/* (render, preview, nguồn không commit)
+templates/*/source.*
+templates/*/frames/
+templates/*/scenes/*.mov
+templates/*/scenes/*.mp4
+templates/*/scenes/*/.hyperframes/
+templates/*/scenes/*/renders/
+templates/*/preview/
+templates/*/tmp/
+templates/*/joins/
+templates/*/list.txt
+templates/*/render-log.txt
