@@ -9,3 +9,12 @@ node_modules/
 .hyperframes/
 *.log
 .venv/
+# render scene/preview của job remake (tái tạo bằng render + compose.sh)
+jobs/*/scenes/*.mov
+jobs/*/scenes/*.mp4
+jobs/*/scenes/*/.hyperframes/
+jobs/*/preview/
+jobs/*/tmp/
+jobs/*/joins/
+jobs/*/list.txt
+jobs/*/render-log.txt

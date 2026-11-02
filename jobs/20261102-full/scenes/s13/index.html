@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#paper { background: #efece6; }
+#tpaper { position: absolute; left: 0; top: 375px; width: 1080px; height: 640px; background: #efece6; }
+.layer { position: absolute; inset: 0; }
+
+#bg { background: radial-gradient(#dcd6cb 2px, transparent 2.6px) 0 0 / 40px 40px; opacity: .7; }
+
+/* ---------- bảng trên: thẻ màu chữ to bị kéo-ném ---------- */
+#board { position: absolute; left: 15px; top: 375px; width: 1050px; height: 585px; border: 3px dashed #aaa398; border-radius: 22px; }
+#bdots { position: absolute; left: 15px; top: 375px; width: 1050px; height: 585px; border-radius: 22px;
+  background: radial-gradient(#141414 2.4px, transparent 3px) 10px 10px / 34px 34px; opacity: .32; }
+.pill { position: absolute; height: 56px; border-radius: 28px; padding: 0 22px; font: 500 26px/50px JBMono, monospace;
+  border: 3px solid #141414; white-space: nowrap; }
+.pill.k { background: #141414; color: #fff; }
+.pill.w { background: #fff; color: #141414; }
+.pill.y { background: #e0a312; color: #141414; }
+
+.tc { position: absolute; left: 0; top: 0; border: 5px solid #141414; border-radius: 20px; box-shadow: 7px 9px 0 #141414; overflow: hidden; }
+.tc .big { position: absolute; left: 18px; top: 30px; font: 400 104px/1 Anton, sans-serif; letter-spacing: 0; white-space: nowrap; }
+.tc .big span { position: relative; display: inline-block; }
+.tc .b1, .tc .b2 { position: absolute; left: 20px; height: 11px; border-radius: 6px; }
+.tc .b1 { top: 150px; width: 132px; } .tc .b2 { top: 170px; width: 70px; }
+.tc .mt { position: absolute; left: 20px; font: 500 22px/1.25 JBMono, monospace; white-space: nowrap; }
+.dia { position: absolute; background: currentColor; }
+.dia.ac { width: 22px; height: 26px; top: -18px; left: 50%; margin-left: -2px; clip-path: polygon(34% 0, 100% 0, 52% 100%, 0 100%); }
+.dia.hk { width: 28px; height: 24px; top: -24px; left: 50%; margin-left: -14px; background: none; border: 6px solid currentColor;
+  border-bottom-color: transparent; border-left-color: transparent; border-radius: 50%; transform: rotate(-30deg); }
+.dia.hn { width: 13px; height: 26px; top: 10px; left: 76%; border-radius: 7px; transform: rotate(18deg); }
+.dia.dt { width: 15px; height: 15px; top: 106px; left: 50%; margin-left: -7px; }
+
+#nem { width: 243px; height: 300px; background: linear-gradient(#141414, #2b2623); color: #fff; }
+#tha { width: 240px; height: 285px; background: #2f5bea; color: #fff; }
+#truot { width: 240px; height: 282px; background: #7a3cf0; color: #fff; }
+#nay { width: 240px; height: 282px; background: #e0a312; color: #141414; }
+#keo { width: 252px; height: 300px; background: #c9451c; color: #fff; z-index: 4; }
+.ghost { position: absolute; left: 0; top: 0; width: 252px; height: 300px; border: 3px solid #c9451c; border-radius: 20px; opacity: 0; z-index: 3; }
+#gtile { position: absolute; left: 908px; top: 880px; width: 106px; height: 112px; border-radius: 22px; background: #0b0b0b; border: 5px solid #fff;
+  box-shadow: 0 0 0 3px #141414; font: 400 34px/102px Anton, sans-serif; color: #0ae448; text-align: center; letter-spacing: 1px; z-index: 5; }
+#lab { position: absolute; left: 38px; top: 912px; height: 86px; width: 594px; border-radius: 43px; background: #141414; color: #fff;
+  font: 500 40px/86px JBMono, monospace; text-align: center; z-index: 7; }
+#vel { position: absolute; left: 46px; top: 990px; font: 500 28px/1 JBMono, monospace; color: #fff; z-index: 1; white-space: nowrap; }
+#vel b { color: #e0a312; font-weight: 500; }
+
+/* ---------- bảng dưới: panel đen ---------- */
+#panel { position: absolute; left: 0; top: 1012px; width: 1080px; height: 908px; background: #161210;
+  background-image: radial-gradient(#2c2621 3px, transparent 3.6px); background-size: 36px 36px; background-position: 14px 12px; }
+#ghosttxt { position: absolute; left: -30px; top: 1150px; font: 400 360px/1 Anton, sans-serif; color: #2a241f; letter-spacing: 22px; white-space: nowrap; }
+#dash { position: absolute; left: 30px; top: 1050px; width: 1020px; height: 570px; border: 3px dashed #7b756c; border-radius: 26px; opacity: .8; }
+#dashline { position: absolute; left: 40px; top: 1619px; width: 1000px; height: 4px; background: #c9451c; border-radius: 2px; box-shadow: 0 0 14px #c9451c; }
+#tag2 { position: absolute; left: 40px; top: 1053px; height: 65px; width: 440px; border-radius: 33px; background: #c9451c; border: 3px solid #f1ede6;
+  color: #fff; font: 500 36px/59px JBMono, monospace; text-align: center; z-index: 9; }
+.bc { position: absolute; left: 0; top: 0; width: 270px; height: 270px; border: 5px solid #141414; border-radius: 24px; box-shadow: 9px 10px 0 #a83a17; }
+.bc .gr { position: absolute; left: 20px; top: 20px; width: 40px; height: 22px; background: radial-gradient(currentColor 4.5px, transparent 5.2px) 0 0 / 14px 14px; opacity: .55; }
+.bc .lb { position: absolute; left: 22px; top: 150px; font: 800 66px/1 Inter, sans-serif; letter-spacing: -2px; }
+.bc .sb { position: absolute; left: 22px; top: 224px; font: 500 21px/1 Inter, sans-serif; opacity: .8; white-space: nowrap; }
+#throw { background: #fff; color: #141414; }
+#inertia { background: #2f5bea; color: #fff; }
+#elastic { background: #e0a312; color: #141414; }
+#drag { background: #c9451c; color: #fff; box-shadow: 9px 10px 0 #6e260e; z-index: 5; }
+#bounce { background: #7a3cf0; color: #fff; }
+#mtile { position: absolute; left: 907px; top: 1047px; width: 112px; height: 108px; border-radius: 24px; background: #fff; border: 5px solid #141414;
+  box-shadow: 5px 6px 0 #a83a17; z-index: 8; }
+#mtile svg { position: absolute; left: 20px; top: 18px; }
+#ripple { position: absolute; left: 400px; top: 1300px; width: 280px; height: 280px; border-radius: 50%; border: 3px solid #fff; opacity: 0; z-index: 4; }
+
+.cur { position: absolute; left: 0; top: 0; width: 44px; height: 62px; z-index: 20; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+.cap { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/1.08 Inter, sans-serif;
+  color: #141414; letter-spacing: -1.5px; }
+.cap span { display: inline-block; opacity: 0; }
+#capB { width: 790px; }
+.cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+
+/* ---------- J13: phủ xám + terminal (khớp-khung với đầu s14) ---------- */
+#shade { position: absolute; inset: 0; z-index: 50; opacity: 0;
+  background: linear-gradient(to bottom, rgba(78,72,66,.62) 0, rgba(78,72,66,.62) 1014px, rgba(10,8,6,.28) 1014px, rgba(10,8,6,.28) 1920px); }
+#top { z-index: 60; }
+#tm { z-index: 55; }
+#capC { color: #f4f1ea; }
+#capC em { color: #d9501f; }
+#vel2 { position: absolute; left: 14px; top: 972px; padding: 6px 22px 6px 14px; font: 500 27px JBMono, monospace; color: #cfc9bd;
+  background: #17120f; border-radius: 0 14px 14px 0; opacity: 0; z-index: 40; }
+#vel2 b { color: #e0a312; font-weight: 500; }
+#term { position: absolute; left: 118px; top: 690px; width: 844px; height: 288px; background: #141210; border: 3px solid #3a3530; border-radius: 22px; box-shadow: 0 14px 34px rgba(0,0,0,.45); overflow: hidden; }
+#term .hd { position: absolute; left: 0; top: 0; width: 100%; height: 44px; background: #1e1b18; font: 500 21px JBMono, monospace; color: #d6d1c8; }
+#term .hd i { position: absolute; top: 15px; width: 12px; height: 12px; border-radius: 50%; background: #6a655d; }
+#term .hd span { position: absolute; left: 80px; top: 10px; }
+#term .ln { position: absolute; left: 24px; top: 108px; font: 500 60px/1 JBMono, monospace; color: #f4f1ea; white-space: pre; }
+#term .ln .d { color: #d9501f; }
+#term .tcur { display: inline-block; width: 28px; height: 62px; background: #9a958d; vertical-align: -10px; margin-left: 4px; }
+#term .mh { position: absolute; right: 22px; bottom: 16px; padding: 4px 16px; border: 3px solid #e9e5dc; border-radius: 24px; font: 500 21px JBMono, monospace; color: #fff; background: #141210; }
+#logo { position: absolute; left: 826px; top: 622px; width: 134px; height: 134px; border-radius: 28px; background: #fff; border: 5px solid #141414; box-shadow: 6px 8px 0 #141414; opacity: 0; }
+#logo svg { position: absolute; left: 10px; top: 10px; }
+</style>
+</head>
+<body>
+<div id="root" data-layout-allow-occlusion data-layout-allow-overflow data-layout-allow-overlap data-composition-id="main" data-start="0" data-duration="3.15" data-width="1080" data-height="1920" data-fps="30">
+  <div id="paper" class="clip layer" data-start="0" data-duration="3.15" data-track-index="5"></div>
+  <div id="bg" class="clip layer" data-start="0" data-duration="3.15" data-track-index="0"></div>
+  <div id="topg" class="clip layer" data-start="0" data-duration="3.15" data-track-index="1">
+    <div id="tpaper"></div>
+    <div id="vel">velocity <b>2212</b> px/s</div>
+    <div id="bdots"></div><div id="board"></div>
+    <div id="pills"></div>
+    <div class="ghost" id="g1"></div><div class="ghost" id="g2"></div><div class="ghost" id="g3"></div>
+    <div class="tc" id="nem"></div><div class="tc" id="tha"></div><div class="tc" id="truot"></div><div class="tc" id="nay"></div><div class="tc" id="keo"></div>
+    <div id="gtile">GSAP</div>
+    <div id="lab">Draggable + Inertia</div>
+  </div>
+  <div id="botg" class="clip layer" data-start="0" data-duration="3.15" data-track-index="2">
+    <div id="panel"></div><div id="ghosttxt">DRAGGABLE</div><div id="dash"></div><div id="dashline"></div>
+    <div id="ripple"></div>
+    <div class="bc" id="throw"></div><div class="bc" id="inertia"></div><div class="bc" id="elastic"></div><div class="bc" id="drag"></div><div class="bc" id="bounce"></div>
+    <div id="tag2">drag · dragElastic</div>
+    <div id="mtile"><svg width="64" height="64" viewBox="0 0 64 64"><path d="M6 52 L22 12 L32 12 L16 52Z M26 52 L42 12 L52 12 L36 52Z" fill="#141414"/><circle cx="55" cy="46" r="5" fill="#141414"/></svg></div>
+  </div>
+  <div id="curs" class="clip layer" data-start="0" data-duration="3.15" data-track-index="3">
+    <svg class="cur" id="curT" viewBox="0 0 44 62"><path d="M3 3 L3 48 L15 38 L23 58 L32 54 L24 35 L40 35 Z" fill="#fff" stroke="#141414" stroke-width="3.5" stroke-linejoin="round"/></svg>
+    <svg class="cur" id="curB" viewBox="0 0 44 62"><path d="M3 3 L3 48 L15 38 L23 58 L32 54 L24 35 L40 35 Z" fill="#fff" stroke="#141414" stroke-width="3.5" stroke-linejoin="round"/></svg>
+  </div>
+  <div id="shade" class="clip layer" data-layout-allow-occlusion data-layout-ignore data-start="0" data-duration="3.15" data-track-index="6"></div>
+  <div id="vel2" class="clip" data-layout-ignore data-start="0" data-duration="3.15" data-track-index="7">velocity <b id="vel2v">270</b> px/s</div>
+  <div id="tm" class="clip layer" data-layout-allow-occlusion data-layout-allow-overlap data-start="0" data-duration="3.15" data-track-index="8">
+    <div id="term">
+      <div class="hd"><i style="left:18px"></i><i style="left:40px"></i><i style="left:62px"></i><span data-layout-ignore>Terminal</span></div>
+      <div class="ln"><span class="d">$ </span><span class="tcur"></span></div>
+      <div class="mh" data-layout-ignore>Minh hoạ</div>
+    </div>
+    <div id="logo"></div>
+  </div>
+  <div id="top" class="clip layer" data-start="0" data-duration="3.15" data-track-index="4">
+    <div id="tag">AI Tips</div>
+    <div id="capA" class="cap"><span><em>Kéo,</em></span> <span>ném,</span> <span>buông</span> <span>tay,</span></div>
+    <div id="capC" class="cap"><span>Còn</span> <span><em>Motion,</em></span></div>
+    <div id="capB" class="cap"><span>mọi</span> <span>thứ</span> <span>vẫn</span> <span>trượt</span> <span>tiếp</span> <span>tự</span> <span>nhiên.</span></div>
+  </div>
+</div>
+<script>
+// ---------- dựng DOM tĩnh (xác định, không random) ----------
+const $ = s => document.querySelector(s);
+// fonts.css có bộ tiếng Việt: dùng chữ thật, không ráp dấu bằng hình
+const DIA = {};
+function big(text) {
+  return [...text].map(ch => { const d = DIA[ch]; return `<span>${d ? d[0] + d[1] : ch}</span>`; }).join("");
+}
+function tcard(id, word, bar, lines, mono, monoTop) {
+  $(id).innerHTML = `<div class="big">${big(word)}</div><div class="b1" style="background:${bar}"></div><div class="b2" style="background:${bar}"></div>
+    <div class="mt" style="top:${monoTop}px;color:${bar}">${mono}</div>`;
+}
+tcard("#nem", "NÉM", "#7a746d", 2, "inertia:<br>true", 204);
+tcard("#tha", "THẢ", "#bcc9ff", 2, "snap: [ … ]", 232);
+tcard("#truot", "TRƯỢT", "#c9b0ff", 2, "throwResistance", 232);
+tcard("#nay", "NẢY", "#7a5a05", 2, "bounds", 232);
+tcard("#keo", "KÉO", "#f0b9a4", 2, "Draggable", 244);
+$("#nem .mt").style.color = "#fff"; $("#tha .mt").style.color = "#fff"; $("#truot .mt").style.color = "#fff"; $("#keo .mt").style.color = "#fff";
+$("#nay .mt").style.color = "#141414";
+$("#nay .big").style.fontSize = "104px";
+$("#truot .big").style.fontSize = "88px";
+$("#keo .mt").style.transform = "rotate(-3deg)";
+
+// bảng dưới
+const BC = { throw: ["throw", "power: 0.5"], inertia: ["inertia", "timeConstant: 1500"], elastic: ["elastic", "dragElastic={0.35}"], drag: ["drag", "drag"], bounce: ["bounce", "bounceDamping: 13"] };
+Object.keys(BC).forEach(k => {
+  $("#" + k).innerHTML = `<div class="gr"></div><div class="lb">${BC[k][0]}</div><div class="sb">${BC[k][1]}</div>`;
+});
+
+// phần tử chồng lên nhau là chủ ý (bộ sưu tập thẻ bị kéo, chồng lớp)
+// pill thuộc tính (trang trí, trôi nhẹ)
+const PILLS = [["x,y", "k", 22, 518], ["snap", "y", 150, 516], ["inertia", "w", 62, 676], ["cursor", "w", 548, 530], ["minDur", "k", 706, 534],
+  ["liveS", "k", 470, 690], ["trigger", "w", 396, 726], ["onDrag", "w", 180, 726], ["bounds", "w", 100, 830], ["velocity", "k", 238, 832],
+  ["lockAxis", "w", 380, 832], ["for", "w", 530, 832]];
+const pills = $("#pills");
+PILLS.forEach(([t, c, x, y], i) => {
+  const p = document.createElement("div"); p.className = "pill " + c; p.id = "pl" + i; p.textContent = t;
+  p.style.left = x + "px"; p.style.top = y + "px"; pills.appendChild(p);
+});
+
+// phần tử chồng lên nhau là chủ ý (bộ sưu tập thẻ bị kéo, chồng lớp)
+document.querySelectorAll("#topg *, #botg *").forEach(e => { e.setAttribute("data-layout-allow-occlusion", ""); e.setAttribute("data-layout-allow-overlap", ""); });
+
+// ---------- lấy mẫu đường đi (Hermite, tất định) ----------
+// kf: [[t, x, y, rot, scale], ...]; trả mảng keyframe GSAP theo từng khung 1/30
+function sampleKf(kf, dt) {
+  const n = kf.length, out = [];
+  const tg = (i, c) => {   // tiếp tuyến theo thời gian
+    const a = Math.max(0, i - 1), b = Math.min(n - 1, i + 1);
+    return (kf[b][c] - kf[a][c]) / (kf[b][0] - kf[a][0]);
+  };
+  for (let t = kf[0][0] + dt; t <= kf[n - 1][0] + 1e-6; t += dt) {
+    let i = 0; while (i < n - 2 && kf[i + 1][0] < t - 1e-9) i++;
+    const t0 = kf[i][0], t1 = kf[i + 1][0], h = t1 - t0, u = Math.min(1, (t - t0) / h);
+    const h00 = 2 * u ** 3 - 3 * u ** 2 + 1, h10 = u ** 3 - 2 * u ** 2 + u, h01 = -2 * u ** 3 + 3 * u ** 2, h11 = u ** 3 - u ** 2;
+    const v = c => h00 * kf[i][c] + h10 * h * tg(i, c) + h01 * kf[i + 1][c] + h11 * h * tg(i + 1, c);
+    out.push({ x: v(1), y: v(2), rotation: v(3), scale: v(4), duration: dt, ease: "none" });
+  }
+  return out;
+}
+
+// ---------- timeline (một timeline paused, seek-safe) ----------
+const tl = gsap.timeline();   // timeline cũ, được bọc vào main tại PRE (J12: pre 0.15)
+const PRE = 0.15;
+const main = gsap.timeline({ paused: true });
+const DT = 1 / 30;
+// kf theo tâm thẻ (cx, cy); chuyển sang góc trên-trái
+function follow(sel, w, h, kf, delay) {
+  const pts = kf.map(([t, cx, cy, r, s]) => [t, cx - w / 2, cy - h / 2, r, s]);
+  tl.set(sel, { x: pts[0][1], y: pts[0][2], rotation: pts[0][3], scale: pts[0][4] }, 0);
+  tl.to(sel, { keyframes: sampleKf(pts, DT) }, pts[0][0] + (delay || 0));
+}
+
+// chuyển cảnh (J12): bảng trên trượt vào từ trái, panel tối từ phải, đè lên spring (s12 giữ ở post).
+// Mốc theo khung gốc (30fps): bắt đầu ~20.93 (0.083 trong file), xong ~21.13/21.17; chạy ở timeline `main`.
+const SLT = [[0.083, -1100], [0.117, -1044], [0.15, -936], [0.183, -730], [0.217, -430], [0.25, -60], [0.283, 0]];
+const SLB = [[0.083, 1080], [0.117, 1037], [0.15, 930], [0.183, 730], [0.217, 425], [0.25, 216], [0.283, 40], [0.317, 0]];
+const SLD = 0.052;   // J12 fix 1: bảng + panel trễ ~1 khung so với bản cũ (gốc: f631 mới vào ~35px, f632 ~150px)
+function slide(sel, kf) {
+  main.set(sel, { x: kf[0][1] }, 0);
+  for (let k = 1; k < kf.length; k++) main.fromTo(sel, { x: kf[k - 1][1] }, { x: kf[k][1], duration: kf[k][0] - kf[k - 1][0], ease: "none", immediateRender: false }, kf[k - 1][0] + SLD);
+}
+slide("#topg", SLT); slide("#botg", SLB);
+main.set("#paper", { opacity: 0 }, 0); main.set("#paper", { opacity: 1 }, 0.29 + SLD);   // nền kem cả khung khi s12 (post) hết đè
+tl.fromTo("#curs", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0.1);
+
+// ----- thẻ tĩnh phía trên -----
+tl.set("#nem", { x: 292, y: 382 }, 0);   // NÉM được kéo ở đoạn sau: ghi đè bằng follow bên dưới
+tl.set("#tha", { x: 828, y: 382 }, 0);
+tl.set("#truot", { x: 562, y: 670 }, 0);
+tl.set("#nay", { x: 828, y: 670 }, 0);
+
+// KÉO bị con trỏ kéo rồi ném, nảy qua lại như lò xo rồi nằm yên
+const KEO = [[0, 190, 770, -3, 1], [0.25, 198, 763, -3, 1], [0.5, 684, 612, -8, 1.04], [0.75, 648, 540, -20, 1.06], [1.0, 558, 640, -12, 1.03],
+  [1.25, 150, 666, -2, 1], [1.5, 407, 565, -10, 1.02], [1.75, 558, 500, -4, 1], [2.0, 630, 464, -2, 1], [2.25, 648, 457, -3, 1], [2.6, 648, 460, 0, 1], [3.0, 648, 460, 0, 1]];
+follow("#keo", 252, 300, KEO, 0);
+[[0.07, "#g1"], [0.14, "#g2"], [0.21, "#g3"]].forEach(([d, g]) => follow(g, 252, 300, KEO, d));
+tl.set(".ghost", { opacity: 0 }, 0);
+tl.to(".ghost", { opacity: 0.55, duration: 0.1 }, 0.4);
+tl.to(".ghost", { opacity: 0, duration: 0.25 }, 1.65);
+
+// NÉM bị con trỏ thứ hai túm và ném đi
+follow("#nem", 243, 300, [[0, 413, 532, 0, 1], [1.8, 413, 532, 0, 1], [2.0, 390, 490, -2, 1.02], [2.25, 396, 520, -4, 1.03], [2.5, 540, 601, -14, 1.04], [2.75, 560, 612, -12, 1], [3.0, 560, 612, -12, 1]], 0);
+
+// con trỏ trên bảng trên: kéo KÉO, rồi túm NÉM
+tl.set("#curT", { x: 640, y: 740, opacity: 0 }, 0);
+tl.to("#curT", { opacity: 1, duration: 0.05 }, 0.3);
+tl.to("#curT", { keyframes: sampleKf([[0.3, 300, 800, 0, 1], [0.5, 702, 720, 0, 1], [0.75, 684, 853, 0, 1], [1.0, 648, 943, 0, 1], [1.2, 560, 930, 0, 1]], DT).map(k => ({ x: k.x, y: k.y, duration: k.duration, ease: "none" })) }, 0.3);
+tl.to("#curT", { opacity: 0, duration: 0.1 }, 1.22);
+tl.set("#curT", { x: 360, y: 640 }, 1.85);
+tl.to("#curT", { opacity: 1, duration: 0.05 }, 1.85);
+tl.to("#curT", { keyframes: sampleKf([[1.85, 360, 640, 0, 1], [2.0, 396, 580, 0, 1], [2.25, 396, 583, 0, 1], [2.5, 540, 650, 0, 1]], DT).map(k => ({ x: k.x, y: k.y, duration: k.duration, ease: "none" })) }, 1.85);
+tl.to("#curT", { opacity: 0, duration: 0.15 }, 2.55);
+
+// pill: trôi nhẹ (hữu hạn)
+PILLS.forEach((_, i) => tl.to("#pl" + i, { y: "+=" + (8 + (i % 3) * 4), x: "+=" + ((i % 2) ? 10 : -10), duration: 0.9 + (i % 4) * 0.12, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0.1 + i * 0.03));
+
+// ----- thẻ dưới -----
+tl.set("#throw", { x: 33, y: 1058 }, 0);
+tl.set("#inertia", { x: 405, y: 1058 }, 0);
+// thẻ drag: con trỏ kéo rồi buông, trượt quán tính
+follow("#drag", 270, 270, [[0, 330, 1498, 0, 1.0], [0.15, 342, 1494, 0, 1.05], [0.5, 360, 1512, -8, 1.08], [0.75, 515, 1411, -4, 1.08], [1.0, 630, 1314, 2, 1.06],
+  [1.25, 684, 1289, 5, 1.05], [1.5, 702, 1285, 4, 1.03], [1.75, 810, 1242, 2, 1.02], [2.0, 871, 1220, 0, 1.0], [2.25, 895, 1204, 0, 1.0], [2.5, 910, 1193, 0, 1.0], [3.0, 910, 1193, 0, 1.0]], 0);
+// bounce bị đẩy sang phải rồi ném ngược lại
+follow("#bounce", 270, 270, [[0, 726, 1477, 0, 1], [0.5, 738, 1519, 0, 1], [0.75, 929, 1530, 4, 1], [1.0, 900, 1512, 0, 1], [1.25, 936, 1523, 2, 1], [1.75, 936, 1544, 0, 1],
+  [2.0, 540, 1519, -12, 1], [2.25, 330, 1501, -3, 1], [2.5, 400, 1515, 0, 1], [3.0, 400, 1515, 0, 1]], 0);
+// elastic bị va rơi xuống hàng dưới
+follow("#elastic", 270, 270, [[0, 910, 1193, 0, 1], [1.65, 910, 1193, 0, 1], [1.85, 920, 1270, 6, 1], [2.0, 756, 1483, 5, 1], [2.25, 713, 1537, -2, 1], [2.5, 735, 1522, 0, 1], [3.0, 735, 1522, 0, 1]], 0);
+// throw giật nhẹ ở cuối
+tl.to("#throw", { y: 1034, duration: 0.12, ease: "power2.out" }, 2.72);
+tl.to("#throw", { y: 1058, duration: 0.35, ease: "bounce.out" }, 2.84);
+
+// con trỏ dưới + vòng sóng quán tính
+tl.set("#curB", { x: 362, y: 1520 }, 0);
+tl.to("#curB", { keyframes: sampleKf([[0, 362, 1520, 0, 1], [0.15, 365, 1520, 0, 1], [0.5, 380, 1510, 0, 1], [0.75, 540, 1440, 0, 1], [1.0, 535, 1425, 0, 1], [1.25, 462, 1397, 0, 1],
+  [1.5, 389, 1375, 0, 1], [1.75, 318, 1340, 0, 1], [2.0, 252, 1340, 0, 1], [2.3, 200, 1380, 0, 1]], DT).map(k => ({ x: k.x, y: k.y, duration: k.duration, ease: "none" })) }, 0);
+tl.to("#curB", { opacity: 0, duration: 0.15 }, 2.35);
+tl.fromTo("#ripple", { scale: 0.5, opacity: 0, x: 0 }, { scale: 1.15, opacity: 0.6, duration: 0.15, ease: "power1.out" }, 0.7);
+tl.to("#ripple", { scale: 1.5, opacity: 0, duration: 0.4, ease: "power1.in" }, 0.85);
+
+// ----- phụ đề -----
+function words(sel, ts, hideAt) {
+  document.querySelectorAll(sel + " span").forEach((s, i) =>
+    tl.fromTo(s, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, ts[i]));
+  if (hideAt != null) tl.set(sel, { opacity: 0 }, hideAt);
+}
+main.set("#capA span:first-child", { opacity: 1 }, 0.083);   // 20.933: gốc đổi sang "Kéo,"
+const aw = document.querySelectorAll("#capA span");
+[[1, 0.42], [2, 0.62], [3, 0.74]].forEach(([i, t]) => tl.fromTo(aw[i], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, t));
+tl.set("#capA", { opacity: 0 }, 1.1);
+words("#capB", [1.12, 1.2, 1.28, 1.4, 1.5, 1.58, 1.68], null);
+
+// ---------- J13 (khớp-khung): gốc ~23.433 phủ xám nhanh (2 khung), phụ đề "mọi thứ..." tắt, "Còn Motion," hiện,
+// terminal bật ra, nhãn Draggable/drag·dragElastic biến mất, pill velocity hiện. s14 tiếp tục đúng khung cuối này.
+const TJ = 2.583;   // 23.433 - (21.0 - 0.15)
+$("#logo").innerHTML = `<svg width="104" height="104" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#141414"/>
+<path d="M17 68 L33 36 H46 L30 68Z" fill="#fff"/><path d="M38 68 L54 36 H67 L51 68Z" fill="#fff"/><path d="M59 68 L72 42 Q76 36 70 36 H64 L78 36" fill="#fff"/><circle cx="80" cy="38" r="7" fill="#fff"/></svg>`;
+main.set("#capB", { opacity: 0 }, TJ);
+main.set("#tag2, #lab, #vel", { opacity: 0 }, TJ);
+main.set("#shade", { opacity: 0.3 }, TJ);
+main.set("#shade", { opacity: 0.7 }, TJ + 0.034);
+main.to("#shade", { opacity: 1, duration: 0.1, ease: "none" }, TJ + 0.067);
+const cs = document.querySelectorAll("#capC span");
+main.fromTo(cs[0], { opacity: 0 }, { opacity: 1, duration: 0.07, ease: "none" }, TJ);
+main.fromTo(cs[1], { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, TJ + 0.1);
+main.fromTo("#tm", { opacity: 0, y: 60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.17, ease: "power2.out" }, TJ);
+main.fromTo("#logo", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(1.8)" }, TJ + 0.1);
+main.set("#vel2", { opacity: 0.85 }, TJ);
+const vj = { v: 270 };
+main.to(vj, { v: 2929, duration: 3.15 - TJ, ease: "none", onUpdate() { $("#vel2v").textContent = Math.round(vj.v); } }, TJ);
+
+main.add(tl, PRE);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = main;
+</script>
+</body>
+</html>

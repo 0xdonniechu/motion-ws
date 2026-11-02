@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#bg { position: absolute; inset: 0; background: #f3f0ea; }
+#streaks i { position: absolute; top: 0; width: 6px; height: 1920px; opacity: 0; }
+.layer { position: absolute; inset: 0; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+.cap { position: absolute; left: 130px; width: 900px; font: 500 78px/94px Inter, sans-serif; color: #141414; letter-spacing: -1.5px; white-space: nowrap; }
+.cap span { display: inline-block; opacity: 0; }
+.cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+#cL1 { top: 248px; } #cL2 { top: 342px; } #cL3 { top: 436px; }
+
+/* chữ "timeline" viền mờ phía sau */
+.ghost { position: absolute; left: 0; white-space: nowrap; font: 400 560px/1 Anton, sans-serif; color: transparent; -webkit-text-stroke: 3px #dedad1; opacity: .85; }
+#g1 { top: 520px; } #g2 { top: 1080px; font-size: 520px; opacity: .45; }
+
+#code { position: absolute; left: 0; width: 1080px; top: 480px; text-align: center; font: 500 63px/1 JBMono, monospace; white-space: pre; letter-spacing: 0; }
+#code .a { color: #cf5a35; } #code .b { color: #7e7a73; }
+
+#ruler { position: absolute; left: 0; top: 1440px; width: 4400px; height: 160px; }
+#play { position: absolute; left: 536px; top: 1380px; width: 8px; height: 190px; background: #c9451c; }
+#playT { position: absolute; left: 520px; top: 1378px; width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 30px solid #c9451c; }
+
+#logo { position: absolute; left: 100px; top: 1262px; width: 140px; height: 140px; border-radius: 24px; background: #fffdf8; border: 6px solid #1a1714; opacity: 0; }
+#logo i { position: absolute; inset: 14px; border-radius: 12px; background: #101010; font: 400 40px/84px Anton, sans-serif; font-style: normal; color: #0ae448; text-align: center; }
+#lring { position: absolute; left: 40px; top: 1202px; width: 260px; height: 260px; opacity: 0; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="2.35" data-width="1080" data-height="1920" data-fps="30">
+  <svg width="0" height="0" style="position:absolute"><defs><filter id="vb" x="0" y="-10%" width="100%" height="120%"><feGaussianBlur id="vbg" stdDeviation="0 0"/></filter></defs></svg>
+  <div id="bg"></div>
+  <div class="clip layer" id="bgl" data-start="0" data-duration="2.35" data-track-index="0">
+    <div class="ghost" id="g1">timelinetimelinetime</div>
+    <div class="ghost" id="g2">ctimelinetimeline</div>
+  </div>
+  <div class="clip layer" id="mid" data-start="0" data-duration="2.35" data-track-index="1" data-layout-ignore>
+    <div id="code"><span class="a">gsap</span><span class="b">.timeline()</span></div>
+    <svg id="draw" width="1080" height="1920" viewBox="0 0 540 960" style="position:absolute;left:0;top:0">
+      <path id="pth" d="" fill="none" stroke="#161412" stroke-width="3.5" stroke-linecap="round"/>
+      <path id="base" d="" fill="none" stroke="#161412" stroke-width="3.5" stroke-linecap="round"/>
+      <path id="hi" d="" fill="none" stroke="#c9451c" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 99999"/>
+      <g id="chain"></g>
+    </svg>
+    <svg id="lring" viewBox="-130 -130 260 260"></svg>
+    <div id="logo"><i>GSAP</i></div>
+    <svg id="rulerWrap" width="1080" height="1920" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0"><g id="ruler"></g></svg>
+    <div id="play"></div><div id="playT"></div>
+  </div>
+  <div class="clip layer" id="top" data-start="0" data-duration="2.35" data-track-index="2">
+    <div id="tag">AI Tips</div>
+    <div class="cap" id="cL1"><span><em>GSAP</em></span> <span>mạnh</span> <span>nhất</span> <span>ở</span></div>
+    <div class="cap" id="cL2"><span>những</span> <span>chuỗi</span> <span>chuyển</span></div>
+    <div class="cap" id="cL3"><span>động</span> <span>dài;</span></div>
+  </div>
+  <div class="clip layer" id="stk" data-start="0" data-duration="2.35" data-track-index="3" data-layout-ignore><div id="streaks"></div></div>
+</div>
+<script>
+// ---------- đường cong (đơn vị 540x960, vẽ ở 2x) ----------
+const P_D = "M -30 660 C 0 600 70 440 130 380 C 190 320 260 288 320 290 C 420 292 500 340 490 430 C 482 510 420 565 360 580 C 300 590 240 540 232 470 C 226 410 270 385 320 392 C 390 402 410 470 395 520 C 380 575 320 630 250 662 C 180 690 90 710 60 690";
+const B_D = "M 60 690 C 180 735 380 720 700 640";
+const pth = document.getElementById("pth"), base = document.getElementById("base"), hi = document.getElementById("hi");
+pth.setAttribute("d", P_D); base.setAttribute("d", B_D);
+const LP = pth.getTotalLength(), LB = base.getTotalLength(), LT = LP + LB;
+// bảng điểm theo độ dài (xác định)
+const PTS = [];
+for (let s = 0; s <= LT + 1; s += 1) {
+  const el = s <= LP ? pth : base, q = el.getPointAtLength(Math.min(s <= LP ? s : s - LP, s <= LP ? LP : LB));
+  PTS.push([q.x, q.y]);
+}
+// vòng trong của đường (để vẽ vệt cam)
+hi.setAttribute("d", P_D);
+
+// ---------- chuỗi ô vuông ----------
+const COLS = ["#d4491b", "#e0a312", "#2f5bea", "#7a3cf0", "#1d8a52", "#ffffff", "#151311"];
+const N = 74, GAP = 27, SZ = 26;
+const chain = document.getElementById("chain"), SQ = [];
+for (let i = 0; i < N; i++) {
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  g.setAttribute("x", -SZ / 2); g.setAttribute("y", -SZ / 2); g.setAttribute("width", SZ); g.setAttribute("height", SZ); g.setAttribute("rx", 4.5);
+  g.setAttribute("fill", COLS[(i * 5 + (i >> 2)) % 7]);
+  if (COLS[(i * 5 + (i >> 2)) % 7] === "#ffffff") { g.setAttribute("stroke", "#2a2622"); g.setAttribute("stroke-width", 1.2); }
+  chain.appendChild(g); SQ.push(g);
+}
+const H = { h: -40, hi: 0, hiOn: 0 };
+function drawChain() {
+  for (let i = 0; i < N; i++) {
+    const d = H.h - i * GAP;
+    const el = SQ[i];
+    if (d < 0 || d >= LT - 2) { el.setAttribute("opacity", 0); continue; }
+    const a = PTS[Math.floor(d)], b = PTS[Math.min(PTS.length - 1, Math.floor(d) + 2)];
+    const ang = Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI;
+    el.setAttribute("opacity", 1);
+    el.setAttribute("transform", `translate(${a[0].toFixed(2)} ${a[1].toFixed(2)}) rotate(${ang.toFixed(1)})`);
+  }
+  hi.setAttribute("stroke-dasharray", H.hiOn > 0 ? `${H.hiOn} 99999` : "0 99999");
+  hi.setAttribute("stroke-dashoffset", -H.hi);
+}
+
+// ---------- thước thời gian ----------
+(function () {
+  const g = document.getElementById("ruler"); let h = "";
+  for (let x = 0; x <= 4200; x += 40) {
+    const major = (x % 200 === 0);
+    h += `<rect x="${x - 1.5}" y="${major ? 1508 : 1514}" width="3" height="${major ? 56 : 30}" fill="#2a2622"/>`;
+    if (major) h += `<text x="${x}" y="1484" font-family="JBMono" font-size="21" fill="#8b867d" text-anchor="middle">${(x / 400).toFixed(1)}s</text>`;
+  }
+  for (let k = 0; k * 280 <= 4200; k++) {
+    const x = k * 280;
+    h += `<polygon points="${x - 14},1496 ${x},1482 ${x + 14},1496 ${x},1510" fill="#c9451c"/>`;
+  }
+  g.innerHTML = h;
+})();
+
+// ---------- vòng nhỏ quanh logo ----------
+(function () {
+  let h = ""; const n = 18;
+  for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2, r1 = 96, r2 = 124 - (i % 3) * 5;
+    h += `<line x1="${(Math.cos(a) * r1).toFixed(1)}" y1="${(Math.sin(a) * r1).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}" stroke="#cf4a1f" stroke-width="3"/>`; }
+  document.getElementById("lring").innerHTML = `<circle r="92" fill="none" stroke="#cf4a1f" stroke-width="3" stroke-dasharray="14 8"/>` + h;
+})();
+
+// ---------- gõ chữ nhiễu cho dòng mono ----------
+const SYM = "<>{}[]=;:01/&()[<;(.";
+const TXT = { p: 0 };
+const FROM = "gsap.timeline()", TO = "tl.to(…).to(…).to(…)";
+function renderCode() {
+  const el = document.getElementById("code");
+  if (TXT.p <= 0) { el.innerHTML = `<span class="a">gsap</span><span class="b">.timeline()</span>`; return; }
+  const len = TO.length, n = Math.floor(TXT.p * (len + 5)); let o = "";
+  for (let k = 0; k < len; k++) {
+    if (k < n - 3) o += TO[k];
+    else if (k < n) o += SYM[(k * 7 + n * 3) % SYM.length];
+    else if (k < FROM.length) o += FROM[k];
+  }
+  el.innerHTML = `<span class="b">${o.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</span>`;
+}
+
+const PRE = 0.15, D = 1.9, POST = 0.30, TOTAL = PRE + D + POST;
+const main = gsap.timeline({ paused: true });
+const tl = gsap.timeline();
+
+// nền chữ "timeline" trôi ngang
+tl.fromTo("#g1", { x: 0 }, { x: -900, duration: 1.9, ease: "none" }, 0);
+tl.fromTo("#g2", { x: -500 }, { x: 100, duration: 1.9, ease: "none" }, 0);
+tl.fromTo("#bgl", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 0.05);
+
+// thước thời gian cuộn nhanh, playhead cố định
+tl.fromTo("#ruler", { x: 180 }, { x: -3000, duration: 1.9, ease: "power1.out" }, 0);
+
+// chuỗi ô vuông chạy dọc đường
+tl.fromTo(H, { h: -40 }, { h: LT + N * GAP + 40, duration: 2.8, ease: "power1.out", onUpdate: drawChain }, 0.05);
+
+// vệt cam chạy trên vòng trong
+tl.fromTo(H, { hi: 1180 }, { hi: 1560, duration: 0.5, ease: "none", onUpdate: drawChain, immediateRender: false }, 1.2);
+tl.fromTo(H, { hiOn: 0 }, { hiOn: 150, duration: 0.05, ease: "none", onUpdate: drawChain, immediateRender: false }, 1.2);
+tl.to(H, { hiOn: 0, duration: 0.15, ease: "none", onUpdate: drawChain }, 1.55);
+
+// logo GSAP + vòng
+tl.fromTo("#logo", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.15, ease: "back.out(2)" }, 0.1);
+tl.fromTo("#lring", { opacity: 0, scale: 0.5, rotation: 0 }, { opacity: 1, scale: 1, rotation: 25, duration: 0.2, ease: "power2.out" }, 0.1);
+tl.to("#lring", { opacity: 0, duration: 0.2 }, 0.35);
+
+// dòng mono "gsap.timeline()" hiện rồi đổi
+tl.fromTo("#code", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.08);
+tl.to(TXT, { p: 1, duration: 0.3, ease: "none", onUpdate: renderCode }, 1.2);
+
+// phụ đề
+const w1 = [null, 0.5, 0.7, 0.8], w2 = [0.9, 1.0, 1.1], w3 = [1.3, 1.4];
+const put = (sel, ts) => document.querySelectorAll(sel + " span").forEach((s, i) => ts[i] == null ? 0 :
+  tl.fromTo(s, { opacity: 0, color: "#77736c" }, { opacity: 1, color: "#141414", duration: 0.12, ease: "power2.out" }, ts[i]));
+put("#cL1", w1); put("#cL2", w2); put("#cL3", w3);
+// "GSAP" serif giữ nguyên màu cam
+tl.fromTo("#cL1 span:nth-of-type(1)", { opacity: 0, color: "#c9451c" }, { opacity: 1, color: "#c9451c", duration: 0.07 }, 0.05);
+
+window.__timelines = window.__timelines || {};
+// J3 (pre): cảnh trượt lên từ dưới, nhoè dọc, có vệt dọc; phần trước đó trong suốt để s03 lộ ra
+const SL = ["#bg", "#bgl", "#mid"], VB = { b: 0 }, SLIDE_AT = 0.18, SLIDE_D = 0.12;
+const SK = [[90, "#9a968f"], [210, "#c9451c"], [330, "#b5b0a8"], [470, "#9a968f"], [610, "#c9451c"], [760, "#b5b0a8"], [880, "#9a968f"], [990, "#c9451c"]];
+SK.forEach(([x, c], i) => { const d = document.createElement("i"); d.style.left = x + "px"; d.style.background = c; d.id = "sk" + i; document.getElementById("streaks").appendChild(d); });
+function setVB() {
+  document.getElementById("vbg").setAttribute("stdDeviation", "0 " + VB.b.toFixed(2));
+  SL.forEach(s => { document.querySelector(s).style.filter = VB.b > 0.3 ? "url(#vb)" : "none"; });
+}
+gsap.set(SL, { y: 1920 });
+main.fromTo(SL, { y: 1920 }, { y: 0, duration: SLIDE_D, ease: "power2.out", immediateRender: false }, SLIDE_AT);
+main.fromTo(VB, { b: 46 }, { b: 0, duration: SLIDE_D + 0.03, ease: "power1.out", onUpdate: setVB, immediateRender: false }, SLIDE_AT);
+SK.forEach((_, i) => {
+  main.fromTo("#sk" + i, { opacity: 0.6, y: 900 + (i % 3) * 300 }, { opacity: 0, y: -200, duration: 0.14, ease: "power1.out", immediateRender: false }, SLIDE_AT + 0.02 + i * 0.006);
+});
+main.add(tl, PRE);
+// J4 (post): mờ dần về 0 trong 0.15s đầu của post, nền kem giữ để s05 đè lên
+// phụ đề cũ tắt cứng đúng tại mốc cắt (gốc: f179 còn, f180 đã sang "chữ" của s05)
+main.set("#top", { opacity: 0 }, PRE + D);
+main.to("#bgl, #mid", { opacity: 0, duration: 0.12, ease: "none" }, PRE + D + 0.03);
+main.set("#bg", {}, TOTAL);
+window.__timelines["main"] = main;
+</script>
+</body>
+</html>

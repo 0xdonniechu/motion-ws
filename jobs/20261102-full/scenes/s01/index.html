@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#bg { position: absolute; inset: 0; background: #efece6; }
+.layer { position: absolute; inset: 0; }
+
+/* lưới halftone nền, mờ dần lên phía trên */
+#grid { -webkit-mask-image: linear-gradient(to bottom, transparent 380px, rgba(0,0,0,.55) 760px, #000 1250px);
+  mask-image: linear-gradient(to bottom, transparent 380px, rgba(0,0,0,.55) 760px, #000 1250px); }
+#grid svg { position: absolute; left: 0; top: 0; }
+
+/* vệt cam nhạt phía trên (tàn dư chuyển cảnh) */
+.pale { position: absolute; left: 0; width: 1080px; background: #f0c9b8; opacity: .75; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+#cap { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/96px Inter, sans-serif;
+  color: #141414; letter-spacing: -1.5px; }
+#cap span { display: inline-block; opacity: 0; }
+#cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+#cap2 { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/96px Inter, sans-serif;
+  color: #141414; letter-spacing: -1.5px; }
+#cap2 span { display: inline-block; opacity: 0; }
+
+/* hào quang cream trong vòng */
+#glow { position: absolute; left: 140px; top: 540px; width: 800px; height: 800px; border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(255,253,248,.95) 0%, rgba(255,253,248,.9) 70%, rgba(255,253,248,0) 100%); opacity: 0; }
+
+/* chữ lớn */
+.line { position: absolute; left: 0; width: 1080px; text-align: center; font-family: Anton, sans-serif; white-space: nowrap; line-height: 1; }
+.line span { display: inline-block; will-change: transform; }
+#l1 { top: 470px; font-size: 330px; letter-spacing: 0; color: #1b1613; }
+#l1 span { text-shadow: 7px 9px 0 #c9451c; }
+#l2 { top: 780px; font-size: 450px; letter-spacing: 0; color: #c9451c; }
+#l2 span { text-shadow: -8px 8px 0 #151210; }
+
+/* 3 sọc cam */
+.bar { position: absolute; left: 0; height: 46px; width: 1080px; background: #c9451c; transform-origin: 0 50%; }
+
+/* vòng halftone: mặt nạ vành * mặt nạ chấm */
+#ringWrap { position: absolute; left: 140px; top: 540px; width: 800px; height: 800px; opacity: 0;
+  -webkit-mask-image: radial-gradient(circle closest-side, transparent 0, transparent 62%, #000 68%, #000 90%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, transparent 0, transparent 62%, #000 68%, #000 90%, transparent 100%); }
+#ringDots { position: absolute; inset: 0; background: #c9451c;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><rect x='3' y='3' width='38' height='38' rx='9'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><rect x='3' y='3' width='38' height='38' rx='9'/></svg>"); }
+
+/* J1: lớp cam nhoè phủ lên (gradient từ trên xuống) rồi đặc; nằm trong post của s01 */
+#ov1 { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0;
+  background: linear-gradient(to bottom, rgba(207,74,31,.96) 0, rgba(207,74,31,.85) 420px, rgba(207,74,31,.4) 1150px, rgba(207,74,31,0) 1750px); }
+#ov2 { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; background: #cf4a1f; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="1.15" data-width="1080" data-height="1920" data-fps="30">
+  <div id="bg"></div>
+  <div class="clip layer" id="grid" data-start="0" data-duration="1.15" data-track-index="0">
+    <svg width="1080" height="1920" viewBox="0 0 1080 1920"><defs><pattern id="hp" width="46" height="46" patternUnits="userSpaceOnUse">
+      <rect x="4" y="5" width="38" height="36" rx="9" fill="#e4e0d8"/></pattern></defs><rect width="1080" height="1920" fill="url(#hp)"/></svg>
+  </div>
+  <div class="clip layer" id="mid" data-start="0" data-duration="1.15" data-track-index="1">
+    <div class="pale" style="top:180px;height:72px"></div>
+    <div class="pale" style="top:340px;height:22px"></div>
+    <div id="glow"></div>
+    <div id="ringWrap"><div id="ringDots"></div></div>
+    <div class="bar" id="b1" style="top:1460px;height:90px"></div>
+    <div class="bar" id="b2" style="top:1640px;height:26px"></div>
+    <div class="bar" id="b3" style="top:1760px;height:16px"></div>
+    <div class="line" id="l1" data-layout-ignore></div>
+    <div class="line" id="l2" data-layout-ignore></div>
+  </div>
+  <div class="clip layer" id="top" data-start="0" data-duration="1.15" data-track-index="2">
+    <div id="ov1"></div><div id="ov2"></div>
+    <div id="tag">AI Tips</div>
+    <div id="cap"><span>Toàn</span> <span>bộ</span> <span>chuyển</span> <span>động</span> <span>bạn</span> <span>đang</span> <span>thấy</span></div>
+    <div id="cap2"><span>là</span> <span>code</span></div>
+  </div>
+</div>
+<script>
+const mk = (id, txt) => { document.getElementById(id).innerHTML = [...txt].map(c => `<span>${c}</span>`).join(""); };
+mk("l1", "CHUYỂN"); mk("l2", "ĐỘNG");
+
+const tl = gsap.timeline({ paused: true });
+
+// phụ đề: hiện từng từ (xám -> đen), chunk 2 thay chunk 1 lúc 0.8s
+const c1 = [0.10, 0.13, 0.20, 0.27, 0.40, 0.53, 0.67];
+document.querySelectorAll("#cap span").forEach((s, i) => {
+  tl.fromTo(s, { opacity: 0, color: "#77736c" }, { opacity: 1, color: "#141414", duration: 0.12, ease: "power2.out" }, c1[i]);
+});
+tl.to("#cap", { opacity: 0, duration: 0.04 }, 0.78);
+const c2 = [0.80, 0.93];
+document.querySelectorAll("#cap2 span").forEach((s, i) => {
+  tl.fromTo(s, { opacity: 0, color: "#77736c" }, { opacity: 1, color: "#141414", duration: 0.1, ease: "power2.out" }, c2[i]);
+});
+
+// chữ bay vào từng mảnh (lệch trái, xoay, mờ chuyển động) rồi rung
+const rot = [-34, 22, -18, 30, -26, 16];
+const rot2 = [28, -20, 34, -16];
+document.querySelectorAll("#l1 span").forEach((s, i) => {
+  const t0 = 0.10 + i * 0.016;
+  tl.fromTo(s, { x: -330 + i * 40, y: 70, rotation: rot[i], scale: 0.55, opacity: 0, skewX: -30 },
+    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, skewX: 0, duration: 0.17, ease: "back.out(1.6)" }, t0);
+});
+document.querySelectorAll("#l2 span").forEach((s, i) => {
+  const t0 = 0.12 + i * 0.02;
+  tl.fromTo(s, { x: -300 + i * 70, y: 140, rotation: rot2[i], scale: 0.5, opacity: 0, skewX: 30 },
+    { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, skewX: 0, duration: 0.18, ease: "back.out(1.5)" }, t0);
+});
+// rung 0.4 -> 0.75 (giá trị cố định, xác định)
+const sh = [[8, -5, 1.2], [-9, 4, -1.5], [6, 7, 1], [-7, -4, -1.2], [9, 3, 1.4], [-5, -6, -.8], [4, 5, .6], [-3, -2, -.4]];
+document.querySelectorAll("#l1 span, #l2 span").forEach((s, i) => {
+  sh.forEach(([x, y, r], k) => tl.to(s, { x: x * (1 + (i % 3) * .25), y: y, rotation: r * (i % 2 ? -1 : 1), duration: 0.04, ease: "none" }, 0.36 + k * 0.045 + (i % 2) * 0.01));
+  tl.to(s, { x: 0, y: 0, rotation: 0, duration: 0.03 }, 0.74);
+});
+// lúc vòng bùng ra: mảnh chữ giật lệch
+document.querySelectorAll("#l1 span, #l2 span").forEach((s, i) => {
+  tl.to(s, { x: (i % 2 ? 22 : -18), y: (i % 3 - 1) * 16, rotation: (i % 2 ? 5 : -6), skewX: (i % 2 ? -8 : 7), duration: 0.07, ease: "power2.out" }, 0.76 + (i % 4) * 0.012);
+  tl.to(s, { x: (i % 3 - 1) * 10, y: (i % 2 ? -8 : 10), rotation: (i % 2 ? -3 : 4), duration: 0.1, ease: "none" }, 0.86);
+});
+
+// 3 sọc cam kéo từ trái
+tl.fromTo("#b1", { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, 0.2);
+tl.fromTo("#b2", { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, 0.25);
+tl.fromTo("#b3", { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, 0.3);
+
+// vòng halftone cam bùng ra quanh chữ
+tl.fromTo("#ringWrap", { scale: 0.55, opacity: 0 }, { scale: 1.45, opacity: 1, duration: 0.25, ease: "power2.out" }, 0.74);
+tl.fromTo("#glow", { scale: 0.5, opacity: 0 }, { scale: 1.5, opacity: 1, duration: 0.22, ease: "power2.out" }, 0.76);
+
+// J1: chữ nhoè dần, lớp cam nhoè phủ từ trên xuống rồi đặc (gốc: f29 nhoè, f30 cam ~70% phía trên, f31 gần đặc)
+// post 0.15s: giữ cam đặc để s02 hiện dần (s02 là .mov trong suốt, đè lên); phụ đề của s01 tắt đúng tại 1.0 (s02 vẽ phụ đề từ đó)
+const Q = 1 / 30;
+tl.fromTo("#mid", { filter: "blur(0px)" }, { filter: "blur(8px)", duration: 0.067, ease: "none" }, 0.90);
+tl.to("#mid", { filter: "blur(16px)", duration: Q, ease: "none" }, 0.967);
+tl.to("#mid", { filter: "blur(24px)", duration: Q, ease: "none" }, 1.0);
+tl.fromTo("#ov1", { opacity: 0 }, { opacity: 0.25, duration: 0.067, ease: "none" }, 0.90);
+tl.to("#ov1", { opacity: 0.85, duration: Q, ease: "none" }, 0.967);
+tl.to("#ov1", { opacity: 1, duration: Q, ease: "none" }, 1.0);
+tl.fromTo("#ov2", { opacity: 0 }, { opacity: 0.25, duration: Q, ease: "none", immediateRender: false }, 1.0);
+tl.to("#ov2", { opacity: 0.9, duration: Q, ease: "none" }, 1.0333);
+tl.to("#ov2", { opacity: 1, duration: Q, ease: "none" }, 1.0667);
+tl.set("#tag, #cap2", { opacity: 0 }, 1.0);
+tl.set("#top", {}, 1.15);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

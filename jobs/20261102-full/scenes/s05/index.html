@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#bg { position: absolute; inset: 0; background: #f3f0ea; opacity: 0; }
+.layer { position: absolute; inset: 0; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+#cap { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/94px Inter, sans-serif; color: #141414; letter-spacing: -1.5px; white-space: nowrap; }
+#cap span { display: inline-block; opacity: 0; }
+#cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+
+/* tường chữ mờ phía sau */
+#wall { position: absolute; left: 0; top: 400px; width: 1080px; height: 1220px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 1080px, transparent 1220px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 1080px, transparent 1220px); }
+#wall div { position: absolute; left: 0; white-space: nowrap; font: 400 150px/1 Anton, sans-serif; color: #e3dfd6; }
+
+
+/* SplitText */
+#st { position: absolute; left: 0; width: 1080px; top: 520px; height: 380px; text-align: center; white-space: nowrap; font: 400 352px/1 Anton, sans-serif; color: #17130f; transform: scaleX(0.8); }
+#st span { display: inline-block; text-shadow: 6px 8px 0 #c9451c; opacity: 0; }
+#tung { position: absolute; left: 0; width: 1080px; top: 940px; height: 180px; text-align: center; white-space: nowrap; font: 400 165px/1 Anton, sans-serif; }
+#tung span { display: inline-block; text-shadow: 5px 6px 0 rgba(20,16,13,.9); }
+#tung .w1 { color: #c9451c; } #tung .w2 { color: #c9451c; } #tung .w3 { color: #c9451c; }
+.shard { position: absolute; background: #17130f; box-shadow: 5px 6px 0 #c9451c; opacity: 0; }
+
+#chip { position: absolute; left: 70px; top: 1200px; width: 940px; height: 120px; border-radius: 22px; background: #15120f; box-shadow: 8px 10px 0 #c9451c; opacity: 0; }
+#chip div { position: absolute; left: 40px; top: 0; line-height: 120px; font: 500 42px/120px JBMono, monospace; color: #f3f0ea; white-space: pre; }
+#chip div b { font-weight: 500; color: #e0a312; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="1.15" data-width="1080" data-height="1920" data-fps="30">
+  <div id="bg"></div>
+  <div class="clip layer" id="bgl" data-start="0" data-duration="1.15" data-track-index="0">
+    <div id="wall" data-layout-ignore></div>
+  </div>
+  <div class="clip layer" id="mid" data-start="0" data-duration="1.15" data-track-index="1" data-layout-ignore>
+    <div id="st"></div>
+    <div id="tung"><span class="w1"></span> <span class="w2"></span> <span class="w3"></span></div>
+    <div class="shard" id="sh1" style="left:600px;top:560px;width:56px;height:260px"></div>
+    <div class="shard" id="sh2" style="left:760px;top:600px;width:44px;height:190px"></div>
+    <div class="shard" id="sh3" style="left:300px;top:700px;width:260px;height:44px"></div>
+    <div id="chip"><div id="chipT">type:</div></div>
+  </div>
+  <div class="clip layer" id="top" data-start="0" data-duration="1.15" data-track-index="2">
+    <div id="tag">AI Tips</div>
+    <div id="cap"><span>chữ</span> <span>tách</span> <span>từng</span> <span><em>ký</em></span> <span>tự,</span></div>
+  </div>
+</div>
+<script>
+const ST = "SplitText", TG = ["TỪNG", "KÝ", "TỰ"];
+const stEl = document.getElementById("st");
+stEl.innerHTML = [...ST].map(c => `<span>${c}</span>`).join("");
+document.querySelectorAll("#tung span").forEach((el, i) => { el.innerHTML = [...TG[i]].map(c => `<span style="display:inline-block">${c}</span>`).join(""); });
+
+// tường chữ
+const WALL = ["WORDS LINES MASK STAGGER CHARS SPLITTEXT FROM CENTER", "SPLITTEXT CHARS WORDS LINES MASK SPIRAL FROM", "TỪNG KÝ TỰ TỪNG DÒNG TỪNG TỪ WORDS LINES MASK",
+  "CHARS STAGGER SPLITTEXT FROM CENTER WORDS LINES", "WORDS LINES MASK SPLITTEXT CHARS STAGGER", "LINES MASK TỪNG KÝ TỰ TỪNG DÒNG WORDS", "STAGGER CHARS STAGGER CHARS STAGGER CHARS"];
+const wall = document.getElementById("wall");
+WALL.forEach((t, i) => { const d = document.createElement("div"); d.id = "wr" + i; d.style.top = (i * 168) + "px"; d.textContent = t + " " + t; d.style.color = i > 4 ? "#d3cfc6" : "#e3dfd6"; wall.appendChild(d); });
+
+// ký tự nhiễu cho chip
+const SYM = "{}[]<>01&g(;:=>", CH = { p: 0 };
+function renderChip() {
+  const n = Math.floor(CH.p * 40); let o = "";
+  for (let k = 0; k < 10; k++) o += SYM[(k * 5 + n * 7 + (k * n) % 4) % SYM.length];
+  document.getElementById("chipT").innerHTML = `type: <b>${o.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</b>`;
+}
+
+const PRE = 0.30, D = 0.7, POST = 0.15, TOTAL = PRE + D + POST;
+const main = gsap.timeline({ paused: true });
+const tl = gsap.timeline();
+
+// tường chữ trôi, đậm dần
+WALL.forEach((_, i) => tl.fromTo("#wr" + i, { x: i % 2 ? -380 : 0 }, { x: i % 2 ? -60 : -440, duration: 0.7, ease: "none" }, 0));
+tl.fromTo("#wall", { opacity: 0.2 }, { opacity: 1, duration: 0.3, ease: "none" }, 0.05);
+
+// SplitText: ráp -> tung -> ráp lại -> rung
+const OFF = [[-420, -60, -50], [-250, 120, 40], [-120, -120, -80], [60, 100, 70], [180, -90, -35], [300, 130, 55], [-60, 60, -20], [380, -40, 60], [460, 90, 30]];
+const SC = [[-200, -90, -30, 1.2], [-120, 70, 25, 0.9], [-80, -120, -55, 1.3], [90, -100, 40, 1.1], [140, -130, -70, 1.3], [60, 200, 30, 0.8], [190, -60, 50, 1.1], [170, 160, -40, 1.2], [300, 110, 35, 1.0]];
+document.querySelectorAll("#st span").forEach((el, i) => {
+  tl.fromTo(el, { x: OFF[i][0], y: OFF[i][1] + 260, rotation: OFF[i][2], scale: 0.4, scaleY: 0.5 },
+    { x: (i % 3 - 1) * 12, y: (i % 2 ? 14 : -14), rotation: (i % 2 ? 8 : -7), scale: 1.08, scaleY: 0.95, duration: 0.14, ease: "power1.out" }, 0.03 + i * 0.004);
+  tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.04, ease: "none", immediateRender: false }, 0.02 + i * 0.004);
+  tl.to(el, { x: SC[i][0], y: SC[i][1], rotation: SC[i][2], scale: SC[i][3], scaleY: 1, duration: 0.1, ease: "power2.out" }, 0.17 + (i % 3) * 0.01);
+  tl.to(el, { x: SC[i][0] * 0.6, y: SC[i][1] * 0.6, rotation: SC[i][2] * 0.5, duration: 0.07, ease: "none" }, 0.28);
+  tl.to(el, { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.14, ease: "back.out(1.5)" }, 0.36 + i * 0.008);
+  // rung cuối
+  tl.to(el, { y: (i % 2 ? 10 : -12), rotation: (i % 3 - 1) * 2.5, duration: 0.07, ease: "sine.inOut" }, 0.54);
+  tl.to(el, { y: (i % 2 ? -6 : 7), rotation: (i % 3 - 1) * -1.5, duration: 0.08, ease: "sine.inOut" }, 0.61);
+});
+// mảnh nghiêng bay qua
+tl.fromTo("#sh1", { opacity: 0, y: 200, rotation: 22 }, { opacity: 1, y: -20, rotation: 24, duration: 0.1, ease: "power2.out" }, 0.16);
+tl.to("#sh1", { opacity: 0, y: -90, x: 120, duration: 0.14, ease: "power2.in" }, 0.28);
+tl.fromTo("#sh2", { opacity: 0, y: 160, rotation: -30 }, { opacity: 1, y: 0, rotation: -28, duration: 0.1, ease: "power2.out" }, 0.2);
+tl.to("#sh2", { opacity: 0, y: -70, x: 160, duration: 0.14, ease: "power2.in" }, 0.32);
+tl.fromTo("#sh3", { opacity: 0, x: -300, rotation: -8 }, { opacity: 1, x: 0, rotation: -6, duration: 0.08, ease: "power2.out" }, 0.22);
+tl.to("#sh3", { opacity: 0, x: 200, duration: 0.1 }, 0.34);
+
+// "TỪNG KÝ TỰ"
+const wsT = [0.28, 0.36, 0.42];
+document.querySelectorAll("#tung > span").forEach((w, wi) => {
+  w.querySelectorAll("span").forEach((c, ci) => {
+    tl.fromTo(c, { y: 120, rotation: (ci % 2 ? 24 : -24), scale: 0.4, opacity: 0 }, { y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.14, ease: "back.out(2)" }, wsT[wi] + ci * 0.02);
+    tl.to(c, { y: (ci % 2 ? 9 : -9), duration: 0.07, ease: "sine.inOut" }, 0.56 + wi * 0.01);
+    tl.to(c, { y: (ci % 2 ? -7 : 6), duration: 0.08, ease: "sine.inOut" }, 0.63);
+  });
+});
+tl.to("#tung .w1", { color: "#1a1410", duration: 0.12 }, 0.5);
+
+// chip type:
+tl.fromTo("#chip", { opacity: 0, y: 60, backgroundColor: "#4d4a46" }, { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }, 0.24);
+tl.to("#chip", { backgroundColor: "#15120f", duration: 0.06 }, 0.3);
+tl.to(CH, { p: 1, duration: 0.7, ease: "none", onUpdate: renderChip }, 0);
+
+// phụ đề (đặt trên main để "chữ" mờ hiện được từ khung cắt, gốc: f180 "chữ" mờ, f181 "tách", f184 "từng")
+const cw = [-0.03, 0.0, 0.12, 0.333, 0.4];
+document.querySelectorAll("#cap span").forEach((s, i) => {
+  if (i === 3) main.fromTo(s, { opacity: 0, color: "#c9451c" }, { opacity: 1, color: "#c9451c", duration: 0.1, ease: "power2.out" }, PRE + cw[i]);
+  else main.fromTo(s, { opacity: 0, color: "#77736c" }, { opacity: 1, color: "#141414", duration: 0.12, ease: "power2.out" }, PRE + cw[i]);
+});
+
+// J5 (post): chữ SplitText giãn ra + mờ; chip/"TỪNG KÝ TỰ" tắt nhanh; phụ đề tắt; tường chữ mờ dần (s06 đè lên, hình tròn nở ra)
+tl.to("#tung", { opacity: 0, y: 50, duration: 0.1, ease: "power1.in" }, 0.64);
+tl.to("#chip", { backgroundColor: "#4d4a46", duration: 0.04 }, 0.62);
+tl.to("#chip", { opacity: 0, duration: 0.08, ease: "power1.in" }, 0.68);
+document.querySelectorAll("#st span").forEach((el, i) => {
+  tl.to(el, { x: (i - 4) * 26, scaleY: 0.38, y: 0, rotation: 0, textShadow: "0px 0px 0 rgba(0,0,0,0)", duration: 0.1, ease: "power2.out", immediateRender: false }, 0.65);
+});
+tl.to("#st", { color: "#8a857d", opacity: 0.6, duration: 0.1, ease: "power1.out" }, 0.65);
+tl.to("#st", { opacity: 0, duration: 0.07, ease: "power1.in" }, 0.77);
+tl.set("#cap", { opacity: 0 }, 0.75);   // gốc: f202 còn đủ, f203 hết
+tl.to("#wall", { opacity: 0.25, duration: 0.15, ease: "none" }, 0.7);
+
+window.__timelines = window.__timelines || {};
+// J4 (pre): trong suốt (s04 còn chạy bên dưới), chỉ chữ SplitText bay vào; nền kem + tường chữ + phụ đề bật từ mốc cắt
+gsap.set("#bgl, #top", { opacity: 0 });
+main.set("#bgl", { opacity: 1 }, PRE);
+main.set("#top", { opacity: 1 }, PRE - 0.034);
+main.set("#bg", { opacity: 1 }, PRE + 0.15);
+main.add(tl, PRE);
+window.__timelines["main"] = main;
+</script>
+</body>
+</html>

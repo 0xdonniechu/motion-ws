@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#bg { position: absolute; inset: 0; background: #efece6; }
+.layer { position: absolute; inset: 0; }
+
+/* nền chấm + chữ viền khổng lồ */
+#dotbg { background-image: radial-gradient(circle, #c9c4ba 3.2px, rgba(201,196,186,0) 3.8px); background-size: 36px 36px; background-position: 6px 6px; opacity: 0; }
+#outl { overflow: hidden; }
+.orow { position: absolute; white-space: nowrap; font: 400 430px/1 Anton, sans-serif; color: transparent;
+  -webkit-text-stroke: 4px #c6c1b7; letter-spacing: 6px; }
+
+/* marquee */
+.mq { position: absolute; white-space: nowrap; font-family: Anton, sans-serif; }
+#mq1 { top: 440px; font-size: 215px; line-height: 1; letter-spacing: 4px; }
+#mq1 span { background: linear-gradient(#262626 25%, #a09c95 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+#mq1 i { font-style: normal; color: #c9451c; -webkit-text-fill-color: #c9451c; font-size: 56px; vertical-align: 52px; margin: 0 34px; }
+#mq2 { top: 1375px; font-size: 168px; line-height: 1; letter-spacing: 3px; color: #c9451c; -webkit-text-stroke: 3px #1d1511; }
+#mq2 i { font-style: normal; -webkit-text-stroke: 0; font-size: 56px; vertical-align: 40px; margin: 0 26px; }
+
+/* khối hộp 3D */
+#cubeWrap { position: absolute; left: 540px; top: 1000px; width: 0; height: 0; perspective: 2100px; }
+#tilt, #spin, .fly, .orient { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; }
+.face { position: absolute; border: 7px solid #141414; display: flex; align-items: center; justify-content: center;
+  font: 400 150px/1 Anton, sans-serif; color: #fff; letter-spacing: 3px; border-radius: 6px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.face b { font-weight: 400; display: block; transform: skewX(-6deg); text-shadow: 0 6px 0 rgba(0,0,0,.25); }
+#fFront { width: 600px; height: 500px; left: -300px; top: -250px; background: linear-gradient(#d24c14, #c4430c 40%, #bb3f0b); }
+#fBack  { width: 600px; height: 500px; left: -300px; top: -250px; background: #7c2a07; }
+#fRight { width: 480px; height: 500px; left: -240px; top: -250px; background: linear-gradient(#b13a0a, #9c3208); }
+#fLeft  { width: 480px; height: 500px; left: -240px; top: -250px; background: #8a2d07; }
+#fTop   { width: 600px; height: 480px; left: -300px; top: -240px; background: #f6f3ec; }
+#fBot   { width: 600px; height: 480px; left: -300px; top: -240px; background: #3a1505; }
+#fTop::after { content: ""; position: absolute; left: 0; right: 0; top: 42%; height: 17%; background: #141414; }
+#fRight b, #fLeft b { font-size: 132px; }
+
+#shadow { position: absolute; left: 280px; top: 1300px; width: 520px; height: 80px; border-radius: 50%; background: #0c0a09; filter: blur(9px); opacity: 0; }
+#orbit { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+
+/* hình trôi parallax */
+.fl { position: absolute; left: 0; top: 0; opacity: 0; }
+
+/* nhãn lớp, thanh cuộn, bộ đếm */
+.lab { position: absolute; left: 44px; height: 58px; padding: 0 22px; border-radius: 29px; background: #141414; color: #fff;
+  font: 700 29px/58px JBMono, monospace; white-space: nowrap; opacity: 0; }
+.lab u { text-decoration: none; color: #f2b632; margin-left: 10px; }
+#trk { position: absolute; left: 1042px; top: 470px; width: 6px; height: 1090px; background: #c9451c; border-radius: 3px; opacity: 0; }
+#hdl { position: absolute; left: 1030px; top: 0; width: 30px; height: 30px; border-radius: 50%; background: #141414; border: 5px solid #efece6; box-shadow: 0 0 0 2px #141414; opacity: 0; }
+#sy { position: absolute; left: 640px; top: 1528px; width: 380px; height: 44px; font: 700 34px/44px JBMono, monospace; color: #141414; text-align: right; opacity: 0; }
+#sy b { position: absolute; right: 0; top: 0; font-weight: 700; opacity: 0; white-space: nowrap; }
+#scrub { position: absolute; left: 0; width: 1080px; top: 1190px; text-align: center; font: 400 300px/1 Anton, sans-serif; color: #c9451c;
+  -webkit-text-stroke: 7px #1d1511; opacity: 0; letter-spacing: 2px; text-shadow: 0 10px 0 rgba(0,0,0,.2); }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+.ph { position: absolute; left: 130px; top: 248px; width: 760px; font: 500 78px/1.08 Inter, sans-serif; color: #141414; letter-spacing: -1.5px; opacity: 0; }
+.ph span { display: inline-block; opacity: 0; }
+.ph em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+
+#cover { overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 140px, rgba(0,0,0,1) 560px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 140px, rgba(0,0,0,1) 560px); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="4.4" data-width="1080" data-height="1920" data-fps="30">
+  <div id="bg"></div>
+  <div id="dotbg" class="clip layer" data-start="0" data-duration="4.4" data-track-index="0"></div>
+  <div id="outl" class="clip layer" data-start="0" data-duration="4.4" data-track-index="1"></div>
+  <div id="flFar" class="clip layer" data-start="0" data-duration="4.4" data-track-index="2"></div>
+  <div id="mqL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="3">
+    <div id="mq1" class="mq"></div>
+    <div id="mq2" class="mq"></div>
+  </div>
+  <div id="boxL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="4">
+    <svg id="orbit" viewBox="0 0 1080 1920" width="1080" height="1920"><ellipse cx="540" cy="1340" rx="470" ry="170" fill="none" stroke="#8d887f" stroke-width="3" stroke-dasharray="14 12"/></svg>
+    <div id="shadow"></div>
+    <div id="cubeWrap"><div id="tilt"><div id="spin">
+      <div class="fly" id="fyF"><div class="orient"><div class="face" id="fFront"><b>SCROLL</b></div></div></div>
+      <div class="fly" id="fyB"><div class="orient" style="transform: rotateY(180deg) translateZ(240px)"><div class="face" id="fBack"><b>GSAP</b></div></div></div>
+      <div class="fly" id="fyR"><div class="orient" style="transform: rotateY(90deg) translateZ(300px)"><div class="face" id="fRight"><b>PIN</b></div></div></div>
+      <div class="fly" id="fyL"><div class="orient" style="transform: rotateY(-90deg) translateZ(300px)"><div class="face" id="fLeft"><b>SCRUB</b></div></div></div>
+      <div class="fly" id="fyT"><div class="orient" style="transform: rotateX(90deg) translateZ(250px)"><div class="face" id="fTop"></div></div></div>
+      <div class="fly" id="fyU"><div class="orient" style="transform: rotateX(-90deg) translateZ(250px)"><div class="face" id="fBot"></div></div></div>
+    </div></div></div>
+  </div>
+  <div id="flNear" class="clip layer" data-start="0" data-duration="4.4" data-track-index="5"></div>
+  <div id="uiL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="6">
+    <div id="scrub">SCRUB</div>
+    <div id="labs"></div>
+    <div id="trk"></div><div id="hdl"></div>
+    <div id="sy"></div>
+  </div>
+  <div id="cover" class="clip layer" data-start="0" data-duration="4.4" data-track-index="9">
+    <svg width="1080" height="1920" viewBox="0 0 1080 1920" id="coverSvg" style="position:absolute;left:0;top:0">
+      <defs><pattern id="plaid" width="72" height="72" patternUnits="userSpaceOnUse">
+        <rect width="72" height="72" fill="#f3f0e9"/>
+        <rect x="2" y="2" width="31" height="31" rx="8" fill="#c4430c"/><rect x="38" y="2" width="31" height="31" rx="8" fill="#141414"/>
+        <rect x="2" y="38" width="31" height="31" rx="8" fill="#141414"/><rect x="38" y="38" width="31" height="31" rx="8" fill="#c4430c"/>
+      </pattern></defs>
+      <rect id="coverR" width="1080" height="1920" fill="url(#plaid)"/>
+    </svg>
+  </div>
+  <div id="capL" class="clip layer" data-start="0" data-duration="4.4" data-track-index="7">
+    <div id="tag">AI Tips</div>
+    <div class="ph" id="p0" style="width:820px;letter-spacing:-1.5px">cả nghìn ô gợn sóng cùng một lúc.</div>
+    <div class="ph" id="p1"><span><em>Cuộn</em></span> <span>tới</span> <span>đâu,</span></div>
+    <div class="ph" id="p2"><span>cảnh</span> <span>dựng</span> <span>tới</span> <span>đó.</span></div>
+    <div class="ph" id="p3"><span>Nhiều</span> <span>lớp</span> <span>chạy</span> <span>khác</span> <span>tốc</span> <span>độ,</span></div>
+    <div class="ph" id="p4"><span>sản</span> <span>phẩm</span> <span>xoay</span> <span>theo</span> <span>từng</span> <span>nhịp</span> <span><em>cuộn.</em></span></div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const DUR = 3.8, FPS = 30, PRE = 0.25, POST = 0.35;
+
+// ---------- cuộn: scrollY theo thời gian (đọc từ bản gốc) ----------
+const SCR = [[0.2, 0], [0.25, 20], [0.375, 129], [0.5, 219], [0.625, 339], [1.5, 1119], [1.75, 1359], [1.9, 1479], [2.4, 1929], [2.775, 2289], [3.275, 2739], [3.8, 3222]];
+function scrollY(t) { if (t <= SCR[0][0]) return 0;
+  for (let k = 1; k < SCR.length; k++) if (t <= SCR[k][0]) { const a = SCR[k - 1], b = SCR[k]; return a[1] + (b[1] - a[1]) * (t - a[0]) / (b[0] - a[0]); }
+  return SCR[SCR.length - 1][1]; }
+
+// ---------- DOM tĩnh ----------
+$("mq1").innerHTML = Array(7).fill('<span>CUỘN</span><i>■</i><span>SCROLL</span><i>■</i>').join("");
+$("mq2").innerHTML = Array(3).fill('NHIỀU LỚP<i>●</i>KHÁC TỐC ĐỘ<i>●</i>').join("");
+const OR = [["PARALLAX · TRIGGER · ", 520, -300], ["TRIGGER · PIN · SCRUB ·", 920, -900], ["SPIN · SCRUB · PARALLAX", 1330, -120], ["PARALLAX · TRIGGER · ", 1740, -600]];
+OR.forEach(([t, y, x], i) => { const d = document.createElement("div"); d.className = "orow"; d.id = "or" + i; d.textContent = t + t; d.style.top = y + "px"; d.style.left = x + "px"; $("outl").appendChild(d); });
+
+// hình trôi: {x, yr (vị trí tại tr), tr, f hệ số lớp, kích cỡ, màu, blur, hình, xoay, độ đục, layer}
+const FL = [
+  { x: 30,  yr: 1500, tr: 0.45, f: 2.4, s: 250, c: "#c9451c", b: 13, sh: "c", o: 1, L: "flNear" },
+  { x: 40,  yr: 1550, tr: 1.7,  f: 2.4, s: 290, c: "#2f5bea", b: 15, sh: "c", o: 1, L: "flNear" },
+  { x: 990, yr: 1500, tr: 1.1,  f: 2.4, s: 330, c: "#141414", b: 16, sh: "c", o: 1, L: "flNear" },
+  { x: 940, yr: 1650, tr: 0.625, f: 1.1, s: 110, c: "#141414", b: 0, sh: "c", o: 1, L: "flFar" },
+  { x: 880, yr: 1020, tr: 0.625, f: 0.5, s: 90,  c: "#2f5bea", b: 0, sh: "r", rot: 20, o: 1, L: "flFar" },
+  { x: 760, yr: 1700, tr: 0.625, f: 0.5, s: 100, c: "#7a3cf0", b: 0, sh: "t", rot: 180, o: 1, L: "flFar" },
+  { x: 170, yr: 1640, tr: 0.375, f: 0.5, s: 70,  c: "#e0a312", b: 0, sh: "t", rot: 30, o: 1, L: "flFar" },
+  { x: 90,  yr: 1750, tr: 1.0,  f: 1.0, s: 120, c: "#c9451c", b: 0, sh: "r", rot: -18, o: 1, L: "flFar" },
+  { x: 1000, yr: 640, tr: 0.25, f: 0.3, s: 80, c: "#4cae84", b: 3, sh: "c", o: 0.5, L: "flFar" },
+  { x: 880,  yr: 760, tr: 0.875, f: 0.2, s: 90, c: "#2f5bea", b: 3, sh: "r", rot: 15, o: 0.4, L: "flFar" },
+  { x: 1020, yr: 1800, tr: 2.3, f: 2.4, s: 320, c: "#c9451c", b: 15, sh: "c", o: 1, L: "flNear" },
+  { x: 60,   yr: 1700, tr: 2.9, f: 2.0, s: 260, c: "#2f5bea", b: 14, sh: "c", o: 0.9, L: "flNear" },
+  { x: 880,  yr: 1800, tr: 3.3, f: 1.0, s: 150, c: "#e0a312", b: 6, sh: "r", rot: 25, o: 0.8, L: "flNear" },
+  { x: 150,  yr: 1500, tr: 1.2, f: 1.0, s: 100, c: "#7a3cf0", b: 0, sh: "t", rot: 200, o: 1, L: "flFar" },
+  { x: 900,  yr: 1750, tr: 2.0, f: 1.0, s: 100, c: "#141414", b: 0, sh: "c", o: 1, L: "flFar" },
+];
+FL.forEach((o, i) => {
+  const d = document.createElement("div"); d.className = "fl"; d.id = "fl" + i;
+  d.style.width = d.style.height = o.s + "px"; d.style.marginLeft = d.style.marginTop = (-o.s / 2) + "px";
+  d.style.background = o.c; if (o.b) d.style.filter = "blur(" + o.b + "px)";
+  if (o.sh === "c") d.style.borderRadius = "50%"; if (o.sh === "r") { d.style.borderRadius = "24%"; d.style.border = "5px solid #141414"; }
+  if (o.sh === "t") d.style.clipPath = "polygon(50% 0, 100% 100%, 0 100%)";
+  $(o.L).appendChild(d);
+});
+
+const LABS = [["far", "0.2×", 597], ["mid", "0.5×", 800], ["near", "1×", 998], ["product", "pin", 1197], ["fore", "2.4×", 1400]];
+LABS.forEach(([a, b, y], i) => { const d = document.createElement("div"); d.className = "lab"; d.id = "lab" + i; d.style.top = (y - 29) + "px"; d.innerHTML = a + "<u>" + b + "</u>"; $("labs").appendChild(d); });
+
+// bộ đếm scrollY: mỗi khung một số, bật/tắt theo nhịp 30fps
+const NF = Math.round(DUR * FPS);
+const syEls = [];
+for (let f = 0; f < NF; f++) { const b = document.createElement("b"); b.textContent = "scrollY " + Math.round(scrollY(f / FPS)); $("sy").appendChild(b); syEls.push(b); }
+
+['.face','.orow','#mq1','#mq2','#scrub','.lab','.fl'].forEach(q => document.querySelectorAll(q).forEach(e => { e.setAttribute('data-layout-allow-overlap',''); e.setAttribute('data-layout-allow-occlusion',''); }));
+
+// ---------- timeline ----------
+const master = gsap.timeline({ paused: true });
+const tl = gsap.timeline();
+
+// J7: lưới đen-cam (cuối s07) bị quét xuống bằng mép chéo, cảnh hộp SCROLL lộ ra phía sau (theo gốc: mép đi qua 9.38-9.53)
+const CV = { e: -150 };
+const setCover = () => { document.getElementById("cover").style.clipPath = `polygon(0px ${CV.e + 60}px, 1080px ${CV.e - 60}px, 1080px 1920px, 0px 1920px)`; };
+setCover();
+tl.to(CV, { e: 2100, duration: 0.15, ease: "none", onUpdate: setCover, immediateRender: false }, 0.195);
+// vùng chấm co nhỏ thành mảng kem (cảnh hộp lộ qua) ở giữa-dưới trước khi mép quét tới
+const BL = { r: 0 };
+const setBlob = () => { const r = BL.r, m = r > 1 ? `radial-gradient(ellipse ${r * 1.05}px ${r}px at 520px 1420px, rgba(0,0,0,0.12) 0, rgba(0,0,0,0.12) ${r * 0.35}px, #000 ${r}px)` : "none";
+  const el = document.getElementById("coverSvg"); el.style.webkitMaskImage = m; el.style.maskImage = m; };
+tl.to(BL, { r: 460, duration: 0.12, ease: "power1.out", onUpdate: setBlob, immediateRender: false }, 0.0);
+
+// nền
+tl.to("#dotbg", { opacity: 0.55, duration: 0.35 }, 1.5);
+tl.fromTo("#outl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.2);
+OR.forEach((_, i) => tl.fromTo("#or" + i, { x: 0 }, { x: (i % 2 ? 1 : -1) * 0.2 * 900 * DUR * 0.55, duration: DUR, ease: "none" }, 0));
+
+// marquee: chạy sang trái theo cuộn
+tl.fromTo("#mq1", { x: 155 + 600 * 0.5 + 0 }, { x: 155 - 600 * (DUR - 0.5), duration: DUR, ease: "none" }, 0);
+tl.fromTo("#mq2", { x: 1130 }, { x: 910 - 1400 * (DUR - 1.5), duration: DUR - 1.35, ease: "none" }, 1.35);
+tl.fromTo("#mq2", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 1.35);
+tl.to("#mq2", { opacity: 0, duration: 0.18, ease: "power1.in" }, 2.9);
+tl.fromTo("#mq1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+
+// hộp: ráp từ 6 tấm bay vào, rồi xoay theo scrollY
+const FLY = { fyF: [-700, -500, 300, 25, -70, -60], fyR: [650, -350, 500, -30, 120, 40], fyB: [-450, 700, -250, 80, -40, 25],
+  fyL: [500, 560, 380, -60, 70, -50], fyT: [-420, -800, 100, 90, 30, -40], fyU: [380, 800, -200, -70, -60, 70] };
+Object.entries(FLY).forEach(([id, [x, y, z, rx, ry, rz]], i) => {
+  tl.fromTo("#" + id, { x, y, z, rotationX: rx * 3, rotationY: ry * 3, rotationZ: rz * 3, opacity: 0 },
+    { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 0.5, ease: "back.out(1.1)" }, 0.12 + i * 0.05);
+});
+tl.fromTo("#tilt", { rotationX: -8, y: -30 }, { rotationX: -20, y: 0, duration: 0.7, ease: "power2.out" }, 0.12);
+// xoay Y: SCROLL -> SCRUB -> GSAP -> PIN -> SCROLL
+const SP = [[0.12, -60], [0.75, -28], [1.5, -22], [1.9, -20], [2.025, 15], [2.15, 45], [2.275, 75], [2.4, 125], [2.525, 175], [2.65, 215],
+  [2.775, 245], [2.9, 262], [3.025, 295], [3.15, 322], [3.275, 340], [3.4, 345], [3.8, 346]];
+tl.set("#spin", { rotationY: SP[0][1] }, 0);
+for (let k = 1; k < SP.length; k++) tl.to("#spin", { rotationY: SP[k][1], duration: SP[k][0] - SP[k - 1][0], ease: k < 4 ? "sine.inOut" : "none" }, SP[k - 1][0]);
+// nghiêng Z nhẹ khi quay
+const RZ = [[0.12, 8], [0.4, -6], [0.75, 3], [1.5, -2], [1.9, -2], [2.15, -9], [2.5, 4], [2.9, -3], [3.3, 0], [3.8, 0]];
+tl.set("#tilt", { rotationZ: RZ[0][1] }, 0);
+for (let k = 1; k < RZ.length; k++) tl.to("#tilt", { rotationZ: RZ[k][1], duration: RZ[k][0] - RZ[k - 1][0], ease: "sine.inOut" }, RZ[k - 1][0]);
+tl.fromTo("#cubeWrap", { y: 0, scale: 1 }, { y: 0, scale: 1.07, duration: 0.35, ease: "power1.inOut" }, 3.45);
+tl.fromTo("#shadow", { opacity: 0, scaleX: 0.6 }, { opacity: 0.92, scaleX: 1, duration: 0.4, ease: "power2.out" }, 0.55);
+tl.fromTo("#orbit", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.9);
+
+// hình trôi parallax
+FL.forEach((o, i) => {
+  const t0 = Math.max(0, o.tr - 0.55), v = 900 * o.f;
+  const y = t => o.yr - v * (t - o.tr);
+  tl.set("#fl" + i, { x: o.x, y: y(t0), rotation: o.rot || 0 }, 0);
+  tl.fromTo("#fl" + i, { y: y(t0) }, { y: y(DUR), duration: DUR - t0, ease: "none" }, t0);
+  tl.fromTo("#fl" + i, { opacity: 0 }, { opacity: o.o, duration: 0.2 }, t0);
+});
+
+// nhãn lớp, thanh cuộn, đếm
+LABS.forEach((_, i) => tl.fromTo("#lab" + i, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(1.6)" }, 2.0 + i * 0.06));
+tl.fromTo("#trk", { opacity: 0, scaleY: 0, transformOrigin: "50% 0%" }, { opacity: 1, scaleY: 1, duration: 0.3, ease: "power2.out" }, 0.3);
+tl.fromTo("#hdl", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.4);
+tl.fromTo("#hdl", { y: 470 - 15 }, { y: 470 + 1090 - 15, duration: DUR - 0.2, ease: "none" }, 0.2);
+tl.fromTo("#sy", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+for (let f = 6; f < NF; f++) {
+  tl.set(syEls[f], { opacity: 1 }, f / FPS + 0.001);
+  if (f < NF - 1) tl.set(syEls[f], { opacity: 0 }, (f + 1) / FPS + 0.001);
+}
+
+// chữ SCRUB lớn
+tl.fromTo("#scrub", { y: 420, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.3)" }, 3.05);
+tl.to("#scrub", { y: 110, opacity: 0.55, duration: 0.5, ease: "power1.inOut" }, 3.4);
+
+// phụ đề: 4 cụm, mỗi từ hiện theo nhịp đọc
+const PH = [["p1", 0.1, 0.7, [0.1, 0.25, 0.37]], ["p2", 0.7, 1.47, [0.72, 0.76, 0.875, 0.98]],
+  ["p3", 1.47, 2.28, [1.5, 1.62, 1.75, 1.9, 2.02, 2.15]], ["p4", 2.28, DUR, [2.28, 2.55, 2.65, 2.9, 3.0, 3.15, 3.27]]];
+PH.forEach(([id, a, b, ts]) => {
+  tl.set("#" + id, { opacity: 1 }, a);
+  if (b < DUR) tl.set("#" + id, { opacity: 0 }, b);
+  document.querySelectorAll("#" + id + " span").forEach((s, i) =>
+    tl.fromTo(s, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: id === "p1" && i === 0 ? 0.08 : 0.13, ease: "power2.out" }, ts[i]));
+});
+
+// J7: s08 giữ phụ đề của s07 ("cả nghìn ô gợn sóng cùng một lúc.") f276-f278 vì nền s08 che mất s07, rồi "Cuộn" hiện từ f279 (gốc)
+tl.set("#p0", { opacity: 1 }, 0);
+tl.set("#p0", { opacity: 0 }, 0.1);
+
+window.__timelines = window.__timelines || {};
+// J8 (post): hộp phóng to rồi bay lên khỏi mép trên (s09 đè lên với lớp xám + nền tối trồi từ dưới)
+tl.to("#cubeWrap", { scale: 1.9, x: -20, y: -330, duration: 0.2, ease: "power2.out" }, 3.74);
+tl.to("#tilt", { rotationX: 38, rotationZ: -6, duration: 0.45, ease: "power1.in" }, 3.8);
+tl.set("#labs", { opacity: 0 }, 3.8);
+tl.to("#flNear, #flFar", { opacity: 0, duration: 0.05 }, 3.8);
+tl.to("#boxL, #mqL, #uiL", { y: -1900, duration: 0.3, ease: "power1.in" }, 3.8);
+tl.set("#capL", { opacity: 0 }, 3.84);
+tl.to("#outl, #scrub", { opacity: 0, duration: 0.06 }, 3.8);
+
+// pre (J7): trong suốt đến mốc cắt; s07 (post) giữ lưới bên dưới
+master.set("#root", { opacity: 0 }, 0);
+master.set("#root", { opacity: 1 }, PRE);
+master.add(tl, PRE);
+window.__timelines["main"] = master;
+</script>
+</body>
+</html>

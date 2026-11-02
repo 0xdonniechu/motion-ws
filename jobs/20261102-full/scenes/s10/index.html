@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="gsap.min.js"></script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+.layer { position: absolute; inset: 0; }
+
+/* J9: cảnh trước (SCRUB xám) nằm ở s09 (post); ở đây ngoài vòng tròn là trong suốt */
+#scene { background: #efece6; }
+
+/* nền: giao diện mờ nghiêng phối cảnh */
+#ui .plane { position: absolute; inset: 0; filter: blur(2px); opacity: .92; }
+#ui .t { position: absolute; background: #fbfaf7; box-shadow: 0 5px 0 #ddd8cf; }
+#ui .t i { position: absolute; left: 14%; top: 16%; width: 26%; height: 34%; border-radius: 50%; }
+#ui .t b { position: absolute; left: 14%; top: 60%; width: 52%; height: 8%; border-radius: 6px; background: #d4d0c8; }
+#ui .t u { position: absolute; right: 12%; bottom: 14%; width: 14%; height: 34%; border-radius: 4px; }
+#fade { background: linear-gradient(#efece6 0, #efece6 340px, rgba(239,236,230,0) 560px); }
+
+#dots s { position: absolute; width: 28px; height: 28px; border-radius: 50%; background: #c9451c; }
+
+.ttl { position: absolute; left: 0; width: 1080px; top: 392px; text-align: center; white-space: nowrap;
+  font: 400 230px/1 Anton, sans-serif; letter-spacing: -5px; }
+.ttl span { display: inline-block; background: linear-gradient(#2a2a2a 30%, #8d8a86 100%);
+  -webkit-background-clip: text; color: transparent; padding: 0 1px; }
+.ttl span.sp { width: 26px; }
+.ttl span { position: relative; }
+.ttl .cr { position: absolute; left: 50%; margin-left: -42px; top: -34px; width: 84px; height: 46px; background: #2a2a2a;
+  clip-path: polygon(0 100%, 50% 0, 100% 100%, 76% 100%, 50% 44%, 24% 100%); }
+.ttl .dt { position: absolute; left: 50%; margin-left: -12px; top: 226px; width: 24px; height: 24px; background: #8d8a86; }
+.ttl .ac { position: absolute; left: 50%; margin-left: -8px; top: -38px; width: 40px; height: 54px; background: #2a2a2a;
+  clip-path: polygon(34% 0, 100% 0, 52% 100%, 0 100%); }
+.ttl .hn { position: absolute; left: 74%; top: 18px; width: 24px; height: 46px; background: #2a2a2a; border-radius: 12px; transform: rotate(18deg); }
+
+#tabs .pill { position: absolute; top: 650px; height: 74px; border-radius: 37px; background: #f7f5f0;
+  border: 2px solid #e4e0d8; font: 600 30px/70px Inter, sans-serif; color: #2a2a2a; text-align: center; }
+#tabsel { position: absolute; left: 0; top: 650px; height: 74px; border-radius: 37px; background: #141414; }
+
+.cw { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.c { position: absolute; left: 0; top: 0; width: 500px; height: 180px; border: 4px solid #141414; border-radius: 24px;
+  background: #fff; box-shadow: 7px 9px 0 #141414; overflow: hidden; }
+.c .av { position: absolute; left: 22px; top: 18px; width: 54px; height: 54px; border-radius: 50%; }
+.c .tb { position: absolute; left: 96px; top: 28px; width: 150px; height: 10px; border-radius: 5px; background: #141414; }
+.c .sb { position: absolute; left: 96px; top: 50px; width: 66px; height: 8px; border-radius: 4px; background: #cfcbc3; }
+.c .hb { position: absolute; left: 20px; top: 84px; width: 444px; height: 56px; display: flex; gap: 8px; align-items: flex-end; }
+.c .hb b { flex: 1; border-radius: 5px; }
+.c .pr { position: absolute; left: 20px; top: 150px; width: 444px; height: 5px; border-radius: 3px; background: #e0dcd3; }
+.c .pr i { display: block; height: 5px; border-radius: 3px; }
+.c .vb { position: absolute; left: 14%; right: 12%; top: 40%; bottom: 14%; display: flex; gap: 6px; align-items: flex-end; opacity: 0; }
+.c .vb b { flex: 1; border-radius: 3px; }
+.c.dark { background: #1b1714; }
+.c.dark .tb { background: #f2efe9; }
+.c.dark .sb { background: #6a645d; }
+.c.dark .pr { background: #3a342e; }
+
+#logo { position: absolute; left: 114px; top: 1272px; width: 116px; height: 116px; border-radius: 26px; background: #fff;
+  border: 5px solid #141414; box-shadow: 5px 6px 0 #141414; }
+#logo svg { position: absolute; left: 21px; top: 21px; }
+#burst { position: absolute; left: 172px; top: 1330px; width: 0; height: 0; }
+#burst .ring { position: absolute; left: -90px; top: -90px; width: 180px; height: 180px; border-radius: 50%; border: 3px solid #c9451c; }
+#burst .tk { position: absolute; left: -2px; top: -110px; width: 4px; height: 22px; background: #c9451c; border-radius: 2px; transform-origin: 2px 110px; }
+
+#tasks { position: absolute; left: 0; top: 0; width: 320px; height: 290px; border-radius: 36px; background: #17120f;
+  box-shadow: 12px 12px 0 #c9451c; overflow: hidden; opacity: 0; }
+#tasks .dot { position: absolute; left: 36px; top: 58px; width: 50px; height: 50px; border-radius: 50%; background: #2f5bea; }
+#tasks .h1 { position: absolute; left: 112px; top: 40px; font: 800 46px/1 Inter, sans-serif; color: #fff; letter-spacing: -1px; }
+#tasks .h2 { position: absolute; left: 112px; top: 100px; font: 500 19px/1 JBMono, monospace; color: #6f675d; white-space: nowrap; }
+#tasks .badge { position: absolute; left: 776px; top: 24px; width: 190px; height: 126px; border-radius: 22px; background: #c9451c; }
+#tasks .badge span { position: absolute; inset: 0; text-align: center; font: 400 104px/126px Anton, sans-serif; color: #fff; opacity: 0; }
+.chip { position: absolute; left: 0; top: 0; width: 466px; height: 112px; border-radius: 28px; background: #fbfaf6;
+  box-shadow: 0 4px 0 #cfcac0; opacity: 0; }
+.chip .ic { position: absolute; left: 20px; top: 20px; width: 72px; height: 72px; border-radius: 18px; color: #fff;
+  font: italic 800 42px/72px Inter, sans-serif; text-align: center; }
+.chip .nm { position: absolute; left: 112px; top: 24px; font: 500 32px/1 JBMono, monospace; color: #1a1a1a; }
+.chip .ln { position: absolute; left: 112px; top: 72px; width: 160px; height: 8px; border-radius: 4px; background: #ebe7df; }
+.chip svg { position: absolute; right: 24px; top: 34px; }
+
+#ring { background: #c9451c; }
+
+#tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
+.cap { position: absolute; left: 130px; top: 248px; width: 900px; font: 500 78px/1.08 Inter, sans-serif;
+  color: #141414; letter-spacing: -1.5px; }
+.cap span { display: inline-block; opacity: 0; }
+.cap em { font: italic 400 96px ISerif, serif; color: #c9451c; letter-spacing: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-layout-allow-occlusion data-layout-allow-overflow data-layout-allow-overlap data-composition-id="main" data-start="0" data-duration="2.5" data-width="1080" data-height="1920" data-fps="30">
+  <div id="ring" class="clip layer" data-start="0" data-duration="2.5" data-track-index="4"></div>
+  <div id="scene" class="clip layer" data-start="0" data-duration="2.5" data-track-index="1">
+    <div id="ui" class="layer"><div class="plane" id="plane"></div></div>
+    <div id="fade" class="layer"></div>
+    <div id="dots" class="layer"></div>
+    <div id="ttl1" class="ttl"></div>
+    <div id="ttl2" class="ttl"></div>
+    <div id="ttl3" class="ttl"></div>
+    <div id="tabs" class="layer"></div>
+    <div id="cards" class="layer"></div>
+    <div id="logo"><svg width="64" height="64" viewBox="0 0 64 64"><path d="M6 52 L22 12 L32 12 L16 52Z M26 52 L42 12 L52 12 L36 52Z" fill="#141414"/><circle cx="55" cy="46" r="5" fill="#141414"/></svg></div>
+    <div id="burst"></div>
+    <div id="tasks" data-layout-allow-overflow>
+      <div class="dot"></div><div class="h1">Tasks</div><div class="h2">AnimatePresence · popLayout</div>
+      <div class="badge" id="badge"><span>5</span><span>6</span></div>
+    </div>
+  </div>
+    <div id="top" class="clip layer" data-start="0" data-duration="2.5" data-track-index="3">
+    <div id="tag">AI Tips</div>
+    <div id="cap1" class="cap"><span><em>Motion</em></span> <span>mạnh</span> <span>ở</span> <span>giao</span> <span>diện:</span></div>
+    <div id="cap2" class="cap"><span>thẻ</span> <span>tự</span> <span>sắp</span> <span>xếp</span> <span>lại,</span></div>
+    <div id="cap3" class="cap"><span>danh</span> <span>sách</span> <span>thêm</span></div>
+  </div>
+</div>
+<script>
+// ---------- dựng DOM tĩnh (xác định, không random) ----------
+const $ = s => document.querySelector(s);
+const plane = $("#plane");
+const uiCols = ["#7b6cf0", "#3fae7a", "#e0a312", "#4b7bec", "#c9c4bb"];
+// mặt phẳng giao diện mờ giả phối cảnh: hàng càng xuống càng to
+const PW = [90, 106, 124, 146, 172, 202, 238, 280, 330, 390];
+{ let y = 400, n = 0;
+  PW.forEach((w, r) => {
+    const h = Math.round(w * 0.78), pitch = w * 1.13;
+    for (let x = -w * 0.6 + (r % 2) * w * 0.5; x < 1080; x += pitch) {
+      const t = document.createElement("div"); t.className = "t";
+      t.style.cssText = `left:${Math.round(x)}px;top:${y}px;width:${w}px;height:${h}px;border-radius:${Math.round(w * 0.16)}px`;
+      t.innerHTML = `<i style="background:${uiCols[n % 5]}"></i><b></b><u style="background:${uiCols[(n * 3 + 1) % 5]}"></u>`;
+      plane.appendChild(t); n++;
+    }
+    y += h + Math.round(w * 0.14);
+  });
+}
+
+// lưới chấm cam 15 cột x 22 hàng, bước 72
+const dotsEl = $("#dots"), DR = 22, DC = 15;
+for (let r = 0; r < DR; r++) for (let c = 0; c < DC; c++) {
+  const s = document.createElement("s");
+  s.style.left = (c * 72 + 22) + "px"; s.style.top = (380 + r * 72 + 22) + "px"; s.dataset.r = r;
+  dotsEl.appendChild(s);
+}
+
+// chữ lớn từng ký tự
+// fonts.css có bộ tiếng Việt: dùng chữ thật, không ráp dấu bằng hình
+const DIA = {};
+function mkTitle(sel, text) {
+  $(sel).innerHTML = [...text].map(ch => {
+    if (ch === " ") return `<span class="sp"> </span>`;
+    const d = DIA[ch];
+    return `<span data-layout-allow-occlusion data-layout-allow-overflow>${d ? d[0] + d[1] : ch}</span>`;
+  }).join("");
+}
+mkTitle("#ttl1", "GIAO DIỆN"); mkTitle("#ttl2", "layout"); mkTitle("#ttl3", "THÊM BỚT");
+
+// tab
+const TAB = [["All", 40, 122], ["Design", 182, 178], ["Code", 380, 154]];
+const tabs = $("#tabs");
+tabs.innerHTML = `<div id="tabsel"></div>` + TAB.map(([n, x, w], i) =>
+  `<div class="pill" id="tp${i}" style="left:${x}px;width:${w}px;background:transparent;border-color:transparent">${n}</div>`).join("");
+// nền pill nhạt cho tab không chọn (vẽ sau để chữ nằm trên)
+tabs.insertAdjacentHTML("afterbegin", TAB.map(([n, x, w]) =>
+  `<div class="pill" style="left:${x}px;width:${w}px;color:transparent">${n}</div>`).join(""));
+
+// thẻ dashboard
+const CARDS = [
+  // màu, avatar, bar[7], accent, tiến độ, tối?
+  ["#2f5bea", [.5, .5, .5, .5, .5, .5, .5], 2, .22, true],
+  ["#1d8a52", [.55, .55, .55, .7, .55, .35, .55], 3, .3, false],
+  ["#e0a312", [.6, .6, .6, .6, .75, .6, .4], 4, .25, false],
+  ["#7a3cf0", [.6, .6, .6, .55, .5, .3, .5], 5, .6, false],
+  ["#2f5bea", [.6, .55, .5, .45, .4, .35, .3], 6, .4, false],
+  ["#1d8a52", [.4, .6, .6, .6, .6, .55, .5], 0, .5, false],
+  ["#e0a312", [.55, .6, .55, .6, .55, .6, .4], 1, .3, false],
+  ["#7a3cf0", [.5, .55, .6, .5, .55, .5, .45], 2, .7, false]];
+const VB = [[.25, .6, .9, .5, .75, .35], [.7, .45, .85, .3, .55, .2], [.4, .8, .5, .95, .6, .45], [.3, .55, .8, .45, .9, .25]];
+const cardsEl = $("#cards");
+const cardEls = CARDS.map(([col, bars, acc, prog, dark], i) => {
+  const c = document.createElement("div"); c.className = "c" + (dark ? " dark" : ""); c.id = "c" + i;
+  const gcol = dark ? "#78736c" : col;
+  c.innerHTML = `<div class="av" style="background:${col}"></div><div class="tb"></div><div class="sb"></div>
+    <div class="hb">${bars.map((h, k) => `<b style="height:${Math.round(h * 56)}px;background:${k === acc ? "#c9451c" : gcol}"></b>`).join("")}</div>
+    <div class="vb">${VB[i % 4].map((h, k) => `<b style="height:${Math.round(h * 100)}%;background:${k === 3 ? "#c9451c" : (dark ? "#78736c" : col)}"></b>`).join("")}</div>
+    <div class="pr"><i style="width:${Math.round(prog * 100)}%;background:${dark ? "#2f5bea" : col}"></i></div>`;
+  const w = document.createElement("div"); w.className = "cw"; w.appendChild(c); cardsEl.appendChild(w); c.cw = w; return c;
+});
+// extra thẻ vàng nhỏ (chỉ hiện ở trạng thái Code)
+const c8 = document.createElement("div"); c8.className = "c"; c8.id = "c8";
+c8.innerHTML = `<div class="av" style="background:#e0a312"></div><div class="tb"></div><div class="sb"></div>
+  <div class="vb" style="opacity:1">${[.12, .1].map((h, k) => `<b style="height:${h * 100}%;background:#e0a312"></b>`).join("")}</div>`;
+{ const w = document.createElement("div"); w.className = "cw"; w.appendChild(c8); cardsEl.appendChild(w); c8.cw = w; }
+
+// burst (tia) quanh logo
+const burst = $("#burst");
+burst.innerHTML = `<div class="ring"></div>` + Array.from({ length: 10 }, (_, i) => `<div class="tk" style="transform:rotate(${i * 36}deg)"></div>`).join("");
+
+// chip Tasks
+const CH = {
+  layout: ["#2f5bea", "l"], exit: ["#1d8a52", "e"], stagger: ["#e0a312", "s"], initial: ["#7a3cf0", "I"],
+  animate: ["#2f5bea", "a"], useSpring: ["#7a3cf0", "u"], spring: ["#7a3cf0", "s"], layoutId: ["#e0a312", "l"],
+  variants: ["#2f5bea", "v"], useAnimate: ["#1d8a52", "u"], whileDrag: ["#e0a312", "w"], popLayout: ["#7a3cf0", "p"]};
+const tasks = $("#tasks"), chipEl = {};
+Object.keys(CH).forEach(n => {
+  const c = document.createElement("div"); c.className = "chip"; c.setAttribute("data-layout-allow-occlusion", "");
+  c.innerHTML = `<div class="ic" style="background:${CH[n][0]}">${CH[n][1]}</div><div class="nm">${n}</div><div class="ln"></div>
+    <svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="none" stroke="#c9d3cb" stroke-width="3"/>
+    <path class="ok" d="M12 23 l7 7 l13 -15" stroke="#2f9e63" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+    <path class="sp" d="M22 3 a19 19 0 0 1 17 11" stroke="#1d8a52" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>`;
+  tasks.appendChild(c); chipEl[n] = c;
+});
+
+// ---------- timeline (một timeline paused, seek-safe) ----------
+const tl = gsap.timeline({ paused: true });
+const GS = 0.17;   // hết vòng tròn mở
+
+// vòng tròn mở: nền sáng lộ ra trong vòng cam (r = 14 → 296 → 560 → 1300)
+const CX = 540, CY = 920;
+function iris(r0, r1, t0, d, ease) {
+  tl.fromTo("#scene", { clipPath: `circle(${Math.max(0, r0 - 24)}px at ${CX}px ${CY}px)` }, { clipPath: `circle(${Math.max(0, r1 - 24)}px at ${CX}px ${CY}px)`, duration: d, ease }, t0);
+  tl.fromTo("#ring", { clipPath: `circle(${r0}px at ${CX}px ${CY}px)` }, { clipPath: `circle(${r1}px at ${CX}px ${CY}px)`, duration: d, ease }, t0);
+}
+// bán kính theo bản gốc (16.2 → 16.45): chấm → vòng nở nhanh dần → phủ kín
+const IRIS = [[0, 14], [0.033, 54], [0.067, 133], [0.1, 295], [0.133, 540], [0.167, 770], [0.2, 995], [0.25, 1300]];
+for (let k = 1; k < IRIS.length; k++) iris(IRIS[k - 1][1], IRIS[k][1], IRIS[k - 1][0], IRIS[k][0] - IRIS[k - 1][0], "none");
+tl.set("#ring", { opacity: 0 }, 0.25);
+
+// nền trôi nhẹ
+tl.fromTo("#plane", { y: 16 }, { y: -26, duration: 2.5, ease: "none" }, 0);
+
+// ----- chữ lớn: từng ký tự lật vào / ra -----
+function lettersIn(sel, t0, st) {
+  tl.fromTo(sel + " span:not(.sp)", { yPercent: 70, rotation: 16, opacity: 0, transformOrigin: "50% 100%" },
+    { yPercent: 0, rotation: 0, opacity: 1, duration: 0.32, ease: "back.out(1.3)", stagger: st }, t0);
+}
+function lettersOut(sel, t0, d) {
+  tl.to(sel + " span:not(.sp)", { opacity: 0, yPercent: -25, duration: d, ease: "power2.in", stagger: 0.012 }, t0);
+}
+tl.set("#ttl2, #ttl3", { opacity: 0 }, 0);
+lettersIn("#ttl1", 0.10, 0.035);
+lettersOut("#ttl1", 1.45, 0.16);
+tl.set("#ttl2", { opacity: 1 }, 1.55);
+lettersIn("#ttl2", 1.57, 0.04);
+tl.to("#ttl2", { opacity: 0.45, filter: "blur(3px)", duration: 0.25, ease: "power1.in" }, 2.0);
+tl.to("#ttl2", { opacity: 0, duration: 0.15 }, 2.22);
+tl.set("#ttl3", { opacity: 1 }, 2.14);
+lettersIn("#ttl3", 2.14, 0.04);
+
+// ----- tab: viên đen chạy All → Design → Code -----
+const sel = "#tabsel";
+tl.set(sel, { x: 40, width: 122 }, 0);
+function slideTab(t0, fromI, toI) {
+  const [, x1, w1] = TAB[fromI], [, x2, w2] = TAB[toI];
+  const wmid = (x2 + w2) - x1;
+  tl.fromTo(sel, { x: x1 }, { x: x2, duration: 0.26, ease: "power3.inOut" }, t0);
+  tl.fromTo(sel, { width: w1 }, { width: wmid, duration: 0.13, ease: "power2.out" }, t0);
+  tl.to(sel, { width: w2, duration: 0.13, ease: "power2.in" }, t0 + 0.13);
+  tl.to("#tp" + fromI, { color: "#2a2a2a", duration: 0.1 }, t0 + 0.1);
+  tl.to("#tp" + toI, { color: "#ffffff", duration: 0.1 }, t0 + 0.1);
+}
+tl.set("#tp0", { color: "#ffffff" }, 0);
+slideTab(1.04, 0, 1);
+slideTab(1.42, 1, 2);
+tl.fromTo("#tabs", { y: 250, rotationX: 40, transformPerspective: 900, opacity: 0 }, { y: 0, rotationX: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, 0.04);
+tl.to("#tabs", { opacity: 0, duration: 0.15 }, 1.95);
+
+// ----- thẻ: bay vào (mặt phẳng nghiêng → phẳng) -----
+const GX = [40, 560], GY = 750, GP = 194;
+cardEls.forEach((c, i) => {
+  const col = i % 2, row = Math.floor(i / 2);
+  gsap.set(c, { x: GX[col], y: GY + row * GP });
+  tl.set(c.cw, { opacity: 0 }, 0); tl.set(c.cw, { opacity: 1 }, 0.1);
+  tl.fromTo(c.cw, { y: 240 + 120 * row, rotationX: 68, transformPerspective: 900, scale: 0.92 },
+    { y: 0, rotationX: 0, scale: 1, duration: 0.8, ease: "power2.out" }, 0.03 + row * 0.09 + col * 0.03);
+});
+gsap.set(c8, { x: 50, y: 1360, width: 220, height: 220 }); gsap.set(c8.cw, { opacity: 0 });
+
+// trạng thái Code: [x, y, w, h, xoay]
+const CODE = [null, [-10, 770, 220, 220, -3], [620, 730, 200, 220, 2], [840, 730, 215, 250, 3], [300, 736, 230, 234, -2],
+  [550, 1020, 230, 236, 2], [230, 1280, 300, 220, -3], [780, 1000, 270, 220, 4]];
+cardEls.forEach((c, i) => {
+  const t0 = 1.42 + i * 0.025;
+  if (i === 0) {
+    tl.to(c, { x: 40, y: 970, width: 320, height: 290, duration: 0.36, ease: "power3.inOut" }, t0);
+    tl.to(c.querySelector(".hb"), { opacity: 0, duration: 0.15 }, t0);
+    tl.to(c.querySelector(".vb"), { opacity: 1, duration: 0.15 }, t0 + 0.15);
+    return;
+  }
+  const [x, y, w, h, rot] = CODE[i];
+  tl.to(c, { x: x, y: y, width: w, height: h, rotation: rot, duration: 0.38, ease: "power3.inOut" }, t0);
+  tl.to(c.querySelector(".hb"), { opacity: 0, duration: 0.14 }, t0);
+  tl.to(c.querySelector(".vb"), { opacity: 1, duration: 0.14 }, t0 + 0.14);
+});
+tl.fromTo(c8.cw, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(1.5)" }, 1.55);
+// sau khi Tasks mở: thẻ còn lại mờ dần, rơi xuống chồng ở đáy
+cardEls.concat([c8]).forEach((c, i) => {
+  if (i === 0) return;
+  tl.to(c, { x: -20 + i * 118, y: 1560 + (i % 2) * 40, width: 330, height: 290, rotation: ((i * 5) % 9) - 4,
+    opacity: 0.22, filter: "blur(5px)", duration: 0.35, ease: "power2.inOut" }, 1.95 + i * 0.015);
+});
+
+// ----- logo Motion bật ra + tia cam -----
+tl.fromTo("#logo", { scale: 0.18, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.8)" }, 0.26);
+tl.fromTo("#burst", { scale: 0.5, opacity: 1 }, { scale: 1.5, opacity: 0, duration: 0.45, ease: "power2.out" }, 0.36);
+
+// ----- Tasks: thẻ đen nhỏ nở thành bảng -----
+tl.set("#tasks", { opacity: 1 }, 1.76);
+tl.set(cardEls[0], { opacity: 0 }, 1.76);
+tl.fromTo("#tasks", { x: 40, y: 970, width: 320, height: 290 }, { x: 40, y: 650, width: 1000, height: 850, duration: 0.36, ease: "back.out(1.3)" }, 1.8);
+tl.fromTo("#tasks .dot, #tasks .h1, #tasks .h2, #tasks .badge", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.84);
+// huy hiệu số: 5 → 6
+const bs = document.querySelectorAll("#badge span");
+tl.set(bs[0], { opacity: 1 }, 1.84);
+tl.set(bs[0], { opacity: 0 }, 2.2);
+tl.fromTo(bs[1], { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.15, ease: "back.out(2)" }, 2.2);
+
+// chip: trượt vào từ hai bên, đánh dấu xong
+function runChips(states) {
+  const shown = {};
+  states.forEach(st => {
+    Object.keys(CH).forEach((n, k) => {
+      const el = chipEl[n], slot = st.slots[n], t = st.t + k * 0.012;
+      if (slot) {
+        if (!shown[n]) {
+          const fx = slot[0] + (slot[0] > 300 ? 540 : -540);
+          tl.fromTo(el, { x: fx, y: slot[1], opacity: 0, scale: 1 }, { x: slot[0], y: slot[1], opacity: 1, duration: st.d, ease: "power3.out" }, t);
+          tl.fromTo(el.querySelector(".sp"), { opacity: 1 }, { opacity: 0, duration: 0.1 }, t + st.d + 0.12);
+          tl.fromTo(el.querySelector(".ok"), { opacity: 0 }, { opacity: 1, duration: 0.1 }, t + st.d + 0.12);
+          shown[n] = true;
+        } else tl.to(el, { x: slot[0], y: slot[1], duration: st.d, ease: "power3.inOut" }, t);
+      } else if (shown[n]) { tl.to(el, { opacity: 0, scale: 0.8, duration: 0.15 }, t); shown[n] = false; }
+    });
+  });
+}
+runChips([
+  { t: 1.86, d: 0.3, slots: { layout: [-60, 170], exit: [330, 170], stagger: [150, 302], initial: [470, 302], animate: [-40, 434] } },
+  { t: 2.2, d: 0.3, slots: { layout: [24, 170], exit: [504, 170], stagger: [30, 302], initial: [504, 302], animate: [24, 434], useSpring: [444, 434] } }]);
+
+// ----- chấm cam: sóng từ hàng 16 lan lên rồi xuống, rồi tan -----
+tl.set("#dots s", { scale: 0.1, opacity: 0.35 }, 0);
+const dd = [...document.querySelectorAll("#dots s")];
+dd.forEach(s => {
+  const r = +s.dataset.r, k = 0.25 + 0.55 * (r / (DR - 1));
+  tl.to(s, { scale: k, opacity: 0.85, duration: 0.3, ease: "power1.out" }, 1.1 + (DR - 1 - r) * 0.026);
+  tl.to(s, { scale: 0.05, opacity: 0, duration: 0.15, ease: "power1.in" }, 1.95 + r * 0.006);
+});
+
+// ----- phụ đề -----
+function words(sel, ts, hideAt) {
+  document.querySelectorAll(sel + " span").forEach((s, i) =>
+    tl.fromTo(s, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, ts[i]));
+  if (hideAt != null) tl.set(sel, { opacity: 0 }, hideAt);
+}
+words("#cap1", [0.13, 0.5, 0.6, 0.74, 0.94], 1.28);
+words("#cap2", [1.3, 1.4, 1.47, 1.62, 1.78], 1.92);
+words("#cap3", [1.93, 2.3, 2.45], null);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
