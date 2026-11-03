@@ -1,0 +1,1802 @@
+{
+ "_doc": "Từ vựng của preset corporate-motion. Scene chỉ gọi theo tên (Kit.make / Kit.fx / Kit.tx); cần thứ chưa có thì thêm vào đây + kit.js + ../demo/ trước. build-tokens.mjs --check-catalog kiểm khớp với kit.js (khi nạp) và demo. Prop có \"internal\": true (ease, reach, dur) CHỈ để kit dùng nội bộ: language cố định nên scene không được truyền; verify/--check-scenes báo lỗi.",
+ "call": {
+  "component": "Kit.make(name, parent, props) -> handle",
+  "effect": "Kit.fx(name, tl, target, props)",
+  "transition": "Kit.tx(name, tl, {from, to, at})"
+ },
+ "suits_values": [
+  "wow-demo",
+  "hanging-number",
+  "authority",
+  "metaphor",
+  "checklist",
+  "costly-detail",
+  "lesson",
+  "cta"
+ ],
+ "entries": [
+  {
+   "kind": "component",
+   "name": "page",
+   "purpose": "Nền trang toàn cảnh: tint hoặc trắng, lưới ô hoặc chấm rất mờ.",
+   "props": {
+    "mode": {
+     "type": "tint|white",
+     "default": "tint",
+     "desc": "chế độ nền"
+    },
+    "grid": {
+     "type": "line|dot|null",
+     "default": null,
+     "desc": "hoạ tiết nền"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.make(\"page\", scene, { mode: \"tint\", grid: \"line\" })",
+   "demo": "page"
+  },
+  {
+   "kind": "component",
+   "name": "card",
+   "purpose": "Thẻ trắng bo góc, bóng nhạt; chứa các thành phần khác.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.make(\"card\", scene, { x: 90, y: 540, w: 900, h: 600 })",
+   "demo": "card"
+  },
+  {
+   "kind": "component",
+   "name": "text",
+   "purpose": "Chữ theo vai thang chữ; `*từ*` là từ khoá nhấn; bỏ text để lấy khung cho effect typing/countUp.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "role": {
+     "type": "headline|caption|subhead|list|label|display|percent",
+     "default": "headline",
+     "desc": "vai chữ"
+    },
+    "text": {
+     "type": "string",
+     "default": "",
+     "desc": "nội dung, hỗ trợ *nhấn*"
+    },
+    "align": {
+     "type": "left|center|right",
+     "default": "left",
+     "desc": "căn lề"
+    },
+    "minH": {
+     "type": "px",
+     "default": null,
+     "desc": "cao tối thiểu"
+    },
+    "accent": {
+     "type": "bool",
+     "default": false,
+     "desc": "tô màu nhấn cả khối"
+    },
+    "size": {
+     "type": "px",
+     "default": null,
+     "desc": "ghi đè cỡ"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.make(\"text\", scene, { role: \"headline\", text: \"Dashboard *đẹp* lắm\", x: 100, y: 290, w: 880 })",
+   "demo": "text"
+  },
+  {
+   "kind": "component",
+   "name": "accentBar",
+   "purpose": "Vạch nhấn vàng nhỏ (một điểm nhấn).",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "hanging-number",
+    "costly-detail",
+    "cta"
+   ],
+   "example": "Kit.make(\"accentBar\", card.el, { x: 375, y: 482 })",
+   "demo": "accentBar"
+  },
+  {
+   "kind": "component",
+   "name": "icon",
+   "purpose": "Biểu tượng nét: check, question, arrow-right, arrow-down, pin, user, quote, chart, chat, plus.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "name": {
+     "type": "string",
+     "default": "check",
+     "desc": "tên biểu tượng"
+    },
+    "size": {
+     "type": "px",
+     "default": 48,
+     "desc": "cỡ"
+    },
+    "tone": {
+     "type": "accent|ink|surface|mid",
+     "default": "accent",
+     "desc": "màu theo theme"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng (ghi đè)"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.make(\"icon\", card.el, { name: \"question\", size: 84 })",
+   "demo": "icon"
+  },
+  {
+   "kind": "component",
+   "name": "avatar",
+   "purpose": "Hình người (avatar) vòng tròn có chữ cái đầu.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "initials": {
+     "type": "string",
+     "default": "",
+     "desc": "chữ cái"
+    },
+    "size": {
+     "type": "px",
+     "default": 96,
+     "desc": "đường kính"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng (ghi đè)"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "authority",
+    "cta"
+   ],
+   "example": "Kit.make(\"avatar\", card.el, { initials: \"MA\", size: 96 })",
+   "demo": "avatar"
+  },
+  {
+   "kind": "component",
+   "name": "progressBar",
+   "purpose": "Thanh chạy (track + fill); fill chạy bằng effect barFill.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    }
+   },
+   "returns": "{el, fill}",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "costly-detail"
+   ],
+   "example": "const p = Kit.make(\"progressBar\", card.el, { x: 80, y: 250, w: 740 }); Kit.fx(\"barFill\", tl, p, { at: 1, to: 0.87 })",
+   "demo": "progressBar"
+  },
+  {
+   "kind": "component",
+   "name": "barChart",
+   "purpose": "Biểu đồ cột (cột cuối nhấn) có đường đáy; cột chạy bằng effect chartPop.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "values": {
+     "type": "number[]",
+     "default": [],
+     "desc": "chiều cao tương đối"
+    },
+    "max": {
+     "type": "number",
+     "default": null,
+     "desc": "giá trị ứng với h"
+    },
+    "barW": {
+     "type": "px",
+     "default": 60,
+     "desc": "rộng mỗi cột"
+    },
+    "baseline": {
+     "type": "bool",
+     "default": true,
+     "desc": "đường đáy"
+    },
+    "highlightLast": {
+     "type": "bool",
+     "default": true,
+     "desc": "nhấn cột cuối"
+    }
+   },
+   "returns": "{el, bars[]}",
+   "suits": [
+    "wow-demo",
+    "costly-detail"
+   ],
+   "example": "const c = Kit.make(\"barChart\", card.el, { x: 80, y: 330, w: 740, h: 400, values: [200, 280, 330], max: 400, barW: 84 }); Kit.fx(\"chartPop\", tl, c, { at: 1 })",
+   "demo": "barChart"
+  },
+  {
+   "kind": "component",
+   "name": "lineChart",
+   "purpose": "Biểu đồ đường có vùng tô và chấm.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "values": {
+     "type": "number[]",
+     "default": [],
+     "desc": "giá trị"
+    },
+    "max": {
+     "type": "number",
+     "default": null,
+     "desc": "giá trị ứng với h"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "wow-demo",
+    "costly-detail"
+   ],
+   "example": "Kit.make(\"lineChart\", card.el, { x: 60, y: 60, w: 780, h: 300, values: [3, 5, 4, 8, 7, 9] })",
+   "demo": "lineChart"
+  },
+  {
+   "kind": "component",
+   "name": "donutChart",
+   "purpose": "Biểu đồ vòng; vòng chạy bằng effect ringFill.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "size": {
+     "type": "px",
+     "default": 300,
+     "desc": "đường kính"
+    },
+    "value": {
+     "type": "0..1",
+     "default": 1,
+     "desc": "tỉ lệ cuối"
+    },
+    "label": {
+     "type": "string",
+     "default": null,
+     "desc": "chữ ở giữa"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng (ghi đè)"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el, ring, len}",
+   "suits": [
+    "wow-demo",
+    "costly-detail"
+   ],
+   "example": "const d = Kit.make(\"donutChart\", card.el, { size: 300, value: 0.72, label: \"72%\" }); Kit.fx(\"ringFill\", tl, d, { at: 1, to: 0.72 })",
+   "demo": "donutChart"
+  },
+  {
+   "kind": "component",
+   "name": "skeleton",
+   "purpose": "Dòng xương (khối chữ giả) cho mockup.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "rows": {
+     "type": "px[]",
+     "default": [],
+     "desc": "rộng từng dòng"
+    },
+    "gap": {
+     "type": "px",
+     "default": 35,
+     "desc": "khoảng dòng"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng (ghi đè)"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "wow-demo"
+   ],
+   "example": "Kit.make(\"skeleton\", card.el, { x: 80, y: 775, rows: [620, 440] })",
+   "demo": "skeleton"
+  },
+  {
+   "kind": "component",
+   "name": "kpi",
+   "purpose": "Số lớn (khung cho countUp) kèm nhãn bên phải.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "label": {
+     "type": "string",
+     "default": "",
+     "desc": "nhãn"
+    },
+    "value": {
+     "type": "string",
+     "default": null,
+     "desc": "số tĩnh (bỏ nếu dùng countUp)"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng (ghi đè)"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el, num, label}",
+   "suits": [
+    "wow-demo",
+    "costly-detail"
+   ],
+   "example": "const k = Kit.make(\"kpi\", card.el, { x: 80, y: 118, label: \"đạt kế hoạch\" }); Kit.fx(\"countUp\", tl, k.num, { to: 87, suffix: \"%\", at: 1 })",
+   "demo": "kpi"
+  },
+  {
+   "kind": "component",
+   "name": "button",
+   "purpose": "Nút bấm (CTA); phồng-bấm bằng effect pulse.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "label": {
+     "type": "string",
+     "default": "",
+     "desc": "chữ trên nút"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "cta"
+   ],
+   "example": "const b = Kit.make(\"button\", scene, { label: \"Lưu lại\", x: 330, y: 1260, w: 420, h: 120 }); Kit.fx(\"pulse\", tl, b, { at: 3 })",
+   "demo": "button"
+  },
+  {
+   "kind": "component",
+   "name": "pill",
+   "purpose": "Pill tiến trình đánh số (CÂU n/N) + dải chấm; chuyển bước bằng effect pillHop.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "label": {
+     "type": "string",
+     "default": "CÂU",
+     "desc": "nhãn"
+    },
+    "total": {
+     "type": "int",
+     "default": 3,
+     "desc": "tổng bước"
+    },
+    "step": {
+     "type": "int",
+     "default": 1,
+     "desc": "bước đầu"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el, k}",
+   "suits": [
+    "checklist",
+    "lesson"
+   ],
+   "example": "const p = Kit.make(\"pill\", scene, { x: 100, y: 300, total: 3 }); Kit.fx(\"pillHop\", tl, p, { at: 2, to: 2 })",
+   "demo": "pill"
+  },
+  {
+   "kind": "component",
+   "name": "dashboardCard",
+   "purpose": "Thẻ dashboard mock: tiêu đề, KPI, thanh tiến độ, biểu đồ cột, dòng xương.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "title": {
+     "type": "string",
+     "default": "",
+     "desc": "tiêu đề nhỏ"
+    },
+    "kpi": {
+     "type": "{label}",
+     "default": {},
+     "desc": "nhãn KPI"
+    },
+    "bars": {
+     "type": "number[]",
+     "default": [],
+     "desc": "cột (max 400)"
+    },
+    "skeleton": {
+     "type": "px[]",
+     "default": [
+      620,
+      440
+     ],
+     "desc": "dòng xương"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, title, kpi, num, progress, fill, chart, bars, skel}",
+   "suits": [
+    "wow-demo"
+   ],
+   "example": "Kit.make(\"dashboardCard\", scene, { x: 90, y: 540, w: 900, h: 860, title: \"Doanh thu tuần 12\", kpi: { label: \"đạt kế hoạch\" }, bars: [200, 280, 240] })",
+   "demo": "dashboardCard"
+  },
+  {
+   "kind": "component",
+   "name": "statCard",
+   "purpose": "Thẻ số lớn: nhãn góc, dòng dẫn, SỐ, đơn vị, vạch nhấn, rồi thanh chạy hoặc biểu đồ cột.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "tag": {
+     "type": "string",
+     "default": null,
+     "desc": "nhãn góc"
+    },
+    "lead": {
+     "type": "string",
+     "default": "",
+     "desc": "dòng dẫn"
+    },
+    "unit": {
+     "type": "string",
+     "default": "",
+     "desc": "đơn vị/nhãn dưới số"
+    },
+    "highlight": {
+     "type": "bool",
+     "default": true,
+     "desc": "vạch vàng"
+    },
+    "progress": {
+     "type": "bool",
+     "default": false,
+     "desc": "thanh chạy dưới"
+    },
+    "progressW": {
+     "type": "px",
+     "default": 574,
+     "desc": "rộng thanh"
+    },
+    "chart": {
+     "type": "{values,h,barW,top,caption}",
+     "default": null,
+     "desc": "biểu đồ cột thay thanh"
+    },
+    "numberScale": {
+     "type": "number",
+     "default": 1.558,
+     "desc": "cỡ số theo display_number"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, tag, lead, num, unit, bar, progress, fill, chart, bars, caption}",
+   "suits": [
+    "hanging-number",
+    "costly-detail",
+    "cta"
+   ],
+   "example": "Kit.make(\"statCard\", scene, { x: 90, y: 380, w: 900, h: 600, tag: \"Số minh hoạ\", lead: \"Dashboard họp tuần có\", unit: \"biểu đồ.\", progress: true })",
+   "demo": "statCard"
+  },
+  {
+   "kind": "component",
+   "name": "quoteCard",
+   "purpose": "Thẻ câu chốt phổ quát (không trích dẫn của ai): dấu ngoặc kép, nhãn, dòng 1 tĩnh, dòng 2 là khung gõ.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "tag": {
+     "type": "string",
+     "default": "",
+     "desc": "nhãn nguồn chung"
+    },
+    "line1": {
+     "type": "string",
+     "default": "",
+     "desc": "dòng 1"
+    },
+    "line2": {
+     "type": "string",
+     "default": null,
+     "desc": "dòng 2; bỏ để lấy khung typing"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, mark, tag, line1, line2}",
+   "suits": [
+    "authority"
+   ],
+   "example": "const q = Kit.make(\"quoteCard\", scene, { x: 90, y: 470, w: 900, h: 780, tag: \"Ai làm dữ liệu lâu cũng nhận ra:\", line1: \"Không cần thêm biểu đồ.\" }); Kit.fx(\"typing\", tl, q.line2, { text: \"Họ cần một *câu trả lời*.\", at: 9 })",
+   "demo": "quoteCard"
+  },
+  {
+   "kind": "component",
+   "name": "mapCard",
+   "purpose": "Thẻ bản đồ mock: đường phố và ghim (ẩn dụ).",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "pins": {
+     "type": "[fx,fy][]",
+     "default": [],
+     "desc": "ghim theo tỉ lệ thẻ"
+    },
+    "roads": {
+     "type": "[x1,y1,x2,y2][]",
+     "default": null,
+     "desc": "đường (toạ độ 0..100)"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, pins[]}",
+   "suits": [
+    "metaphor"
+   ],
+   "example": "const m = Kit.make(\"mapCard\", scene, { x: 90, y: 700, w: 900, h: 680, pins: [[0.2, 0.3], [0.6, 0.5]] }); Kit.fx(\"chartPop\", tl, m.pins, { at: 1 })",
+   "demo": "mapCard"
+  },
+  {
+   "kind": "component",
+   "name": "iconCard",
+   "purpose": "Thẻ ngang: biểu tượng + câu ngắn.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "icon": {
+     "type": "string",
+     "default": "check",
+     "desc": "tên biểu tượng"
+    },
+    "text": {
+     "type": "string",
+     "default": "",
+     "desc": "câu"
+    },
+    "iconSize": {
+     "type": "px",
+     "default": 84,
+     "desc": "cỡ icon"
+    },
+    "role": {
+     "type": "list|label|headline",
+     "default": "list",
+     "desc": "vai chữ"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, icon, text}",
+   "suits": [
+    "metaphor",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.make(\"iconCard\", scene, { x: 330, y: 1000, w: 420, h: 150, icon: \"question\", text: \"điểm đến?\" })",
+   "demo": "iconCard"
+  },
+  {
+   "kind": "component",
+   "name": "listCard",
+   "purpose": "Hàng checklist: dấu tick (popIn) + câu.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "text": {
+     "type": "string",
+     "default": "",
+     "desc": "câu, hỗ trợ *nhấn*"
+    },
+    "icon": {
+     "type": "string",
+     "default": "check",
+     "desc": "biểu tượng"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, tick, text}",
+   "suits": [
+    "checklist"
+   ],
+   "example": "const r = Kit.make(\"listCard\", scene, { x: 90, y: 480, w: 900, h: 200, text: \"Ai là người *chốt*?\" }); Kit.fx(\"slideIn\", tl, r, { at: 1, from: \"right\", fade: 0 }); Kit.fx(\"popIn\", tl, r.tick, { at: 2 })",
+   "demo": "listCard"
+  },
+  {
+   "kind": "component",
+   "name": "stepCard",
+   "purpose": "Thẻ bước có huy hiệu số.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao"
+    },
+    "n": {
+     "type": "int|string",
+     "default": 1,
+     "desc": "số bước"
+    },
+    "text": {
+     "type": "string",
+     "default": "",
+     "desc": "câu"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, badge, text}",
+   "suits": [
+    "lesson",
+    "checklist"
+   ],
+   "example": "Kit.make(\"stepCard\", scene, { x: 160, y: 640, w: 760, h: 200, n: 1, text: \"Quyết định\" })",
+   "demo": "stepCard"
+  },
+  {
+   "kind": "component",
+   "name": "connector",
+   "purpose": "Mũi tên dọc nối hai thẻ.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "tâm ngang"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "đầu trên"
+    },
+    "h": {
+     "type": "px",
+     "default": 60,
+     "desc": "cao"
+    }
+   },
+   "returns": "{el}",
+   "suits": [
+    "lesson"
+   ],
+   "example": "Kit.make(\"connector\", scene, { x: 540, y: 840, h: 60 })",
+   "demo": "connector"
+  },
+  {
+   "kind": "component",
+   "name": "table",
+   "purpose": "Bảng mock: hàng tiêu đề + hàng dữ liệu, có thể nhấn một hàng.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "columns": {
+     "type": "string[]",
+     "default": [],
+     "desc": "tiêu đề cột"
+    },
+    "rows": {
+     "type": "string[][]",
+     "default": [],
+     "desc": "dữ liệu"
+    },
+    "rowH": {
+     "type": "px",
+     "default": 84,
+     "desc": "cao hàng"
+    },
+    "highlight": {
+     "type": "int",
+     "default": null,
+     "desc": "chỉ số hàng nhấn"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    },
+    "cls": {
+     "type": "string",
+     "default": "",
+     "desc": "lớp CSS thêm cho thẻ"
+    }
+   },
+   "returns": "{el, rows[]}",
+   "suits": [
+    "wow-demo",
+    "costly-detail"
+   ],
+   "example": "Kit.make(\"table\", scene, { x: 90, y: 600, w: 900, columns: [\"Tuần\", \"Giờ\"], rows: [[\"12\", \"6\"], [\"13\", \"6\"]], highlight: 1 })",
+   "demo": "table"
+  },
+  {
+   "kind": "component",
+   "name": "chatBox",
+   "purpose": "Khung chat mock: bong bóng người dùng và bot.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng"
+    },
+    "messages": {
+     "type": "{from,text}[]",
+     "default": [],
+     "desc": "tin nhắn"
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el, bubbles[]}",
+   "suits": [
+    "metaphor",
+    "lesson"
+   ],
+   "example": "Kit.make(\"chatBox\", scene, { x: 90, y: 600, w: 900, messages: [{ from: \"user\", text: \"Số nào quan trọng?\" }, { from: \"bot\", text: \"Số đổi được quyết định.\" }] })",
+   "demo": "chatBox"
+  },
+  {
+   "kind": "effect",
+   "name": "fadeUp",
+   "purpose": "Vào nhẹ: trượt lên ngắn kèm hiện dần (token ĐOÁN trong language.guess).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm"
+    },
+    "y": {
+     "type": "px",
+     "default": 28,
+     "desc": "quãng"
+    },
+    "duration": {
+     "type": "s",
+     "default": 0.35,
+     "desc": "thời lượng"
+    },
+    "ease": {
+     "type": "string",
+     "default": null,
+     "desc": "ghi đè ease GSAP của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "language.guess.fade_up",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.fx(\"fadeUp\", tl, headline, { at: 1.2 })",
+   "demo": "fadeUp"
+  },
+  {
+   "kind": "effect",
+   "name": "slideIn",
+   "purpose": "Thẻ trượt vào (power2.out, chạm 98% trong 0.475s, quãng 0.327 H).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm"
+    },
+    "from": {
+     "type": "bottom|top|left|right",
+     "default": "bottom",
+     "desc": "hướng"
+    },
+    "dist": {
+     "type": "px",
+     "default": 628,
+     "desc": "quãng"
+    },
+    "fade": {
+     "type": "s",
+     "default": 0.1,
+     "desc": "hiện dần; 0 = hiện ngay"
+    },
+    "reach": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời gian chạm 98% của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "motion.card_slide_in",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.fx(\"slideIn\", tl, card, { at: 0, fade: 0 })",
+   "demo": "slideIn"
+  },
+  {
+   "kind": "effect",
+   "name": "typing",
+   "purpose": "Chữ gõ từng ký tự 21.3 ký tự/s có con trỏ; trả thời điểm xong.",
+   "props": {
+    "text": {
+     "type": "string",
+     "default": "",
+     "desc": "chữ, *nhấn*"
+    },
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "cps": {
+     "type": "number",
+     "default": 21.3,
+     "desc": "ký tự/giây"
+    },
+    "caret": {
+     "type": "bool",
+     "default": true,
+     "desc": "con trỏ"
+    },
+    "caretHold": {
+     "type": "s",
+     "default": 0.5,
+     "desc": "con trỏ giữ sau ký tự cuối"
+    }
+   },
+   "language": "motion.typed_text",
+   "suits": [
+    "wow-demo",
+    "authority",
+    "metaphor",
+    "lesson"
+   ],
+   "example": "Kit.fx(\"typing\", tl, h.el, { text: \"Dashboard *đẹp* như phim.\", at: 0.73, caretHold: 0.3 })",
+   "demo": "typing"
+  },
+  {
+   "kind": "effect",
+   "name": "countUp",
+   "purpose": "Số đếm lên/xuống (sine.out, chạm 98% trong 0.767s), mỗi khung một span.",
+   "props": {
+    "to": {
+     "type": "number",
+     "default": null,
+     "desc": "giá trị cuối"
+    },
+    "from": {
+     "type": "number",
+     "default": 0,
+     "desc": "giá trị đầu"
+    },
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "prefix": {
+     "type": "string",
+     "default": "",
+     "desc": "tiền tố"
+    },
+    "suffix": {
+     "type": "string",
+     "default": "",
+     "desc": "hậu tố"
+    },
+    "decimals": {
+     "type": "int",
+     "default": 0,
+     "desc": "số thập phân"
+    },
+    "align": {
+     "type": "left|center|right",
+     "default": "left",
+     "desc": "căn"
+    },
+    "ease": {
+     "type": "string",
+     "default": null,
+     "desc": "ghi đè ease GSAP của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    },
+    "reach": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời gian chạm 98% của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "motion.number_count_up",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "costly-detail",
+    "cta"
+   ],
+   "example": "Kit.fx(\"countUp\", tl, card.num, { to: 47, at: 4.77, align: \"center\" })",
+   "demo": "countUp"
+  },
+  {
+   "kind": "effect",
+   "name": "barFill",
+   "purpose": "Thanh chạy (power1.inOut, 0.683s); like:\"count\" = cùng ease với số đếm.",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "to": {
+     "type": "0..1",
+     "default": 1,
+     "desc": "tỉ lệ cuối"
+    },
+    "like": {
+     "type": "count|null",
+     "default": null,
+     "desc": "theo số đếm"
+    },
+    "ease": {
+     "type": "string",
+     "default": null,
+     "desc": "ghi đè ease GSAP của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    },
+    "reach": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời gian chạm 98% của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "motion.bar_fill / number_count_up",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "costly-detail"
+   ],
+   "example": "Kit.fx(\"barFill\", tl, card.fill, { at: 0.67, to: 0.87, like: \"count\" })",
+   "demo": "barFill"
+  },
+  {
+   "kind": "effect",
+   "name": "chartPop",
+   "purpose": "Cột/ghim nảy lên từ đáy (back.out(2.5), quá đà 0.18, so le 0.167/0.133s).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "stagger": {
+     "type": "s|s[]",
+     "default": [
+      0.167,
+      0.133
+     ],
+     "desc": "so le"
+    },
+    "reach": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời gian chạm 98% của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "motion.chart_pop",
+   "suits": [
+    "wow-demo",
+    "metaphor",
+    "costly-detail"
+   ],
+   "example": "Kit.fx(\"chartPop\", tl, card.bars, { at: 0.57 })",
+   "demo": "chartPop"
+  },
+  {
+   "kind": "effect",
+   "name": "popIn",
+   "purpose": "Phóng từ tâm 0 -> 1 với ease của chart_pop (tick, huy hiệu, ghim tròn).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "stagger": {
+     "type": "s|s[]",
+     "default": [
+      0.167,
+      0.133
+     ],
+     "desc": "so le"
+    },
+    "reach": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời gian chạm 98% của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "motion.chart_pop",
+   "suits": [
+    "checklist",
+    "lesson"
+   ],
+   "example": "Kit.fx(\"popIn\", tl, row.tick, { at: 2.2 })",
+   "demo": "popIn"
+  },
+  {
+   "kind": "effect",
+   "name": "ringFill",
+   "purpose": "Vòng donut chạy tới `to` (bar_fill).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "to": {
+     "type": "0..1",
+     "default": 1,
+     "desc": "tỉ lệ cuối"
+    },
+    "reach": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời gian chạm 98% của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "motion.bar_fill",
+   "suits": [
+    "costly-detail"
+   ],
+   "example": "Kit.fx(\"ringFill\", tl, donut, { at: 1, to: 0.72 })",
+   "demo": "ringFill"
+  },
+  {
+   "kind": "effect",
+   "name": "pulse",
+   "purpose": "Nút phồng 1.175x (power1.in, 1.4s) rồi bấm thả (expo.out).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "pulses": {
+     "type": "int",
+     "default": 1,
+     "desc": "số lần"
+    },
+    "gap": {
+     "type": "s",
+     "default": 0.3,
+     "desc": "nghỉ giữa các lần"
+    },
+    "reach": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời gian chạm 98% của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    }
+   },
+   "language": "motion.button_pulse",
+   "suits": [
+    "cta"
+   ],
+   "example": "Kit.fx(\"pulse\", tl, button, { at: 37.5 })",
+   "demo": "pulse"
+  },
+  {
+   "kind": "effect",
+   "name": "pillHop",
+   "purpose": "Pill chuyển bước: chấm nhảy 1 khung, pop 1.08x, nhãn đổi số.",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm"
+    },
+    "to": {
+     "type": "int",
+     "default": "bước kế",
+     "desc": "bước đích"
+    }
+   },
+   "language": "motion.pill_progress",
+   "suits": [
+    "checklist",
+    "lesson"
+   ],
+   "example": "Kit.fx(\"pillHop\", tl, pill, { at: 19.4, to: 2 })",
+   "demo": "pillHop"
+  },
+  {
+   "kind": "transition",
+   "name": "dissolve",
+   "purpose": "Hoà vào 0.333s (kiểu phổ biến nhất của preset).",
+   "props": {
+    "from": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh ra"
+    },
+    "to": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh vào (nằm trên)"
+    },
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "dur": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời lượng chuyển cảnh của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    },
+    "parent": {
+     "type": "element",
+     "default": null,
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+    }
+   },
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.tx(\"dissolve\", tl, { from: b3, to: b4, at: 11.833 })",
+   "demo": "dissolve"
+  },
+  {
+   "kind": "transition",
+   "name": "wash",
+   "purpose": "Phủ màu nền 0.233s rồi mở (đổi nền tint <-> trắng).",
+   "props": {
+    "from": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh ra"
+    },
+    "to": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh vào"
+    },
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "dur": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời lượng chuyển cảnh của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    },
+    "parent": {
+     "type": "element",
+     "default": null,
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+    }
+   },
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.tx(\"wash\", tl, { from: b1, to: b2, at: 3.9 })",
+   "demo": "wash"
+  },
+  {
+   "kind": "transition",
+   "name": "hard",
+   "purpose": "Cắt cứng 1 khung (nhịp đập).",
+   "props": {
+    "from": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh ra"
+    },
+    "to": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh vào"
+    },
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "khung cắt"
+    },
+    "dur": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời lượng chuyển cảnh của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    },
+    "parent": {
+     "type": "element",
+     "default": null,
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+    }
+   },
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.tx(\"hard\", tl, { from: b4, to: b5, at: 17 })",
+   "demo": "hard"
+  },
+  {
+   "kind": "transition",
+   "name": "bar-wipe",
+   "purpose": "Dải màu nhấn quét ngang 0.333s, cảnh mới lộ sau dải.",
+   "props": {
+    "from": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh ra"
+    },
+    "to": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh vào"
+    },
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "barW": {
+     "type": "px",
+     "default": 410,
+     "desc": "rộng dải"
+    },
+    "dur": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời lượng chuyển cảnh của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    },
+    "parent": {
+     "type": "element",
+     "default": null,
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+    }
+   },
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.tx(\"bar-wipe\", tl, { from: b2, to: b3, at: 7.833 })",
+   "demo": "bar-wipe"
+  },
+  {
+   "kind": "transition",
+   "name": "flash",
+   "purpose": "Chớp màu nhấn 0.333s (nhấn bước ngoặt).",
+   "props": {
+    "from": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh ra"
+    },
+    "to": {
+     "type": "element",
+     "default": null,
+     "desc": "cảnh vào"
+    },
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "bắt đầu"
+    },
+    "dur": {
+     "type": "s",
+     "default": null,
+     "desc": "ghi đè thời lượng chuyển cảnh của language (CHỈ dùng nội bộ kit, cấm trong scene)",
+     "internal": true
+    },
+    "parent": {
+     "type": "element",
+     "default": null,
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+    }
+   },
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.tx(\"flash\", tl, { from: b6, to: b7, at: 29.833 })",
+   "demo": "flash"
+  }
+ ]
+}

@@ -202,3 +202,13 @@ Không cần cho thể loại này:
 | Đoạn thử đã duyệt | `jobs/20261102-spring-seg/rebuild/` |
 
 Job này có S viết cứng trong `compose.sh`/`motion.py` (17 cảnh); template `templates/teardown/` đã chuyển sang đọc `cuts.json` và lặp theo số cảnh.
+
+
+## Từ teardown tới preset (chủ quyết 2026-11-03)
+
+Mục tiêu sau cùng không phải sao chép clip mà là preset giữ vibe nhất quán cho nội dung mới:
+
+1. Teardown phong cách trên 3–4 clip cùng kênh, khác chủ đề (`measure_style.py`); token CORE khi có ở ≥3 clip, motif chỉ một clip là nội dung.
+2. Tách ngôn ngữ chuyển động (`language.json`, không đổi) khỏi theme (`themes/*.json`: màu, font, kiểu chữ). Preset mới = theme mới, vibe giữ nguyên.
+3. Mỗi preset có bộ từ vựng riêng `kit/catalog.json` (component, effect, transition), mỗi mục có API trong `kit.js` và thẻ demo. Khi dựng chỉ lấy từ thư viện; thiếu thì bổ sung thư viện trước. LLM chỉ viết nội dung và chọn mục catalog.
+4. Dựng một đoạn thử cho chủ duyệt trước; khi chủ đã chấm đạt, mỗi mục chỉ làm một lượt.

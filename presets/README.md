@@ -11,7 +11,7 @@ Dùng chung: `_shared/` (motion-vocab, teardown-template, review-checklist).
 | [pipeline-diagram](pipeline-diagram/preset.md) | Sơ đồ khối mũi tên trái→phải | HyperFrames | video-function-scene |
 | [exploded-view](exploded-view/preset.md) | Tách lớp vật thể + nhãn | HyperFrames + anatomy | job phin shot 3 |
 | [continuous-canvas](continuous-canvas/preset.md) | Cả video là 1 bức tranh lớn, scene = cửa sổ camera | HyperFrames | template verify 2026-10-28 |
-| [corporate-motion](corporate-motion/preset.md) | Dọc 9:16, 2–3 phút, giải thích kỹ năng/khoá học bằng thẻ UI phẳng trắng-xanh, số treo (80/20), ẩn dụ, checklist, bài học | HyperFrames + GSAP | 4 job (20261028-230040 + corp-sample-*): số đo + `style.json`, chưa có scene |
+| [corporate-motion](corporate-motion/preset.md) | Dọc 9:16, 2–3 phút, giải thích kỹ năng/khoá học bằng thẻ UI phẳng trắng-xanh, số treo (80/20), ẩn dụ, checklist, bài học | HyperFrames + GSAP | 4 job (20261028-230040 + corp-sample-*): số đo + `style.json`; kit từ vựng (`kit/catalog.json`), `language.json` + `themes/`, clip mẫu 8 beat `jobs/20261103-corp-demo-dashboard/full/` |
 
 ## Luật matching (director làm tay trước, tự động sau)
 

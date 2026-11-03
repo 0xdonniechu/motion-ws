@@ -1,0 +1,77 @@
+{
+ "_doc": "Theme night: nền xanh navy tối, nhấn xanh ngọc, font Montserrat, từ khoá có vạch nền, nhãn viết hoa. Chỉ để chứng minh đổi theme không đổi chuyển động. Bóng tông đen (alpha giữ theo language).",
+ "name": "night",
+ "colors": {
+  "surface": "#16294f",
+  "accent_dark": "#14b8a6",
+  "accent_primary": "#2dd4bf",
+  "accent_mid": "#5eead4",
+  "accent_light": "#1d4d5c",
+  "ink": "#f2f7ff",
+  "ink_secondary": "#aebbd6",
+  "yellow": "#ffb347"
+ },
+ "page": {
+  "tint": "#0a1530",
+  "white": "#0d1b38"
+ },
+ "iso": [
+  "#2b4a7a",
+  "#1f3a66",
+  "#2dd4bf"
+ ],
+ "font": {
+  "family": "Montserrat",
+  "body_weight": 700
+ },
+ "type": {
+  "roles": {
+   "headline": {
+    "weight": 800,
+    "scale": 0.94
+   },
+   "subhead": {
+    "weight": 700,
+    "scale": 0.95
+   },
+   "caption": {
+    "weight": 800,
+    "scale": 0.94
+   },
+   "list_item": {
+    "weight": 800,
+    "scale": 0.94
+   },
+   "pill_label": {
+    "weight": 800,
+    "scale": 0.85
+   },
+   "display_number": {
+    "weight": 800,
+    "scale": 0.96
+   },
+   "percent_label": {
+    "weight": 800,
+    "scale": 0.95
+   }
+  },
+  "line_height_em": 1.08,
+  "letter_spacing_em": -0.01,
+  "label_letter_spacing_em": 0.04,
+  "case": {
+   "headline": "none",
+   "label": "uppercase"
+  },
+  "highlight": {
+   "style": "marker",
+   "marker_alpha": 0.28
+  }
+ },
+ "shadow": {
+  "rgb": [
+   0,
+   0,
+   0
+  ]
+ }
+}
