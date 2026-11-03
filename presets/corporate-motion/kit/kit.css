@@ -50,7 +50,14 @@
 .k-c-accent { color: var(--k-accent); }
 /* chữ nhấn nghiêng có chân: font, độ đậm theo theme; cỡ = 1.27 em của chữ đứng cạnh (language.type.accent_italic); line-height 0 để không nới dòng */
 .k-ital { font-family: var(--k-accent-font); font-style: italic; font-weight: var(--k-ital-weight); font-size: var(--k-ital-size); line-height: 0; color: var(--k-accent); text-transform: none; }
-.k-w { display: inline-block; white-space: nowrap; }
+.k-w { position: relative; display: inline-block; white-space: nowrap; }   /* relative: chữ nằm trên vệt tô `.k-mark__bg` (phần tử định vị) dù ở ngoài cụm {..} */
+/* chữ rỗng viền `^từ^`: ruột trong suốt, viền = màu chữ đang có, nét 0.037 em (language.type.outline) */
+.k-out { -webkit-text-fill-color: transparent; -webkit-text-stroke: var(--k-out-w) currentColor; }
+/* vệt tô `{cụm}` + gạch `[cụm]`: bao cả cụm một dòng; vệt/vạch là phần tử con quét bằng scaleX từ trái (effect mark / strike) */
+.k-mark, .k-strk { position: relative; display: inline-block; white-space: nowrap; }
+.k-mark__bg { position: absolute; left: -0.06em; right: -0.06em; top: var(--k-mark-top); height: var(--k-mark-h); background: var(--k-mark-bg); transform-origin: 0 50%; }
+.k-mark__t, .k-strk__t { position: relative; }
+.k-strk__line { position: absolute; left: calc(var(--k-strk-over) * -1); right: calc(var(--k-strk-over) * -1); top: var(--k-strk-top); height: var(--k-strk-h); border-radius: 999px; background: var(--k-accent); transform-origin: 0 50%; }
 
 /* chữ gõ: mỗi ký tự một span, hiện bằng tl.set; con trỏ chỉ gắn vào ký tự cuối đang hiện */
 .k-ch { position: relative; display: inline-block; opacity: 0; }

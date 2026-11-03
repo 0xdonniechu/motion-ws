@@ -15,7 +15,8 @@ window.KIT_TOKENS = {
   "accent_light": "#8ec8f6",
   "ink": "#010102",
   "ink_secondary": "#383a3b",
-  "yellow": "#fcc435"
+  "yellow": "#fcc435",
+  "mark": "#fcc435"
  },
  "page": {
   "tint": "#eef7fc",
@@ -115,6 +116,26 @@ window.KIT_TOKENS = {
   "accent_italic": {
    "size_ratio": 1.27,
    "weight": 500
+  },
+  "outline": {
+   "stroke_em": 0.037
+  },
+  "strike": {
+   "thick_em": 0.064,
+   "line_cy_over_cap_h": 0.5,
+   "cap_h_em": 0.74,
+   "baseline_em": 0.88,
+   "overshoot": 0.06,
+   "dim": {
+    "opacity": 0.84,
+    "grayscale": 1,
+    "basis": "chữ bị gạch chuyển về xám: đen #242424 -> #404040 và xanh nhấn #1872ce -> #797979; cùng một hệ số khi coi là grayscale + opacity trên nền sáng ~#e8f0fc: 0.857 và 0.82, lấy 0.84"
+   }
+  },
+  "mark": {
+   "alpha": 0.86,
+   "top": 0.356,
+   "bottom": 0.822
   }
  },
  "card": {
@@ -241,6 +262,60 @@ window.KIT_TOKENS = {
    "origin_note": "điểm thấy đầu tiên của con trỏ so với đích (clip đo: vào từ dưới phải); lần lướt thứ hai bắt đầu từ chỗ cũ",
    "click_lag_s": 0.017,
    "click_note": "pill bắt đầu chạy đúng lúc con trỏ tới (0 và 1 khung sau)"
+  },
+  "strike": {
+   "source": "jobs/corp-sample-7701337835403726101/strike.json; n=2 thể hiện cùng một clip",
+   "ease": "expo.out",
+   "reach_s": 0.148,
+   "dim_delay_frames": 1,
+   "fit": "expo.out khớp rmse 0.0035 ('101', D 9.0 khung) và 0.017 ('CÁI SAI.', D 6.75 khung); chạm 98% sau 3.8 đến 5.1 khung, lấy 4.45 = 0.148s",
+   "progress_first_frames": [
+    [
+     0,
+     0.226,
+     0.649,
+     0.845,
+     0.921,
+     0.966,
+     0.989
+    ],
+    [
+     0,
+     0.005,
+     0.68,
+     0.854,
+     0.927,
+     0.963,
+     0.982
+    ]
+   ],
+   "dim_note": "chữ chuyển xám sau vạch 1 khung (khung vạch bắt đầu hiện còn nguyên màu)"
+  },
+  "mark": {
+   "source": "jobs/corp-sample-7700960427491986696/mark.json; n=2 thể hiện, 2 clip (7700960427491986696, 7702043938013629716)",
+   "ease": "expo.out",
+   "reach_s": 0.164,
+   "fit": "expo.out khớp rmse 0.0046 (D 7.75 khung) và 0.0040 (D 9.75 khung); chạm 98% sau 4.4 đến 5.5 khung, lấy 4.93 = 0.164s; quét trái -> phải",
+   "progress_first_frames": [
+    [
+     0,
+     0.154,
+     0.658,
+     0.862,
+     0.93,
+     0.98,
+     0.993
+    ],
+    [
+     0,
+     0.473,
+     0.736,
+     0.868,
+     0.934,
+     0.967,
+     0.989
+    ]
+   ]
   }
  },
  "transitions": {
@@ -346,7 +421,9 @@ window.KIT_TOKENS = {
    "ringFill",
    "pulse",
    "pillHop",
-   "tabSwitch"
+   "tabSwitch",
+   "strike",
+   "mark"
   ],
   "transition": [
    "dissolve",

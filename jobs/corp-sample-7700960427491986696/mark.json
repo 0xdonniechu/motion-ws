@@ -1,0 +1,93 @@
+[
+ {
+  "clip": "corp-sample-7700960427491986696",
+  "text": "hỏi đúng câu.",
+  "frame_w": 576,
+  "start_frame_in_window": 14,
+  "marker_len_px": 298,
+  "marker_h_px": 22,
+  "ink_h_px": 45,
+  "marker_h_over_ink_h": 0.489,
+  "marker_top_from_ink_top_over_ink_h": 0.356,
+  "marker_bottom_from_ink_top_over_ink_h": 0.822,
+  "ink_x_range": [
+   14,
+   303
+  ],
+  "marker_x_range": [
+   112,
+   409
+  ],
+  "progress_by_frame": [
+   0.0,
+   0.154,
+   0.658,
+   0.862,
+   0.93,
+   0.98,
+   0.993,
+   0.997,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "best_fit": {
+   "ease": "expo.out",
+   "dur_frames": 7.75,
+   "dur_s": 0.258,
+   "t0_frames": 0.8,
+   "rmse": 0.0046
+  },
+  "colour_rgb": [
+   252,
+   207,
+   83
+  ]
+ },
+ {
+  "clip": "corp-sample-7702043938013629716",
+  "text": "nên làm gì?",
+  "frame_w": 576,
+  "start_frame_in_window": 58,
+  "marker_len_px": 182,
+  "marker_h_px": 30,
+  "ink_h_px": 69,
+  "marker_h_over_ink_h": 0.435,
+  "marker_top_from_ink_top_over_ink_h": 0.725,
+  "marker_bottom_from_ink_top_over_ink_h": 1.145,
+  "ink_x_range": [
+   39,
+   217
+  ],
+  "marker_x_range": [
+   226,
+   407
+  ],
+  "progress_by_frame": [
+   0.0,
+   0.473,
+   0.736,
+   0.868,
+   0.934,
+   0.967,
+   0.989,
+   1.0,
+   1.0
+  ],
+  "best_fit": {
+   "ease": "expo.out",
+   "dur_frames": 9.75,
+   "dur_s": 0.325,
+   "t0_frames": 0.1,
+   "rmse": 0.004
+  },
+  "colour_rgb": [
+   252,
+   202,
+   75
+  ]
+ }
+]

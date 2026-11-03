@@ -34,6 +34,10 @@
     set("headline-case", ty.case.headline); set("label-case", ty.case.label);
     const [ar, ag, ab] = rgb(C.accent_primary);
     set("acc-bg", ty.highlight.style === "marker" ? "linear-gradient(transparent 58%, rgba(" + ar + "," + ag + "," + ab + "," + ty.highlight.marker_alpha + ") 58%)" : "none");
+    set("out-w", ty.outline.stroke_em + "em");   // chữ rỗng `^từ^`: nét viền, em
+    const [yr, yg, yb] = rgb(C.mark), st = ty.strike;
+    set("mark-bg", "rgba(" + yr + "," + yg + "," + yb + "," + ty.mark.alpha + ")"); set("mark-top", (ty.mark.top * 100).toFixed(1) + "%"); set("mark-h", ((ty.mark.bottom - ty.mark.top) * 100).toFixed(1) + "%");   // vệt tô `{từ}`
+    set("strk-h", st.thick_em + "em"); set("strk-over", (st.overshoot * 100) + "%"); set("strk-top", (st.baseline_em - st.cap_h_em * (1 - st.line_cy_over_cap_h) - st.thick_em / 2).toFixed(4) + "em");   // gạch `[từ]`
     set("card-radius", px(T.card.radius)); set("card-shadow", T.card.shadow);
     set("pill-radius", px(T.pill.radius)); set("pill-shadow", T.pill.shadow); set("pill-h", px(T.pill.height_px)); set("pill-pl", px(T.pill.padding.left)); set("pill-pr", px(T.pill.padding.right));
     set("line-pitch", px(T.page.grid.line.pitch_px)); set("dot-pitch", px(T.page.grid.dot.pitch_px)); set("grid-ink", gridInk("line"));
@@ -60,18 +64,27 @@
     if (style) Object.assign(e.style, style); if (parent) parent.appendChild(e); return e;
   }
   const place = (e, o) => { e.style.position = "absolute"; ["x:left", "y:top", "w:width", "h:height"].forEach((m) => { const [k, p] = m.split(":"); if (o[k] !== undefined) e.style[p] = px(o[k]); }); return e; };
-  function parseRich(text) {   // "Dashboard *đẹp* lắm": từ giữa dấu * là từ khoá nhấn; "~từ~" = từ nhấn nghiêng có chân (italic serif, màu nhấn)
-    const out = []; let acc = false, ital = false;
-    for (const ch of Array.from(String(text).normalize("NFC"))) { if (ch === "*") acc = !acc; else if (ch === "~") ital = !ital; else out.push({ ch, acc, ital }); }
+  function parseRich(text) {   // "Dashboard *đẹp* lắm": từ giữa dấu * là từ khoá nhấn; "~từ~" = nhấn nghiêng có chân; "^từ^" = chữ rỗng viền (outline); "{cụm}" = vệt tô vàng (effect mark); "[cụm]" = gạch ngang (effect strike)
+    const out = []; let acc = false, ital = false, outl = false, mark = false, strk = false;
+    for (const ch of Array.from(String(text).normalize("NFC"))) {
+      if (ch === "*") acc = !acc; else if (ch === "~") ital = !ital; else if (ch === "^") outl = !outl;
+      else if (ch === "{") mark = true; else if (ch === "}") mark = false; else if (ch === "[") strk = true; else if (ch === "]") strk = false;
+      else out.push({ ch, acc, ital, outl, mark, strk });
+    }
     return out;
   }
   function fillRich(host, text, perChar) {   // span theo từ (nowrap) rồi theo ký tự (nếu perChar); trả mảng token {i, c, caret, space}
-    host.textContent = ""; const chars = []; let word = null, accWrap = null, lastAcc = null;
+    host.textContent = ""; const chars = []; let word = null, accWrap = null, lastKey = null, runKey = "", box = host;
     parseRich(text).forEach((t, i) => {
-      if (t.ch === " " || t.ch === "\n") { word = null; accWrap = null; lastAcc = null; host.appendChild(document.createTextNode(" ")); if (perChar) chars.push({ i, space: true }); return; }
-      if (!word) { word = el("span", "k-w", host); lastAcc = null; }
-      const mode = t.ital ? 2 : t.acc ? 1 : 0;
-      if (mode !== lastAcc) { accWrap = mode === 2 ? el("span", "k-ital", word) : mode === 1 ? el("span", "k-acc", word) : word; lastAcc = mode; }
+      const rk = t.mark ? "mark" : t.strk ? "strk" : "";   // vệt/gạch bao cả cụm (kể cả dấu cách) nên có span riêng ngoài các span từ; lồng nhau thì vệt thắng
+      if (rk !== runKey) {
+        runKey = rk; word = null; accWrap = null; lastKey = null; box = host;
+        if (rk) { const run = el("span", "k-" + rk, host); if (rk === "mark") el("i", "k-mark__bg", run); box = el("span", "k-" + rk + "__t", run); if (rk === "strk") el("i", "k-strk__line", run).setAttribute("data-layout-allow-occlusion", ""); }   // vạch gạch cố ý phủ chữ: báo cho layout check
+      }
+      if (t.ch === " " || t.ch === "\n") { word = null; accWrap = null; lastKey = null; box.appendChild(document.createTextNode(" ")); if (perChar) chars.push({ i, space: true }); return; }
+      if (!word) { word = el("span", "k-w", box); lastKey = null; }
+      const mode = t.ital ? 2 : t.acc ? 1 : 0, key = mode + (t.outl ? "o" : "");
+      if (key !== lastKey) { accWrap = mode === 2 ? el("span", "k-ital", word) : mode === 1 ? el("span", "k-acc", word) : word; if (t.outl) accWrap = el("span", "k-out", accWrap); lastKey = key; }
       if (perChar) { const c = el("span", "k-ch", accWrap); c.textContent = t.ch; const caret = el("i", "k-caret", c); chars.push({ i, c, caret }); }
       else accWrap.appendChild(document.createTextNode(t.ch));
     });
@@ -302,6 +315,21 @@
       k.cur = to;
     }
     return snap(start + M.lead_edge.dur_s);
+  };
+
+  F.strike = (tl, t, o) => {   // strike: vạch gạch ngang (đầu tròn, màu nhấn) quét trái -> phải qua mọi cụm [..] trong chữ, rồi chữ ngả xám sau 1 khung
+    const host = node(t), m = T.motion.strike, d = T.type.strike.dim, at = snap(o.at || 0), D = durFor(m.ease, m.reach_s);
+    host.querySelectorAll(".k-strk").forEach((r) => {
+      const line = r.querySelector(".k-strk__line"), txt = r.querySelector(".k-strk__t"); line.classList.add("k-anim");
+      tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: D, ease: m.ease }, at);
+      tl.fromTo(txt, { opacity: 1, filter: "grayscale(0)" }, { opacity: d.opacity, filter: "grayscale(" + d.grayscale + ")", duration: m.dim_delay_frames / FPS, ease: "none" }, at);   // đúng 1 khung: khung `at` còn nguyên màu, khung kế tiếp đã xám (không có khung giữa); fromTo (không tl.set) để style nội tuyến nhất quán khi tua
+    });
+    return snap(at + D);
+  };
+  F.mark = (tl, t, o) => {   // mark: vệt tô vàng quét trái -> phải sau mọi cụm {..} trong chữ
+    const host = node(t), m = T.motion.mark, at = snap(o.at || 0), D = durFor(m.ease, m.reach_s);
+    host.querySelectorAll(".k-mark__bg").forEach((b) => { b.classList.add("k-anim"); tl.fromTo(b, { scaleX: 0 }, { scaleX: 1, duration: D, ease: m.ease }, at); });
+    return snap(at + D);
   };
 
   // ================================================================ TRANSITIONS (kind: transition)

@@ -86,7 +86,14 @@ if (theme.shadow) for (const k of Object.keys(theme.shadow)) if (k !== "rgb") { 
 for (const k of Object.keys(theme)) if (!allowed.includes(k)) { console.error("theme " + themeName + " có khoá không được phép: " + k + " (chỉ " + allowed.join(", ") + "; chuyển động/bố cục thuộc language.json)"); process.exit(1); }
 const need = (v, what) => { if (v === undefined || v === null) { console.error("theme " + themeName + " thiếu " + what); process.exit(1); } return v; };
 const C = need(theme.colors, "colors");
-for (const k of ["surface", "accent_dark", "accent_primary", "accent_mid", "accent_light", "ink", "ink_secondary", "yellow"]) need(C[k], "colors." + k);
+for (const k of ["surface", "accent_dark", "accent_primary", "accent_mid", "accent_light", "ink", "ink_secondary", "yellow", "mark"]) need(C[k], "colors." + k);
+// chữ nằm trên vệt tô `mark` (kit.js) mà hyperframes check không thấy được (vệt là lớp định vị tuyệt đối): màu vệt so với màu chữ phải >= 3.0 (WCAG chữ lớn) ở MỌI theme, không thì dừng
+const relLum = (h) => { const [r, g, b] = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+const contrast = (a, b) => { const [x, y] = [relLum(a), relLum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+for (const f of fs.readdirSync(path.join(root, "themes")).filter((x) => x.endsWith(".json"))) {
+  const tc = J(path.join(root, "themes", f)).colors || {}, cr = contrast(need(tc.mark, "colors.mark (theme " + f + ")"), need(tc.ink, "colors.ink (theme " + f + ")"));
+  if (cr < 3.0) { console.error("theme " + f + ": colors.mark " + tc.mark + " so với colors.ink " + tc.ink + " chỉ " + cr.toFixed(2) + ":1 (< 3.0): chữ trên vệt tô không đọc được; chỉnh colors.mark"); process.exit(1); }
+}
 need(theme.page && theme.page.tint, "page.tint"); need(theme.page.white, "page.white"); need(theme.font && theme.font.family, "font.family"); need(theme.font.body_weight, "font.body_weight");
 need(theme.type && theme.type.roles, "type.roles"); need(theme.font.accent_family, "font.accent_family"); need(theme.type.accent_italic && theme.type.accent_italic.weight, "type.accent_italic.weight"); need(lang.type.accent_italic && lang.type.accent_italic.size_ratio, "language type.accent_italic.size_ratio"); need(theme.shadow && theme.shadow.rgb, "shadow.rgb");
 const roleMap = { headline: "headline", subhead: "subhead", caption: "caption", list_item: "list_item", pill_label: "pill_label", display_number: "display_number", percent_label: "percent_label" };
@@ -105,7 +112,7 @@ const tokens = {
   colors: { ...C },
   page: { tint: theme.page.tint, white: theme.page.white, tint_share: lang.page.tint_share, white_share: lang.page.white_share, grid: lang.page.grid },
   font: { family: theme.font.family, body_weight: theme.font.body_weight, accent_family: theme.font.accent_family },
-  type: { ...type, line_height: need(theme.type.line_height_em, "type.line_height_em"), letter_spacing_em: need(theme.type.letter_spacing_em, "type.letter_spacing_em"), label_letter_spacing_em: need(theme.type.label_letter_spacing_em, "type.label_letter_spacing_em"), case: need(theme.type.case, "type.case"), highlight: hl, accent_italic: { size_ratio: lang.type.accent_italic.size_ratio, weight: theme.type.accent_italic.weight } },
+  type: { ...type, line_height: need(theme.type.line_height_em, "type.line_height_em"), letter_spacing_em: need(theme.type.letter_spacing_em, "type.letter_spacing_em"), label_letter_spacing_em: need(theme.type.label_letter_spacing_em, "type.label_letter_spacing_em"), case: need(theme.type.case, "type.case"), highlight: hl, accent_italic: { size_ratio: lang.type.accent_italic.size_ratio, weight: theme.type.accent_italic.weight }, outline: { stroke_em: lang.type.outline.stroke_em }, strike: { thick_em: lang.type.strike.thick_em, line_cy_over_cap_h: lang.type.strike.line_cy_over_cap_h, cap_h_em: lang.type.outline.cap_h_em, baseline_em: lang.type.strike.baseline_from_box_top_em, overshoot: lang.type.strike.overshoot_each_side_over_text_w, dim: lang.type.strike.dim }, mark: { alpha: lang.type.mark.alpha, top: lang.type.mark.top_from_ink_top_over_ink_h, bottom: lang.type.mark.bottom_from_ink_top_over_ink_h } },
   card: { radius: lang.card.radius_px, shadow: sh(lang.card.shadow, theme.shadow), width_px: lang.card.width_px, padding: lang.card.padding },
   pill: { radius: lang.pill.radius_px, shadow: sh(lang.pill.shadow, theme.shadow), width_px: lang.pill.width_px, height_px: lang.pill.height_px, padding: lang.pill.padding },
   iso: theme.iso,
