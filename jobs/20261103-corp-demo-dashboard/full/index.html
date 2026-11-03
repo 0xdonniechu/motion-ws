@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<link rel="stylesheet" href="kit/fonts/fonts.css">
+<link rel="stylesheet" href="kit/kit.css">
+<script src="gsap.min.js"></script>
+<script src="tokens.js"></script>
+<script src="kit/kit.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--k-tint); }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+</style>
+</head>
+<body>
+<!-- Clip đủ 8 beat (41s). Scene chỉ là lời gọi thành phần trong catalog.json (Kit.make / Kit.fx / Kit.tx): không vẽ riêng. Beat 1-3 giữ nguyên thời gian của đoạn thử. -->
+<div id="root" data-composition-id="main" data-start="0" data-duration="41" data-width="1080" data-height="1920" data-fps="30">
+  <section id="b1" class="clip k-scene" data-start="0" data-duration="4.2" data-track-index="1"></section>
+  <section id="b2" class="clip k-scene" data-start="3.9" data-duration="4.2667" data-track-index="2"></section>
+  <section id="b3" class="clip k-scene" data-start="7.8333" data-duration="4.3333" data-track-index="3"></section>
+  <section id="b4" class="clip k-scene" data-start="11.8333" data-duration="5.2" data-track-index="4"></section>
+  <section id="b5" class="clip k-scene" data-start="17" data-duration="8.1667" data-track-index="5"></section>
+  <section id="b6" class="clip k-scene" data-start="24.8333" data-duration="5.3333" data-track-index="6"></section>
+  <section id="b7" class="clip k-scene" data-start="29.8333" data-duration="5.3333" data-track-index="7"></section>
+  <section id="b8" class="clip k-scene" data-start="34.8333" data-duration="6.1667" data-track-index="8"></section>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true }), f = (n) => n / 30, S = Kit.scene;   // f: số khung -> giây
+
+// ---------- B1 (0-4s): wow demo ----------
+Kit.make("page", S("b1"), { mode: "tint", grid: "line" });
+const head = Kit.make("text", S("b1"), { role: "headline", x: 100, y: 290, w: 880, minH: 180 });
+const dash = Kit.make("dashboardCard", S("b1"), { x: 90, y: 540, w: 900, h: 860, title: "Doanh thu tuần 12", kpi: { label: "đạt kế hoạch" }, bars: [200, 280, 240, 330, 300, 380] });
+Kit.fx("slideIn", tl, dash, { at: 0, fade: 0 });
+Kit.fx("countUp", tl, dash.num, { to: 87, suffix: "%", at: f(20) });
+Kit.fx("barFill", tl, dash.fill, { at: f(20), to: 0.87, like: "count" });
+Kit.fx("chartPop", tl, dash, { at: f(17) });
+Kit.fx("typing", tl, head, { text: "Dashboard *đẹp* như phim.", at: f(22), caretHold: 0.3 });
+
+// ---------- B2 (4-8s): số treo ----------
+Kit.make("page", S("b2"), { mode: "white" });
+const stat = Kit.make("statCard", S("b2"), { x: 90, y: 380, w: 900, h: 600, tag: "Số minh hoạ", lead: "Dashboard họp tuần có", unit: "biểu đồ.", progress: true });
+const q = Kit.make("text", S("b2"), { role: "headline", text: "Mấy cái *đổi được* một quyết định?", x: 100, y: 1050, w: 880, align: "center" });
+Kit.tx("wash", tl, { from: S("b1"), to: S("b2"), at: f(117) });
+Kit.fx("slideIn", tl, stat, { at: f(123), fade: 0 });
+Kit.fx("countUp", tl, stat.num, { to: 47, at: f(143), align: "center" });
+Kit.fx("barFill", tl, stat.fill, { at: f(143), to: 0.94 });
+Kit.fx("fadeUp", tl, stat.unit, { at: f(158) });
+Kit.fx("fadeUp", tl, stat.bar, { at: f(163), y: 0 });
+Kit.fx("fadeUp", tl, stat.tag, { at: f(126), y: 0, duration: 0.2 });
+Kit.fx("fadeUp", tl, q, { at: f(170) });
+
+// ---------- B3 (8-12s): câu chốt phổ quát ----------
+Kit.make("page", S("b3"), { mode: "tint", grid: "line" });
+const quote = Kit.make("quoteCard", S("b3"), { x: 90, y: 470, w: 900, h: 780, tag: "Ai làm dữ liệu lâu cũng nhận ra:", line1: "Không cần thêm biểu đồ." });
+Kit.tx("bar-wipe", tl, { from: S("b2"), to: S("b3"), at: f(235) });
+Kit.fx("slideIn", tl, quote, { at: f(245), fade: 0 });
+Kit.fx("fadeUp", tl, quote.tag, { at: f(250) });
+Kit.fx("fadeUp", tl, quote.line1, { at: f(256) });
+Kit.fx("typing", tl, quote.line2, { text: "Họ cần một *câu trả lời*.", at: f(270), caretHold: 0.2 });
+
+// ---------- B4 (12-17s): ẩn dụ bản đồ ----------
+Kit.make("page", S("b4"), { mode: "tint", grid: "line" });
+const m1 = Kit.make("text", S("b4"), { role: "headline", x: 100, y: 290, w: 880, minH: 175 });
+const m2 = Kit.make("text", S("b4"), { role: "headline", text: "mà không ghi *điểm đến*.", x: 100, y: 480, w: 880, minH: 175 });
+const map = Kit.make("mapCard", S("b4"), { x: 90, y: 720, w: 900, h: 660, pins: [[0.14, 0.30], [0.30, 0.62], [0.44, 0.25], [0.58, 0.70], [0.72, 0.38], [0.84, 0.78], [0.20, 0.88], [0.66, 0.18], [0.88, 0.50]] });
+const dest = Kit.make("iconCard", S("b4"), { x: 540, y: 1200, w: 420, h: 150, icon: "question", text: "điểm đến?" });
+Kit.tx("dissolve", tl, { from: S("b3"), to: S("b4"), at: f(355) });
+Kit.fx("slideIn", tl, map, { at: f(366), fade: 0 });
+Kit.fx("typing", tl, m1, { text: "Bản đồ *chi tiết* đến từng ngõ,", at: f(372), caretHold: 0.3 });
+Kit.fx("chartPop", tl, map.pins, { at: f(378) });
+Kit.fx("fadeUp", tl, m2, { at: f(423) });
+Kit.fx("slideIn", tl, dest, { at: f(440), from: "right", fade: 0 });
+
+// ---------- B5 (17-25s): checklist ----------
+Kit.make("page", S("b5"), { mode: "white" });
+const pill = Kit.make("pill", S("b5"), { x: 100, y: 300, total: 3, step: 1 });
+const r1 = Kit.make("listCard", S("b5"), { x: 90, y: 520, w: 900, h: 220, text: "Quyết định nào cần *chốt*?" });
+const r2 = Kit.make("listCard", S("b5"), { x: 90, y: 780, w: 900, h: 220, text: "*Ai* là người chốt?" });
+const r3 = Kit.make("listCard", S("b5"), { x: 90, y: 1040, w: 900, h: 220, text: "Con số nào *đổi được* hành động?" });
+Kit.tx("hard", tl, { from: S("b4"), to: S("b5"), at: f(510) });
+Kit.fx("fadeUp", tl, pill, { at: f(512) });
+Kit.fx("slideIn", tl, r1, { at: f(516), from: "right", fade: 0 });
+Kit.fx("popIn", tl, r1.tick, { at: f(540) });
+Kit.fx("pillHop", tl, pill, { at: f(582), to: 2 });
+Kit.fx("slideIn", tl, r2, { at: f(582), from: "right", fade: 0 });
+Kit.fx("popIn", tl, r2.tick, { at: f(606) });
+Kit.fx("pillHop", tl, pill, { at: f(648), to: 3 });
+Kit.fx("slideIn", tl, r3, { at: f(648), from: "right", fade: 0 });
+Kit.fx("popIn", tl, r3.tick, { at: f(672) });
+
+// ---------- B6 (25-30s): chi tiết đắt ----------
+Kit.make("page", S("b6"), { mode: "tint" });
+const cost = Kit.make("statCard", S("b6"), { x: 90, y: 380, w: 900, h: 790, tag: "Số minh hoạ", lead: "Mỗi quý, làm báo cáo mất", unit: "giờ.", chart: { values: [6, 5, 7, 6, 6, 6, 5, 7, 6, 6, 6, 6], h: 160, barW: 40, top: 540, caption: "12 tuần × 6 giờ" } });
+const why = Kit.make("text", S("b6"), { role: "headline", text: "mà không ai dùng để *quyết*.", x: 100, y: 1230, w: 880, align: "center" });
+Kit.tx("dissolve", tl, { from: S("b5"), to: S("b6"), at: f(745) });
+Kit.fx("slideIn", tl, cost, { at: f(751), fade: 0 });
+Kit.fx("fadeUp", tl, cost.tag, { at: f(754), y: 0, duration: 0.2 });
+Kit.fx("countUp", tl, cost.num, { to: 72, at: f(771), align: "center" });
+Kit.fx("chartPop", tl, cost.bars, { at: f(775) });
+Kit.fx("fadeUp", tl, cost.unit, { at: f(786) });
+Kit.fx("fadeUp", tl, cost.bar, { at: f(791), y: 0 });
+Kit.fx("fadeUp", tl, why, { at: f(812) });
+
+// ---------- B7 (30-35s): bài học ----------
+Kit.make("page", S("b7"), { mode: "tint", grid: "line" });
+const rule = Kit.make("text", S("b7"), { role: "headline", x: 100, y: 290, w: 880, minH: 260 });
+const s1 = Kit.make("stepCard", S("b7"), { x: 160, y: 640, w: 760, h: 190, n: 1, text: "Quyết định" });
+const s2 = Kit.make("stepCard", S("b7"), { x: 160, y: 900, w: 760, h: 190, n: 2, text: "Câu hỏi" });
+const s3 = Kit.make("stepCard", S("b7"), { x: 160, y: 1160, w: 760, h: 190, n: 3, text: "Biểu đồ" });
+const c1 = Kit.make("connector", S("b7"), { x: 540, y: 830, h: 70 });
+const c2 = Kit.make("connector", S("b7"), { x: 540, y: 1090, h: 70 });
+Kit.tx("flash", tl, { from: S("b6"), to: S("b7"), at: f(895) });
+Kit.fx("typing", tl, rule, { text: "Chốt *quyết định* trước. Vẽ biểu đồ sau.", at: f(912), caretHold: 0.3 });
+Kit.fx("slideIn", tl, s1, { at: f(950), from: "right", fade: 0 });
+Kit.fx("fadeUp", tl, c1, { at: f(956), y: 0 });
+Kit.fx("slideIn", tl, s2, { at: f(962), from: "right", fade: 0 });
+Kit.fx("fadeUp", tl, c2, { at: f(968), y: 0 });
+Kit.fx("slideIn", tl, s3, { at: f(974), from: "right", fade: 0 });
+
+// ---------- B8 (35-41s): CTA, quay về số treo ----------
+Kit.make("page", S("b8"), { mode: "white" });
+const loop = Kit.make("statCard", S("b8"), { x: 90, y: 380, w: 900, h: 600, lead: "Trong 47 biểu đồ, giữ lại", unit: "con số.", });
+const ask = Kit.make("text", S("b8"), { role: "headline", text: "Bạn sẽ giữ *con số* nào?", x: 100, y: 1040, w: 880, align: "center" });
+const cta = Kit.make("button", S("b8"), { label: "Lưu lại", x: 330, y: 1260, w: 420, h: 120 });
+Kit.tx("dissolve", tl, { from: S("b7"), to: S("b8"), at: f(1045) });
+Kit.fx("slideIn", tl, loop, { at: f(1051), fade: 0 });
+Kit.fx("countUp", tl, loop.num, { from: 47, to: 1, at: f(1071), align: "center" });
+Kit.fx("fadeUp", tl, loop.unit, { at: f(1086) });
+Kit.fx("fadeUp", tl, loop.bar, { at: f(1091), y: 0 });
+Kit.fx("fadeUp", tl, ask, { at: f(1098) });
+Kit.fx("fadeUp", tl, cta, { at: f(1110) });
+Kit.fx("pulse", tl, cta, { at: f(1125) });
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

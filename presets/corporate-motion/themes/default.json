@@ -1,0 +1,77 @@
+{
+ "_doc": "Theme mặc định: giá trị hiện tại của preset (Be Vietnam Pro, nền tint xanh nhạt). Chỉ màu, font, kiểu chữ, bo góc, tông bóng.",
+ "name": "default",
+ "colors": {
+  "surface": "#ffffff",
+  "accent_dark": "#1664ba",
+  "accent_primary": "#1872ce",
+  "accent_mid": "#3e9cec",
+  "accent_light": "#8ec8f6",
+  "ink": "#010102",
+  "ink_secondary": "#383a3b",
+  "yellow": "#fcc435"
+ },
+ "page": {
+  "tint": "#eef7fc",
+  "white": "#ffffff"
+ },
+ "iso": [
+  "#aad5fa",
+  "#90c7f3",
+  "#1b74d0"
+ ],
+ "font": {
+  "family": "Be Vietnam Pro",
+  "body_weight": 700
+ },
+ "type": {
+  "roles": {
+   "headline": {
+    "weight": 800,
+    "scale": 1
+   },
+   "subhead": {
+    "weight": 700,
+    "scale": 1
+   },
+   "caption": {
+    "weight": 800,
+    "scale": 1
+   },
+   "list_item": {
+    "weight": 800,
+    "scale": 1
+   },
+   "pill_label": {
+    "weight": 800,
+    "scale": 1
+   },
+   "display_number": {
+    "weight": 800,
+    "scale": 1
+   },
+   "percent_label": {
+    "weight": 800,
+    "scale": 1
+   }
+  },
+  "line_height_em": 1.03,
+  "letter_spacing_em": 0,
+  "case": {
+   "headline": "none",
+   "label": "none"
+  },
+  "highlight": {
+   "style": "color",
+   "marker_alpha": 0
+  },
+  "label_letter_spacing_em": 0
+ },
+ "shadow": {
+  "rgb": [
+   21,
+   101,
+   192
+  ]
+ }
+}

@@ -21,6 +21,7 @@ Phân rã clip motion graphic (TikTok, 9:16), dựng lại bằng HyperFrames + 
 - Tài liệu, chữ, đổi tên, sửa một dòng hiển nhiên
 
 ## Rules
+- Mỗi preset = ngôn ngữ chuyển động cố định (`language.json`) + theme thay được (`themes/*.json`) + bộ từ vựng riêng (`kit/catalog.json`: component, effect, transition). Scene chỉ gọi tên trong catalog; thiếu thì thêm vào kit trước rồi mới dùng.
 - Đo trước khi dựng (quỹ đạo 30fps); không bịa chuyển động để qua cổng. Không đổi ngưỡng cổng âm thầm.
 - Không `Math.random`/rAF trong scene; mọi thứ là hàm của thời gian timeline.
 - Render, `preview/`, `source.*` không commit (`.gitignore`).

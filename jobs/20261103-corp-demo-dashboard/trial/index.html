@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<link rel="stylesheet" href="kit/fonts/fonts.css">
+<link rel="stylesheet" href="kit/kit.css">
+<script src="gsap.min.js"></script>
+<script src="tokens.js"></script>
+<script src="kit/kit.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--k-tint); }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+</style>
+</head>
+<body>
+<!-- Đoạn thử beat 1-3 (0-12s). Scene chỉ là lời gọi thành phần trong catalog.json (Kit.make / Kit.fx / Kit.tx): không vẽ riêng. -->
+<div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1080" data-height="1920" data-fps="30">
+  <section id="b1" class="clip k-scene" data-start="0" data-duration="4.2" data-track-index="1"></section>
+  <section id="b2" class="clip k-scene" data-start="3.9" data-duration="4.2667" data-track-index="2"></section>
+  <section id="b3" class="clip k-scene" data-start="7.8333" data-duration="4.1667" data-track-index="3"></section>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true }), f = (n) => n / 30, S = Kit.scene;   // f: số khung -> giây
+
+// ---------- B1: wow demo ----------
+Kit.make("page", S("b1"), { mode: "tint", grid: "line" });
+const head = Kit.make("text", S("b1"), { role: "headline", x: 100, y: 290, w: 880, minH: 180 });
+const dash = Kit.make("dashboardCard", S("b1"), { x: 90, y: 540, w: 900, h: 860, title: "Doanh thu tuần 12", kpi: { label: "đạt kế hoạch" }, bars: [200, 280, 240, 330, 300, 380] });
+Kit.fx("slideIn", tl, dash, { at: 0, fade: 0 });
+Kit.fx("countUp", tl, dash.num, { to: 87, suffix: "%", at: f(20) });
+Kit.fx("barFill", tl, dash.fill, { at: f(20), to: 0.87, like: "count" });
+Kit.fx("chartPop", tl, dash, { at: f(17) });
+Kit.fx("typing", tl, head, { text: "Dashboard *đẹp* như phim.", at: f(22), caretHold: 0.3 });
+
+// ---------- B2: số treo ----------
+Kit.make("page", S("b2"), { mode: "white" });
+const stat = Kit.make("statCard", S("b2"), { x: 90, y: 380, w: 900, h: 600, tag: "Số minh hoạ", lead: "Dashboard họp tuần có", unit: "biểu đồ.", progress: true });
+const q = Kit.make("text", S("b2"), { role: "headline", text: "Mấy cái *đổi được* một quyết định?", x: 100, y: 1050, w: 880, align: "center" });
+Kit.tx("wash", tl, { from: S("b1"), to: S("b2"), at: f(117) });
+Kit.fx("slideIn", tl, stat, { at: f(123), fade: 0 });
+Kit.fx("countUp", tl, stat.num, { to: 47, at: f(143), align: "center" });
+Kit.fx("barFill", tl, stat.fill, { at: f(143), to: 0.94 });
+Kit.fx("fadeUp", tl, stat.unit, { at: f(158) });
+Kit.fx("fadeUp", tl, stat.bar, { at: f(163), y: 0 });
+Kit.fx("fadeUp", tl, stat.tag, { at: f(126), y: 0, duration: 0.2 });
+Kit.fx("fadeUp", tl, q, { at: f(170) });
+
+// ---------- B3: câu chốt phổ quát ----------
+Kit.make("page", S("b3"), { mode: "tint", grid: "line" });
+const quote = Kit.make("quoteCard", S("b3"), { x: 90, y: 470, w: 900, h: 780, tag: "Ai làm dữ liệu lâu cũng nhận ra:", line1: "Không cần thêm biểu đồ." });
+Kit.tx("bar-wipe", tl, { from: S("b2"), to: S("b3"), at: f(235) });
+Kit.fx("slideIn", tl, quote, { at: f(245), fade: 0 });
+Kit.fx("fadeUp", tl, quote.tag, { at: f(250) });
+Kit.fx("fadeUp", tl, quote.line1, { at: f(256) });
+Kit.fx("typing", tl, quote.line2, { text: "Họ cần một *câu trả lời*.", at: f(270), caretHold: 0.2 });
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

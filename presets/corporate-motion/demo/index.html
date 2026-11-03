@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<link rel="stylesheet" href="kit/fonts/fonts.css">
+<link rel="stylesheet" href="kit/kit.css">
+<script src="gsap.min.js"></script>
+<script src="kit/tokens.js"></script>
+<script src="kit/kit.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--k-tint); }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+</style>
+</head>
+<body>
+<!-- Thẻ demo cho MỌI mục của catalog.json (24 component, 10 effect, 5 transition): mỗi mục có nhãn tên và được gọi đúng một lần. Cảnh = lời gọi theo tên, không vẽ riêng.
+     `node build-tokens.mjs --check-catalog` kiểm mỗi tên catalog có trong tệp này; chuyển cảnh nối g1..g8 theo thứ tự dissolve, wash, bar-wipe, hard, flash, dissolve, hard. -->
+<div id="root" data-composition-id="main" data-start="0" data-duration="19.2" data-width="1080" data-height="1920" data-fps="30">
+  <section id="g1" class="clip k-scene" data-start="0" data-duration="2.6667" data-track-index="1"></section>
+  <section id="g2" class="clip k-scene" data-start="2.3333" data-duration="2.6" data-track-index="2"></section>
+  <section id="g3" class="clip k-scene" data-start="4.7" data-duration="2.6667" data-track-index="3"></section>
+  <section id="g4" class="clip k-scene" data-start="7.0333" data-duration="2.6" data-track-index="4"></section>
+  <section id="g5" class="clip k-scene" data-start="9.6" data-duration="2.5667" data-track-index="5"></section>
+  <section id="g6" class="clip k-scene" data-start="11.8333" data-duration="2.7333" data-track-index="6"></section>
+  <section id="g7" class="clip k-scene" data-start="14.2333" data-duration="2.6" data-track-index="7"></section>
+  <section id="g8" class="clip k-scene" data-start="16.8" data-duration="2.4" data-track-index="8"></section>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true }), f = (n) => n / 30, S = Kit.scene;
+const tag = (scene, name, x, y) => Kit.make("text", scene, { role: "label", text: name, x, y });   // nhãn tên mục của catalog
+const g = (n) => f(72 * n);   // đầu cảnh g(n+1): 2.4s mỗi cảnh
+
+// ---- g1 (tint + lưới): page, card, text, accentBar, icon, avatar, button, pill + fadeUp, popIn, pulse, pillHop ----
+Kit.make("page", S("g1"), { mode: "tint", grid: "line" });
+tag(S("g1"), "page · card · text · accentBar", 90, 120);
+const c1 = Kit.make("card", S("g1"), { x: 90, y: 180, w: 900, h: 560 });
+const t1 = Kit.make("text", c1.el, { role: "headline", text: "Chữ *nhấn* từ khoá", x: 60, y: 40, w: 780 });
+Kit.make("text", c1.el, { role: "subhead", text: "subhead · list · label", x: 60, y: 150, w: 780 });
+Kit.make("text", c1.el, { role: "caption", text: "caption", x: 60, y: 230, w: 780 });
+Kit.make("text", c1.el, { role: "list", text: "list item", x: 60, y: 330, w: 780 });
+Kit.make("text", c1.el, { role: "percent", text: "87%", x: 60, y: 400, w: 400, accent: true });
+const bar1 = Kit.make("accentBar", c1.el, { x: 60, y: 510 });
+tag(S("g1"), "icon · avatar", 90, 790);
+const names = ["check", "question", "arrow-right", "arrow-down", "pin", "user", "quote", "chart", "chat", "plus"];
+const icons = names.map((n, i) => Kit.make("icon", S("g1"), { name: n, size: 64, x: 90 + i * 90, y: 850 }).el);
+const av = [Kit.make("avatar", S("g1"), { initials: "MA", size: 110, x: 90, y: 980 }).el, Kit.make("avatar", S("g1"), { initials: "LH", size: 110, x: 230, y: 980 }).el];
+tag(S("g1"), "button · pill", 90, 1150);
+const btn = Kit.make("button", S("g1"), { label: "Lưu lại", x: 90, y: 1210, w: 380, h: 110 });
+const pill = Kit.make("pill", S("g1"), { x: 520, y: 1220, w: 470, total: 4, step: 1 });
+Kit.fx("fadeUp", tl, c1, { at: f(4) });
+Kit.fx("popIn", tl, icons, { at: f(14), stagger: 0.05 });
+Kit.fx("popIn", tl, av, { at: f(24) });
+Kit.fx("pulse", tl, btn, { at: f(20) });
+Kit.fx("pillHop", tl, pill, { at: f(40), to: 2 });
+Kit.fx("fadeUp", tl, bar1, { at: f(30), y: 0 });
+
+// ---- g2 (trắng): progressBar, barChart, lineChart, donutChart, skeleton, kpi + barFill, chartPop, ringFill, countUp ----
+Kit.tx("dissolve", tl, { from: S("g1"), to: S("g2"), at: g(1) - f(5) });
+Kit.make("page", S("g2"), { mode: "white" });
+tag(S("g2"), "kpi · progressBar · barChart", 90, 100); tag(S("g2"), "lineChart · donutChart · skeleton", 90, 150);
+const c2 = Kit.make("card", S("g2"), { x: 90, y: 240, w: 900, h: 1500 });
+const k2 = Kit.make("kpi", c2.el, { x: 60, y: 40, label: "đạt kế hoạch" });
+const p2 = Kit.make("progressBar", c2.el, { x: 60, y: 170, w: 780 });
+const b2 = Kit.make("barChart", c2.el, { x: 60, y: 260, w: 780, h: 260, values: [4, 6, 5, 8, 7, 9], max: 9, barW: 90 });
+Kit.make("lineChart", c2.el, { x: 60, y: 620, w: 780, h: 260, values: [3, 5, 4, 8, 7, 9] });
+const d2 = Kit.make("donutChart", c2.el, { x: 60, y: 980, size: 300, value: 0.72, label: "72%" });
+Kit.make("skeleton", c2.el, { x: 60, y: 1350, rows: [700, 480, 560] });
+Kit.fx("slideIn", tl, c2, { at: g(1), fade: 0 });
+Kit.fx("countUp", tl, k2.num, { to: 87, suffix: "%", at: g(1) + f(20) });
+Kit.fx("barFill", tl, p2, { at: g(1) + f(20), to: 0.87, like: "count" });
+Kit.fx("chartPop", tl, b2, { at: g(1) + f(22), stagger: 0.07 });
+Kit.fx("ringFill", tl, d2, { at: g(1) + f(24), to: 0.72 });
+
+// ---- g3 (tint): dashboardCard ----
+Kit.tx("wash", tl, { from: S("g2"), to: S("g3"), at: g(2) - f(3) });
+Kit.make("page", S("g3"), { mode: "tint" });
+tag(S("g3"), "dashboardCard", 90, 440);
+const dc = Kit.make("dashboardCard", S("g3"), { x: 90, y: 500, w: 900, h: 860, title: "Doanh thu tuần 12", kpi: { label: "đạt kế hoạch" }, bars: [200, 280, 240, 330, 300, 380] });
+Kit.fx("slideIn", tl, dc, { at: g(2) + f(6), fade: 0 });
+Kit.fx("countUp", tl, dc.num, { to: 87, suffix: "%", at: g(2) + f(26) });
+Kit.fx("chartPop", tl, dc, { at: g(2) + f(26) });
+
+// ---- g4 (trắng): statCard ----
+Kit.tx("bar-wipe", tl, { from: S("g3"), to: S("g4"), at: g(3) - f(5) });
+Kit.make("page", S("g4"), { mode: "white" });
+tag(S("g4"), "statCard", 90, 320);
+const sc = Kit.make("statCard", S("g4"), { x: 90, y: 380, w: 900, h: 600, tag: "Số minh hoạ", lead: "Dashboard họp tuần có", unit: "biểu đồ.", progress: true });
+Kit.fx("slideIn", tl, sc, { at: g(3) + f(2), fade: 0 });
+Kit.fx("countUp", tl, sc.num, { to: 47, at: g(3) + f(22), align: "center" });
+Kit.fx("barFill", tl, sc.fill, { at: g(3) + f(22), to: 0.94 });
+
+// ---- g5 (tint + lưới): quoteCard + typing ----
+Kit.tx("hard", tl, { from: S("g4"), to: S("g5"), at: g(4) });
+Kit.make("page", S("g5"), { mode: "tint", grid: "line" });
+tag(S("g5"), "quoteCard", 90, 410);
+const qc = Kit.make("quoteCard", S("g5"), { x: 90, y: 470, w: 900, h: 780, tag: "Ai làm dữ liệu lâu cũng nhận ra:", line1: "Không cần thêm biểu đồ." });
+Kit.fx("slideIn", tl, qc, { at: g(4) + f(8), fade: 0 });
+Kit.fx("typing", tl, qc.line2, { text: "Họ cần một *câu trả lời*.", at: g(4) + f(30), caretHold: 0.2 });
+
+// ---- g6 (tint): mapCard, iconCard ----
+Kit.tx("flash", tl, { from: S("g5"), to: S("g6"), at: g(5) - f(5) });
+Kit.make("page", S("g6"), { mode: "tint" });
+tag(S("g6"), "mapCard · iconCard", 90, 560);
+const mc = Kit.make("mapCard", S("g6"), { x: 90, y: 620, w: 900, h: 640, pins: [[0.14, 0.30], [0.30, 0.62], [0.44, 0.25], [0.58, 0.70], [0.72, 0.38], [0.84, 0.78]] });
+const ic = Kit.make("iconCard", S("g6"), { x: 540, y: 1120, w: 420, h: 150, icon: "question", text: "điểm đến?" });
+Kit.fx("slideIn", tl, mc, { at: g(5) + f(6), fade: 0 });
+Kit.fx("chartPop", tl, mc.pins, { at: g(5) + f(14) });
+Kit.fx("slideIn", tl, ic, { at: g(5) + f(34), from: "right", fade: 0 });
+
+// ---- g7 (trắng): listCard, stepCard, connector ----
+Kit.tx("dissolve", tl, { from: S("g6"), to: S("g7"), at: g(6) - f(5) });
+Kit.make("page", S("g7"), { mode: "white" });
+tag(S("g7"), "listCard · stepCard · connector", 90, 300);
+const l1 = Kit.make("listCard", S("g7"), { x: 90, y: 360, w: 900, h: 220, text: "Ai là người *chốt*?" });
+const s1 = Kit.make("stepCard", S("g7"), { x: 160, y: 700, w: 760, h: 190, n: 1, text: "Quyết định" });
+const cn = Kit.make("connector", S("g7"), { x: 540, y: 890, h: 70 });
+const s2 = Kit.make("stepCard", S("g7"), { x: 160, y: 960, w: 760, h: 190, n: 2, text: "Câu hỏi" });
+Kit.fx("slideIn", tl, l1, { at: g(6) + f(4), from: "right", fade: 0 });
+Kit.fx("popIn", tl, l1.tick, { at: g(6) + f(24) });
+Kit.fx("slideIn", tl, s1, { at: g(6) + f(14), from: "right", fade: 0 });
+Kit.fx("fadeUp", tl, cn, { at: g(6) + f(20), y: 0 });
+Kit.fx("slideIn", tl, s2, { at: g(6) + f(26), from: "right", fade: 0 });
+
+// ---- g8 (tint): table, chatBox ----
+Kit.tx("hard", tl, { from: S("g7"), to: S("g8"), at: g(7) });
+Kit.make("page", S("g8"), { mode: "tint" });
+tag(S("g8"), "table · chatBox", 90, 300);
+const tb = Kit.make("table", S("g8"), { x: 90, y: 360, w: 900, columns: ["Tuần", "Giờ làm báo cáo", "Quyết định"], rows: [["11", "6", "0"], ["12", "7", "0"], ["13", "6", "1"]], highlight: 2 });
+const cb = Kit.make("chatBox", S("g8"), { x: 90, y: 860, w: 900, messages: [{ from: "user", text: "Số nào đổi được quyết định?" }, { from: "bot", text: "Số gắn với một hành động cụ thể." }] });
+Kit.fx("slideIn", tl, tb, { at: g(7) + f(2), fade: 0 });
+Kit.fx("fadeUp", tl, cb.bubbles[0], { at: g(7) + f(22) });
+Kit.fx("fadeUp", tl, cb.bubbles[1], { at: g(7) + f(34) });
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

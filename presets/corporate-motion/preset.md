@@ -4,7 +4,7 @@ Phong cách "corporate motion graphics" dọc 9:16, 2–3 phút của kênh @pha
 chữ đậm hình học (đen + một từ nhấn xanh), pill tiến trình làm neo, số khổng lồ, khối iso xanh. Dùng để clip mới với nội dung khác vẫn mang cùng vibe; KHÔNG dựng lại khung-từng-khung.
 Số đo máy đọc nằm ở `style.json`: mỗi token có giá trị từng clip, trung vị, khoảng, n, CORE/OPTIONAL và `disagree`. Khối `build_defaults` trong đó chọn MỘT giá trị cho mỗi token (đủ để dựng scene); phần "Giá trị dựng mặc định" bên dưới là bản đọc cho người của khối đó.
 
-Trạng thái: có số đo 4 clip, token và giá trị dựng mặc định. Chưa có scene/template. Font: CHỜ CHỦ DUYỆT.
+Trạng thái: có số đo 4 clip, token và giá trị dựng mặc định. Có kit `kit/` (từ vựng `catalog.json`: 24 component, 10 effect, 5 transition; scene chỉ gọi theo tên), tách `language.json` (chuyển động, cố định) và `themes/<tên>.json` (màu, font, kiểu chữ), xem `THEMING.md`; clip mẫu đủ 8 beat ở `jobs/20261103-corp-demo-dashboard/full/`. Font: CHỜ CHỦ DUYỆT.
 
 ## Bốn clip (cột trong mọi mảng `values` của style.json theo đúng thứ tự này)
 
