@@ -94,7 +94,7 @@
   {
    "kind": "component",
    "name": "text",
-   "purpose": "Chữ theo vai thang chữ; `*từ*` là từ khoá nhấn; bỏ text để lấy khung cho effect typing/countUp.",
+   "purpose": "Chữ theo vai thang chữ; `*từ*` là từ khoá nhấn, `~từ~` là từ nhấn nghiêng có chân (italic serif); bỏ text để lấy khung cho effect typing/countUp.",
    "props": {
     "x": {
      "type": "px",
@@ -124,7 +124,7 @@
     "text": {
      "type": "string",
      "default": "",
-     "desc": "chữ (bỏ trống nếu có effect typing nhắm vào chính nó); `*từ*` = từ nhấn",
+     "desc": "chữ (bỏ trống nếu có effect typing nhắm vào chính nó); `*từ*` = từ nhấn, `~từ~` = nhấn nghiêng có chân",
      "required": "unless:typing@self",
      "maxLen": 70,
      "example": "Dashboard *đẹp* như phim."
@@ -1258,7 +1258,7 @@
     "text": {
      "type": "string",
      "default": "",
-     "desc": "câu, hỗ trợ *nhấn*",
+     "desc": "câu, hỗ trợ *nhấn* và ~nghiêng~",
      "required": true,
      "maxLen": 50,
      "example": "Ai là người *chốt*?"
@@ -1540,6 +1540,67 @@
    ],
    "example": "Kit.make(\"chatBox\", scene, { x: 90, y: 600, w: 900, messages: [{ from: \"user\", text: \"Số nào quan trọng?\" }, { from: \"bot\", text: \"Số đổi được quyết định.\" }] })",
    "demo": "chatBox"
+  },
+  {
+   "kind": "component",
+   "name": "tabs",
+   "purpose": "Dải tab (pill chọn trượt) kèm con trỏ chuột; đổi tab bằng effect tabSwitch.",
+   "props": {
+    "x": {
+     "type": "px",
+     "default": 0,
+     "desc": "trái trong cha"
+    },
+    "y": {
+     "type": "px",
+     "default": 0,
+     "desc": "trên trong cha"
+    },
+    "w": {
+     "type": "px",
+     "default": null,
+     "desc": "rộng cả dải (mặc định 247px mỗi tab)"
+    },
+    "labels": {
+     "type": "string[]",
+     "default": [],
+     "desc": "nhãn tab, 2-4 tab, ngắn",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+       "type": "string",
+       "maxLength": 14
+      }
+     },
+     "example": [
+      "Doanh thu",
+      "Xử lý",
+      "Hài lòng"
+     ]
+    },
+    "active": {
+     "type": "int",
+     "default": 1,
+     "desc": "tab đang chọn lúc đầu (từ 1)",
+     "min": 1,
+     "max": 4
+    },
+    "h": {
+     "type": "px",
+     "default": null,
+     "desc": "cao (ghi đè)"
+    }
+   },
+   "returns": "{el, pill, cursor, labels[]}",
+   "suits": [
+    "wow-demo",
+    "costly-detail"
+   ],
+   "example": "const t = Kit.make(\"tabs\", scene, { x: 170, y: 520, labels: [\"Doanh thu\", \"Xử lý\", \"Hài lòng\"] }); Kit.fx(\"tabSwitch\", tl, t, { at: 1.2, to: 2 })",
+   "demo": "tabs"
   },
   {
    "kind": "effect",
@@ -1998,6 +2059,38 @@
    ],
    "example": "Kit.fx(\"pillHop\", tl, pill, { at: 19.4, to: 2 })",
    "demo": "pillHop"
+  },
+  {
+   "kind": "effect",
+   "name": "tabSwitch",
+   "purpose": "Đổi tab: con trỏ lướt tới tab đích (power2.inOut, 0.367s) rồi pill đổi tab (cạnh dẫn quá đà trước, cạnh theo sau 0.417s).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm con trỏ bắt đầu lướt; pill chạy khi con trỏ tới (~0.37s sau)"
+    },
+    "to": {
+     "type": "int",
+     "default": null,
+     "desc": "tab đích (từ 1)",
+     "required": true,
+     "min": 1,
+     "max": 4
+    },
+    "cursor": {
+     "type": "bool",
+     "default": true,
+     "desc": "false = pill tự đổi, không có con trỏ"
+    }
+   },
+   "language": "motion.tab_switch + motion.cursor_glide",
+   "suits": [
+    "wow-demo",
+    "costly-detail"
+   ],
+   "example": "Kit.fx(\"tabSwitch\", tl, tabs, { at: 1.2, to: 2 })",
+   "demo": "tabSwitch"
   },
   {
    "kind": "transition",

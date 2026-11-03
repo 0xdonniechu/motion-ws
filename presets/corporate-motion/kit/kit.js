@@ -26,6 +26,7 @@
     const s = (root || document.documentElement).style, set = (k, v) => s.setProperty("--k-" + k, v);
     const C = T.colors, ty = T.type, role = (name, key) => { set(key + "-px", px(ty[name].px)); set(key + "-weight", ty[name].weight); };
     set("font", '"' + T.font.family + '", system-ui, sans-serif'); set("body-weight", T.font.body_weight);
+    set("accent-font", '"' + T.font.accent_family + '", Georgia, serif'); set("ital-weight", ty.accent_italic.weight); set("ital-size", ty.accent_italic.size_ratio + "em");
     set("ink", C.ink); set("ink-secondary", C.ink_secondary); set("accent", C.accent_primary); set("accent-dark", C.accent_dark); set("accent-mid", C.accent_mid); set("accent-light", C.accent_light);
     set("surface", C.surface); set("yellow", C.yellow); set("tint", T.page.tint); set("white", T.page.white);
     role("headline", "headline"); role("caption", "caption"); role("subhead", "subhead"); role("list_item", "list"); role("pill_label", "pill-label"); role("display_number", "display"); role("percent_label", "percent");
@@ -59,9 +60,9 @@
     if (style) Object.assign(e.style, style); if (parent) parent.appendChild(e); return e;
   }
   const place = (e, o) => { e.style.position = "absolute"; ["x:left", "y:top", "w:width", "h:height"].forEach((m) => { const [k, p] = m.split(":"); if (o[k] !== undefined) e.style[p] = px(o[k]); }); return e; };
-  function parseRich(text) {   // "Dashboard *đẹp* lắm": từ giữa dấu * là từ khoá nhấn
-    const out = []; let acc = false;
-    for (const ch of Array.from(String(text).normalize("NFC"))) { if (ch === "*") acc = !acc; else out.push({ ch, acc }); }
+  function parseRich(text) {   // "Dashboard *đẹp* lắm": từ giữa dấu * là từ khoá nhấn; "~từ~" = từ nhấn nghiêng có chân (italic serif, màu nhấn)
+    const out = []; let acc = false, ital = false;
+    for (const ch of Array.from(String(text).normalize("NFC"))) { if (ch === "*") acc = !acc; else if (ch === "~") ital = !ital; else out.push({ ch, acc, ital }); }
     return out;
   }
   function fillRich(host, text, perChar) {   // span theo từ (nowrap) rồi theo ký tự (nếu perChar); trả mảng token {i, c, caret, space}
@@ -69,7 +70,8 @@
     parseRich(text).forEach((t, i) => {
       if (t.ch === " " || t.ch === "\n") { word = null; accWrap = null; lastAcc = null; host.appendChild(document.createTextNode(" ")); if (perChar) chars.push({ i, space: true }); return; }
       if (!word) { word = el("span", "k-w", host); lastAcc = null; }
-      if (t.acc !== lastAcc) { accWrap = t.acc ? el("span", "k-acc", word) : word; lastAcc = t.acc; }
+      const mode = t.ital ? 2 : t.acc ? 1 : 0;
+      if (mode !== lastAcc) { accWrap = mode === 2 ? el("span", "k-ital", word) : mode === 1 ? el("span", "k-acc", word) : word; lastAcc = mode; }
       if (perChar) { const c = el("span", "k-ch", accWrap); c.textContent = t.ch; const caret = el("i", "k-caret", c); chars.push({ i, c, caret }); }
       else accWrap.appendChild(document.createTextNode(t.ch));
     });
@@ -192,6 +194,16 @@
     const row = (cells, cls) => { const r = el("div", "k-tr " + cls, e, { gridTemplateColumns: "repeat(" + n + ",1fr)", height: px(o.rowH || 84) }); cells.forEach((c) => { const d = el("div", "k-td", r); d.textContent = c; }); return r; };
     row(o.columns, "k-tr--head"); o.rows.forEach((r, i) => rows.push(row(r, i === o.highlight ? "k-tr--hl" : ""))); return { el: e, rows };
   };
+  C.tabs = (parent, o) => {   // dải tab (pill chọn trượt): labels 2-4, active = tab đang chọn; con trỏ (cursor) nằm sẵn trong dải, hiện khi effect tabSwitch gọi
+    const n = o.labels.length, tb = T.tabs, dw = tb.pitch_px * n, pitch = o.w ? o.w / n : tb.pitch_px, w = Math.round(pitch * n), active = o.active || 1, e = el("div", "k-tabs", parent);
+    place(e, Object.assign({ w: dw, h: tb.strip_h_px }, o)); e.style.setProperty("--k-tab-pill-h", px(tb.pill_h_px)); e.style.setProperty("--k-tab-label-px", px(Math.round(T.type.pill_label.px * tb.label_scale_of_pill_label)));
+    const inset = tb.pill_inset_px, pill = el("i", "k-tabs__pill", e, { left: px((active - 1) * pitch + inset), right: px(w - active * pitch + inset) }), labels = [];
+    o.labels.forEach((t, i) => { const l = el("span", "k-tab", e, { left: px(i * pitch), width: px(pitch) }), off = el("b", "k-tab__off", l, { opacity: i + 1 === active ? 0 : 1 }), on = el("b", "k-tab__on", l, { opacity: i + 1 === active ? 1 : 0 }); off.textContent = t; on.textContent = t; labels.push({ off, on }); });
+    const cursor = el("i", "k-cursor k-hold", e); cursor.appendChild(svg('<polygon points="2,2 2,39 12,30 19,46 26,43 19,29 33,29"/>', "0 0 " + tb.cursor.w_px + " " + tb.cursor.h_px));
+    cursor.style.width = px(tb.cursor.w_px); cursor.style.height = px(tb.cursor.h_px);
+    return { el: e, pill, cursor, labels, k: { n, pitch, w, inset, cur: active, pos: null } };
+  };
+
   C.chatBox = (parent, o) => {   // messages: [{from: "user"|"bot", text}]
     const e = el("div", "k-chat", parent); place(e, o); const bubbles = (o.messages || []).map((m) => { const b = el("div", "k-bubble k-bubble--" + (m.from || "bot"), e); b.textContent = m.text; return b; });
     return { el: e, bubbles };
@@ -268,6 +280,28 @@
     tl.fromTo(k.marker, { scale: m.pop_scale }, { scale: 1, duration: Math.max(m.settle_s, 1 / FPS), ease: "none", immediateRender: false }, at);   // false: chấm chỉ pop 1.08 từ lúc nhảy, không phải từ đầu timeline
     tl.set(k.nb[from - 1], { opacity: 0 }, at); tl.set(k.nb[to - 1], { opacity: 1 }, at); tl.set(k.nl[from - 1], { opacity: 0 }, at); tl.set(k.nl[to - 1], { opacity: 1 }, at);
     k.step = to; return at;
+  };
+  F.tabSwitch = (tl, t, o) => {   // tab_switch + cursor_glide: con trỏ lướt tới tab đích (power2.inOut), tới nơi thì pill đổi tab: cạnh dẫn back.out chạy trước, cạnh theo sau power1.out chạy muộn
+    const k = t.k, M = T.motion.tab_switch, G = T.motion.cursor_glide, tb = T.tabs, to = o.to, at = snap(o.at || 0), from = k.cur;
+    let start = at;
+    if (o.cursor !== false) {
+      const tip = [Math.round((to - 1) * k.pitch + k.pitch / 2 + tb.cursor.tip_dx_frac_pitch * k.pitch), tb.cursor.tip_dy_px_from_strip_top], c = t.cursor, org = k.pos || [tip[0] + G.origin_offset_px[0], tip[1] + G.origin_offset_px[1]];
+      const show = Math.max(at, 1 / FPS);   // không tl.set ở thời điểm 0 (tua lùi về 0 đảo thứ tự các set)
+      c.classList.add("k-anim"); tl.set(c, { opacity: 1 }, show);
+      tl.fromTo(c, { x: org[0], y: org[1] }, { x: tip[0], y: tip[1], duration: durFor(G.ease, G.reach_s), ease: G.ease, immediateRender: false }, show);
+      k.pos = tip; start = snap(show + G.reach_s);
+    }
+    if (to !== from) {
+      const R = k.w - (to * k.pitch - k.inset), L = (to - 1) * k.pitch + k.inset, R0 = k.w - (from * k.pitch - k.inset), L0 = (from - 1) * k.pitch + k.inset, right = to > from;
+      const lead = right ? { prop: "right", a: R0, b: R } : { prop: "left", a: L0, b: L }, trail = right ? { prop: "left", a: L0, b: L } : { prop: "right", a: R0, b: R };
+      const dl = M.lead_edge.dur_s, p = t.pill; p.classList.add("k-anim");
+      tl.fromTo(p, { [lead.prop]: lead.a }, { [lead.prop]: lead.b, duration: dl, ease: M.lead_edge.ease, immediateRender: false }, start);
+      tl.fromTo(p, { [trail.prop]: trail.a }, { [trail.prop]: trail.b, duration: durFor(M.trail_edge.ease, M.trail_edge.reach_s), ease: M.trail_edge.ease, immediateRender: false }, start);
+      const sw = snap(start + dl * T.guess.tab_label_swap.at_frac_of_lead_dur);
+      tl.set(t.labels[from - 1].on, { opacity: 0 }, sw); tl.set(t.labels[from - 1].off, { opacity: 1 }, sw); tl.set(t.labels[to - 1].on, { opacity: 1 }, sw); tl.set(t.labels[to - 1].off, { opacity: 0 }, sw);
+      k.cur = to;
+    }
+    return snap(start + M.lead_edge.dur_s);
   };
 
   // ================================================================ TRANSITIONS (kind: transition)

@@ -1,0 +1,263 @@
+{
+ "id": "7700229527049358612",
+ "title": "Lương trung bình 30 triệu",
+ "url": "https://www.tiktok.com/@phantichdulieu.mda/video/7700229527049358612",
+ "note": "Mẫu để quét từ vựng (không chạy lại DNA measure_style.py). 1080x1920 HEVC 167.0s. Dòng khoá: tabs_cursor, đo bằng measure_tabs_cursor.py (cùng EASES/fit_ease của measure_style.py) trên khung PNG 30fps cắt từ 13.0s.",
+ "vocab_scan": {
+  "sampled_with": [
+   "corp-sample-7700229527049358612",
+   "corp-sample-7700960427491986696 (Kaggle/8 kho dữ liệu mở)",
+   "corp-sample-7699477231017446676 (Biểu đồ sai, 576x1024)"
+  ],
+  "skipped": "7701688706431831297 = cùng video với jobs/20261028-230040 (165.4s, Power BI): không mới",
+  "new_added": [
+   "tabs (component) + tabSwitch (effect, gồm con trỏ lướt)",
+   "chữ nhấn nghiêng có chân `~từ~` (token kiểu chữ, 1.27x, wght 500)"
+  ],
+  "covered_by_existing": [
+   "chat Claude/hộp chat -> chatBox",
+   "bảng dữ liệu -> table",
+   "đường/biểu đồ cột -> lineChart/barChart",
+   "vòng -> donutChart/ringFill",
+   "gõ chữ -> typing",
+   "pill KHO 1/8, BẢY 1/3 -> pill/pillHop, stepCard",
+   "nhãn đếm số -> countUp"
+  ],
+  "content_not_style": [
+   "hàng người/dot pictogram 1 chấm = 15 triệu",
+   "chồng chấm trung vị",
+   "thẻ hộp 3D, tủ hồ sơ, sàn sân khấu Kaggle",
+   "vòng quỹ đạo câu hỏi",
+   "chữ viền dày TIN TỐT/TIN XẤU",
+   "lưới biểu tượng tệp CSV/XLSX"
+  ],
+  "gaps_not_added": [
+   "(đã thêm sau: chữ nhấn nghiêng `~từ~`, Newsreader italic, xem accent_italic.json)",
+   "bút đánh dấu vẽ tay (khoanh tròn, gạch chéo, gạch chân) chủ yếu clip 7699477231017446676: chưa đủ 2 clip",
+   "con trỏ độc lập (không gắn tab: ô tìm kiếm, nút) và gợn sóng lúc bấm: chưa đo"
+  ]
+ },
+ "tabs_cursor": {
+  "window_s": [
+   13.0,
+   18.0
+  ],
+  "frame_px": [
+   1080,
+   1920
+  ],
+  "geometry_px": {
+   "note": "pill ba tab, đo trên khung 1:1",
+   "pill_pitch": 247,
+   "pill_w": 227,
+   "pill_h": 68,
+   "strip_h": 78,
+   "label_cap_h": 20,
+   "cursor_outline_w": 37,
+   "cursor_outline_h": 50,
+   "cursor_tip_dx_from_tab_centre": 49,
+   "cursor_tip_y_abs": 694,
+   "strip_y": [
+    630,
+    708
+   ]
+  },
+  "pill": {
+   "tab1_to_2": {
+    "left": {
+     "from_x": 181.0,
+     "to_x": 428.0,
+     "t_start": 14.367,
+     "reach_s": 0.4,
+     "frames_to_reach": 12,
+     "overshoot": 0.0,
+     "ease": "power1.out",
+     "rmse": 0.026,
+     "p": [
+      0.0,
+      0.12,
+      0.26,
+      0.41,
+      0.57,
+      0.7,
+      0.79,
+      0.85,
+      0.89,
+      0.93,
+      0.96,
+      0.97,
+      0.98,
+      0.99,
+      1.0
+     ]
+    },
+    "right": {
+     "from_x": 408.0,
+     "to_x": 655.0,
+     "t_start": 14.367,
+     "reach_s": 0.1,
+     "frames_to_reach": 3,
+     "overshoot": 0.061,
+     "ease": "none",
+     "rmse": 0.062,
+     "p": [
+      0.02,
+      0.38,
+      0.78,
+      1.0,
+      1.06,
+      1.05
+     ]
+    }
+   },
+   "tab2_to_3": {
+    "left": {
+     "from_x": 428.0,
+     "to_x": 675.0,
+     "t_start": 15.8,
+     "reach_s": 0.433,
+     "frames_to_reach": 13,
+     "overshoot": 0.0,
+     "ease": "power1.out",
+     "rmse": 0.037,
+     "p": [
+      0.0,
+      0.07,
+      0.22,
+      0.39,
+      0.56,
+      0.66,
+      0.75,
+      0.83,
+      0.88,
+      0.92,
+      0.95,
+      0.96,
+      0.98,
+      0.99,
+      1.0,
+      1.0
+     ]
+    },
+    "right": {
+     "from_x": 655.0,
+     "to_x": 902.0,
+     "t_start": 15.8,
+     "reach_s": 0.133,
+     "frames_to_reach": 4,
+     "overshoot": 0.057,
+     "ease": "sine.out",
+     "rmse": 0.055,
+     "p": [
+      0.0,
+      0.28,
+      0.7,
+      0.97,
+      1.06,
+      1.06,
+      1.03
+     ]
+    }
+   }
+  },
+  "pill_lead_edge_back_fit": {
+   "tab1_to_2": {
+    "ease": "back.out(1.3)",
+    "dur_s": 0.2,
+    "rmse": 0.006,
+    "overshoot": 0.061
+   },
+   "tab2_to_3": {
+    "ease": "back.out(1.4)",
+    "dur_s": 0.233,
+    "rmse": 0.007,
+    "overshoot": 0.057
+   }
+  },
+  "pill_stretch": "rộng đỉnh 355px lúc t=14.433 (tab1->2) so với 227px tĩnh = 1.56x; 315px lúc 14.533 = 1.39x",
+  "cursor": {
+   "approach": {
+    "from_x": -599.1,
+    "to_x": -0.0,
+    "t_start": 13.9,
+    "reach_s": 0.367,
+    "frames_to_reach": 11,
+    "overshoot": 0.0,
+    "ease": "power2.inOut",
+    "rmse": 0.033,
+    "p": [
+     0.01,
+     0.03,
+     0.06,
+     0.09,
+     0.16,
+     0.3,
+     0.66,
+     0.82,
+     0.89,
+     0.94,
+     0.97,
+     0.98,
+     0.99,
+     1.0
+    ],
+    "from": [
+     884,
+     1216
+    ],
+    "to": [
+     590,
+     694
+    ],
+    "dist_px": 599.1,
+    "t_first_seen": 13.6,
+    "frames_seen": 24
+   },
+   "tab2_to_3_glide": {
+    "from_x": -246.0,
+    "to_x": -0.0,
+    "t_start": 15.367,
+    "reach_s": 0.367,
+    "frames_to_reach": 11,
+    "overshoot": 0.0,
+    "ease": "power2.inOut",
+    "rmse": 0.09,
+    "p": [
+     0.02,
+     0.04,
+     0.08,
+     0.14,
+     0.26,
+     0.59,
+     0.8,
+     0.88,
+     0.93,
+     0.96,
+     0.98,
+     0.99,
+     1.0,
+     1.0
+    ],
+    "from": [
+     591,
+     694
+    ],
+    "to": [
+     837,
+     694
+    ],
+    "dist_px": 246.0,
+    "t_first_seen": 15.3,
+    "frames_seen": 16
+   }
+  },
+  "sync": "pill bắt đầu chạy ở 14.367 / 15.8; con trỏ tới nơi (98%) ở 14.367 / 15.767: trễ 0 và 1 khung",
+  "caveats": [
+   "n=2 chuyển tab, một clip",
+   "lần lướt thứ hai khớp power2.inOut kém (rmse 0.09; chậm vào rồi nhanh)",
+   "điểm vào của con trỏ (884,1216) là điểm thấy đầu tiên, có thể đã ở ngoài khung trước đó",
+   "chuyển sang tab bên TRÁI chưa đo (kit coi cạnh dẫn là cạnh phía đang tới: ĐOÁN)"
+  ]
+ },
+ "render_check": "kit dựng lại (jobs/20261103-corp-tabs-test): tab1->2 bắt đầu 1.867s (=at 1.5 + 0.367), cạnh trái chạm 98% 0.433s, cạnh phải 0.1s quá đà 0.065: khớp số đo"
+}

@@ -47,7 +47,7 @@ if (argv.includes("--brief")) {
   for (const e of catalog.entries.filter((x) => x.kind === "effect")) L.push(`- ${e.name}: ${e.purpose}${suits(e)}\n${pub(e).map(fmtProp).join("\n") || "    (không có prop)"}`);
   L.push("\n## Transition (transition.use, vào beat kế) — bỏ trống = dissolve");
   for (const e of catalog.entries.filter((x) => x.kind === "transition")) L.push(`- ${e.name}: ${e.purpose}${pub(e).length ? "\n" + pub(e).map(fmtProp).join("\n") : ""}`);
-  L.push("\n## Luật: không truyền x,y,w,h,minH,align (layout lo); không truyền ease,reach,dur; chữ <= " + MAX_TEXT + " ký tự mỗi chuỗi; `*từ*` = từ nhấn. Thiếu mục trong catalog => dừng, báo, không vẽ.");
+  L.push("\n## Luật: không truyền x,y,w,h,minH,align (layout lo); không truyền ease,reach,dur; chữ <= " + MAX_TEXT + " ký tự mỗi chuỗi; `*từ*` = từ nhấn, `~từ~` = từ nhấn nghiêng có chân (ít thôi, 1 cụm mỗi câu). Thiếu mục trong catalog => dừng, báo, không vẽ.");
   console.log(L.join("\n")); process.exit(0);
 }
 
@@ -163,6 +163,10 @@ function validate(script, themeName) {
         const pr = it.props || {};
         if (it.use === "statCard" && pr.chart && slot && slot.h !== undefined && slot.h < (pr.chart.top || 540) + (pr.chart.h || 160) + 70) errs.push(`${w}: chart (top ${pr.chart.top || 540} + h ${pr.chart.h || 160}) không vừa slot "${it.slot}" cao ${slot.h}: dùng layout stat-chart-line`);
         if (it.use === "table" && Array.isArray(pr.rows) && Array.isArray(pr.columns)) { if (pr.rows.some((r) => r.length !== pr.columns.length)) errs.push(`${w}: mỗi hàng của table phải có ${pr.columns.length} ô`); if (pr.highlight !== undefined && pr.highlight >= pr.rows.length) errs.push(`${w}: highlight ${pr.highlight} ngoài ${pr.rows.length} hàng`); }
+        if (it.use === "tabs" && Array.isArray(pr.labels)) {
+          if (pr.active !== undefined && pr.active > pr.labels.length) errs.push(`${w}: active ${pr.active} ngoài ${pr.labels.length} tab`);
+          (it.effects || []).forEach((ef, ei) => { if (ef.use === "tabSwitch" && ef.props && ef.props.to !== undefined && ef.props.to > pr.labels.length) errs.push(`${w} effect ${ei + 1}: to ${ef.props.to} ngoài ${pr.labels.length} tab`); });
+        }
         allText += " " + strings(it.props || {}).join(" ");
       }
       (it.effects || []).forEach((ef, ei) => {
@@ -190,9 +194,9 @@ function validate(script, themeName) {
 }
 
 // ---------------------------------------------------------------- dựng dòng thời gian (khung 30fps)
-const typingSec = (it) => (it.effects || []).filter((e) => e.use === "typing").map((e) => e.at + String((e.props && e.props.text) || "").replace(/\*/g, "").length / lang.motion.typed_text.chars_per_s);
+const typingSec = (it) => (it.effects || []).filter((e) => e.use === "typing").map((e) => e.at + String((e.props && e.props.text) || "").replace(/[*~]/g, "").length / lang.motion.typed_text.chars_per_s);
 function autoDuration(b) {   // nhịp từ language.json: độ dài cảnh trung vị, hoặc (lúc effect cuối + thời gian gõ + chữ đứng yên trung vị) nếu lớn hơn
-  const ends = b.items.flatMap((it) => (it.effects || []).map((e) => e.at + (e.use === "typing" ? String((e.props && e.props.text) || "").replace(/\*/g, "").length / lang.motion.typed_text.chars_per_s : 0)));
+  const ends = b.items.flatMap((it) => (it.effects || []).map((e) => e.at + (e.use === "typing" ? String((e.props && e.props.text) || "").replace(/[*~]/g, "").length / lang.motion.typed_text.chars_per_s : 0)));
   return Math.max(lang.rhythm.shot_len_median_s, Math.max(0, ...ends) + lang.rhythm.text_dwell_median_s);
 }
 function timeline(script) {

@@ -22,7 +22,8 @@
  ],
  "font": {
   "family": "Montserrat",
-  "body_weight": 700
+  "body_weight": 700,
+  "accent_family": "Newsreader"
  },
  "type": {
   "roles": {
@@ -65,6 +66,10 @@
   "highlight": {
    "style": "marker",
    "marker_alpha": 0.28
+  },
+  "accent_italic": {
+   "weight": 500,
+   "note": "độ dài chạy ngang/x-height đo 0.207 ở clip 7700229527049358612 (n=1); Newsreader italic dựng: wght 400 = 0.178, 500 = 0.219"
   }
  },
  "shadow": {

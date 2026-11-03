@@ -88,7 +88,7 @@ const need = (v, what) => { if (v === undefined || v === null) { console.error("
 const C = need(theme.colors, "colors");
 for (const k of ["surface", "accent_dark", "accent_primary", "accent_mid", "accent_light", "ink", "ink_secondary", "yellow"]) need(C[k], "colors." + k);
 need(theme.page && theme.page.tint, "page.tint"); need(theme.page.white, "page.white"); need(theme.font && theme.font.family, "font.family"); need(theme.font.body_weight, "font.body_weight");
-need(theme.type && theme.type.roles, "type.roles"); need(theme.shadow && theme.shadow.rgb, "shadow.rgb");
+need(theme.type && theme.type.roles, "type.roles"); need(theme.font.accent_family, "font.accent_family"); need(theme.type.accent_italic && theme.type.accent_italic.weight, "type.accent_italic.weight"); need(lang.type.accent_italic && lang.type.accent_italic.size_ratio, "language type.accent_italic.size_ratio"); need(theme.shadow && theme.shadow.rgb, "shadow.rgb");
 const roleMap = { headline: "headline", subhead: "subhead", caption: "caption", list_item: "list_item", pill_label: "pill_label", display_number: "display_number", percent_label: "percent_label" };
 const type = {};
 for (const r of Object.keys(roleMap)) {
@@ -104,12 +104,12 @@ const tokens = {
   canvas: lang.canvas,
   colors: { ...C },
   page: { tint: theme.page.tint, white: theme.page.white, tint_share: lang.page.tint_share, white_share: lang.page.white_share, grid: lang.page.grid },
-  font: { family: theme.font.family, body_weight: theme.font.body_weight },
-  type: { ...type, line_height: need(theme.type.line_height_em, "type.line_height_em"), letter_spacing_em: need(theme.type.letter_spacing_em, "type.letter_spacing_em"), label_letter_spacing_em: need(theme.type.label_letter_spacing_em, "type.label_letter_spacing_em"), case: need(theme.type.case, "type.case"), highlight: hl },
+  font: { family: theme.font.family, body_weight: theme.font.body_weight, accent_family: theme.font.accent_family },
+  type: { ...type, line_height: need(theme.type.line_height_em, "type.line_height_em"), letter_spacing_em: need(theme.type.letter_spacing_em, "type.letter_spacing_em"), label_letter_spacing_em: need(theme.type.label_letter_spacing_em, "type.label_letter_spacing_em"), case: need(theme.type.case, "type.case"), highlight: hl, accent_italic: { size_ratio: lang.type.accent_italic.size_ratio, weight: theme.type.accent_italic.weight } },
   card: { radius: lang.card.radius_px, shadow: sh(lang.card.shadow, theme.shadow), width_px: lang.card.width_px, padding: lang.card.padding },
   pill: { radius: lang.pill.radius_px, shadow: sh(lang.pill.shadow, theme.shadow), width_px: lang.pill.width_px, height_px: lang.pill.height_px, padding: lang.pill.padding },
   iso: theme.iso,
-  safe: lang.safe, motion: lang.motion, transitions: lang.transitions, rhythm: lang.rhythm, guess: lang.guess,
+  safe: lang.safe, motion: lang.motion, transitions: lang.transitions, rhythm: lang.rhythm, guess: lang.guess, tabs: lang.tabs,
   catalog: Object.fromEntries(["component", "effect", "transition"].map((k) => [k, catalog.entries.filter((e) => e.kind === k).map((e) => e.name)])),
 };
 const outPath = path.resolve(arg("--out", path.join(here, "tokens.js")));

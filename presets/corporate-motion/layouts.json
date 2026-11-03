@@ -417,6 +417,39 @@
      ]
     }
    }
+  },
+  "tabs-card": {
+   "beat": "wow-demo",
+   "about": "Tiêu đề gõ phía trên, dải tab (con trỏ bấm đổi tab) và thẻ nội dung bên dưới.",
+   "slots": {
+    "headline": {
+     "x": 100,
+     "y": 290,
+     "w": 880,
+     "minH": 180,
+     "for": [
+      "text"
+     ]
+    },
+    "tabs": {
+     "x": 170,
+     "y": 520,
+     "for": [
+      "tabs"
+     ]
+    },
+    "card": {
+     "x": 90,
+     "y": 660,
+     "w": 900,
+     "h": 700,
+     "for": [
+      "card",
+      "table",
+      "dashboardCard"
+     ]
+    }
+   }
   }
  }
 }

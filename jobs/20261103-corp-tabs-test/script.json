@@ -1,0 +1,158 @@
+{
+ "title": "Thử tabs + tabSwitch (kiểm kit)",
+ "theme": "default",
+ "beats": [
+  {
+   "type": "wow-demo",
+   "duration": 5,
+   "layout": "tabs-card",
+   "page": {
+    "mode": "tint",
+    "grid": "line"
+   },
+   "transition": {
+    "use": "dissolve"
+   },
+   "items": [
+    {
+     "use": "text",
+     "slot": "headline",
+     "props": {
+      "role": "headline"
+     },
+     "effects": [
+      {
+       "use": "typing",
+       "at": 0.3,
+       "props": {
+        "text": "Một *dải tab*, ba góc nhìn.",
+        "caretHold": 0.3
+       }
+      }
+     ]
+    },
+    {
+     "use": "tabs",
+     "slot": "tabs",
+     "props": {
+      "labels": [
+       "Doanh thu",
+       "Xử lý",
+       "Hài lòng"
+      ]
+     },
+     "effects": [
+      {
+       "use": "tabSwitch",
+       "at": 1.5,
+       "props": {
+        "to": 2
+       }
+      },
+      {
+       "use": "tabSwitch",
+       "at": 3.2,
+       "props": {
+        "to": 3
+       }
+      }
+     ]
+    },
+    {
+     "use": "card",
+     "slot": "card",
+     "effects": [
+      {
+       "use": "slideIn",
+       "at": 0.1,
+       "props": {
+        "fade": 0
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "duration": 6,
+   "layout": "stat-ask-button",
+   "page": {
+    "mode": "white"
+   },
+   "items": [
+    {
+     "use": "statCard",
+     "slot": "stat",
+     "props": {
+      "lead": "Trong 47 biểu đồ, giữ lại",
+      "unit": "con số."
+     },
+     "effects": [
+      {
+       "use": "slideIn",
+       "at": 0.03,
+       "props": {
+        "fade": 0
+       }
+      },
+      {
+       "use": "countUp",
+       "at": 0.7,
+       "target": "num",
+       "props": {
+        "from": 47,
+        "to": 1,
+        "align": "center"
+       }
+      },
+      {
+       "use": "fadeUp",
+       "at": 1.2,
+       "target": "unit"
+      },
+      {
+       "use": "fadeUp",
+       "at": 1.37,
+       "target": "bar",
+       "props": {
+        "y": 0
+       }
+      }
+     ]
+    },
+    {
+     "use": "text",
+     "slot": "ask",
+     "props": {
+      "role": "headline",
+      "text": "Bạn sẽ giữ *con số* nào?"
+     },
+     "effects": [
+      {
+       "use": "fadeUp",
+       "at": 1.6
+      }
+     ]
+    },
+    {
+     "use": "button",
+     "slot": "button",
+     "props": {
+      "label": "Lưu lại"
+     },
+     "effects": [
+      {
+       "use": "fadeUp",
+       "at": 2
+      },
+      {
+       "use": "pulse",
+       "at": 2.5
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

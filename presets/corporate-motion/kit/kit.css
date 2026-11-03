@@ -48,6 +48,8 @@
 .k-acc:has(.k-ch) { background-image: none; }
 .k-acc .k-ch { background-image: var(--k-acc-bg); }
 .k-c-accent { color: var(--k-accent); }
+/* chữ nhấn nghiêng có chân: font, độ đậm theo theme; cỡ = 1.27 em của chữ đứng cạnh (language.type.accent_italic); line-height 0 để không nới dòng */
+.k-ital { font-family: var(--k-accent-font); font-style: italic; font-weight: var(--k-ital-weight); font-size: var(--k-ital-size); line-height: 0; color: var(--k-accent); text-transform: none; }
 .k-w { display: inline-block; white-space: nowrap; }
 
 /* chữ gõ: mỗi ký tự một span, hiện bằng tl.set; con trỏ chỉ gắn vào ký tự cuối đang hiện */
@@ -115,3 +117,12 @@
 .k-bubble { max-width: 78%; padding: 26px 34px; border-radius: 36px; font-size: var(--k-pill-label-px); font-weight: var(--k-pill-label-weight); line-height: 1.25; box-shadow: var(--k-pill-shadow); }
 .k-bubble--bot { align-self: flex-start; background: var(--k-surface); color: var(--k-ink); border-bottom-left-radius: 10px; }
 .k-bubble--user { align-self: flex-end; background: var(--k-accent); color: var(--k-surface); border-bottom-right-radius: 10px; }
+
+/* tabs: dải nền tint + pill chọn (accent-dark) trượt bằng left/right; nhãn hai lớp (tối/trắng) đổi bằng opacity; con trỏ nằm trong dải, ẩn tới lúc tabSwitch */
+.k-tabs { background: var(--k-surface); box-shadow: var(--k-card-shadow); border-radius: 999px; }
+.k-tabs__pill { position: absolute; top: calc((100% - var(--k-tab-pill-h)) / 2); height: var(--k-tab-pill-h); border-radius: 999px; background: var(--k-accent-dark); box-shadow: var(--k-pill-shadow); }
+.k-tab { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; font-size: var(--k-tab-label-px); font-weight: var(--k-pill-label-weight); line-height: 1; white-space: nowrap; }
+.k-tab > b { position: absolute; font-weight: inherit; }
+.k-tab__off { color: var(--k-ink-secondary); } .k-tab__on { color: var(--k-surface); }
+.k-cursor { position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none; }
+.k-cursor svg { display: block; width: 100%; height: 100%; overflow: visible; fill: var(--k-surface); stroke: var(--k-ink); stroke-width: 4; stroke-linejoin: round; }

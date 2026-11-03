@@ -41,7 +41,8 @@ window.KIT_TOKENS = {
  },
  "font": {
   "family": "Montserrat",
-  "body_weight": 700
+  "body_weight": 700,
+  "accent_family": "Newsreader"
  },
  "type": {
   "headline": {
@@ -110,6 +111,10 @@ window.KIT_TOKENS = {
   "highlight": {
    "style": "marker",
    "marker_alpha": 0.28
+  },
+  "accent_italic": {
+   "size_ratio": 1.27,
+   "weight": 500
   }
  },
  "card": {
@@ -205,6 +210,37 @@ window.KIT_TOKENS = {
    "scale_source": "preset.md (bảng Primitive, button_swell_pre_click)",
    "release_ease": "expo.out",
    "release_s": 0.067
+  },
+  "tab_switch": {
+   "source": "jobs/corp-sample-7700229527049358612/instances.json (tabs_cursor), measure_tabs_cursor.py + fit_back_edges.py; n=2 chuyển tab trong 1 clip (clip 7700229527049358612), thấy bằng mắt ở 3 clip mới",
+   "lead_edge": {
+    "ease": "back.out(1.35)",
+    "dur_s": 0.217,
+    "overshoot": 0.06,
+    "note": "cạnh dẫn (phía đang tới) của pill chạy trước, quá đà ~6% quãng; đo cạnh phải khi đi sang phải"
+   },
+   "trail_edge": {
+    "ease": "power1.out",
+    "reach_s": 0.417,
+    "note": "cạnh theo sau đến muộn: pill giãn dài ra giữa chuyển động (rộng ~1.4-1.55x lúc đỉnh) rồi co về"
+   }
+  },
+  "cursor_glide": {
+   "source": "jobs/corp-sample-7700229527049358612/instances.json (tabs_cursor), measure_tabs_cursor.py + fit_back_edges.py; n=2 chuyển tab trong 1 clip (clip 7700229527049358612), thấy bằng mắt ở 3 clip mới",
+   "ease": "power2.inOut",
+   "reach_s": 0.367,
+   "duration_independent_of_distance": true,
+   "distance_px_measured": [
+    599,
+    246
+   ],
+   "origin_offset_px": [
+    294,
+    522
+   ],
+   "origin_note": "điểm thấy đầu tiên của con trỏ so với đích (clip đo: vào từ dưới phải); lần lướt thứ hai bắt đầu từ chỗ cũ",
+   "click_lag_s": 0.017,
+   "click_note": "pill bắt đầu chạy đúng lúc con trỏ tới (0 và 1 khung sau)"
   }
  },
  "transitions": {
@@ -250,6 +286,25 @@ window.KIT_TOKENS = {
    "duration_s": 0.35,
    "ease": "power2.out",
    "note": "style.json không có token vào cảnh cho tiêu đề/caption; mượn họ ease card_slide_in"
+  },
+  "tab_label_swap": {
+   "at_frac_of_lead_dur": 0.5,
+   "note": "đổi màu nhãn tab (tối <-> trắng) ở giữa lúc cạnh dẫn chạy; chưa đo"
+  }
+ },
+ "tabs": {
+  "source": "jobs/corp-sample-7700229527049358612/instances.json (tabs_cursor), measure_tabs_cursor.py + fit_back_edges.py; n=2 chuyển tab trong 1 clip (clip 7700229527049358612), thấy bằng mắt ở 3 clip mới",
+  "strip_h_px": 78,
+  "pill_h_px": 68,
+  "pitch_px": 247,
+  "pill_inset_px": 10,
+  "label_cap_px": 20,
+  "label_scale_of_pill_label": 0.72,
+  "cursor": {
+   "w_px": 37,
+   "h_px": 50,
+   "tip_dx_frac_pitch": 0.198,
+   "tip_dy_px_from_strip_top": 64
   }
  },
  "catalog": {
@@ -277,7 +332,8 @@ window.KIT_TOKENS = {
    "stepCard",
    "connector",
    "table",
-   "chatBox"
+   "chatBox",
+   "tabs"
   ],
   "effect": [
    "fadeUp",
@@ -289,7 +345,8 @@ window.KIT_TOKENS = {
    "popIn",
    "ringFill",
    "pulse",
-   "pillHop"
+   "pillHop",
+   "tabSwitch"
   ],
   "transition": [
    "dissolve",
