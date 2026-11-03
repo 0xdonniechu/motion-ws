@@ -1,0 +1,49 @@
+{
+ "title": "Thử cursorClick + penMark (kiểm kit)",
+ "theme": "default",
+ "beats": [
+  {
+   "type": "checklist", "duration": 7, "layout": "pill-three-rows", "page": { "mode": "tint" },
+   "transition": { "use": "dissolve" },
+   "items": [
+    { "use": "pill", "slot": "pill", "props": { "total": 3, "step": 1 }, "effects": [{ "use": "fadeUp", "at": 0.07 }] },
+    { "use": "listCard", "slot": "row1", "props": { "text": "Quyết định nào cần *chốt*?" },
+      "effects": [
+        { "use": "slideIn", "at": 0.2, "props": { "from": "right", "fade": 0 } },
+        { "use": "popIn", "at": 0.9, "target": "tick" },
+        { "use": "penMark", "at": 3.2, "target": "tick", "props": { "shape": "circle" } }
+      ] },
+    { "use": "listCard", "slot": "row2", "props": { "text": "*Ai* là người chốt?" },
+      "effects": [
+        { "use": "slideIn", "at": 0.5, "props": { "from": "right", "fade": 0 } },
+        { "use": "popIn", "at": 1.2, "target": "tick" },
+        { "use": "cursorClick", "at": 1.6, "props": { "fx": 0.7 } },
+        { "use": "penMark", "at": 3.6, "props": { "shape": "tick" } }
+      ] },
+    { "use": "listCard", "slot": "row3", "props": { "text": "Con số nào *đổi được* hành động?" },
+      "effects": [
+        { "use": "slideIn", "at": 0.8, "props": { "from": "right", "fade": 0 } },
+        { "use": "popIn", "at": 1.5, "target": "tick" },
+        { "use": "cursorClick", "at": 4.4, "props": { "fx": 0.3 } },
+        { "use": "penMark", "at": 5.4, "props": { "shape": "cross" } }
+      ] }
+   ]
+  },
+  {
+   "type": "cta", "duration": 6, "layout": "stat-ask-button", "page": { "mode": "white" },
+   "items": [
+    { "use": "statCard", "slot": "stat", "props": { "lead": "Trong 47 biểu đồ, giữ lại", "unit": "con số." },
+      "effects": [
+        { "use": "slideIn", "at": 0.03, "props": { "fade": 0 } },
+        { "use": "countUp", "at": 0.7, "target": "num", "props": { "from": 47, "to": 1, "align": "center" } },
+        { "use": "fadeUp", "at": 1.2, "target": "unit" },
+        { "use": "fadeUp", "at": 1.37, "target": "bar", "props": { "y": 0 } },
+        { "use": "penMark", "at": 3.2, "target": "num", "props": { "shape": "circle" } }
+      ] },
+    { "use": "text", "slot": "ask", "props": { "role": "headline", "text": "Bạn sẽ giữ *con số* nào?" }, "effects": [{ "use": "fadeUp", "at": 1.6 }] },
+    { "use": "button", "slot": "button", "props": { "label": "Lưu lại" },
+      "effects": [{ "use": "fadeUp", "at": 2 }, { "use": "cursorClick", "at": 3.4 }, { "use": "penMark", "at": 4.6, "props": { "shape": "cross" } }] }
+   ]
+  }
+ ]
+}

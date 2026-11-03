@@ -2141,6 +2141,79 @@
    "demo": "mark"
   },
   {
+   "kind": "effect",
+   "name": "cursorClick",
+   "purpose": "Con trỏ chuột độc lập bấm vào MỘT phần tử đích (nút, thẻ, hàng): lướt tới (expo.inOut 0.375s, bấm sau 0.355s), co 0.82x trong 6 khung rồi gợn tròn nở ra mờ dần (0.508s). Các lần gọi trong cùng một beat nối tiếp từ vị trí cũ. Màu gợn chọn theo nền thật dưới đích (accent_primary, hoặc accent_dark/surface/ink nếu tương phản < 3.0, vd nút nền màu nhấn).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm con trỏ bắt đầu lướt; bấm sau ~0.36s"
+    },
+    "fx": {
+     "type": "0..1",
+     "default": 0.5,
+     "desc": "điểm bấm theo bề ngang đích (0 trái, 1 phải)",
+     "min": 0,
+     "max": 1
+    },
+    "fy": {
+     "type": "0..1",
+     "default": 0.5,
+     "desc": "điểm bấm theo bề dọc đích (0 trên, 1 dưới)",
+     "min": 0,
+     "max": 1
+    },
+    "ripple": {
+     "type": "bool",
+     "default": true,
+     "desc": "false = chỉ con trỏ co lại, không có gợn"
+    }
+   },
+   "language": "motion.cursor_click",
+   "suits": [
+    "wow-demo",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.fx(\"cursorClick\", tl, button, { at: 1.4 })",
+   "demo": "cursorClick"
+  },
+  {
+   "kind": "effect",
+   "name": "penMark",
+   "purpose": "Nét bút vẽ tay vẽ dần lên MỘT phần tử đích: shape circle = khoanh (power1.in, 0.283s; quanh hộp chữ thật nếu đích là chữ, ellipse không dẹt hơn 2.2:1), tick = dấu tick ở góc dưới phải (power2.in, 0.167s), cross = X chéo phủ đích (expo.out, chạm 98% sau 0.133s). Màu: token theme (accent_primary với khoanh/tick, accent_dark với X) hoặc accent/surface/ink khác nếu tương phản với nền thật dưới đích < 3.0 (vd X trên nút). Hợp với từ, số, biểu tượng, ô; không hợp khoanh cả thẻ rộng.",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm nét bắt đầu vẽ"
+    },
+    "shape": {
+     "type": "circle|tick|cross",
+     "default": null,
+     "desc": "hình nét: circle (khoanh), tick, cross (X)",
+     "required": true,
+     "example": "circle"
+    }
+   },
+   "language": "motion.pen_mark",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.fx(\"penMark\", tl, row, { at: 1.2, shape: \"circle\" })",
+   "demo": "penMark"
+  },
+  {
    "kind": "transition",
    "name": "dissolve",
    "purpose": "Hoà vào 0.333s (kiểu phổ biến nhất của preset).",

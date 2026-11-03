@@ -12,7 +12,7 @@ Quy tắc của chủ: **ngôn ngữ chuyển động cố định**, preset m�
 ## Khoá của một theme
 | Khoá | Nội dung |
 |---|---|
-| `colors` | `surface` (thẻ), `accent_dark/primary/mid/light`, `ink`, `ink_secondary`, `yellow` (điểm nhấn nhỏ), `mark` (màu vệt tô của effect `mark`; tương phản >= 3.0 với `ink`, build-tokens kiểm) |
+| `colors` | `surface` (thẻ), `accent_dark/primary/mid/light`, `ink`, `ink_secondary`, `yellow` (điểm nhấn nhỏ), `mark` (màu vệt tô của effect `mark`; tương phản >= 3.0 với `ink`, build-tokens kiểm); nét bút `penMark` và gợn `cursorClick` chọn màu theo nền thật dưới đích trong accent_primary/accent_dark/surface/ink: mọi màu nền của theme (`colors.*`, `page.*`, `iso`) phải có ít nhất một màu trong chuỗi đạt tương phản >= 3.0 (build-tokens kiểm) |
 | `page` | `tint` (nền mặc định), `white` (nền thứ hai; ở theme tối là nền tối hơn/sáng hơn một bậc) |
 | `iso` | ba mặt khối iso, sáng tới tối |
 | `font` | `family`, `body_weight`, `accent_family` (font chữ nhấn nghiêng `~từ~`); trọng lượng tiêu đề nằm ở `type.roles.*.weight` |
