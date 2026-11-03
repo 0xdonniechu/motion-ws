@@ -47,7 +47,7 @@ if (argv.includes("--brief")) {
   for (const e of catalog.entries.filter((x) => x.kind === "effect")) L.push(`- ${e.name}: ${e.purpose}${suits(e)}\n${pub(e).map(fmtProp).join("\n") || "    (không có prop)"}`);
   L.push("\n## Transition (transition.use, vào beat kế) — bỏ trống = dissolve");
   for (const e of catalog.entries.filter((x) => x.kind === "transition")) L.push(`- ${e.name}: ${e.purpose}${pub(e).length ? "\n" + pub(e).map(fmtProp).join("\n") : ""}`);
-  L.push("\n## Luật: không truyền x,y,w,h,minH,align (layout lo); không truyền ease,reach,dur; chữ <= " + MAX_TEXT + " ký tự mỗi chuỗi; `*từ*` = từ nhấn, `~từ~` = từ nhấn nghiêng có chân (ít thôi, 1 cụm mỗi câu). Thiếu mục trong catalog => dừng, báo, không vẽ.");
+  L.push("\n## Luật: không truyền x,y,w,h,minH,align (layout lo); không truyền ease,reach,dur; chữ <= " + MAX_TEXT + " ký tự mỗi chuỗi; `*từ*` = từ nhấn, `~từ~` = từ nhấn nghiêng có chân (ít thôi, 1 cụm mỗi câu), `^từ^` = chữ rỗng viền, `{cụm}` = vệt tô vàng (kèm effect mark), `[cụm]` = gạch ngang (kèm effect strike); cụm {..} và [..] một dòng, ngắn. Thiếu mục trong catalog => dừng, báo, không vẽ.");
   console.log(L.join("\n")); process.exit(0);
 }
 
@@ -179,6 +179,14 @@ function validate(script, themeName) {
         allText += " " + strings(ef.props || {}).join(" ");
         if (ef.target && ef.target !== "self" && ce && !returnsKeys(ce).includes(ef.target)) errs.push(`${we}: target "${ef.target}" không có trong returns của ${it.use} (${returnsKeys(ce).join(", ")})`);
       });
+      // vệt `{..}` / gạch `[..]` không có effect mark/strike thì hiện tĩnh từ khung 0; hai lần gọi cùng effect trên cùng chữ thì tween chồng nhau
+      const effs = it.effects || [], mk = (re, use) => {
+        const txt = strings(it.props || {}).concat(effs.filter((e) => e.use === "typing").flatMap((e) => strings(e.props || {})));
+        const calls = effs.filter((e) => e.use === use), per = {}; calls.forEach((e) => { const t = e.target || "self"; per[t] = (per[t] || 0) + 1; });
+        if (txt.some((t) => re.test(t)) && !calls.length) warns.push(`${w}: chữ có ${use === "mark" ? "{cụm}" : "[cụm]"} nhưng không có effect ${use}: sẽ hiện tĩnh từ khung 0`);
+        for (const [t, n] of Object.entries(per)) if (n > 1) warns.push(`${w}: effect ${use} gọi ${n} lần trên cùng chữ (target ${t}): tween chồng nhau, gọi một lần thôi`);
+      };
+      mk(/\{[^}]+\}/, "mark"); mk(/\[[^\]]+\]/, "strike");
     });
     if (bi === script.beats.length - 1) { if (b.transition) errs.push(`${bw}: beat cuối không có transition`); }
     else { const tn = b.transition ? b.transition.use : "dissolve"; const te = lookup(tn, "transition", bw + " transition"); calls.tx++; if (te) propsOf(te, b.transition && b.transition.props, bw + " transition", false); }
@@ -194,9 +202,9 @@ function validate(script, themeName) {
 }
 
 // ---------------------------------------------------------------- dựng dòng thời gian (khung 30fps)
-const typingSec = (it) => (it.effects || []).filter((e) => e.use === "typing").map((e) => e.at + String((e.props && e.props.text) || "").replace(/[*~]/g, "").length / lang.motion.typed_text.chars_per_s);
+const typingSec = (it) => (it.effects || []).filter((e) => e.use === "typing").map((e) => e.at + String((e.props && e.props.text) || "").replace(/[*~^{}\[\]]/g, "").length / lang.motion.typed_text.chars_per_s);
 function autoDuration(b) {   // nhịp từ language.json: độ dài cảnh trung vị, hoặc (lúc effect cuối + thời gian gõ + chữ đứng yên trung vị) nếu lớn hơn
-  const ends = b.items.flatMap((it) => (it.effects || []).map((e) => e.at + (e.use === "typing" ? String((e.props && e.props.text) || "").replace(/[*~]/g, "").length / lang.motion.typed_text.chars_per_s : 0)));
+  const ends = b.items.flatMap((it) => (it.effects || []).map((e) => e.at + (e.use === "typing" ? String((e.props && e.props.text) || "").replace(/[*~^{}\[\]]/g, "").length / lang.motion.typed_text.chars_per_s : 0)));
   return Math.max(lang.rhythm.shot_len_median_s, Math.max(0, ...ends) + lang.rhythm.text_dwell_median_s);
 }
 function timeline(script) {

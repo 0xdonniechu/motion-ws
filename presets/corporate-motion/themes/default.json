@@ -9,7 +9,8 @@
   "accent_light": "#8ec8f6",
   "ink": "#010102",
   "ink_secondary": "#383a3b",
-  "yellow": "#fcc435"
+  "yellow": "#fcc435",
+  "mark": "#fcc435"
  },
  "page": {
   "tint": "#eef7fc",

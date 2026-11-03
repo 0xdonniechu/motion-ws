@@ -55,6 +55,58 @@
    "use": "một từ/cụm nhấn trong câu (màu nhấn, không in đậm), thay từ khoá `*từ*`; cũng thấy thay số khổng lồ (clip 7700229527049358612: cỡ ~164px = 0.152 W)",
    "seen_in": "3/3 clip quét thêm 2026-11-03",
    "source": "jobs/corp-sample-7700229527049358612/accent_italic.json (measure_accent_italic.py), measure_accent_weight.py"
+  },
+  "outline": {
+   "stroke_over_cap_h": 0.05,
+   "stroke_over_cap_h_range": [
+    0.046,
+    0.052
+   ],
+   "cap_h_em": 0.74,
+   "stroke_em": 0.037,
+   "basis": "chữ rỗng (nền thấy qua), viền mảnh cùng màu chữ: nét/chiều cao chữ không dấu 4px/87px ('15%', clip 7703546789562977537) và 3px/58px ('N' của 'CÔNG CỤ', clip 7700593599045520641) ở khung 576; quy ra em bằng cap-height Be Vietnam Pro 0.74 em (fontTools OS/2 sCapHeight 740/1000), 0.05 x 0.74 = 0.037 em; chỉ dùng phép quét NGANG (4px, 3px): phép quét dọc của 'N' cho 5px (0.069) bị nét chéo của N làm dày nên bỏ",
+   "colour": "màu chữ đang có (accent #2a89d3 ở '15%', ink #2d2d2d ở 'CÔNG CỤ'): viền = currentColor, ruột trong suốt",
+   "use": "một số/cụm đối lập với chữ đặc đứng cạnh ('25%' đặc rồi 'Chỉ 15%' rỗng; 'TƯ DUY' đặc, 'CÔNG CỤ' rỗng); markup `^từ^`",
+   "seen_in": "2 clip quét cuối 2026-11-03 (không có ở clip chủ đề khác); chữ kiểu viền ĐẶC dày kèm bóng lệch ('TIN TỐT/XẤU', clip 7700960427491986696) và chữ vân sọc ('LUẬN') là kiểu khác, không thuộc mục này",
+   "source": "jobs/corp-sample-7703546789562977537/outline.json (measure_outline.py)"
+  },
+  "strike": {
+   "thick_over_cap_h": 0.087,
+   "thick_over_cap_h_range": [
+    0.083,
+    0.091
+   ],
+   "thick_em": 0.064,
+   "line_cy_over_cap_h": 0.5,
+   "line_cy_over_cap_h_range": [
+    0.417,
+    0.582
+   ],
+   "overshoot_each_side_over_text_w": 0.06,
+   "overshoot_each_side_range": [
+    0.005,
+    0.13
+   ],
+   "dim": {
+    "opacity": 0.84,
+    "grayscale": 1,
+    "basis": "chữ bị gạch chuyển về xám: đen #242424 -> #404040 và xanh nhấn #1872ce -> #797979; cùng một hệ số khi coi là grayscale + opacity trên nền sáng ~#e8f0fc: 0.857 và 0.82, lấy 0.84"
+   },
+   "basis": "vạch phẳng đầu tròn màu nhấn (#1872ce, đo #1676d5/#1778db), chạy trái -> phải qua chữ đã đứng yên; 2 thể hiện trong clip 7701337835403726101 ('101' cao 96px: vạch 8px = 0.083, cy 0.417, dài 1.22x chữ; 'CÁI SAI.' cao 55px: vạch 5px = 0.091, cy 0.582, dài 1.03x chữ); khung 576",
+   "disagree": "độ vượt mép (0.5% đến 13% bề rộng chữ) và độ cao vạch trên chữ (0.42 đến 0.58) lệch giữa hai thể hiện; clip 7703546789562977537 ('Mua thêm công cụ', vạch hơi chéo) và clip 7700960427491986696 ('12 loại', vạch mảnh ~3px kẻ tay, nhạt chữ về xanh nhạt) là biến thể khác, chưa đo",
+   "source": "jobs/corp-sample-7701337835403726101/strike.json (measure_strike.py)",
+   "baseline_from_box_top_em": 0.88,
+   "baseline_note": "vị trí đường chữ từ đỉnh khung dòng, em: hhea Be Vietnam Pro ascent 1.0, descent 0.265, line-height 1.03 -> 1.0 - (1.265 - 1.03)/2 = 0.8825; Montserrat 0.8735 (lệch 0.01 em, bỏ qua)"
+  },
+  "mark": {
+   "alpha": 0.86,
+   "height_over_ink_h": 0.489,
+   "top_from_ink_top_over_ink_h": 0.356,
+   "bottom_from_ink_top_over_ink_h": 0.822,
+   "basis": "vệt tô nhấn màu vàng chạy ngang sau cụm chữ, che nửa dưới: màu đo (252,207,83) và (252,202,75) trên nền trắng = vàng #fcc435 alpha 0.85-0.87 (lấy 0.86); cao 0.49 chiều cao hộp mực chữ (chỉ thể hiện 'hỏi đúng câu.'; thể hiện 'nên làm gì?' có hộp mực lẫn chữ đen khác nên bỏ giá trị 0.435); đỉnh/đáy vệt đo ở 'hỏi đúng câu.' (clip 7700960427491986696; thể hiện thứ hai 'nên làm gì?' clip 7702043938013629716 hộp mực đo lệch nên chỉ lấy màu, thời gian)",
+   "source": "jobs/corp-sample-7700960427491986696/mark.json (measure_mark.py)",
+   "geometry_note": "kit dùng top/bottom làm tỉ lệ KHUNG DÒNG (1.03 em) chứ không phải hộp mực: vệt từ đường chữ - 0.515 em tới đường chữ - 0.036 em (cao 0.48 em). Quy từ hộp mực 'hỏi đúng câu.' (cao 45px ở khung 576, cỡ chữ ~39.5px) với GIẢ ĐỊNH đỉnh dấu cao ~0.93 em trên đường chữ và đuôi g ~0.2 em dưới: ĐOÁN +-0.05 em",
+   "colour_token": "colors.mark của theme (default #fcc435, night #b36b00): mỗi theme phải đạt tương phản >= 3.0 với colors.ink, build-tokens.mjs kiểm"
   }
  },
  "card": {
@@ -204,6 +256,60 @@
    "origin_note": "điểm thấy đầu tiên của con trỏ so với đích (clip đo: vào từ dưới phải); lần lướt thứ hai bắt đầu từ chỗ cũ",
    "click_lag_s": 0.017,
    "click_note": "pill bắt đầu chạy đúng lúc con trỏ tới (0 và 1 khung sau)"
+  },
+  "strike": {
+   "source": "jobs/corp-sample-7701337835403726101/strike.json; n=2 thể hiện cùng một clip",
+   "ease": "expo.out",
+   "reach_s": 0.148,
+   "dim_delay_frames": 1,
+   "fit": "expo.out khớp rmse 0.0035 ('101', D 9.0 khung) và 0.017 ('CÁI SAI.', D 6.75 khung); chạm 98% sau 3.8 đến 5.1 khung, lấy 4.45 = 0.148s",
+   "progress_first_frames": [
+    [
+     0,
+     0.226,
+     0.649,
+     0.845,
+     0.921,
+     0.966,
+     0.989
+    ],
+    [
+     0,
+     0.005,
+     0.68,
+     0.854,
+     0.927,
+     0.963,
+     0.982
+    ]
+   ],
+   "dim_note": "chữ chuyển xám sau vạch 1 khung (khung vạch bắt đầu hiện còn nguyên màu)"
+  },
+  "mark": {
+   "source": "jobs/corp-sample-7700960427491986696/mark.json; n=2 thể hiện, 2 clip (7700960427491986696, 7702043938013629716)",
+   "ease": "expo.out",
+   "reach_s": 0.164,
+   "fit": "expo.out khớp rmse 0.0046 (D 7.75 khung) và 0.0040 (D 9.75 khung); chạm 98% sau 4.4 đến 5.5 khung, lấy 4.93 = 0.164s; quét trái -> phải",
+   "progress_first_frames": [
+    [
+     0,
+     0.154,
+     0.658,
+     0.862,
+     0.93,
+     0.98,
+     0.993
+    ],
+    [
+     0,
+     0.473,
+     0.736,
+     0.868,
+     0.934,
+     0.967,
+     0.989
+    ]
+   ]
   }
  },
  "transitions": {

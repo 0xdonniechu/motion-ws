@@ -14,7 +14,7 @@ Bạn chỉ viết NỘI DUNG và chọn TÊN trong catalog; `make.sh` làm mọ
 ## Làm
 1. Job: `jobs/<YYYYMMDD hôm nay>-corp-<slug-ascii-ngắn>/` (thư mục MỚI: nếu đã có, thêm -2, -3...). `--theme` nếu có thì chuyển nguyên cho make.sh.
 2. Viết `<job>/script.json`:
-   - tiếng Việt đủ dấu; chữ trên màn hình NGẮN (mỗi chuỗi <= 70 ký tự, thường <= 40); `*từ*` là từ nhấn, `~từ~` là từ nhấn nghiêng có chân (dùng ít, tối đa một cụm mỗi câu);
+   - tiếng Việt đủ dấu; chữ trên màn hình NGẮN (mỗi chuỗi <= 70 ký tự, thường <= 40); `*từ*` là từ nhấn, `~từ~` là từ nhấn nghiêng có chân (dùng ít, tối đa một cụm mỗi câu), `^từ^` chữ rỗng viền (đối lập với chữ đặc cạnh nó), `{cụm}` vệt tô vàng kèm effect `mark`, `[cụm]` gạch ngang kèm effect `strike` (cụm một dòng, ngắn);
    - kịch bản NGUYÊN BẢN theo chủ đề, một sợi chỉ đếm được; theo khung beat: đúng thứ tự (đảo thứ tự là LỖI), được bỏ beat không hợp (chỉ cảnh báo), BẮT BUỘC kết ở `cta` (không thì lỗi);
    - số liệu bịa là số minh hoạ: ghi nhãn "Số minh hoạ" (prop `tag` của statCard) khi có;
    - không logo hãng thật, không ảnh chụp màn hình thật, không trích dẫn có tên người (quoteCard là câu chốt phổ quát, không tác giả);

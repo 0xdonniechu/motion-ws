@@ -94,7 +94,7 @@
   {
    "kind": "component",
    "name": "text",
-   "purpose": "Chữ theo vai thang chữ; `*từ*` là từ khoá nhấn, `~từ~` là từ nhấn nghiêng có chân (italic serif); bỏ text để lấy khung cho effect typing/countUp.",
+   "purpose": "Chữ theo vai thang chữ; `*từ*` là từ khoá nhấn, `~từ~` là từ nhấn nghiêng có chân (italic serif), `^từ^` là chữ rỗng viền (outline, đối lập với chữ đặc đứng cạnh), `{cụm}` vệt tô vàng (effect mark), `[cụm]` gạch ngang (effect strike); bỏ text để lấy khung cho effect typing/countUp.",
    "props": {
     "x": {
      "type": "px",
@@ -124,7 +124,7 @@
     "text": {
      "type": "string",
      "default": "",
-     "desc": "chữ (bỏ trống nếu có effect typing nhắm vào chính nó); `*từ*` = từ nhấn, `~từ~` = nhấn nghiêng có chân",
+     "desc": "chữ (bỏ trống nếu có effect typing nhắm vào chính nó); `*từ*` = từ nhấn, `~từ~` = nhấn nghiêng có chân, `^từ^` = chữ rỗng viền, `{cụm}` = vệt tô (cần effect mark để quét), `[cụm]` = gạch ngang (cần effect strike), cụm {..}/[..] một dòng, ngắn",
      "required": "unless:typing@self",
      "maxLen": 70,
      "example": "Dashboard *đẹp* như phim."
@@ -2091,6 +2091,54 @@
    ],
    "example": "Kit.fx(\"tabSwitch\", tl, tabs, { at: 1.2, to: 2 })",
    "demo": "tabSwitch"
+  },
+  {
+   "kind": "effect",
+   "name": "strike",
+   "purpose": "Gạch ngang chữ: vạch phẳng đầu tròn màu nhấn quét trái -> phải qua mọi cụm [..] của chữ (expo.out, chạm 98% ở 0.148s), chữ ngả xám sau 1 khung. Dùng cho đáp án/ý bị bác bỏ.",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm vạch bắt đầu quét"
+    }
+   },
+   "language": "motion.strike + type.strike",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "costly-detail",
+    "lesson"
+   ],
+   "example": "Kit.make(\"text\", scene, { role: \"headline\", text: \"[Mua thêm công cụ]\" }) rồi Kit.fx(\"strike\", tl, t, { at: 2.4 })",
+   "demo": "strike"
+  },
+  {
+   "kind": "effect",
+   "name": "mark",
+   "purpose": "Vệt tô nhấn (màu colors.mark của theme, vàng ở theme default; alpha 0.86, che nửa dưới chữ) quét trái -> phải sau mọi cụm {..} của chữ (expo.out, chạm 98% ở 0.164s).",
+   "props": {
+    "at": {
+     "type": "s",
+     "default": 0,
+     "desc": "thời điểm vệt bắt đầu quét"
+    }
+   },
+   "language": "motion.mark + type.mark",
+   "suits": [
+    "wow-demo",
+    "hanging-number",
+    "authority",
+    "metaphor",
+    "checklist",
+    "costly-detail",
+    "lesson",
+    "cta"
+   ],
+   "example": "Kit.make(\"text\", scene, { role: \"headline\", text: \"Họ cần {câu trả lời}.\" }) rồi Kit.fx(\"mark\", tl, t, { at: 1.6 })",
+   "demo": "mark"
   },
   {
    "kind": "transition",

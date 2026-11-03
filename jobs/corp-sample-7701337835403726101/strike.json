@@ -1,0 +1,102 @@
+[
+ {
+  "clip": "corp-sample-7701337835403726101",
+  "text": "101",
+  "start_frame_in_window": 40,
+  "frame_w": 576,
+  "cap_h_px": 96,
+  "text_w_px": 217,
+  "line_len_px": 265,
+  "line_len_over_text_w": 1.221,
+  "overshoot_left_px": 20,
+  "overshoot_right_px": 28,
+  "thick_px": 8,
+  "thick_over_cap_h": 0.083,
+  "line_cy_from_cap_top_over_cap_h": 0.417,
+  "progress_by_frame": [
+   0.0,
+   0.226,
+   0.649,
+   0.845,
+   0.921,
+   0.966,
+   0.989,
+   0.996,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "best_fit": {
+   "ease": "expo.out",
+   "dur_frames": 9.0,
+   "dur_s": 0.3,
+   "t0_frames": 0.65,
+   "rmse": 0.0035
+  },
+  "text_colour_after_rgb": [
+   64,
+   64,
+   64
+  ],
+  "line_colour_rgb": [
+   22,
+   118,
+   213
+  ]
+ },
+ {
+  "clip": "corp-sample-7701337835403726101",
+  "text": "CÁI SAI.",
+  "start_frame_in_window": 14,
+  "frame_w": 576,
+  "cap_h_px": 55,
+  "text_w_px": 213,
+  "line_len_px": 219,
+  "line_len_over_text_w": 1.028,
+  "overshoot_left_px": 1,
+  "overshoot_right_px": 5,
+  "thick_px": 5,
+  "thick_over_cap_h": 0.091,
+  "line_cy_from_cap_top_over_cap_h": 0.582,
+  "progress_by_frame": [
+   0.0,
+   0.005,
+   0.68,
+   0.854,
+   0.927,
+   0.963,
+   0.982,
+   0.991,
+   0.991,
+   1.0,
+   1.0
+  ],
+  "best_fit": {
+   "ease": "expo.out",
+   "dur_frames": 6.75,
+   "dur_s": 0.225,
+   "t0_frames": 1.0,
+   "rmse": 0.0172
+  },
+  "text_colour_after_rgb": [
+   121,
+   121,
+   123
+  ],
+  "line_colour_rgb": [
+   23,
+   120,
+   219
+  ]
+ }
+]

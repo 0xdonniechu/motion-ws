@@ -1,0 +1,14 @@
+{
+ "title": "Thử chữ rỗng, gạch ngang, vệt tô",
+ "beats": [
+  {"type": "wow-demo", "duration": 4, "layout": "headline-dashboard", "page": {"mode": "tint"},
+   "items": [
+    {"use": "text", "slot": "headline", "props": {"role": "headline", "text": "Mua thêm [công cụ] hay {gắn AI vào}?"},
+     "effects": [{"use": "fadeUp", "at": 0.2}, {"use": "strike", "at": 1.4}, {"use": "mark", "at": 2.3}]}
+   ]},
+  {"type": "cta", "duration": 4, "layout": "stat-ask-button", "page": {"mode": "white"},
+   "items": [
+    {"use": "text", "slot": "ask", "props": {"role": "headline", "text": "Chỉ ^15%^ thời gian để quyết định."}, "effects": [{"use": "fadeUp", "at": 0.3}]}
+   ]}
+ ]
+}

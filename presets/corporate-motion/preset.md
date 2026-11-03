@@ -4,7 +4,7 @@ Phong cách "corporate motion graphics" dọc 9:16, 2–3 phút của kênh @pha
 chữ đậm hình học (đen + một từ nhấn xanh), pill tiến trình làm neo, số khổng lồ, khối iso xanh. Dùng để clip mới với nội dung khác vẫn mang cùng vibe; KHÔNG dựng lại khung-từng-khung.
 Số đo máy đọc nằm ở `style.json`: mỗi token có giá trị từng clip, trung vị, khoảng, n, CORE/OPTIONAL và `disagree`. Khối `build_defaults` trong đó chọn MỘT giá trị cho mỗi token (đủ để dựng scene); phần "Giá trị dựng mặc định" bên dưới là bản đọc cho người của khối đó.
 
-Trạng thái: có số đo 4 clip, token và giá trị dựng mặc định. Có kit `kit/` (từ vựng `catalog.json`: 25 component, 11 effect, 5 transition; scene chỉ gọi theo tên; `tabs` + `tabSwitch` và chữ nhấn nghiêng `~từ~` bổ sung 2026-11-03 từ 3 clip quét thêm), tách `language.json` (chuyển động, cố định) và `themes/<tên>.json` (màu, font, kiểu chữ), xem `THEMING.md`; clip mẫu đủ 8 beat ở `jobs/20261103-corp-demo-dashboard/full/`. Font: CHỜ CHỦ DUYỆT.
+Trạng thái: có số đo 4 clip, token và giá trị dựng mặc định. Có kit `kit/` (từ vựng `catalog.json`: 25 component, 13 effect, 5 transition = 43 mục; scene chỉ gọi theo tên; `tabs` + `tabSwitch` và chữ nhấn nghiêng `~từ~` bổ sung 2026-11-03 từ 3 clip quét thêm; chữ rỗng viền `^từ^`, effect `strike` (gạch ngang) và `mark` (vệt tô vàng) bổ sung 2026-11-03 từ 5 clip quét cuối), tách `language.json` (chuyển động, cố định) và `themes/<tên>.json` (màu, font, kiểu chữ), xem `THEMING.md`; clip mẫu đủ 8 beat ở `jobs/20261103-corp-demo-dashboard/full/`. Font: CHỜ CHỦ DUYỆT.
 
 Lệnh mỏng `/corporate-motion` (skill `.claude/skills/corporate-motion/`): LLM chỉ viết `script.json` (dạng ở `script.schema.json`: tiêu đề, theme, beat theo khung beat dưới đây, item = tên component trong catalog + prop chữ/số, effect theo tên + giây từ đầu beat, chuyển cảnh); máy làm phần còn lại. `tools/build-clip.mjs` kiểm schema + catalog + `layouts.json` (slot = toạ độ, thuộc preset) rồi sinh scene toàn lời gọi kit; thiếu tên trong catalog thì dừng ("thiếu mục X trong catalog"), không vẽ. `tools/make.sh <script.json> [--theme t]` sinh, render, `hyperframes check`, thử tua, `tools/style-check.py` (so DNA, chỉ báo cáo). Clip mẫu: `jobs/20261103-corp-demo-dashboard/script.json`.
 
@@ -99,7 +99,7 @@ Luật: chỉ xét font đơn phủ đủ 100%; xếp theo IoU thô (chữ dựn
 
 ## Token OPTIONAL
 
-typed_text (2/4), camera_dive (2/4), flash-wipe (clip 1, 3), headline_question, flag_plant, node_radial, chat_autoscroll, chart_bar_fall, icon_pole (mỗi cái 1 clip), button (tách thành 3 hành vi, mỗi hành vi 1 clip), lưới ô vuông và lưới chấm (mỗi kiểu 2 clip), tabs + con trỏ chuột (thấy ở 3 clip quét thêm 2026-11-03: `jobs/corp-sample-7700229527049358612`, `…7700960427491986696`, `…7699477231017446676`; đo ở clip đầu, `instances.json` → `tabs_cursor`). Dùng khi nội dung cần, không bắt buộc cho vibe.
+typed_text (2/4), camera_dive (2/4), flash-wipe (clip 1, 3), headline_question, flag_plant, node_radial, chat_autoscroll, chart_bar_fall, icon_pole (mỗi cái 1 clip), button (tách thành 3 hành vi, mỗi hành vi 1 clip), lưới ô vuông và lưới chấm (mỗi kiểu 2 clip), tabs + con trỏ chuột (thấy ở 3 clip quét thêm 2026-11-03: `jobs/corp-sample-7700229527049358612`, `…7700960427491986696`, `…7699477231017446676`; đo ở clip đầu, `instances.json` → `tabs_cursor`). chữ rỗng viền `^từ^` (2 clip: 7703546789562977537 '15%', 7700593599045520641 'CÔNG CỤ'), gạch ngang `strike` (3 clip: 7701337835403726101 đo, 7703546789562977537 và 7700960427491986696 biến thể chưa đo), vệt tô vàng `mark` (3 clip: 7700960427491986696 và 7702043938013629716 đo, 7700593599045520641 bản xanh nhạt chưa đo). Dùng khi nội dung cần, không bắt buộc cho vibe.
 
 ## Primitive: số đo và chỗ các clip KHÔNG khớp
 
@@ -118,6 +118,9 @@ Mỗi ô là trung vị (min–max) trên các clip đo được; "ease" là tê
 | button_click_swell (clip 4) | 1 | 0.07s | 0 | expo.out | phồng khi bấm, 2 khung |
 | tab_switch (tabs) | 2 (1 clip) | cạnh dẫn 0.2–0.23s, cạnh theo sau 0.40–0.43s | cạnh dẫn 0.057–0.061 | cạnh dẫn back.out(1.3–1.4), cạnh theo sau power1.out | pill giãn 1.4–1.56x giữa chuyển động; đo chỉ chuyển sang phải; cùng kiểu thấy bằng mắt ở 2 clip khác (chưa đo) |
 | cursor_glide (trong tabSwitch) | 2 (1 clip) | 0.367s dù quãng 599 hay 246px | 0 | power2.inOut (lần 2 rmse 0.09) | pill đổi tab đúng lúc con trỏ tới (trễ 0–1 khung); nhãn tab đổi màu: ĐOÁN |
+| strike (gạch ngang) | 2 (1 clip) | vạch quét 0.148s (3.8–5.1 khung) | 0 | expo.out (rmse 0.0035, 0.017) | vạch phẳng đầu tròn màu nhấn, dày 0.087 chiều cao chữ (0.083–0.091), tâm ở 0.50 chiều cao chữ (0.42–0.58), vượt mép 0.06 bề rộng chữ mỗi bên (0.005–0.13: lệch); chữ ngả xám (grayscale + opacity 0.84) sau vạch 1 khung. Biến thể vạch mảnh kẻ tay ở 2 clip khác chưa đo |
+| mark (vệt tô vàng) | 2 (2 clip) | quét 0.164s (4.4–5.5 khung) | 0 | expo.out (rmse 0.0046, 0.0040) | màu `colors.mark` của theme (vàng #fcc435 ở default, #b36b00 ở night; kiểm tương phản >= 3.0 với chữ ở mọi theme) alpha 0.86 sau nửa dưới chữ (cao 0.49 hộp mực, 1 thể hiện), quét trái -> phải; hình học đỉnh/đáy quy từ 1 thể hiện (ĐOÁN ±0.05 em) |
+| outline (chữ rỗng, tĩnh) | 2 (2 clip) | — | — | — | viền = màu chữ, nét 0.05 chiều cao chữ không dấu (0.046–0.052) = 0.037 em; chỉ kiểu chữ, không có chuyển động riêng |
 | camera_dive | 2 | — | — | — | tốc độ đỉnh khác 16× (0.016–0.254 H/khung) |
 | flag_plant | 1 | cột 0.2s, cờ 0.17s (quá đà 6%) | — | power2.out, back.out(1) | clip 3: cờ hiện đúng 1 khung |
 
@@ -148,7 +151,12 @@ Mỗi mục chỉ xuất hiện ở một clip (danh sách đầy đủ ở `sty
 - Clip 3 (Lãi): đường + xe + đồng hồ xăng, thẻ "BẢNG ĐIỂM" hạng A, bình nước/ống dòng tiền, số 200 triệu / 1,2 tỷ.
 - Clip 4 (Dashboard): mockup điện thoại, ngôi nhà nứt, cầu thang/chồng 6 tầng iso, ếch "nhảy cóc", khối lego dấu hỏi.
 Quét thêm 2026-11-03 (không đo DNA): clip 5 (lương TB 30 triệu: hàng người/chấm trung vị, trục + cột 3D so sánh, thẻ BẢY n/3), clip 6 (Kaggle, 8 kho dữ liệu: tủ hồ sơ, sàn sân khấu, vòng quỹ đạo câu hỏi, chữ viền dày), clip 7 (Biểu đồ sai: pie 12 miếng, hình cá mập bẫy, bút đánh dấu vẽ tay) đều là nội dung riêng, KHÔNG thêm vào kit; clip `7701688706431831297` là cùng video với clip 1.
+Quét cuối 2026-11-03 (clip 8–12, không đo DNA, chỉ quét từ vựng): clip 8 `7703546789562977537` (báo cáo mỗi tuần: lưới ô 100 chấm tô dần theo %, ống nước nhiều tầng, thẻ giá "CHI PHÍ ? đ"), clip 9 `7703172341840235782` (AI chạy 7749 bước: mockup báo cáo với bộ đếm bước, con ngựa, chồng thẻ iso, trục AI nối bốn vệ tinh), clip 10 `7702043938013629716` (AI phân tích cả công ty: bàn làm việc ly cà phê + sổ tay, băng chuyền robot, la bàn), clip 11 `7701337835403726101` (AI Agent: số 100 -> 101 bị gạch, bếp iso Model/Environment/Harness, cốc nước đổ dần), clip 12 `7700593599045520641` (4 cây tài chính: cây quyết định, lưới chấm tách dần, bình nước dòng tiền) đều là nội dung riêng, KHÔNG thêm vào kit.
 Từ vựng hình ảnh chung quan sát ở ≥3 clip (xem tổng quan, không đo): pill tiến trình đánh số, tiêu đề 2 màu, khối iso xanh, khung góc vuông + lưới nền, thẻ MDA kết video.
+
+## Phạm vi quét kênh
+
+Kênh @phantichdulieu.mda: 12 clip đã quét hết (7 + 5), lấy từ danh sách clip gần đây của kênh lúc quét; trong repo không có gì chứng minh đó đúng là 12 clip MỚI NHẤT, nên đừng coi là toàn bộ kênh. 7 clip đầu gồm bốn clip đo DNA (`jobs/20261028-230040`, corp-sample-7699100876736040244, …7702430597297278228, …7702801642646899989) và ba clip quét thêm (…7700229527049358612, …7700960427491986696, …7699477231017446676); 5 clip quét cuối: …7703546789562977537, …7703172341840235782, …7702043938013629716, …7701337835403726101, …7700593599045520641. Vòng trước thêm 3 mục (`tabs`, `tabSwitch`, chữ nhấn nghiêng `~từ~`), vòng này thêm 3 (chữ rỗng viền `^từ^`, `strike`, `mark`), nên từ vựng chưa hết mà đã thu được phần lớn của 12 clip này: 43 mục (25 component, 13 effect, 5 transition). Con trỏ rời (≥4 clip) và nét bút vẽ tay (3 clip) đã đủ số clip nhưng chưa đo, để lại cho lần sau (xem "Chỗ hổng"); dải ruy-băng nghiêng (2 clip) cũng chưa đo.
 
 ## Bằng chứng và tái tạo
 
@@ -164,5 +172,6 @@ Khung xem tay (gitignored, tạo lại bằng `grid`/`strips`/`sheets`): `jobs/*
 - Lưới nền: chu kỳ đo trên một khung mỗi clip, rất mờ; khối iso: màu ba cụm xanh nhiều nhất trong hộp tay chọn.
 - Clip 2, 3 chỉ có bản 576x1024 (clip 1, 4: 720x1280): nét mảnh sai số lớn hơn, phân số W/H đã chuẩn hoá. Một số vai chữ/bo góc đo trên phần tử khác nhau giữa clip nên khoảng min–max rộng.
 - Mỗi primitive mỗi clip thường chỉ một thể hiện; đường cong ease khớp trên 3–30 mẫu 30fps. Số đếm đo gián tiếp qua thanh/diện tích. Camera dive chỉ đo tịnh tiến dọc.
-- Từ vựng chưa có trong kit (quét 2026-11-03, 3 clip): bút đánh dấu vẽ tay (khoanh/gạch chéo/gạch chân) ở 1–2 clip; con trỏ độc lập (không gắn tab) và gợn sóng lúc bấm; chưa đo.
+- Từ vựng chưa có trong kit (quét 2026-11-03): bút đánh dấu vẽ tay (khoanh/gạch chéo/gạch chân, ở 3 clip: 7702043938013629716, 7700960427491986696, 7701337835403726101) chưa đo; con trỏ độc lập (không gắn tab: nút "Gửi", "Gắn AI vào", ở ≥4 clip) và gợn sóng lúc bấm, chưa đo (chỉ có trượt con trỏ trong `tabSwitch`); dải ruy-băng xanh nghiêng ("KIỂM TRA", 2 clip), tia nắng nền ("HAI THỨ", 1 clip), từ dọc cỡ lớn xoay 90 độ ("HỒI XƯA", 1 clip), chữ số bóng ma "000" -> số thật (1–2 clip) đều chưa thêm vì chỉ 1–2 clip hoặc chưa đo; vệt tô xanh nhạt ('của bạn.', 7700593599045520641) khác vệt vàng chỉ ở màu.
+- `mark`: màu vệt là token theme `colors.mark`; `build-tokens.mjs` dừng nếu tương phản với `colors.ink` < 3.0 ở bất kỳ theme nào (hyperframes check không thấy được lớp vệt).
 - Chưa phân tích âm thanh (CLAUDE.md: không làm audio cho tới khi chủ yêu cầu).
