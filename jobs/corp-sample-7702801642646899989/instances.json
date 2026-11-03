@@ -1,0 +1,483 @@
+{
+ "id": "7702801642646899989",
+ "title": "Dashboard 2 tuan khong ai mo",
+ "url": "https://www.tiktok.com/@phantichdulieu.mda/video/7702801642646899989",
+ "samples": {
+  "yellow_flag": [
+   133,
+   202,
+   656,
+   2
+  ],
+  "card_white": [
+   28.5,
+   150,
+   520,
+   3
+  ],
+  "frame_stroke": [
+   61,
+   164,
+   520,
+   2
+  ],
+  "dot_active": [
+   109.7,
+   453,
+   196,
+   2
+  ],
+  "dot_done": [
+   109.7,
+   434,
+   203,
+   2
+  ]
+ },
+ "text": {
+  "headline": {
+   "t": 36.0,
+   "box": [
+    75,
+    205,
+    545,
+    320
+   ],
+   "thr": 100,
+   "note": "Dashboard chet yeu / khong vi do ky thuat (black + accent line)"
+  },
+  "subhead": {
+   "t": 16.5,
+   "box": [
+    78,
+    185,
+    255,
+    215
+   ],
+   "thr": 120,
+   "note": "Dashboard la (grey kicker)"
+  },
+  "caption": {
+   "t": 24.5,
+   "box": [
+    70,
+    272,
+    540,
+    415
+   ],
+   "thr": 80,
+   "lines": true,
+   "note": "Vi sao lam chuan / van bi bo xo? (2 lines, grey)"
+  },
+  "list_item": {
+   "t": 37.0,
+   "box": [
+    130,
+    865,
+    440,
+    1045
+   ],
+   "thr": 120,
+   "note": "Bieu do dep / Bo loc muot / Cong thuc chuan"
+  },
+  "pill_label": {
+   "t": 109.0,
+   "box": [
+    235,
+    180,
+    370,
+    222
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "TANG 5/6"
+  },
+  "display_number": {
+   "t": 58.8,
+   "box": [
+    85,
+    430,
+    245,
+    510
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "3,2 ty"
+  },
+  "percent_label": {
+   "t": 16.5,
+   "box": [
+    378,
+    718,
+    455,
+    760
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "18%"
+  }
+ },
+ "corner": [
+  {
+   "name": "main_card",
+   "t": 28.5,
+   "box": [
+    100,
+    640,
+    340,
+    735
+   ],
+   "corner": "bl",
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "list_card",
+   "t": 150.5,
+   "box": [
+    60,
+    840,
+    160,
+    940
+   ],
+   "corner": "tl",
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "pill",
+   "t": 61,
+   "box": [
+    195,
+    165,
+    330,
+    240
+   ],
+   "corner": "tl",
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "cta_frame",
+   "t": 61,
+   "box": [
+    140,
+    360,
+    300,
+    480
+   ],
+   "corner": "tl",
+   "mask": {
+    "rgb": "23,97,189,40"
+   }
+  }
+ ],
+ "shadow": [
+  {
+   "name": "main_card",
+   "t": 28.5,
+   "axis": "y",
+   "idx": 140,
+   "a": 713,
+   "len": 25
+  },
+  {
+   "name": "list_card",
+   "t": 150.5,
+   "axis": "y",
+   "idx": 300,
+   "a": 1068,
+   "len": 50
+  },
+  {
+   "name": "pill",
+   "t": 61,
+   "axis": "y",
+   "idx": 280,
+   "a": 230,
+   "len": 40
+  }
+ ],
+ "stroke": [
+  {
+   "name": "cta_frame",
+   "t": 61,
+   "axis": "y",
+   "idx": 190,
+   "a": 330,
+   "b": 760,
+   "thr": 60
+  }
+ ],
+ "dwell": {
+  "headline": {
+   "t0": 15.5,
+   "t1": 18.5,
+   "box": [
+    75,
+    225,
+    520,
+    345
+   ]
+  },
+  "caption": {
+   "t0": 23.5,
+   "t1": 26.5,
+   "box": [
+    70,
+    272,
+    540,
+    415
+   ]
+  },
+  "lesson_headline": {
+   "t0": 121.5,
+   "t1": 124.0,
+   "box": [
+    100,
+    120,
+    640,
+    200
+   ]
+  },
+  "stop_headline": {
+   "t0": 132.0,
+   "t1": 134.5,
+   "box": [
+    200,
+    160,
+    520,
+    240
+   ]
+  }
+ },
+ "motion": [
+  {
+   "primitive": "card_slide_in",
+   "kind": "ease",
+   "t0": 150.2,
+   "t1": 150.8,
+   "box": [
+    60,
+    790,
+    400,
+    1280
+   ],
+   "axis": "y",
+   "mask": {
+    "dark": "90",
+    "minrow": "6"
+   },
+   "label": "'Kiem lai cai AI dung' card rises from below; measured on its black text top edge"
+  },
+  {
+   "primitive": "number_count_up",
+   "part": "bar_driven",
+   "kind": "ease",
+   "t0": 31.2,
+   "t1": 33.3,
+   "box": [
+    60,
+    807,
+    500,
+    835
+   ],
+   "axis": "x1",
+   "mask": {
+    "rgb": "75,160,240,60",
+    "minrow": "3"
+   },
+   "label": "Ky thuat 0/10 -> 10/10 via segmented bar fill"
+  },
+  {
+   "primitive": "bar_fill",
+   "kind": "ease",
+   "t0": 31.2,
+   "t1": 33.3,
+   "box": [
+    60,
+    807,
+    500,
+    835
+   ],
+   "axis": "x1",
+   "mask": {
+    "rgb": "75,160,240,60",
+    "minrow": "3"
+   },
+   "label": "segmented 10-step progress bar (same bar as count-up)"
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar1",
+   "kind": "ease",
+   "t0": 108.3,
+   "t1": 109.3,
+   "box": [
+    330,
+    420,
+    415,
+    650
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "66,164,245,24",
+    "minrow": "20"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar2",
+   "kind": "ease",
+   "t0": 108.3,
+   "t1": 109.3,
+   "box": [
+    418,
+    420,
+    500,
+    650
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "25,117,209,30",
+    "minrow": "20"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar3",
+   "kind": "ease",
+   "t0": 108.3,
+   "t1": 109.3,
+   "box": [
+    505,
+    420,
+    590,
+    650
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "66,164,245,24",
+    "minrow": "20"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "pill_progress",
+   "kind": "hop",
+   "t0": 109.7,
+   "t1": 110.3,
+   "box": [
+    345,
+    175,
+    520,
+    225
+   ],
+   "mask": {
+    "rgb": "25,110,205,40",
+    "minrow": "3"
+   },
+   "min_hop": 15
+  },
+  {
+   "primitive": "button_click_swell",
+   "kind": "ease",
+   "t0": 9.85,
+   "t1": 10.1,
+   "box": [
+    530,
+    250,
+    690,
+    315
+   ],
+   "axis": "w",
+   "mask": {
+    "rgb": "26,115,212,30",
+    "minrow": "8"
+   },
+   "label": "Chia se button swell on click"
+  }
+ ],
+ "content_motifs": [
+  "phone mockup",
+  "cracked house",
+  "iso staircase / 6-layer stack ('tang')",
+  "frog 'nhay coc'",
+  "lego question block"
+ ],
+ "notes": {
+  "typed_text": "no typed text measured (a typing instance exists but was not measurable)",
+  "camera_dive": "no camera dive in this clip",
+  "_layout": "cta_frame corners are sharp (square)"
+ },
+ "cards": [
+  {
+   "name": "main_card",
+   "t": 28.5,
+   "box": [
+    80,
+    400,
+    360,
+    740
+   ]
+  },
+  {
+   "name": "pill",
+   "t": 61,
+   "box": [
+    180,
+    150,
+    540,
+    260
+   ]
+  }
+ ],
+ "grid": [
+  {
+   "name": "line_grid",
+   "t": 28.5,
+   "box": [
+    380,
+    300,
+    720,
+    420
+   ]
+  }
+ ],
+ "iso": [
+  {
+   "name": "iso_block",
+   "t": 116,
+   "box": [
+    560,
+    160,
+    650,
+    265
+   ]
+  }
+ ],
+ "cut_spot_check": {
+  "n": 10,
+  "real_cuts": 8,
+  "precision": "8/10",
+  "method": "10 rule cuts evenly spaced in time, judged by eye on 0.9s strips (-0.3..+0.5s): real = the composition/title is replaced; in-shot = same scene keeps animating",
+  "times": [
+   5.433,
+   30.3,
+   53.1,
+   80.567,
+   116.767,
+   135.533,
+   149.033,
+   159.9,
+   168.5,
+   173.8
+  ],
+  "notes": "real at 5.4, 30.3, 80.6, 116.8, 135.5, 149.0, 168.5, 173.8; in-shot at 53.1, 159.9"
+ }
+}

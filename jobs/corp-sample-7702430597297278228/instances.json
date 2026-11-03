@@ -1,0 +1,382 @@
+{
+ "id": "7702430597297278228",
+ "title": "Lai 200 trieu ma het tien",
+ "url": "https://www.tiktok.com/@phantichdulieu.mda/video/7702430597297278228",
+ "samples": {
+  "yellow_flag": [
+   158.5,
+   160,
+   413,
+   2
+  ],
+  "card_white": [
+   2.3,
+   420,
+   560,
+   3
+  ]
+ },
+ "text": {
+  "headline": {
+   "t": 8.8,
+   "box": [
+    60,
+    175,
+    380,
+    245
+   ],
+   "thr": 100,
+   "note": "Nghe vo ly? (black + blue word)"
+  },
+  "subhead": {
+   "t": 51.2,
+   "box": [
+    175,
+    203,
+    400,
+    238
+   ],
+   "thr": 100,
+   "note": "= dong ho xang (blue)"
+  },
+  "caption": {
+   "t": 158.5,
+   "box": [
+    80,
+    335,
+    260,
+    420
+   ],
+   "thr": 100,
+   "lines": true,
+   "note": "Voi toc do dot tien hien tai, minh con bao nhieu thang (3 lines, yellow highlight)"
+  },
+  "list_item": {
+   "t": 127.0,
+   "box": [
+    75,
+    364,
+    360,
+    392
+   ],
+   "thr": 100,
+   "note": "Theo doi / Ve duong (card titles)"
+  },
+  "pill_label": {
+   "t": 114.0,
+   "box": [
+    140,
+    142,
+    232,
+    166
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "BUOC 1/3"
+  },
+  "display_number": {
+   "t": 2.3,
+   "box": [
+    95,
+    395,
+    280,
+    468
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "+200"
+  }
+ },
+ "corner": [
+  {
+   "name": "main_card",
+   "t": 2.3,
+   "box": [
+    40,
+    300,
+    300,
+    600
+   ],
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "list_card",
+   "t": 51.2,
+   "box": [
+    20,
+    770,
+    140,
+    860
+   ],
+   "corner": "bl",
+   "mask": {
+    "light": "250"
+   }
+  },
+  {
+   "name": "pill",
+   "t": 130.5,
+   "box": [
+    90,
+    160,
+    190,
+    250
+   ],
+   "mask": {
+    "light": "252"
+   }
+  }
+ ],
+ "shadow": [
+  {
+   "name": "main_card",
+   "t": 2.3,
+   "axis": "y",
+   "idx": 120,
+   "a": 597,
+   "len": 40
+  },
+  {
+   "name": "list_card",
+   "t": 51.2,
+   "axis": "y",
+   "idx": 140,
+   "a": 842,
+   "len": 40
+  },
+  {
+   "name": "pill",
+   "t": 130.5,
+   "axis": "y",
+   "idx": 300,
+   "a": 232,
+   "len": 30
+  }
+ ],
+ "dwell": {
+  "headline": {
+   "t0": 4.0,
+   "t1": 6.0,
+   "box": [
+    60,
+    190,
+    520,
+    245
+   ]
+  },
+  "lead_caption": {
+   "t0": 152.1,
+   "t1": 154.5,
+   "box": [
+    60,
+    140,
+    300,
+    190
+   ]
+  },
+  "end_card": {
+   "t0": 165.3,
+   "t1": 167.9,
+   "box": [
+    40,
+    120,
+    540,
+    600
+   ]
+  }
+ },
+ "motion": [
+  {
+   "primitive": "card_slide_in",
+   "kind": "ease",
+   "t0": 3.35,
+   "t1": 3.88,
+   "box": [
+    0,
+    330,
+    576,
+    1024
+   ],
+   "axis": "y",
+   "mask": {
+    "rgb": "29,111,207,45",
+    "minrow": "8"
+   },
+   "label": "Tai khoan cong ty card rises from below (tracked by its blue content top)"
+  },
+  {
+   "primitive": "bar_fill",
+   "kind": "ease",
+   "t0": 142.95,
+   "t1": 144.3,
+   "box": [
+    70,
+    664,
+    470,
+    688
+   ],
+   "axis": "x1",
+   "mask": {
+    "rgb": "29,111,207,45",
+    "minrow": "2"
+   },
+   "label": "progress line fills left to right"
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar1",
+   "kind": "ease",
+   "t0": 9.55,
+   "t1": 10.25,
+   "box": [
+    60,
+    520,
+    110,
+    900
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "44,135,220,50",
+    "minrow": "10"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar2",
+   "kind": "ease",
+   "t0": 9.55,
+   "t1": 10.25,
+   "box": [
+    110,
+    520,
+    164,
+    900
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "44,135,220,50",
+    "minrow": "10"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar3",
+   "kind": "ease",
+   "t0": 9.55,
+   "t1": 10.25,
+   "box": [
+    164,
+    520,
+    218,
+    900
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "44,135,220,50",
+    "minrow": "10"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "pill_progress",
+   "kind": "hop",
+   "t0": 115.9,
+   "t1": 116.6,
+   "box": [
+    66,
+    140,
+    138,
+    168
+   ],
+   "mask": {
+    "rgb": "29,111,207,50",
+    "minrow": "2"
+   },
+   "min_hop": 15
+  },
+  {
+   "primitive": "camera_dive",
+   "kind": "vscroll",
+   "phases": {
+    "phase1": [
+     3.1,
+     3.5
+    ],
+    "phase2": [
+     43.25,
+     43.63
+    ]
+   }
+  }
+ ],
+ "content_motifs": [
+  "road + car + fuel gauge (cash runway)",
+  "scoreboard card 'BANG DIEM' grade A",
+  "water jar / cash-flow pipes",
+  "+200 trieu / 1,2 ty cash numbers"
+ ],
+ "notes": {
+  "typed_text": "text appears word by word, not per character; not measured",
+  "flag_plant": "flag is a single-frame appear; not measured",
+  "pill_progress": "progress dot only ~1px wide in the jump frame; not measurable",
+  "_layout": "list_card corner measured on a tilted card; 'yellow' = text highlight only"
+ },
+ "cards": [
+  {
+   "name": "main_card",
+   "t": 2.3,
+   "box": [
+    30,
+    290,
+    520,
+    630
+   ]
+  },
+  {
+   "name": "pill",
+   "t": 130.5,
+   "box": [
+    80,
+    150,
+    500,
+    260
+   ]
+  }
+ ],
+ "grid": [
+  {
+   "name": "dot_grid",
+   "t": 2.3,
+   "box": [
+    0,
+    740,
+    576,
+    1000
+   ]
+  }
+ ],
+ "iso": [],
+ "cut_spot_check": {
+  "n": 10,
+  "real_cuts": 6,
+  "precision": "6/10",
+  "method": "10 rule cuts evenly spaced in time, judged by eye on 0.9s strips (-0.3..+0.5s): real = the composition/title is replaced; in-shot = same scene keeps animating",
+  "times": [
+   3.333,
+   13.867,
+   31.533,
+   51.067,
+   59.3,
+   89.933,
+   110.467,
+   151.133,
+   159.867,
+   164.3
+  ],
+  "notes": "real at 3.3, 13.9, 59.3, 110.5, 159.9, 164.3; in-shot at 31.5, 51.1, 89.9, 151.1"
+ }
+}

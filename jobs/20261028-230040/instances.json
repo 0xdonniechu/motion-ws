@@ -1,0 +1,616 @@
+{
+ "id": "20261028-230040",
+ "title": "Power BI skill va 20% quyet dinh",
+ "url": "https://vt.tiktok.com/ZSgpXaahY/",
+ "curated_cuts": true,
+ "samples": {
+  "yellow_flag": [
+   103.5,
+   390,
+   570,
+   3
+  ],
+  "card_white": [
+   78,
+   200,
+   900,
+   4
+  ],
+  "frame_stroke": [
+   152,
+   360,
+   34,
+   2
+  ],
+  "dot_active": [
+   78,
+   452,
+   205,
+   2
+  ],
+  "dot_done": [
+   78,
+   364,
+   205,
+   2
+  ]
+ },
+ "text": {
+  "headline": {
+   "t": 28.0,
+   "box": [
+    150,
+    225,
+    570,
+    310
+   ],
+   "thr": 60,
+   "note": "Hai con so (black + accent word)"
+  },
+  "headline_question": {
+   "t": 78.0,
+   "box": [
+    100,
+    320,
+    620,
+    400
+   ],
+   "thr": 120,
+   "note": "Dang dua vao?"
+  },
+  "subhead": {
+   "t": 152.0,
+   "box": [
+    70,
+    480,
+    500,
+    545
+   ],
+   "thr": 120,
+   "note": "phan quyet dinh"
+  },
+  "caption": {
+   "t": 31.8,
+   "box": [
+    70,
+    835,
+    520,
+    950
+   ],
+   "thr": 100,
+   "lines": true,
+   "note": "Nho hon, nhung quyet dinh (2 lines)"
+  },
+  "list_item": {
+   "t": 152.0,
+   "box": [
+    170,
+    665,
+    570,
+    850
+   ],
+   "thr": 120,
+   "note": "dang tin / duoc phep dung"
+  },
+  "pill_label": {
+   "t": 78.0,
+   "box": [
+    195,
+    190,
+    332,
+    224
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "CAU 3/4"
+  },
+  "display_number": {
+   "t": 152.0,
+   "box": [
+    60,
+    255,
+    470,
+    435
+   ],
+   "thr": 120,
+   "digits": true,
+   "note": "20%"
+  },
+  "percent_label": {
+   "t": 28.0,
+   "box": [
+    200,
+    745,
+    610,
+    815
+   ],
+   "thr": 40,
+   "digits": true,
+   "note": "80% 20%"
+  }
+ },
+ "corner": [
+  {
+   "name": "main_card",
+   "t": 78,
+   "box": [
+    100,
+    430,
+    400,
+    700
+   ],
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "list_card",
+   "t": 152,
+   "box": [
+    60,
+    630,
+    300,
+    760
+   ],
+   "mask": {
+    "rgb": "205,232,248,14"
+   }
+  },
+  {
+   "name": "pill",
+   "t": 78,
+   "box": [
+    170,
+    160,
+    360,
+    260
+   ],
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "cta_frame",
+   "t": 152,
+   "box": [
+    0,
+    0,
+    400,
+    400
+   ],
+   "mask": {
+    "rgb": "21,101,192,40"
+   }
+  }
+ ],
+ "shadow": [
+  {
+   "name": "main_card",
+   "t": 78,
+   "axis": "y",
+   "idx": 360,
+   "a": 946,
+   "len": 70
+  },
+  {
+   "name": "list_card",
+   "t": 152,
+   "axis": "y",
+   "idx": 330,
+   "a": 745,
+   "len": 50
+  },
+  {
+   "name": "pill",
+   "t": 78,
+   "axis": "y",
+   "idx": 360,
+   "a": 238,
+   "len": 40
+  }
+ ],
+ "stroke": [
+  {
+   "name": "cta_frame",
+   "t": 152,
+   "axis": "x",
+   "idx": 640,
+   "a": 0,
+   "b": 720,
+   "thr": 60
+  },
+  {
+   "name": "icon_pole",
+   "t": 78,
+   "axis": "x",
+   "idx": 780,
+   "a": 330,
+   "b": 390,
+   "thr": 60
+  }
+ ],
+ "dwell": {
+  "headline": {
+   "t0": 25.8,
+   "t1": 32.8,
+   "box": [
+    150,
+    225,
+    570,
+    310
+   ]
+  },
+  "headline_question": {
+   "t0": 73.3,
+   "t1": 86.0,
+   "box": [
+    100,
+    320,
+    620,
+    400
+   ]
+  },
+  "lesson_caption": {
+   "t0": 117.6,
+   "t1": 121.8,
+   "box": [
+    0,
+    1000,
+    720,
+    1200
+   ]
+  },
+  "cta_card_text": {
+   "t0": 149.0,
+   "t1": 153.8,
+   "box": [
+    60,
+    255,
+    640,
+    560
+   ]
+  }
+ },
+ "motion": [
+  {
+   "primitive": "card_slide_in",
+   "kind": "ease",
+   "t0": 44.9,
+   "t1": 45.9,
+   "box": [
+    0,
+    700,
+    720,
+    1280
+   ],
+   "axis": "y",
+   "mask": {
+    "light": "252",
+    "minrow": "20"
+   },
+   "pre": [
+    44.9,
+    1296
+   ],
+   "label": "'Quan ly san pham' card from below, start extrapolated"
+  },
+  {
+   "primitive": "number_count_up",
+   "part": "bar_driven",
+   "kind": "ease",
+   "t0": 52.9,
+   "t1": 54.1,
+   "box": [
+    0,
+    500,
+    720,
+    620
+   ],
+   "axis": "x1",
+   "mask": {
+    "rgb": "146,202,246,22",
+    "minrow": "4"
+   },
+   "label": "count-up 0->80% via bar fill"
+  },
+  {
+   "primitive": "bar_fill",
+   "kind": "ease",
+   "t0": 26.8,
+   "t1": 27.4,
+   "box": [
+    60,
+    640,
+    500,
+    740
+   ],
+   "axis": "x1",
+   "mask": {
+    "rgb": "146,202,246,24",
+    "minrow": "4"
+   },
+   "label": "80/20 bar"
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar1",
+   "kind": "ease",
+   "t0": 5.0,
+   "t1": 6.2,
+   "box": [
+    120,
+    480,
+    240,
+    1000
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "66,164,245,24",
+    "minrow": "20"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar2",
+   "kind": "ease",
+   "t0": 5.0,
+   "t1": 6.2,
+   "box": [
+    240,
+    480,
+    340,
+    1000
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "66,164,245,24",
+    "minrow": "20"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar3",
+   "kind": "ease",
+   "t0": 5.0,
+   "t1": 6.2,
+   "box": [
+    340,
+    480,
+    470,
+    1000
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "22,110,201,30",
+    "minrow": "20"
+   },
+   "onset_min": 300
+  },
+  {
+   "primitive": "typed_text",
+   "kind": "typed",
+   "t0": 1.6,
+   "t1": 2.55,
+   "box": [
+    100,
+    615,
+    660,
+    685
+   ],
+   "mask": {
+    "rgb": "30,111,207,45",
+    "minrow": "2"
+   },
+   "chars_eye": [
+    [
+     1.63333,
+     1
+    ],
+    [
+     2.53333,
+     21
+    ]
+   ],
+   "label": "chars read by eye at exact 0-based frame indexes (n/30 s)"
+  },
+  {
+   "primitive": "pill_progress",
+   "kind": "hop",
+   "t0": 75.8,
+   "t1": 76.4,
+   "box": [
+    345,
+    180,
+    520,
+    232
+   ],
+   "mask": {
+    "rgb": "29,111,207,40",
+    "minrow": "3"
+   }
+  },
+  {
+   "primitive": "flag_plant",
+   "part": "pole",
+   "kind": "ease",
+   "t0": 102.683,
+   "t1": 103.0,
+   "box": [
+    340,
+    400,
+    390,
+    900
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "29,111,207,40",
+    "minrow": "2"
+   }
+  },
+  {
+   "primitive": "flag_plant",
+   "part": "banner",
+   "kind": "ease",
+   "t0": 103.0,
+   "t1": 103.9,
+   "box": [
+    360,
+    540,
+    640,
+    700
+   ],
+   "axis": "w",
+   "mask": {
+    "rgb": "251,197,59,30",
+    "minrow": "3"
+   }
+  },
+  {
+   "primitive": "node_radial",
+   "kind": "nodes",
+   "hub_t": 131.9,
+   "hub_box": [
+    250,
+    560,
+    470,
+    760
+   ],
+   "hub_mask": {
+    "rgb": "21,99,191,30",
+    "minrow": "10"
+   },
+   "t0": 131.2,
+   "t1": 133.0,
+   "mask": {
+    "dark": "110",
+    "minrow": "6"
+   },
+   "nodes": {
+    "doc-du-lieu": [
+     270,
+     340,
+     460,
+     420
+    ],
+    "viet-DAX": [
+     410,
+     470,
+     600,
+     550
+    ],
+    "dung-bieu-do": [
+     410,
+     795,
+     600,
+     875
+    ],
+    "tom-tat": [
+     260,
+     915,
+     450,
+     995
+    ],
+    "kiem-so": [
+     110,
+     785,
+     330,
+     870
+    ],
+    "gui-bao-cao": [
+     110,
+     440,
+     340,
+     520
+    ]
+   }
+  },
+  {
+   "primitive": "button_swell_pre_click",
+   "kind": "ease",
+   "t0": 113.5,
+   "t1": 115.3,
+   "box": [
+    60,
+    520,
+    660,
+    680
+   ],
+   "axis": "w",
+   "mask": {
+    "rgb": "52,142,228,22",
+    "minrow": "10"
+   },
+   "label": "swell before click"
+  },
+  {
+   "primitive": "camera_dive",
+   "kind": "vscroll",
+   "phases": {
+    "phase1": [
+     41.25,
+     42.3
+    ],
+    "phase2": [
+     42.85,
+     44.0
+    ]
+   }
+  }
+ ],
+ "content_motifs": [
+  "iceberg (phan noi / phan chim)",
+  "80/20 hanging number",
+  "Skill box + Microsoft Build mockup",
+  "flag 'dau moc'",
+  "6-node mindmap Agentic AI Analytics"
+ ],
+ "notes": {},
+ "cards": [
+  {
+   "name": "main_card",
+   "t": 78,
+   "box": [
+    100,
+    430,
+    620,
+    970
+   ]
+  },
+  {
+   "name": "pill",
+   "t": 78,
+   "box": [
+    170,
+    170,
+    560,
+    245
+   ]
+  }
+ ],
+ "grid": [
+  {
+   "name": "line_grid",
+   "t": 78,
+   "box": [
+    0,
+    1000,
+    720,
+    1250
+   ]
+  }
+ ],
+ "iso": [
+  {
+   "name": "iso_block",
+   "t": 11.8,
+   "box": [
+    200,
+    700,
+    520,
+    970
+   ]
+  }
+ ]
+}

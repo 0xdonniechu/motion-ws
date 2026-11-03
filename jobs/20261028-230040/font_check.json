@@ -1,0 +1,705 @@
+{
+ "vietnamese_codepoints_required": 134,
+ "ref_strings": [
+  {
+   "name": "clip1 Hai con số",
+   "text": "Hai con số"
+  },
+  {
+   "name": "clip1 Đáng đưa vào?",
+   "text": "Đáng đưa vào?"
+  },
+  {
+   "name": "clip1 nhưng quyết định",
+   "text": "nhưng quyết định"
+  },
+  {
+   "name": "clip2 Con số gộp",
+   "text": "Con số gộp"
+  },
+  {
+   "name": "clip3 Tháng này",
+   "text": "Tháng này"
+  },
+  {
+   "name": "clip3 lãi 200 triệu.",
+   "text": "lãi 200 triệu."
+  },
+  {
+   "name": "clip4 Một câu",
+   "text": "Một câu"
+  },
+  {
+   "name": "clip4 Truy vết nguồn gốc",
+   "text": "Truy vết nguồn gốc"
+  }
+ ],
+ "ref_stem_over_xheight": 0.33,
+ "fonts": {
+  "Be Vietnam Pro": {
+   "vietnamese_missing_in_primary": 0,
+   "vietnamese_coverage_pct_primary": 100.0,
+   "per_string": {
+    "clip1 Hai con số": {
+     "700": {
+      "iou": 0.641,
+      "aspect_ratio_vs_ref": 0.968,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.696,
+      "aspect_ratio_vs_ref": 0.988,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.715,
+      "aspect_ratio_vs_ref": 1.002,
+      "fallback_chars": 0
+     }
+    },
+    "clip1 Đáng đưa vào?": {
+     "700": {
+      "iou": 0.547,
+      "aspect_ratio_vs_ref": 1.045,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.574,
+      "aspect_ratio_vs_ref": 1.06,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.597,
+      "aspect_ratio_vs_ref": 1.048,
+      "fallback_chars": 0
+     }
+    },
+    "clip1 nhưng quyết định": {
+     "700": {
+      "iou": 0.593,
+      "aspect_ratio_vs_ref": 0.943,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.639,
+      "aspect_ratio_vs_ref": 0.946,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.685,
+      "aspect_ratio_vs_ref": 0.957,
+      "fallback_chars": 0
+     }
+    },
+    "clip2 Con số gộp": {
+     "700": {
+      "iou": 0.337,
+      "aspect_ratio_vs_ref": 1.086,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.359,
+      "aspect_ratio_vs_ref": 1.095,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.385,
+      "aspect_ratio_vs_ref": 1.1,
+      "fallback_chars": 0
+     }
+    },
+    "clip3 Tháng này": {
+     "700": {
+      "iou": 0.581,
+      "aspect_ratio_vs_ref": 1.0,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.601,
+      "aspect_ratio_vs_ref": 1.018,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.618,
+      "aspect_ratio_vs_ref": 1.008,
+      "fallback_chars": 0
+     }
+    },
+    "clip3 lãi 200 triệu.": {
+     "700": {
+      "iou": 0.68,
+      "aspect_ratio_vs_ref": 1.086,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.718,
+      "aspect_ratio_vs_ref": 1.087,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.766,
+      "aspect_ratio_vs_ref": 1.094,
+      "fallback_chars": 0
+     }
+    },
+    "clip4 Một câu": {
+     "700": {
+      "iou": 0.727,
+      "aspect_ratio_vs_ref": 0.995,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.776,
+      "aspect_ratio_vs_ref": 1.002,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.774,
+      "aspect_ratio_vs_ref": 1.003,
+      "fallback_chars": 0
+     }
+    },
+    "clip4 Truy vết nguồn gốc": {
+     "700": {
+      "iou": 0.095,
+      "aspect_ratio_vs_ref": 1.111,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.098,
+      "aspect_ratio_vs_ref": 1.124,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.102,
+      "aspect_ratio_vs_ref": 1.119,
+      "fallback_chars": 0
+     }
+    }
+   },
+   "per_weight": {
+    "700": {
+     "mean_iou": 0.525,
+     "mean_abs_aspect_error": 0.053,
+     "stem_over_xheight": 0.289,
+     "fallback_chars_total": 0
+    },
+    "800": {
+     "mean_iou": 0.558,
+     "mean_abs_aspect_error": 0.056,
+     "stem_over_xheight": 0.321,
+     "fallback_chars_total": 0
+    },
+    "900": {
+     "mean_iou": 0.58,
+     "mean_abs_aspect_error": 0.052,
+     "stem_over_xheight": 0.358,
+     "fallback_chars_total": 0
+    }
+   },
+   "mean_best_iou": 0.581,
+   "mean_abs_aspect_error_at_best_iou": 0.052
+  },
+  "Montserrat": {
+   "vietnamese_missing_in_primary": 0,
+   "vietnamese_coverage_pct_primary": 100.0,
+   "per_string": {
+    "clip1 Hai con số": {
+     "700": {
+      "iou": 0.712,
+      "aspect_ratio_vs_ref": 1.105,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.762,
+      "aspect_ratio_vs_ref": 1.125,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.761,
+      "aspect_ratio_vs_ref": 1.141,
+      "fallback_chars": 0
+     }
+    },
+    "clip1 Đáng đưa vào?": {
+     "700": {
+      "iou": 0.647,
+      "aspect_ratio_vs_ref": 1.128,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.715,
+      "aspect_ratio_vs_ref": 1.129,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.735,
+      "aspect_ratio_vs_ref": 1.143,
+      "fallback_chars": 0
+     }
+    },
+    "clip1 nhưng quyết định": {
+     "700": {
+      "iou": 0.699,
+      "aspect_ratio_vs_ref": 1.137,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.783,
+      "aspect_ratio_vs_ref": 1.128,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.795,
+      "aspect_ratio_vs_ref": 1.117,
+      "fallback_chars": 0
+     }
+    },
+    "clip2 Con số gộp": {
+     "700": {
+      "iou": 0.34,
+      "aspect_ratio_vs_ref": 1.239,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.381,
+      "aspect_ratio_vs_ref": 1.231,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.414,
+      "aspect_ratio_vs_ref": 1.219,
+      "fallback_chars": 0
+     }
+    },
+    "clip3 Tháng này": {
+     "700": {
+      "iou": 0.678,
+      "aspect_ratio_vs_ref": 1.096,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.745,
+      "aspect_ratio_vs_ref": 1.097,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.758,
+      "aspect_ratio_vs_ref": 1.11,
+      "fallback_chars": 0
+     }
+    },
+    "clip3 lãi 200 triệu.": {
+     "700": {
+      "iou": 0.64,
+      "aspect_ratio_vs_ref": 1.106,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.706,
+      "aspect_ratio_vs_ref": 1.09,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.7,
+      "aspect_ratio_vs_ref": 1.083,
+      "fallback_chars": 0
+     }
+    },
+    "clip4 Một câu": {
+     "700": {
+      "iou": 0.689,
+      "aspect_ratio_vs_ref": 1.073,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.758,
+      "aspect_ratio_vs_ref": 1.062,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.768,
+      "aspect_ratio_vs_ref": 1.059,
+      "fallback_chars": 0
+     }
+    },
+    "clip4 Truy vết nguồn gốc": {
+     "700": {
+      "iou": 0.132,
+      "aspect_ratio_vs_ref": 1.278,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.134,
+      "aspect_ratio_vs_ref": 1.29,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.135,
+      "aspect_ratio_vs_ref": 1.304,
+      "fallback_chars": 0
+     }
+    }
+   },
+   "per_weight": {
+    "700": {
+     "mean_iou": 0.567,
+     "mean_abs_aspect_error": 0.145,
+     "stem_over_xheight": 0.286,
+     "fallback_chars_total": 0
+    },
+    "800": {
+     "mean_iou": 0.623,
+     "mean_abs_aspect_error": 0.144,
+     "stem_over_xheight": 0.35,
+     "fallback_chars_total": 0
+    },
+    "900": {
+     "mean_iou": 0.633,
+     "mean_abs_aspect_error": 0.147,
+     "stem_over_xheight": 0.415,
+     "fallback_chars_total": 0
+    }
+   },
+   "mean_best_iou": 0.634,
+   "mean_abs_aspect_error_at_best_iou": 0.146
+  },
+  "Outfit + Be Vietnam Pro fallback": {
+   "vietnamese_missing_in_primary": 96,
+   "vietnamese_coverage_pct_primary": 28.4,
+   "per_string": {
+    "clip1 Hai con số": {
+     "700": {
+      "iou": 0.59,
+      "aspect_ratio_vs_ref": 0.87,
+      "fallback_chars": 1
+     },
+     "800": {
+      "iou": 0.63,
+      "aspect_ratio_vs_ref": 0.885,
+      "fallback_chars": 1
+     },
+     "900": {
+      "iou": 0.635,
+      "aspect_ratio_vs_ref": 0.899,
+      "fallback_chars": 1
+     }
+    },
+    "clip1 Đáng đưa vào?": {
+     "700": {
+      "iou": 0.67,
+      "aspect_ratio_vs_ref": 0.955,
+      "fallback_chars": 1
+     },
+     "800": {
+      "iou": 0.678,
+      "aspect_ratio_vs_ref": 0.964,
+      "fallback_chars": 1
+     },
+     "900": {
+      "iou": 0.674,
+      "aspect_ratio_vs_ref": 0.958,
+      "fallback_chars": 1
+     }
+    },
+    "clip1 nhưng quyết định": {
+     "700": {
+      "iou": 0.628,
+      "aspect_ratio_vs_ref": 0.877,
+      "fallback_chars": 3
+     },
+     "800": {
+      "iou": 0.649,
+      "aspect_ratio_vs_ref": 0.882,
+      "fallback_chars": 3
+     },
+     "900": {
+      "iou": 0.642,
+      "aspect_ratio_vs_ref": 0.893,
+      "fallback_chars": 3
+     }
+    },
+    "clip2 Con số gộp": {
+     "700": {
+      "iou": 0.301,
+      "aspect_ratio_vs_ref": 0.994,
+      "fallback_chars": 2
+     },
+     "800": {
+      "iou": 0.324,
+      "aspect_ratio_vs_ref": 1.002,
+      "fallback_chars": 2
+     },
+     "900": {
+      "iou": 0.344,
+      "aspect_ratio_vs_ref": 1.007,
+      "fallback_chars": 2
+     }
+    },
+    "clip3 Tháng này": {
+     "700": {
+      "iou": 0.552,
+      "aspect_ratio_vs_ref": 0.927,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.57,
+      "aspect_ratio_vs_ref": 0.939,
+      "fallback_chars": 0
+     },
+     "900": {
+      "iou": 0.581,
+      "aspect_ratio_vs_ref": 0.937,
+      "fallback_chars": 0
+     }
+    },
+    "clip3 lãi 200 triệu.": {
+     "700": {
+      "iou": 0.652,
+      "aspect_ratio_vs_ref": 1.002,
+      "fallback_chars": 1
+     },
+     "800": {
+      "iou": 0.689,
+      "aspect_ratio_vs_ref": 1.012,
+      "fallback_chars": 1
+     },
+     "900": {
+      "iou": 0.722,
+      "aspect_ratio_vs_ref": 1.019,
+      "fallback_chars": 1
+     }
+    },
+    "clip4 Một câu": {
+     "700": {
+      "iou": 0.544,
+      "aspect_ratio_vs_ref": 0.909,
+      "fallback_chars": 1
+     },
+     "800": {
+      "iou": 0.586,
+      "aspect_ratio_vs_ref": 0.918,
+      "fallback_chars": 1
+     },
+     "900": {
+      "iou": 0.589,
+      "aspect_ratio_vs_ref": 0.92,
+      "fallback_chars": 1
+     }
+    },
+    "clip4 Truy vết nguồn gốc": {
+     "700": {
+      "iou": 0.085,
+      "aspect_ratio_vs_ref": 1.013,
+      "fallback_chars": 3
+     },
+     "800": {
+      "iou": 0.084,
+      "aspect_ratio_vs_ref": 1.025,
+      "fallback_chars": 3
+     },
+     "900": {
+      "iou": 0.093,
+      "aspect_ratio_vs_ref": 1.037,
+      "fallback_chars": 3
+     }
+    }
+   },
+   "per_weight": {
+    "700": {
+     "mean_iou": 0.503,
+     "mean_abs_aspect_error": 0.06,
+     "stem_over_xheight": 0.315,
+     "fallback_chars_total": 12
+    },
+    "800": {
+     "mean_iou": 0.526,
+     "mean_abs_aspect_error": 0.057,
+     "stem_over_xheight": 0.356,
+     "fallback_chars_total": 12
+    },
+    "900": {
+     "mean_iou": 0.535,
+     "mean_abs_aspect_error": 0.057,
+     "stem_over_xheight": 0.401,
+     "fallback_chars_total": 12
+    }
+   },
+   "mean_best_iou": 0.536,
+   "mean_abs_aspect_error_at_best_iou": 0.058
+  },
+  "Plus Jakarta Sans": {
+   "vietnamese_missing_in_primary": 0,
+   "vietnamese_coverage_pct_primary": 100.0,
+   "per_string": {
+    "clip1 Hai con số": {
+     "700": {
+      "iou": 0.651,
+      "aspect_ratio_vs_ref": 0.957,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.703,
+      "aspect_ratio_vs_ref": 0.96,
+      "fallback_chars": 0
+     }
+    },
+    "clip1 Đáng đưa vào?": {
+     "700": {
+      "iou": 0.534,
+      "aspect_ratio_vs_ref": 0.943,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.531,
+      "aspect_ratio_vs_ref": 0.944,
+      "fallback_chars": 0
+     }
+    },
+    "clip1 nhưng quyết định": {
+     "700": {
+      "iou": 0.676,
+      "aspect_ratio_vs_ref": 0.978,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.748,
+      "aspect_ratio_vs_ref": 0.973,
+      "fallback_chars": 0
+     }
+    },
+    "clip2 Con số gộp": {
+     "700": {
+      "iou": 0.273,
+      "aspect_ratio_vs_ref": 1.118,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.303,
+      "aspect_ratio_vs_ref": 1.101,
+      "fallback_chars": 0
+     }
+    },
+    "clip3 Tháng này": {
+     "700": {
+      "iou": 0.637,
+      "aspect_ratio_vs_ref": 0.889,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.665,
+      "aspect_ratio_vs_ref": 0.891,
+      "fallback_chars": 0
+     }
+    },
+    "clip3 lãi 200 triệu.": {
+     "700": {
+      "iou": 0.552,
+      "aspect_ratio_vs_ref": 1.001,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.577,
+      "aspect_ratio_vs_ref": 0.994,
+      "fallback_chars": 0
+     }
+    },
+    "clip4 Một câu": {
+     "700": {
+      "iou": 0.567,
+      "aspect_ratio_vs_ref": 0.945,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.6,
+      "aspect_ratio_vs_ref": 0.936,
+      "fallback_chars": 0
+     }
+    },
+    "clip4 Truy vết nguồn gốc": {
+     "700": {
+      "iou": 0.135,
+      "aspect_ratio_vs_ref": 1.086,
+      "fallback_chars": 0
+     },
+     "800": {
+      "iou": 0.139,
+      "aspect_ratio_vs_ref": 1.092,
+      "fallback_chars": 0
+     }
+    }
+   },
+   "per_weight": {
+    "700": {
+     "mean_iou": 0.503,
+     "mean_abs_aspect_error": 0.062,
+     "stem_over_xheight": 0.239,
+     "fallback_chars_total": 0
+    },
+    "800": {
+     "mean_iou": 0.533,
+     "mean_abs_aspect_error": 0.062,
+     "stem_over_xheight": 0.274,
+     "fallback_chars_total": 0
+    }
+   },
+   "mean_best_iou": 0.534,
+   "mean_abs_aspect_error_at_best_iou": 0.062
+  }
+ },
+ "recommendation": {
+  "status": "chờ chủ duyệt",
+  "family": "Montserrat",
+  "weight": 800,
+  "weight_rule": "weight whose rendered stem/x-height is closest to the measured 0.33 (headline, 4 clips); per-weight stem ratios and IoU in fonts.<family>.per_weight",
+  "rule": "eligible = single font with 100% of the Vietnamese codepoints (Fontsource files); rank by mean over the 8 cropped strings of the best-weight raw IoU (rendered text resized to the crop's ink box vs the crop); aspect error (width/height of rendered text vs crop) is reported separately, not mixed into the rank",
+  "top2": [
+   {
+    "family": "Montserrat",
+    "mean_best_iou": 0.634,
+    "mean_abs_aspect_error": 0.146,
+    "stem_over_xheight_by_weight": {
+     "700": 0.286,
+     "800": 0.35,
+     "900": 0.415
+    }
+   },
+   {
+    "family": "Be Vietnam Pro",
+    "mean_best_iou": 0.581,
+    "mean_abs_aspect_error": 0.052,
+    "stem_over_xheight_by_weight": {
+     "700": 0.289,
+     "800": 0.321,
+     "900": 0.358
+    }
+   }
+  ],
+  "excluded": {
+   "Outfit (primary)": "28.4% Vietnamese coverage (no vietnamese subset); 'Outfit + Be Vietnam Pro fallback' is a mixed font, listed for comparison only (mean_best_iou 0.536)"
+  },
+  "caveat": "the reference letters look single-storey (a, g) like Outfit; none of the eligible fonts has a single-storey a. IoU is a rough shape match, not font identification: choose by eye on a test scene.",
+  "scores_all": {
+   "Be Vietnam Pro": {
+    "mean_best_iou": 0.581,
+    "mean_abs_aspect_error_at_best_iou": 0.052,
+    "vietnamese_coverage_pct_primary": 100.0
+   },
+   "Montserrat": {
+    "mean_best_iou": 0.634,
+    "mean_abs_aspect_error_at_best_iou": 0.146,
+    "vietnamese_coverage_pct_primary": 100.0
+   },
+   "Outfit + Be Vietnam Pro fallback": {
+    "mean_best_iou": 0.536,
+    "mean_abs_aspect_error_at_best_iou": 0.058,
+    "vietnamese_coverage_pct_primary": 28.4
+   },
+   "Plus Jakarta Sans": {
+    "mean_best_iou": 0.534,
+    "mean_abs_aspect_error_at_best_iou": 0.062,
+    "vietnamese_coverage_pct_primary": 100.0
+   }
+  }
+ }
+}
