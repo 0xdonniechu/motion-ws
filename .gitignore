@@ -30,3 +30,6 @@ templates/*/tmp/
 templates/*/joins/
 templates/*/list.txt
 templates/*/render-log.txt
+# phiên agent
+HANDOFF.md
+.claude/settings.local.json
