@@ -15,8 +15,8 @@ Quy tắc của chủ: **ngôn ngữ chuyển động cố định**, preset m�
 | `colors` | `surface` (thẻ), `accent_dark/primary/mid/light`, `ink`, `ink_secondary`, `yellow` (điểm nhấn nhỏ) |
 | `page` | `tint` (nền mặc định), `white` (nền thứ hai; ở theme tối là nền tối hơn/sáng hơn một bậc) |
 | `iso` | ba mặt khối iso, sáng tới tối |
-| `font` | `family`, `body_weight`; trọng lượng tiêu đề nằm ở `type.roles.*.weight` |
-| `type` | `roles.<vai>.{weight, scale}` (cỡ px = `language.type.sizes_px` x scale; chỉnh scale để bù độ rộng font), `line_height_em`, `letter_spacing_em`, `label_letter_spacing_em`, `case.{headline,label}` (`none` hoặc `uppercase`), `highlight.{style: color or marker, marker_alpha}` |
+| `font` | `family`, `body_weight`, `accent_family` (font chữ nhấn nghiêng `~từ~`); trọng lượng tiêu đề nằm ở `type.roles.*.weight` |
+| `type` | `roles.<vai>.{weight, scale}` (cỡ px = `language.type.sizes_px` x scale; chỉnh scale để bù độ rộng font), `line_height_em`, `letter_spacing_em`, `label_letter_spacing_em`, `case.{headline,label}` (`none` hoặc `uppercase`), `highlight.{style: color or marker, marker_alpha}`, `accent_italic.weight` (độ đậm chữ nhấn nghiêng; tỉ lệ cỡ 1.27 là language) |
 | `shadow` | `rgb` (tông màu của bóng; alpha, blur, offset nằm ở language) |
 
 `build-tokens.mjs` từ chối theme có khoá ngoài danh sách trên (kể cả `radii`, `shadow.alpha_scale`) hoặc thiếu khoá bắt buộc. `kit.js` và `kit.css` không chứa màu/font cứng, chỉ đọc biến `--k-*` sinh từ tokens.

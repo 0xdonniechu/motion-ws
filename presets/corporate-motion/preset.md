@@ -4,7 +4,7 @@ Phong cách "corporate motion graphics" dọc 9:16, 2–3 phút của kênh @pha
 chữ đậm hình học (đen + một từ nhấn xanh), pill tiến trình làm neo, số khổng lồ, khối iso xanh. Dùng để clip mới với nội dung khác vẫn mang cùng vibe; KHÔNG dựng lại khung-từng-khung.
 Số đo máy đọc nằm ở `style.json`: mỗi token có giá trị từng clip, trung vị, khoảng, n, CORE/OPTIONAL và `disagree`. Khối `build_defaults` trong đó chọn MỘT giá trị cho mỗi token (đủ để dựng scene); phần "Giá trị dựng mặc định" bên dưới là bản đọc cho người của khối đó.
 
-Trạng thái: có số đo 4 clip, token và giá trị dựng mặc định. Có kit `kit/` (từ vựng `catalog.json`: 24 component, 10 effect, 5 transition; scene chỉ gọi theo tên), tách `language.json` (chuyển động, cố định) và `themes/<tên>.json` (màu, font, kiểu chữ), xem `THEMING.md`; clip mẫu đủ 8 beat ở `jobs/20261103-corp-demo-dashboard/full/`. Font: CHỜ CHỦ DUYỆT.
+Trạng thái: có số đo 4 clip, token và giá trị dựng mặc định. Có kit `kit/` (từ vựng `catalog.json`: 25 component, 11 effect, 5 transition; scene chỉ gọi theo tên; `tabs` + `tabSwitch` và chữ nhấn nghiêng `~từ~` bổ sung 2026-11-03 từ 3 clip quét thêm), tách `language.json` (chuyển động, cố định) và `themes/<tên>.json` (màu, font, kiểu chữ), xem `THEMING.md`; clip mẫu đủ 8 beat ở `jobs/20261103-corp-demo-dashboard/full/`. Font: CHỜ CHỦ DUYỆT.
 
 Lệnh mỏng `/corporate-motion` (skill `.claude/skills/corporate-motion/`): LLM chỉ viết `script.json` (dạng ở `script.schema.json`: tiêu đề, theme, beat theo khung beat dưới đây, item = tên component trong catalog + prop chữ/số, effect theo tên + giây từ đầu beat, chuyển cảnh); máy làm phần còn lại. `tools/build-clip.mjs` kiểm schema + catalog + `layouts.json` (slot = toạ độ, thuộc preset) rồi sinh scene toàn lời gọi kit; thiếu tên trong catalog thì dừng ("thiếu mục X trong catalog"), không vẽ. `tools/make.sh <script.json> [--theme t]` sinh, render, `hyperframes check`, thử tua, `tools/style-check.py` (so DNA, chỉ báo cáo). Clip mẫu: `jobs/20261103-corp-demo-dashboard/script.json`.
 
@@ -74,6 +74,8 @@ Họ ease được so theo tên đầy đủ (bậc và chiều): `power1.inOut`
 
 Chuyển cảnh và nhịp phụ thuộc mốc cắt: chỉ từ clip 1 (mốc duyệt bằng mắt, n=1): dissolve 33% số mốc (0.33s), wash nền 23% (0.23s), cắt cứng 20% (1 khung), wipe dải xanh 17% (0.33s), flash xanh 7% (0.33s); cảnh trung vị 4.8s (p10 2.4s, p90 8.2s), 10.9 cắt/phút. Các kiểu chuyển cảnh đều cũng thấy ở clip 2–4 nhưng tỉ lệ ở đó không đáng tin. Không phụ thuộc mốc cắt (4 clip): đợt chuyển động 0.36s xen khoảng đứng yên 0.83s, ~30 đợt/phút.
 
+**Chữ nhấn nghiêng có chân (chủ duyệt 2026-11-03: Newsreader italic):** gốc dùng một từ/cụm nghiêng có chân, màu nhấn, ở 3/3 clip quét thêm ("trung vị", "hình ảnh.", "biểu đồ"). Là token kiểu chữ, không phải component: markup `~từ~` trong prop chữ của `text`, `quoteCard`, `chatBox`… và trong effect `typing` (cạnh `*từ*`). Số đo (`jobs/corp-sample-7700229527049358612/accent_italic.json`, `measure_accent_italic.py`): cỡ = **1.27x** chữ không chân đứng cạnh (1.24 và 1.29; hai cặp cùng x-height: 17/17px và 28/27px ở khung 576; sxHeight Newsreader italic 0.426 em, Be Vietnam Pro 0.530 em); khi thay số khổng lồ cỡ ~164px (0.152 W). Độ đậm **500** (độ dài chạy ngang/x-height gốc 0.207; Newsreader dựng 400 = 0.178, 500 = 0.219; n=1). Màu = màu nhấn; không in đậm. Tỉ lệ 1.27 ở `language.json` (`type.accent_italic`), font và độ đậm ở theme (`font.accent_family`, `type.accent_italic.weight`; cả `default` và `night`). Font: ba subset woff2 latin / latin-ext / vietnamese sao từ `jobs/20261102-full/shared/fonts` vào `kit/fonts/` (không lấy lại nguồn). Giấy phép: `kit/fonts/newsreader_OFL.txt` (LICENSE của gói Fontsource @fontsource-variable/newsreader 5.3.0; cùng nội dung bản OFL ở `~/work/video-skills`, chỉ thêm dòng bản quyền theo tệp).
+
 **Font: Be Vietnam Pro 800** (chủ duyệt 2026-11-03, ghi trong `jobs/20261028-230040/owner_decisions.json`). Theo luật xếp hạng IoU, Montserrat 800 đứng đầu, Be Vietnam Pro thứ hai; chủ chọn Be Vietnam Pro vì độ rộng chữ chỉ lệch 5% (Montserrat 15%), xuống dòng giống gốc. Bằng chứng (`jobs/20261028-230040/font_check.py` → `font_check.json`, gói Fontsource; 8 chữ có dấu cắt từ 4 clip: "Hai con số", "Đáng đưa vào?", "nhưng quyết định", "Con số gộp", "Tháng này", "lãi 200 triệu.", "Một câu", "Truy vết nguồn gốc"; dựng ở 700/800/900):
 
 | Font | Phủ tiếng Việt (134 ký tự) | IoU thô TB (trọng lượng tốt nhất mỗi chuỗi) | Sai tỉ lệ rộng/cao TB (riêng) | Nét/x-height 700 / 800 / 900 |
@@ -97,7 +99,7 @@ Luật: chỉ xét font đơn phủ đủ 100%; xếp theo IoU thô (chữ dựn
 
 ## Token OPTIONAL
 
-typed_text (2/4), camera_dive (2/4), flash-wipe (clip 1, 3), headline_question, flag_plant, node_radial, chat_autoscroll, chart_bar_fall, icon_pole (mỗi cái 1 clip), button (tách thành 3 hành vi, mỗi hành vi 1 clip), lưới ô vuông và lưới chấm (mỗi kiểu 2 clip). Dùng khi nội dung cần, không bắt buộc cho vibe.
+typed_text (2/4), camera_dive (2/4), flash-wipe (clip 1, 3), headline_question, flag_plant, node_radial, chat_autoscroll, chart_bar_fall, icon_pole (mỗi cái 1 clip), button (tách thành 3 hành vi, mỗi hành vi 1 clip), lưới ô vuông và lưới chấm (mỗi kiểu 2 clip), tabs + con trỏ chuột (thấy ở 3 clip quét thêm 2026-11-03: `jobs/corp-sample-7700229527049358612`, `…7700960427491986696`, `…7699477231017446676`; đo ở clip đầu, `instances.json` → `tabs_cursor`). Dùng khi nội dung cần, không bắt buộc cho vibe.
 
 ## Primitive: số đo và chỗ các clip KHÔNG khớp
 
@@ -114,6 +116,8 @@ Mỗi ô là trung vị (min–max) trên các clip đo được; "ease" là tê
 | button_swell_pre_click (clip 1) | 1 | 1.4s | 0 | power1.in | phồng 1.0→1.175 rồi bấm |
 | button_pop (clip 2) | 1 | 0.6s | 0 | tuyến tính | pop rồi thả |
 | button_click_swell (clip 4) | 1 | 0.07s | 0 | expo.out | phồng khi bấm, 2 khung |
+| tab_switch (tabs) | 2 (1 clip) | cạnh dẫn 0.2–0.23s, cạnh theo sau 0.40–0.43s | cạnh dẫn 0.057–0.061 | cạnh dẫn back.out(1.3–1.4), cạnh theo sau power1.out | pill giãn 1.4–1.56x giữa chuyển động; đo chỉ chuyển sang phải; cùng kiểu thấy bằng mắt ở 2 clip khác (chưa đo) |
+| cursor_glide (trong tabSwitch) | 2 (1 clip) | 0.367s dù quãng 599 hay 246px | 0 | power2.inOut (lần 2 rmse 0.09) | pill đổi tab đúng lúc con trỏ tới (trễ 0–1 khung); nhãn tab đổi màu: ĐOÁN |
 | camera_dive | 2 | — | — | — | tốc độ đỉnh khác 16× (0.016–0.254 H/khung) |
 | flag_plant | 1 | cột 0.2s, cờ 0.17s (quá đà 6%) | — | power2.out, back.out(1) | clip 3: cờ hiện đúng 1 khung |
 
@@ -143,6 +147,7 @@ Mỗi mục chỉ xuất hiện ở một clip (danh sách đầy đủ ở `sty
 - Clip 2 (OEE): ẩn dụ xô nước rò, nhà máy iso, lưới ô vuông đơn vị (60.000/72.000), khung chat "Còn AI?", cột rơi 100%→85%→72.3%.
 - Clip 3 (Lãi): đường + xe + đồng hồ xăng, thẻ "BẢNG ĐIỂM" hạng A, bình nước/ống dòng tiền, số 200 triệu / 1,2 tỷ.
 - Clip 4 (Dashboard): mockup điện thoại, ngôi nhà nứt, cầu thang/chồng 6 tầng iso, ếch "nhảy cóc", khối lego dấu hỏi.
+Quét thêm 2026-11-03 (không đo DNA): clip 5 (lương TB 30 triệu: hàng người/chấm trung vị, trục + cột 3D so sánh, thẻ BẢY n/3), clip 6 (Kaggle, 8 kho dữ liệu: tủ hồ sơ, sàn sân khấu, vòng quỹ đạo câu hỏi, chữ viền dày), clip 7 (Biểu đồ sai: pie 12 miếng, hình cá mập bẫy, bút đánh dấu vẽ tay) đều là nội dung riêng, KHÔNG thêm vào kit; clip `7701688706431831297` là cùng video với clip 1.
 Từ vựng hình ảnh chung quan sát ở ≥3 clip (xem tổng quan, không đo): pill tiến trình đánh số, tiêu đề 2 màu, khối iso xanh, khung góc vuông + lưới nền, thẻ MDA kết video.
 
 ## Bằng chứng và tái tạo
@@ -159,4 +164,5 @@ Khung xem tay (gitignored, tạo lại bằng `grid`/`strips`/`sheets`): `jobs/*
 - Lưới nền: chu kỳ đo trên một khung mỗi clip, rất mờ; khối iso: màu ba cụm xanh nhiều nhất trong hộp tay chọn.
 - Clip 2, 3 chỉ có bản 576x1024 (clip 1, 4: 720x1280): nét mảnh sai số lớn hơn, phân số W/H đã chuẩn hoá. Một số vai chữ/bo góc đo trên phần tử khác nhau giữa clip nên khoảng min–max rộng.
 - Mỗi primitive mỗi clip thường chỉ một thể hiện; đường cong ease khớp trên 3–30 mẫu 30fps. Số đếm đo gián tiếp qua thanh/diện tích. Camera dive chỉ đo tịnh tiến dọc.
+- Từ vựng chưa có trong kit (quét 2026-11-03, 3 clip): bút đánh dấu vẽ tay (khoanh/gạch chéo/gạch chân) ở 1–2 clip; con trỏ độc lập (không gắn tab) và gợn sóng lúc bấm; chưa đo.
 - Chưa phân tích âm thanh (CLAUDE.md: không làm audio cho tới khi chủ yêu cầu).

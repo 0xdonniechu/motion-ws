@@ -1,0 +1,252 @@
+{
+ "title": "Thử chữ nhấn nghiêng ~từ~ (kiểm kit)",
+ "theme": "default",
+ "beats": [
+  {
+   "type": "wow-demo",
+   "duration": 4,
+   "layout": "headline-dashboard",
+   "page": {
+    "mode": "tint",
+    "grid": "line"
+   },
+   "transition": {
+    "use": "wash"
+   },
+   "items": [
+    {
+     "use": "text",
+     "slot": "headline",
+     "props": {
+      "role": "headline"
+     },
+     "effects": [
+      {
+       "use": "typing",
+       "at": 0.73,
+       "props": {
+        "text": "Dashboard *đẹp* như ~phim~.",
+        "caretHold": 0.3
+       }
+      }
+     ]
+    },
+    {
+     "use": "dashboardCard",
+     "slot": "card",
+     "props": {
+      "title": "Doanh thu tuần 12",
+      "kpi": {
+       "label": "đạt kế hoạch"
+      },
+      "bars": [
+       200,
+       280,
+       240,
+       330,
+       300,
+       380
+      ]
+     },
+     "effects": [
+      {
+       "use": "slideIn",
+       "at": 0,
+       "props": {
+        "fade": 0
+       }
+      },
+      {
+       "use": "countUp",
+       "at": 0.67,
+       "target": "num",
+       "props": {
+        "to": 87,
+        "suffix": "%"
+       }
+      },
+      {
+       "use": "barFill",
+       "at": 0.67,
+       "target": "fill",
+       "props": {
+        "to": 0.87,
+        "like": "count"
+       }
+      },
+      {
+       "use": "chartPop",
+       "at": 0.57
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "hanging-number",
+   "duration": 4,
+   "layout": "stat-question",
+   "page": {
+    "mode": "white"
+   },
+   "transition": {
+    "use": "bar-wipe"
+   },
+   "items": [
+    {
+     "use": "statCard",
+     "slot": "stat",
+     "props": {
+      "tag": "Số minh hoạ",
+      "lead": "Dashboard họp tuần có",
+      "unit": "biểu đồ.",
+      "progress": true
+     },
+     "effects": [
+      {
+       "use": "slideIn",
+       "at": 0.1,
+       "props": {
+        "fade": 0
+       }
+      },
+      {
+       "use": "countUp",
+       "at": 0.77,
+       "target": "num",
+       "props": {
+        "to": 47,
+        "align": "center"
+       }
+      },
+      {
+       "use": "barFill",
+       "at": 0.77,
+       "target": "fill",
+       "props": {
+        "to": 0.94
+       }
+      },
+      {
+       "use": "fadeUp",
+       "at": 1.27,
+       "target": "unit"
+      },
+      {
+       "use": "fadeUp",
+       "at": 1.43,
+       "target": "bar",
+       "props": {
+        "y": 0
+       }
+      },
+      {
+       "use": "fadeUp",
+       "at": 0.2,
+       "target": "tag",
+       "props": {
+        "y": 0,
+        "duration": 0.2
+       }
+      }
+     ]
+    },
+    {
+     "use": "text",
+     "slot": "question",
+     "props": {
+      "role": "headline",
+      "text": "Mấy cái ~đổi được~ một quyết định?"
+     },
+     "effects": [
+      {
+       "use": "fadeUp",
+       "at": 1.67
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "duration": 6,
+   "layout": "stat-ask-button",
+   "page": {
+    "mode": "white"
+   },
+   "items": [
+    {
+     "use": "statCard",
+     "slot": "stat",
+     "props": {
+      "lead": "Trong 47 biểu đồ, giữ lại",
+      "unit": "con số."
+     },
+     "effects": [
+      {
+       "use": "slideIn",
+       "at": 0.03,
+       "props": {
+        "fade": 0
+       }
+      },
+      {
+       "use": "countUp",
+       "at": 0.7,
+       "target": "num",
+       "props": {
+        "from": 47,
+        "to": 1,
+        "align": "center"
+       }
+      },
+      {
+       "use": "fadeUp",
+       "at": 1.2,
+       "target": "unit"
+      },
+      {
+       "use": "fadeUp",
+       "at": 1.37,
+       "target": "bar",
+       "props": {
+        "y": 0
+       }
+      }
+     ]
+    },
+    {
+     "use": "text",
+     "slot": "ask",
+     "props": {
+      "role": "headline",
+      "text": "Bạn sẽ giữ *con số* nào?"
+     },
+     "effects": [
+      {
+       "use": "fadeUp",
+       "at": 1.6
+      }
+     ]
+    },
+    {
+     "use": "button",
+     "slot": "button",
+     "props": {
+      "label": "Lưu lại"
+     },
+     "effects": [
+      {
+       "use": "fadeUp",
+       "at": 2
+      },
+      {
+       "use": "pulse",
+       "at": 2.5
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

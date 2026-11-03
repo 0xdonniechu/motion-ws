@@ -15,9 +15,9 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 </style>
 </head>
 <body>
-<!-- Thẻ demo cho MỌI mục của catalog.json (24 component, 10 effect, 5 transition): mỗi mục có nhãn tên và được gọi đúng một lần. Cảnh = lời gọi theo tên, không vẽ riêng.
-     `node build-tokens.mjs --check-catalog` kiểm mỗi tên catalog có trong tệp này; chuyển cảnh nối g1..g8 theo thứ tự dissolve, wash, bar-wipe, hard, flash, dissolve, hard. -->
-<div id="root" data-composition-id="main" data-start="0" data-duration="19.2" data-width="1080" data-height="1920" data-fps="30">
+<!-- Thẻ demo cho MỌI mục của catalog.json (25 component, 11 effect, 5 transition): mỗi mục có nhãn tên và được gọi đúng một lần. Cảnh = lời gọi theo tên, không vẽ riêng.
+     `node build-tokens.mjs --check-catalog` kiểm mỗi tên catalog có trong tệp này; chuyển cảnh nối g1..g9 theo thứ tự dissolve, wash, bar-wipe, hard, flash, dissolve, hard, hard. -->
+<div id="root" data-composition-id="main" data-start="0" data-duration="21.6" data-width="1080" data-height="1920" data-fps="30">
   <section id="g1" class="clip k-scene" data-start="0" data-duration="2.6667" data-track-index="1"></section>
   <section id="g2" class="clip k-scene" data-start="2.3333" data-duration="2.6" data-track-index="2"></section>
   <section id="g3" class="clip k-scene" data-start="4.7" data-duration="2.6667" data-track-index="3"></section>
@@ -26,6 +26,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
   <section id="g6" class="clip k-scene" data-start="11.8333" data-duration="2.7333" data-track-index="6"></section>
   <section id="g7" class="clip k-scene" data-start="14.2333" data-duration="2.6" data-track-index="7"></section>
   <section id="g8" class="clip k-scene" data-start="16.8" data-duration="2.4" data-track-index="8"></section>
+  <section id="g9" class="clip k-scene" data-start="19.2" data-duration="2.4" data-track-index="9"></section>
 </div>
 <script>
 const tl = gsap.timeline({ paused: true }), f = (n) => n / 30, S = Kit.scene;
@@ -132,6 +133,15 @@ const cb = Kit.make("chatBox", S("g8"), { x: 90, y: 860, w: 900, messages: [{ fr
 Kit.fx("slideIn", tl, tb, { at: g(7) + f(2), fade: 0 });
 Kit.fx("fadeUp", tl, cb.bubbles[0], { at: g(7) + f(22) });
 Kit.fx("fadeUp", tl, cb.bubbles[1], { at: g(7) + f(34) });
+
+// ---- g9 (tint): tabs + tabSwitch (con trỏ lướt, pill đổi tab) ----
+Kit.tx("hard", tl, { from: S("g8"), to: S("g9"), at: g(8) });
+Kit.make("page", S("g9"), { mode: "tint" });
+tag(S("g9"), "tabs · tabSwitch", 90, 300);
+const tbs = Kit.make("tabs", S("g9"), { x: 170, y: 420, labels: ["Doanh thu", "Xử lý", "Hài lòng"] });
+Kit.make("card", S("g9"), { x: 90, y: 560, w: 900, h: 520 });
+Kit.fx("tabSwitch", tl, tbs, { at: g(8) + f(12), to: 2 });
+Kit.fx("tabSwitch", tl, tbs, { at: g(8) + f(40), to: 3 });
 
 window.__timelines["main"] = tl;
 </script>

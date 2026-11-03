@@ -1,0 +1,79 @@
+{
+ "cases": [
+  {
+   "clip": "corp-sample-7699477231017446676",
+   "t": 98.0,
+   "text": "tra cứu",
+   "kind": "sans",
+   "xheight_px": 17,
+   "rows": [
+    240,
+    256
+   ],
+   "frame_w": 576,
+   "font_size_px": 32.1,
+   "font_size_frac_W": 0.0557
+  },
+  {
+   "clip": "corp-sample-7699477231017446676",
+   "t": 98.0,
+   "text": "biểu đồ",
+   "kind": "serif_italic",
+   "xheight_px": 17,
+   "rows": [
+    240,
+    256
+   ],
+   "frame_w": 576,
+   "font_size_px": 39.9,
+   "font_size_frac_W": 0.0693
+  },
+  {
+   "clip": "corp-sample-7699477231017446676",
+   "t": 102.0,
+   "text": "Từ điển",
+   "kind": "sans",
+   "xheight_px": 27,
+   "rows": [
+    201,
+    227
+   ],
+   "frame_w": 576,
+   "font_size_px": 50.9,
+   "font_size_frac_W": 0.0884
+  },
+  {
+   "clip": "corp-sample-7699477231017446676",
+   "t": 102.0,
+   "text": "hình ảnh.",
+   "kind": "serif_italic",
+   "xheight_px": 28,
+   "rows": [
+    256,
+    283
+   ],
+   "frame_w": 576,
+   "font_size_px": 65.7,
+   "font_size_frac_W": 0.1141
+  },
+  {
+   "clip": "corp-sample-7700229527049358612",
+   "t": 40.0,
+   "text": "trung vị",
+   "kind": "serif_italic",
+   "xheight_px": 70,
+   "rows": [
+    567,
+    636
+   ],
+   "frame_w": 1080,
+   "font_size_px": 164.3,
+   "font_size_frac_W": 0.1521
+  }
+ ],
+ "ratio_italic_over_sans": [
+  1.243,
+  1.291
+ ],
+ "ratio_mean": 1.267
+}
