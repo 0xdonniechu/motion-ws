@@ -1,0 +1,4119 @@
+{
+ "name": "corporate-motion",
+ "version": 2,
+ "clips": [
+  {
+   "id": "20261028-230040",
+   "title": "Power BI skill va 20% quyet dinh",
+   "url": "https://vt.tiktok.com/ZSgpXaahY/",
+   "source": {
+    "codec": "hevc",
+    "size": [
+     720,
+     1280
+    ],
+    "fps": 30.0,
+    "duration_s": 165.4,
+    "bit_rate": 113328
+   }
+  },
+  {
+   "id": "7699100876736040244",
+   "title": "OEE",
+   "url": "https://www.tiktok.com/@phantichdulieu.mda/video/7699100876736040244",
+   "source": {
+    "codec": "h264",
+    "size": [
+     576,
+     1024
+    ],
+    "fps": 30.0,
+    "duration_s": 167.0,
+    "bit_rate": 237681
+   }
+  },
+  {
+   "id": "7702430597297278228",
+   "title": "Lai 200 trieu ma het tien",
+   "url": "https://www.tiktok.com/@phantichdulieu.mda/video/7702430597297278228",
+   "source": {
+    "codec": "h264",
+    "size": [
+     576,
+     1024
+    ],
+    "fps": 30.0,
+    "duration_s": 168.0,
+    "bit_rate": 302792
+   }
+  },
+  {
+   "id": "7702801642646899989",
+   "title": "Dashboard 2 tuan khong ai mo",
+   "url": "https://www.tiktok.com/@phantichdulieu.mda/video/7702801642646899989",
+   "source": {
+    "codec": "hevc",
+    "size": [
+     720,
+     1280
+    ],
+    "fps": 30.0,
+    "duration_s": 176.0,
+    "bit_rate": 76411
+   }
+  }
+ ],
+ "tiering": "CORE = token measured in >= 3 of the clips; OPTIONAL = 1-2 clips. min-max across clips; median over the clips that have it (n).",
+ "units": "fractions of frame W/H (x1080 / x1920 for px), seconds at 30fps",
+ "colors": {
+  "bg": {
+   "values": [
+    "#ecf5fc",
+    "#eef7fc",
+    "#eff7fc",
+    "#f4f9fd"
+   ],
+   "median": "#eef7fc",
+   "max_rgb_distance": 9.0,
+   "n": 4,
+   "tier": "CORE"
+  },
+  "surface": {
+   "values": [
+    "#fdfdfd",
+    "#fdfdfd",
+    "#fdfdfd",
+    "#fdfdfd"
+   ],
+   "median": "#fdfdfd",
+   "max_rgb_distance": 0.0,
+   "n": 4,
+   "tier": "CORE",
+   "pixel_share_by_clip": [
+    0.398,
+    0.53,
+    0.586,
+    0.47
+   ]
+  },
+  "accent_dark": {
+   "values": [
+    "#1362bc",
+    "#1663b9",
+    "#1765ba",
+    "#1564b7"
+   ],
+   "median": "#1664ba",
+   "max_rgb_distance": 5.7,
+   "n": 4,
+   "tier": "CORE"
+  },
+  "accent_primary": {
+   "values": [
+    "#1771cd",
+    "#1874d0",
+    "#1871cd",
+    "#1873ce"
+   ],
+   "median": "#1872ce",
+   "max_rgb_distance": 4.4,
+   "n": 4,
+   "tier": "CORE"
+  },
+  "accent_mid": {
+   "values": [
+    "#41a4f3",
+    "#3c96e5",
+    "#3995e6",
+    "#43a3f2"
+   ],
+   "median": "#3e9cec",
+   "max_rgb_distance": 21.4,
+   "n": 4,
+   "tier": "CORE"
+  },
+  "accent_light": {
+   "values": [
+    "#8ec8f6",
+    "#8ec8f7",
+    "#96cbf7",
+    "#87c3f4"
+   ],
+   "median": "#8ec8f6",
+   "max_rgb_distance": 17.3,
+   "n": 4,
+   "tier": "CORE"
+  },
+  "ink": {
+   "values": [
+    "#010102",
+    "#010102",
+    "#010101",
+    "#010102"
+   ],
+   "median": "#010102",
+   "max_rgb_distance": 1.0,
+   "n": 4,
+   "tier": "CORE"
+  },
+  "ink_secondary": {
+   "values": [
+    "#35383a",
+    "#44484c",
+    "#37393a",
+    "#393b3c"
+   ],
+   "median": "#383a3b",
+   "max_rgb_distance": 28.4,
+   "n": 4,
+   "tier": "CORE"
+  },
+  "yellow": {
+   "values": [
+    "#fcc435",
+    "#fcc435",
+    null,
+    "#fcc435"
+   ],
+   "median": "#fcc435",
+   "max_rgb_distance": 0.0,
+   "n": 3,
+   "tier": "CORE",
+   "pixel_share_by_clip": [
+    0.0,
+    0.001,
+    0.0,
+    0.001
+   ]
+  },
+  "page_background": {
+   "modes": {
+    "tint": {
+     "colour_median": "#eef7fc",
+     "colour_by_clip": [
+      "#ecf5fc",
+      "#eef7fc",
+      "#eff7fc",
+      "#f4f9fd"
+     ],
+     "frame_share": {
+      "values": [
+       0.858,
+       0.925,
+       0.536,
+       0.699
+      ],
+      "n": 4,
+      "median": 0.778,
+      "min": 0.536,
+      "max": 0.925
+     },
+     "lum_p10": {
+      "values": [
+       228.2,
+       236.8,
+       236.8,
+       236.8
+      ],
+      "n": 4,
+      "median": 236.8,
+      "min": 228.2,
+      "max": 236.8
+     },
+     "lum_p90": {
+      "values": [
+       252.5,
+       252.0,
+       250.3,
+       251.7
+      ],
+      "n": 4,
+      "median": 251.85,
+      "min": 250.3,
+      "max": 252.5
+     },
+     "p10_colour_by_clip": [
+      "#d2e9fb",
+      "#e1f0fb",
+      "#e1f0fb",
+      "#e1f0fb"
+     ],
+     "p90_colour_by_clip": [
+      "#fcfdfb",
+      "#fcfcfc",
+      "#f6fcfd",
+      "#fbfcfc"
+     ]
+    },
+    "white": {
+     "colour_median": "#fdfdfd",
+     "colour_by_clip": [
+      "#fdfdfd",
+      "#fdfdfd",
+      "#fdfdfd",
+      "#fdfdfd"
+     ],
+     "frame_share": {
+      "values": [
+       0.142,
+       0.075,
+       0.464,
+       0.301
+      ],
+      "n": 4,
+      "median": 0.221,
+      "min": 0.075,
+      "max": 0.464
+     },
+     "edge_pixel_share": {
+      "values": [
+       0.314,
+       0.417,
+       0.494,
+       0.398
+      ],
+      "n": 4,
+      "median": 0.407,
+      "min": 0.314,
+      "max": 0.494
+     },
+     "frame_share_by_decile_median": [
+      0.0,
+      0.175,
+      0.0,
+      0.0,
+      0.294,
+      0.5,
+      0.556,
+      0.057,
+      0.0,
+      0.343
+     ],
+     "frame_share_by_decile_by_clip": [
+      [
+       0.576,
+       0.121,
+       0.273,
+       0.0,
+       0.0,
+       0.0,
+       0.455,
+       0.0,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.242,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.5
+      ],
+      [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.588,
+       1.0,
+       0.706,
+       1.0,
+       1.0,
+       0.353
+      ],
+      [
+       0.0,
+       0.229,
+       0.0,
+       0.0,
+       0.667,
+       1.0,
+       0.657,
+       0.114,
+       0.0,
+       0.333
+      ]
+     ]
+    }
+   },
+   "mode_rule": "frame = white page when > 70% of its edge pixels (left/right 4%, top 3%, bottom 5%) are card-white (min channel >= 253); otherwise tint. Both modes are normal: the page is NOT always tinted and NOT always white.",
+   "tint_gradient": {
+    "vertical_stops": [
+     {
+      "at": 0.025,
+      "values": [
+       "#ecf5fb",
+       "#e9f5fc",
+       "#ebf5fc",
+       "#eff7fc"
+      ],
+      "median": "#ecf5fc"
+     },
+     {
+      "at": 0.275,
+      "values": [
+       "#eef7fd",
+       "#f3f9fd",
+       "#eff9fd",
+       "#f4fafd"
+      ],
+      "median": "#f1f9fd"
+     },
+     {
+      "at": 0.525,
+      "values": [
+       "#eff7fc",
+       "#f6fcfd",
+       "#f6fbfd",
+       "#f4fafd"
+      ],
+      "median": "#f5fafd"
+     },
+     {
+      "at": 0.775,
+      "values": [
+       "#ebf5fc",
+       "#f3f9fc",
+       "#ebf6fc",
+       "#f3f9fd"
+      ],
+      "median": "#eff8fc"
+     },
+     {
+      "at": 0.975,
+      "values": [
+       "#e6f2fc",
+       "#e9f5fc",
+       "#e2f2fb",
+       "#edf6fc"
+      ],
+      "median": "#e8f4fc"
+     }
+    ],
+    "horizontal_stops_bottom_row": [
+     {
+      "at": 0.02,
+      "values": [
+       "#e4f2fc",
+       "#e9f5fc",
+       "#e2f2fb",
+       "#edf6fc"
+      ],
+      "median": "#e6f4fc"
+     },
+     {
+      "at": 0.5,
+      "values": [
+       "#ebf5fc",
+       "#f9fafc",
+       "#f4fafd",
+       "#f5fbfd"
+      ],
+      "median": "#f4fafc"
+     },
+     {
+      "at": 0.98,
+      "values": [
+       "#e6f2fc",
+       "#e9f5fc",
+       "#e2f2fb",
+       "#edf6fc"
+      ],
+      "median": "#e8f4fc"
+     }
+    ],
+    "centre_median": "#ebf4fc",
+    "vertical_lum_delta_top_minus_bottom": {
+     "values": [
+      3.4,
+      0.0,
+      4.6,
+      1.2
+     ],
+     "n": 4,
+     "median": 2.3,
+     "min": 0.0,
+     "max": 4.6
+    },
+    "horizontal_lum_delta_left_minus_right": {
+     "values": [
+      -0.6,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n": 4,
+     "median": 0.0,
+     "min": -0.6,
+     "max": 0.0
+    },
+    "centre_minus_edge_lum": {
+     "values": [
+      -4.8,
+      -0.6,
+      -0.6,
+      -7.3
+     ],
+     "n": 4,
+     "median": -2.7,
+     "min": -7.3,
+     "max": -0.6
+    },
+    "note": "centre_minus_edge_lum is NEGATIVE (median -2.5): the centre patch is slightly DARKER than the edge median (cards' shadows and light-blue elements sit there), while the side-edge stops show the middle band ~2.5 lum lighter than the top/bottom. Direction is not consistent between clips, magnitude <= 8 lum: treat the tint as flat."
+   },
+   "n": 4,
+   "tier": "CORE"
+  },
+  "accent_pixel_share": {
+   "values": [
+    0.05,
+    0.05,
+    0.046,
+    0.047
+   ],
+   "n": 4,
+   "median": 0.048,
+   "min": 0.046,
+   "max": 0.05
+  },
+  "ink_pixel_share": {
+   "values": [
+    0.013,
+    0.013,
+    0.011,
+    0.016
+   ],
+   "n": 4,
+   "median": 0.013,
+   "min": 0.011,
+   "max": 0.016
+  },
+  "rule": "one blue hue in 4-5 tints on a near-white field, black ink + one grey; yellow is a rare single accent"
+ },
+ "typography": {
+  "roles": {
+   "headline": {
+    "em_frac_H": {
+     "values": [
+      0.048,
+      0.031,
+      0.055,
+      0.041
+     ],
+     "n": 4,
+     "median": 0.044,
+     "min": 0.031,
+     "max": 0.055
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.024,
+      0.016,
+      0.027,
+      0.02
+     ],
+     "n": 4,
+     "median": 0.022,
+     "min": 0.016,
+     "max": 0.027
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.35,
+      0.31,
+      0.36,
+      0.31
+     ],
+     "n": 4,
+     "median": 0.33,
+     "min": 0.31,
+     "max": 0.36
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.16,
+      0.19,
+      0.11,
+      0.08
+     ],
+     "n": 4,
+     "median": 0.135,
+     "min": 0.08,
+     "max": 0.19
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      null,
+      null,
+      null,
+      null
+     ],
+     "n": 0,
+     "median": null,
+     "min": null,
+     "max": null
+    },
+    "n": 4,
+    "tier": "CORE",
+    "digits": false,
+    "em_px_1080x1920_median": 84,
+    "disagree": [
+     "letter gap varies 2.4x (0.08-0.19)"
+    ]
+   },
+   "headline_question": {
+    "em_frac_H": {
+     "values": [
+      0.045,
+      null,
+      null,
+      null
+     ],
+     "n": 1,
+     "median": 0.045,
+     "min": 0.045,
+     "max": 0.045
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.023,
+      null,
+      null,
+      null
+     ],
+     "n": 1,
+     "median": 0.023,
+     "min": 0.023,
+     "max": 0.023
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.34,
+      null,
+      null,
+      null
+     ],
+     "n": 1,
+     "median": 0.34,
+     "min": 0.34,
+     "max": 0.34
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.14,
+      null,
+      null,
+      null
+     ],
+     "n": 1,
+     "median": 0.14,
+     "min": 0.14,
+     "max": 0.14
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      null,
+      null,
+      null,
+      null
+     ],
+     "n": 0,
+     "median": null,
+     "min": null,
+     "max": null
+    },
+    "n": 1,
+    "tier": "OPTIONAL",
+    "digits": false,
+    "em_px_1080x1920_median": 86,
+    "disagree": []
+   },
+   "subhead": {
+    "em_frac_H": {
+     "values": [
+      0.045,
+      0.027,
+      0.031,
+      0.019
+     ],
+     "n": 4,
+     "median": 0.029,
+     "min": 0.019,
+     "max": 0.045
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.023,
+      0.014,
+      0.016,
+      0.009
+     ],
+     "n": 4,
+     "median": 0.015,
+     "min": 0.009,
+     "max": 0.023
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.28,
+      0.29,
+      0.31,
+      0.25
+     ],
+     "n": 4,
+     "median": 0.285,
+     "min": 0.25,
+     "max": 0.31
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.17,
+      0.14,
+      0.16,
+      0.25
+     ],
+     "n": 4,
+     "median": 0.165,
+     "min": 0.14,
+     "max": 0.25
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      null,
+      null,
+      null,
+      null
+     ],
+     "n": 0,
+     "median": null,
+     "min": null,
+     "max": null
+    },
+    "n": 4,
+    "tier": "CORE",
+    "digits": false,
+    "em_px_1080x1920_median": 56,
+    "disagree": [
+     "size varies 2.4x (0.0187-0.0453)"
+    ]
+   },
+   "caption": {
+    "em_frac_H": {
+     "values": [
+      0.039,
+      0.033,
+      0.065,
+      0.044
+     ],
+     "n": 4,
+     "median": 0.041,
+     "min": 0.033,
+     "max": 0.065
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.019,
+      0.017,
+      0.032,
+      0.022
+     ],
+     "n": 4,
+     "median": 0.021,
+     "min": 0.017,
+     "max": 0.032
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.36,
+      0.35,
+      0.12,
+      0.29
+     ],
+     "n": 4,
+     "median": 0.32,
+     "min": 0.12,
+     "max": 0.36
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.18,
+      0.18,
+      0.03,
+      0.18
+     ],
+     "n": 4,
+     "median": 0.18,
+     "min": 0.03,
+     "max": 0.18
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      2.21,
+      null,
+      1.94,
+      2.06
+     ],
+     "n": 3,
+     "median": 2.06,
+     "min": 1.94,
+     "max": 2.21
+    },
+    "n": 4,
+    "tier": "CORE",
+    "digits": false,
+    "em_px_1080x1920_median": 79,
+    "disagree": [
+     "stem/x-height varies 3.0x (0.12-0.36)",
+     "letter gap varies 6.0x (0.03-0.18)"
+    ]
+   },
+   "list_item": {
+    "em_frac_H": {
+     "values": [
+      0.034,
+      0.019,
+      0.023,
+      0.028
+     ],
+     "n": 4,
+     "median": 0.026,
+     "min": 0.019,
+     "max": 0.034
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.017,
+      0.01,
+      0.012,
+      0.014
+     ],
+     "n": 4,
+     "median": 0.013,
+     "min": 0.01,
+     "max": 0.017
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.36,
+      0.3,
+      0.33,
+      0.28
+     ],
+     "n": 4,
+     "median": 0.315,
+     "min": 0.28,
+     "max": 0.36
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.16,
+      0.1,
+      0.17,
+      0.17
+     ],
+     "n": 4,
+     "median": 0.165,
+     "min": 0.1,
+     "max": 0.17
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      null,
+      null,
+      null,
+      null
+     ],
+     "n": 0,
+     "median": null,
+     "min": null,
+     "max": null
+    },
+    "n": 4,
+    "tier": "CORE",
+    "digits": false,
+    "em_px_1080x1920_median": 50,
+    "disagree": []
+   },
+   "pill_label": {
+    "em_frac_H": {
+     "values": [
+      0.021,
+      0.022,
+      0.017,
+      0.02
+     ],
+     "n": 4,
+     "median": 0.021,
+     "min": 0.017,
+     "max": 0.022
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.015,
+      0.016,
+      0.012,
+      0.014
+     ],
+     "n": 4,
+     "median": 0.014,
+     "min": 0.012,
+     "max": 0.016
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.21,
+      0.12,
+      0.25,
+      0.28
+     ],
+     "n": 4,
+     "median": 0.23,
+     "min": 0.12,
+     "max": 0.28
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.18,
+      0.12,
+      0.17,
+      0.22
+     ],
+     "n": 4,
+     "median": 0.175,
+     "min": 0.12,
+     "max": 0.22
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      null,
+      null,
+      null,
+      null
+     ],
+     "n": 0,
+     "median": null,
+     "min": null,
+     "max": null
+    },
+    "n": 4,
+    "tier": "CORE",
+    "digits": true,
+    "em_px_1080x1920_median": 40,
+    "disagree": [
+     "stem/x-height varies 2.3x (0.12-0.28)"
+    ]
+   },
+   "display_number": {
+    "em_frac_H": {
+     "values": [
+      0.157,
+      0.084,
+      0.077,
+      0.061
+     ],
+     "n": 4,
+     "median": 0.08,
+     "min": 0.061,
+     "max": 0.157
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.11,
+      0.059,
+      0.054,
+      0.043
+     ],
+     "n": 4,
+     "median": 0.056,
+     "min": 0.043,
+     "max": 0.11
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.26,
+      0.28,
+      0.27,
+      0.37
+     ],
+     "n": 4,
+     "median": 0.275,
+     "min": 0.26,
+     "max": 0.37
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.01,
+      0.05,
+      0.02,
+      0.04
+     ],
+     "n": 4,
+     "median": 0.03,
+     "min": 0.01,
+     "max": 0.05
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      null,
+      null,
+      null,
+      null
+     ],
+     "n": 0,
+     "median": null,
+     "min": null,
+     "max": null
+    },
+    "n": 4,
+    "tier": "CORE",
+    "digits": true,
+    "em_px_1080x1920_median": 154,
+    "disagree": [
+     "size varies 2.6x (0.0614-0.1574)",
+     "letter gap varies 5.0x (0.01-0.05)"
+    ]
+   },
+   "percent_label": {
+    "em_frac_H": {
+     "values": [
+      0.047,
+      0.06,
+      null,
+      0.029
+     ],
+     "n": 3,
+     "median": 0.047,
+     "min": 0.029,
+     "max": 0.06
+    },
+    "xheight_frac_H": {
+     "values": [
+      0.033,
+      0.042,
+      null,
+      0.02
+     ],
+     "n": 3,
+     "median": 0.033,
+     "min": 0.02,
+     "max": 0.042
+    },
+    "stem_over_xheight": {
+     "values": [
+      0.27,
+      0.19,
+      null,
+      0.23
+     ],
+     "n": 3,
+     "median": 0.23,
+     "min": 0.19,
+     "max": 0.27
+    },
+    "letter_gap_over_xheight": {
+     "values": [
+      0.05,
+      0.05,
+      null,
+      0.1
+     ],
+     "n": 3,
+     "median": 0.05,
+     "min": 0.05,
+     "max": 0.1
+    },
+    "line_pitch_over_xheight": {
+     "values": [
+      null,
+      null,
+      null,
+      null
+     ],
+     "n": 0,
+     "median": null,
+     "min": null,
+     "max": null
+    },
+    "n": 3,
+    "tier": "CORE",
+    "digits": true,
+    "em_px_1080x1920_median": 90,
+    "disagree": [
+     "size varies 2.1x (0.029-0.06)"
+    ]
+   }
+  },
+  "assumption": "x-height = 0.5 em (lower-case text) or digit/cap height = 0.70 em (digits roles); +-10%",
+  "families": {
+   "guess": "geometric heavy sans, single-storey o/g/a (Gilroy / Outfit look); not matched to a font file",
+   "vietnamese_safe_substitutes_to_verify": [
+    "Lexend",
+    "Be Vietnam Pro",
+    "Plus Jakarta Sans",
+    "Inter"
+   ],
+   "rule": "run the Vietnamese glyph check (docs/teardown-process.md step 2) before choosing"
+  },
+  "weight_basis": "guess: stem/x-height ~0.35 = ExtraBold-Black class (800); small labels 700-800"
+ },
+ "layout": {
+  "safe_zone": {
+   "bbox_left_median": {
+    "values": [
+     0.132,
+     0.132,
+     0.125,
+     0.139
+    ],
+    "n": 4,
+    "median": 0.132,
+    "min": 0.125,
+    "max": 0.139
+   },
+   "bbox_right_median": {
+    "values": [
+     0.812,
+     0.806,
+     0.778,
+     0.84
+    ],
+    "n": 4,
+    "median": 0.809,
+    "min": 0.778,
+    "max": 0.84
+   },
+   "bbox_top_median": {
+    "values": [
+     0.16,
+     0.15,
+     0.148,
+     0.152
+    ],
+    "n": 4,
+    "median": 0.151,
+    "min": 0.148,
+    "max": 0.16
+   },
+   "bbox_bottom_median": {
+    "values": [
+     0.742,
+     0.732,
+     0.715,
+     0.754
+    ],
+    "n": 4,
+    "median": 0.737,
+    "min": 0.715,
+    "max": 0.754
+   },
+   "ink_share_below_80pct_H": {
+    "values": [
+     0.107,
+     0.002,
+     0.233,
+     0.022
+    ],
+    "n": 4,
+    "median": 0.065,
+    "min": 0.002,
+    "max": 0.233
+   },
+   "ink_share_above_10pct_H": {
+    "values": [
+     0.039,
+     0.0,
+     0.005,
+     0.001
+    ],
+    "n": 4,
+    "median": 0.003,
+    "min": 0.0,
+    "max": 0.039
+   },
+   "tier": "CORE",
+   "n": 4
+  },
+  "corner_radius_frac_W": {
+   "cta_frame": {
+    "values": [
+     0.045,
+     0.024,
+     null,
+     0.011
+    ],
+    "n": 3,
+    "median": 0.024,
+    "min": 0.011,
+    "max": 0.045,
+    "tier": "CORE",
+    "disagree": [
+     "cta_frame varies 4.3x (0.0106-0.0451)"
+    ]
+   },
+   "list_card": {
+    "values": [
+     0.029,
+     0.012,
+     0.03,
+     0.024
+    ],
+    "n": 4,
+    "median": 0.026,
+    "min": 0.012,
+    "max": 0.03,
+    "tier": "CORE",
+    "disagree": [
+     "list_card varies 2.6x (0.0118-0.0302)"
+    ]
+   },
+   "main_card": {
+    "values": [
+     0.044,
+     0.017,
+     0.027,
+     0.014
+    ],
+    "n": 4,
+    "median": 0.022,
+    "min": 0.014,
+    "max": 0.044,
+    "tier": "CORE",
+    "disagree": [
+     "main_card varies 3.1x (0.0142-0.0436)"
+    ]
+   },
+   "pill": {
+    "values": [
+     0.036,
+     0.044,
+     0.04,
+     0.031
+    ],
+    "n": 4,
+    "median": 0.038,
+    "min": 0.031,
+    "max": 0.044,
+    "tier": "CORE",
+    "disagree": []
+   }
+  },
+  "shadow_extent_frac_W": {
+   "list_card": {
+    "values": [
+     0.047,
+     null,
+     0.028,
+     0.022
+    ],
+    "n": 3,
+    "median": 0.028,
+    "min": 0.022,
+    "max": 0.047,
+    "tier": "CORE",
+    "disagree": [
+     "list_card varies 2.1x (0.0222-0.0472)"
+    ]
+   },
+   "main_card": {
+    "values": [
+     0.042,
+     0.059,
+     0.056,
+     0.025
+    ],
+    "n": 4,
+    "median": 0.049,
+    "min": 0.025,
+    "max": 0.059,
+    "tier": "CORE",
+    "disagree": [
+     "main_card varies 2.4x (0.025-0.059)"
+    ]
+   },
+   "pill": {
+    "values": [
+     0.033,
+     0.052,
+     0.035,
+     0.039
+    ],
+    "n": 4,
+    "median": 0.037,
+    "min": 0.033,
+    "max": 0.052,
+    "tier": "CORE",
+    "disagree": []
+   }
+  },
+  "stroke_frac_W": {
+   "cta_frame": {
+    "values": [
+     0.024,
+     0.004,
+     null,
+     0.028
+    ],
+    "n": 3,
+    "median": 0.024,
+    "min": 0.004,
+    "max": 0.028,
+    "tier": "CORE",
+    "disagree": [
+     "cta_frame varies 7.9x (0.0035-0.0278)"
+    ]
+   },
+   "icon_pole": {
+    "values": [
+     0.011,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.011,
+    "min": 0.011,
+    "max": 0.011,
+    "tier": "OPTIONAL",
+    "disagree": []
+   }
+  },
+  "cards": {
+   "main_card": {
+    "width_frac_W": {
+     "values": [
+      0.65,
+      0.705,
+      0.851,
+      0.306
+     ],
+     "n": 4,
+     "median": 0.677,
+     "min": 0.306,
+     "max": 0.851
+    },
+    "height_frac_H": {
+     "values": [
+      0.391,
+      0.268,
+      0.325,
+      0.209
+     ],
+     "n": 4,
+     "median": 0.296,
+     "min": 0.209,
+     "max": 0.391
+    },
+    "center_x_frac_W": {
+     "values": [
+      0.499,
+      0.455,
+      0.476,
+      0.306
+     ],
+     "n": 4,
+     "median": 0.466,
+     "min": 0.306,
+     "max": 0.499
+    },
+    "padding_left_frac_W": {
+     "values": [
+      0.007,
+      0.129,
+      0.111,
+      0.099
+     ],
+     "n": 4,
+     "median": 0.105,
+     "min": 0.007,
+     "max": 0.129
+    },
+    "padding_top_frac_H": {
+     "values": [
+      0.043,
+      0.025,
+      0.005,
+      0.004
+     ],
+     "n": 4,
+     "median": 0.015,
+     "min": 0.004,
+     "max": 0.043
+    },
+    "padding_right_frac_W": {
+     "values": [
+      0.007,
+      0.049,
+      0.135,
+      0.104
+     ],
+     "n": 4,
+     "median": 0.076,
+     "min": 0.007,
+     "max": 0.135
+    },
+    "padding_bottom_frac_H": {
+     "values": [
+      0.052,
+      0.005,
+      0.065,
+      0.027
+     ],
+     "n": 4,
+     "median": 0.039,
+     "min": 0.005,
+     "max": 0.065
+    },
+    "shadow_blur_frac_W": {
+     "values": [
+      0.07,
+      0.06,
+      0.114,
+      0.072
+     ],
+     "n": 4,
+     "median": 0.071,
+     "min": 0.06,
+     "max": 0.114
+    },
+    "shadow_offset_y_frac_W": {
+     "values": [
+      -0.026,
+      -0.06,
+      -0.006,
+      0.013
+     ],
+     "n": 4,
+     "median": -0.016,
+     "min": -0.06,
+     "max": 0.013
+    },
+    "shadow_alpha": {
+     "values": [
+      0.18,
+      null,
+      0.12,
+      0.2
+     ],
+     "n": 3,
+     "median": 0.18,
+     "min": 0.12,
+     "max": 0.2
+    },
+    "n": 4,
+    "tier": "CORE",
+    "disagree": [
+     "width varies 2.8x (0.306-0.851)"
+    ]
+   },
+   "pill": {
+    "width_frac_W": {
+     "values": [
+      0.464,
+      0.307,
+      0.608,
+      0.406
+     ],
+     "n": 4,
+     "median": 0.435,
+     "min": 0.307,
+     "max": 0.608
+    },
+    "height_frac_H": {
+     "values": [
+      0.042,
+      0.043,
+      0.047,
+      0.044
+     ],
+     "n": 4,
+     "median": 0.043,
+     "min": 0.042,
+     "max": 0.047
+    },
+    "center_x_frac_W": {
+     "values": [
+      0.5,
+      0.5,
+      0.497,
+      0.512
+     ],
+     "n": 4,
+     "median": 0.5,
+     "min": 0.497,
+     "max": 0.512
+    },
+    "padding_left_frac_W": {
+     "values": [
+      0.022,
+      0.009,
+      0.014,
+      0.007
+     ],
+     "n": 4,
+     "median": 0.011,
+     "min": 0.007,
+     "max": 0.022
+    },
+    "padding_top_frac_H": {
+     "values": [
+      0.011,
+      0.014,
+      0.01,
+      0.009
+     ],
+     "n": 4,
+     "median": 0.01,
+     "min": 0.009,
+     "max": 0.014
+    },
+    "padding_right_frac_W": {
+     "values": [
+      0.039,
+      0.012,
+      0.019,
+      0.025
+     ],
+     "n": 4,
+     "median": 0.022,
+     "min": 0.012,
+     "max": 0.039
+    },
+    "padding_bottom_frac_H": {
+     "values": [
+      0.006,
+      0.012,
+      0.01,
+      0.009
+     ],
+     "n": 4,
+     "median": 0.009,
+     "min": 0.006,
+     "max": 0.012
+    },
+    "shadow_blur_frac_W": {
+     "values": [
+      0.029,
+      0.112,
+      0.087,
+      0.047
+     ],
+     "n": 4,
+     "median": 0.067,
+     "min": 0.029,
+     "max": 0.112
+    },
+    "shadow_offset_y_frac_W": {
+     "values": [
+      0.014,
+      -0.008,
+      -0.016,
+      0.035
+     ],
+     "n": 4,
+     "median": 0.003,
+     "min": -0.016,
+     "max": 0.035
+    },
+    "shadow_alpha": {
+     "values": [
+      0.22,
+      0.12,
+      null,
+      0.19
+     ],
+     "n": 3,
+     "median": 0.19,
+     "min": 0.12,
+     "max": 0.22
+    },
+    "n": 4,
+    "tier": "CORE",
+    "disagree": [
+     "width varies 2.0x (0.307-0.608)",
+     "shadow blur varies 3.8x (0.0292-0.112)"
+    ]
+   }
+  },
+  "grid": {
+   "dot_grid": {
+    "pitch_x_frac_W": {
+     "values": [
+      null,
+      0.052,
+      0.033,
+      null
+     ],
+     "n": 2,
+     "median": 0.043,
+     "min": 0.033,
+     "max": 0.052
+    },
+    "pitch_y_frac_W": {
+     "values": [
+      null,
+      0.052,
+      null,
+      null
+     ],
+     "n": 1,
+     "median": 0.052,
+     "min": 0.052,
+     "max": 0.052
+    },
+    "contrast_lum": {
+     "values": [
+      null,
+      2.3,
+      18.9,
+      null
+     ],
+     "n": 2,
+     "median": 10.6,
+     "min": 2.3,
+     "max": 18.9
+    },
+    "n": 2,
+    "tier": "OPTIONAL",
+    "disagree": []
+   },
+   "line_grid": {
+    "pitch_x_frac_W": {
+     "values": [
+      0.222,
+      null,
+      null,
+      0.111
+     ],
+     "n": 2,
+     "median": 0.167,
+     "min": 0.111,
+     "max": 0.222
+    },
+    "pitch_y_frac_W": {
+     "values": [
+      0.222,
+      null,
+      null,
+      null
+     ],
+     "n": 1,
+     "median": 0.222,
+     "min": 0.222,
+     "max": 0.222
+    },
+    "contrast_lum": {
+     "values": [
+      22.5,
+      null,
+      null,
+      23.9
+     ],
+     "n": 2,
+     "median": 23.2,
+     "min": 22.5,
+     "max": 23.9
+    },
+    "n": 2,
+    "tier": "OPTIONAL",
+    "disagree": [
+     "pitch varies 2.0x (0.1111-0.2222)"
+    ]
+   }
+  },
+  "iso": {
+   "iso_block": {
+    "faces_light_to_dark_median": [
+     "#aad5fa",
+     "#90c7f3",
+     "#1b74d0"
+    ],
+    "by_clip": [
+     [
+      [
+       "#aad5fa",
+       0.046
+      ],
+      [
+       "#90c7f5",
+       0.613
+      ],
+      [
+       "#8cb7db",
+       0.03
+      ],
+      [
+       "#1462bd",
+       0.242
+      ],
+      [
+       "#275c9b",
+       0.02
+      ],
+      [
+       "#0b54a8",
+       0.005
+      ]
+     ],
+     [
+      [
+       "#abd8fc",
+       0.108
+      ],
+      [
+       "#95c8f3",
+       0.424
+      ],
+      [
+       "#78bdf7",
+       0.042
+      ],
+      [
+       "#2f99ee",
+       0.016
+      ],
+      [
+       "#1b74d0",
+       0.312
+      ],
+      [
+       "#2269b6",
+       0.038
+      ]
+     ],
+     null,
+     [
+      [
+       "#86b8e6",
+       0.255
+      ],
+      [
+       "#71a5d8",
+       0.2
+      ],
+      [
+       "#5a9bd7",
+       0.075
+      ],
+      [
+       "#3486d4",
+       0.281
+      ],
+      [
+       "#1866b4",
+       0.055
+      ],
+      [
+       "#135599",
+       0.052
+      ]
+     ]
+    ],
+    "n": 3,
+    "tier": "CORE",
+    "note": "3 most common saturated clusters in the block's box, sorted light to dark"
+   }
+  }
+ },
+ "motion": {
+  "card_slide_in": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "n": 4,
+   "tier": "CORE",
+   "reach_s": {
+    "values": [
+     0.5,
+     0.45,
+     0.267,
+     0.3
+    ],
+    "n": 4,
+    "median": 0.375,
+    "min": 0.267,
+    "max": 0.5
+   },
+   "settle_s": {
+    "values": [
+     0.5,
+     0.45,
+     0.267,
+     0.3
+    ],
+    "n": 4,
+    "median": 0.375,
+    "min": 0.267,
+    "max": 0.5
+   },
+   "overshoot": {
+    "values": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "n": 4,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     0.413,
+     0.241,
+     0.314,
+     0.218
+    ],
+    "n": 4,
+    "median": 0.277,
+    "min": 0.218,
+    "max": 0.413
+   },
+   "ease_nearest_by_clip": [
+    "power2.out",
+    "power2.out",
+    "circ.out",
+    "circ.out"
+   ],
+   "bezier_by_clip": [
+    null,
+    [
+     0.4,
+     1.0,
+     0.4,
+     0.8
+    ],
+    [
+     0.1,
+     0.4,
+     0.1,
+     0.8
+    ],
+    [
+     0.1,
+     0.2,
+     0.1,
+     1.0
+    ]
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "H",
+   "disagree": [
+    "ease family differs: circ.out, power2.out",
+    "reach differs 0.267-0.5s"
+   ]
+  },
+  "number_count_up.bar_driven": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7699100876736040244",
+    "7702801642646899989"
+   ],
+   "n": 3,
+   "tier": "CORE",
+   "reach_s": {
+    "values": [
+     0.767,
+     2.333,
+     null,
+     1.4
+    ],
+    "n": 3,
+    "median": 1.4,
+    "min": 0.767,
+    "max": 2.333
+   },
+   "settle_s": {
+    "values": [
+     0.933,
+     2.333,
+     null,
+     1.4
+    ],
+    "n": 3,
+    "median": 1.4,
+    "min": 0.933,
+    "max": 2.333
+   },
+   "overshoot": {
+    "values": [
+     0.0,
+     0.0,
+     null,
+     0.0
+    ],
+    "n": 3,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     0.531,
+     null,
+     null,
+     0.493
+    ],
+    "n": 2,
+    "median": 0.512,
+    "min": 0.493,
+    "max": 0.531
+   },
+   "ease_nearest_by_clip": [
+    "sine.out",
+    "none",
+    null,
+    "power2.out"
+   ],
+   "bezier_by_clip": [
+    [
+     0.6,
+     0.4,
+     0.0,
+     0.8
+    ],
+    [
+     0.1,
+     0.2,
+     0.2,
+     0.2
+    ],
+    null,
+    [
+     0.2,
+     0.4,
+     0.2,
+     0.8
+    ]
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "W",
+   "disagree": [
+    "ease family differs: none, power2.out, sine.out",
+    "reach differs 0.767-2.333s",
+    "see clip_notes (observed differences not captured by the numbers)"
+   ],
+   "clip_notes": {
+    "7699100876736040244": "counter is linear over ~2.3s, driven by area fill (no per-digit ease)"
+   }
+  },
+  "bar_fill": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "n": 4,
+   "tier": "CORE",
+   "reach_s": {
+    "values": [
+     0.3,
+     0.367,
+     1.0,
+     1.4
+    ],
+    "n": 4,
+    "median": 0.683,
+    "min": 0.3,
+    "max": 1.4
+   },
+   "settle_s": {
+    "values": [
+     0.3,
+     0.367,
+     1.0,
+     1.4
+    ],
+    "n": 4,
+    "median": 0.683,
+    "min": 0.3,
+    "max": 1.4
+   },
+   "overshoot": {
+    "values": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "n": 4,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     0.526,
+     0.363,
+     0.611,
+     0.493
+    ],
+    "n": 4,
+    "median": 0.51,
+    "min": 0.363,
+    "max": 0.611
+   },
+   "ease_nearest_by_clip": [
+    "sine.out",
+    "power1.inOut",
+    "power1.inOut",
+    "power2.out"
+   ],
+   "bezier_by_clip": [
+    [
+     0.6,
+     0.4,
+     0.0,
+     0.8
+    ],
+    [
+     0.8,
+     0.4,
+     0.0,
+     0.8
+    ],
+    [
+     0.7,
+     0.4,
+     0.3,
+     0.8
+    ],
+    [
+     0.2,
+     0.4,
+     0.2,
+     0.8
+    ]
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "W",
+   "disagree": [
+    "ease family differs: power1.inOut, power2.out, sine.out",
+    "reach differs 0.3-1.4s"
+   ]
+  },
+  "chart_pop.bar1": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "n": 4,
+   "tier": "CORE",
+   "reach_s": {
+    "values": [
+     0.133,
+     0.3,
+     0.267,
+     0.1
+    ],
+    "n": 4,
+    "median": 0.2,
+    "min": 0.1,
+    "max": 0.3
+   },
+   "settle_s": {
+    "values": [
+     0.433,
+     0.3,
+     0.267,
+     0.433
+    ],
+    "n": 4,
+    "median": 0.366,
+    "min": 0.267,
+    "max": 0.433
+   },
+   "overshoot": {
+    "values": [
+     0.165,
+     0.0,
+     0.0,
+     0.197
+    ],
+    "n": 4,
+    "median": 0.083,
+    "min": 0.0,
+    "max": 0.197
+   },
+   "distance_frac": {
+    "values": [
+     0.142,
+     0.115,
+     0.217,
+     0.052
+    ],
+    "n": 4,
+    "median": 0.129,
+    "min": 0.052,
+    "max": 0.217
+   },
+   "ease_nearest_by_clip": [
+    "back.out(2.5)",
+    "power2.out",
+    "power2.out",
+    "back.out(2.5)"
+   ],
+   "bezier_by_clip": [
+    [
+     0.4,
+     1.4,
+     0.0,
+     1.2
+    ],
+    [
+     0.3,
+     1.0,
+     0.5,
+     0.8
+    ],
+    [
+     0.3,
+     1.0,
+     0.5,
+     0.8
+    ],
+    [
+     0.3,
+     1.4,
+     0.1,
+     1.2
+    ]
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "H",
+   "disagree": [
+    "ease family differs: back.out, power2.out",
+    "reach differs 0.1-0.3s",
+    "overshoot differs 0.0-0.197"
+   ]
+  },
+  "chart_pop.bar2": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "n": 3,
+   "tier": "CORE",
+   "reach_s": {
+    "values": [
+     0.133,
+     null,
+     0.3,
+     0.1
+    ],
+    "n": 3,
+    "median": 0.133,
+    "min": 0.1,
+    "max": 0.3
+   },
+   "settle_s": {
+    "values": [
+     0.433,
+     null,
+     0.3,
+     0.633
+    ],
+    "n": 3,
+    "median": 0.433,
+    "min": 0.3,
+    "max": 0.633
+   },
+   "overshoot": {
+    "values": [
+     0.171,
+     null,
+     0.0,
+     0.244
+    ],
+    "n": 3,
+    "median": 0.171,
+    "min": 0.0,
+    "max": 0.244
+   },
+   "distance_frac": {
+    "values": [
+     0.082,
+     null,
+     0.176,
+     0.064
+    ],
+    "n": 3,
+    "median": 0.082,
+    "min": 0.064,
+    "max": 0.176
+   },
+   "ease_nearest_by_clip": [
+    "back.out(2.5)",
+    null,
+    "circ.out",
+    "elastic.out(1,0.5)"
+   ],
+   "bezier_by_clip": [
+    [
+     0.3,
+     1.4,
+     0.2,
+     1.2
+    ],
+    null,
+    [
+     0.1,
+     0.2,
+     0.1,
+     1.0
+    ],
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "H",
+   "disagree": [
+    "ease family differs: back.out, circ.out, elastic.out",
+    "reach differs 0.1-0.3s",
+    "overshoot differs 0.0-0.244"
+   ]
+  },
+  "chart_pop.bar3": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "n": 3,
+   "tier": "CORE",
+   "reach_s": {
+    "values": [
+     0.1,
+     null,
+     0.267,
+     0.067
+    ],
+    "n": 3,
+    "median": 0.1,
+    "min": 0.067,
+    "max": 0.267
+   },
+   "settle_s": {
+    "values": [
+     0.3,
+     null,
+     0.267,
+     0.467
+    ],
+    "n": 3,
+    "median": 0.3,
+    "min": 0.267,
+    "max": 0.467
+   },
+   "overshoot": {
+    "values": [
+     0.181,
+     null,
+     0.0,
+     0.333
+    ],
+    "n": 3,
+    "median": 0.181,
+    "min": 0.0,
+    "max": 0.333
+   },
+   "distance_frac": {
+    "values": [
+     0.159,
+     null,
+     0.137,
+     0.023
+    ],
+    "n": 3,
+    "median": 0.137,
+    "min": 0.023,
+    "max": 0.159
+   },
+   "ease_nearest_by_clip": [
+    "back.out(1.7)",
+    null,
+    "power2.out",
+    "elastic.out(1,0.5)"
+   ],
+   "bezier_by_clip": [
+    [
+     0.3,
+     1.0,
+     0.3,
+     1.4
+    ],
+    null,
+    [
+     0.3,
+     1.0,
+     0.5,
+     0.8
+    ],
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "H",
+   "disagree": [
+    "ease family differs: back.out, elastic.out, power2.out",
+    "reach differs 0.067-0.267s",
+    "overshoot differs 0.0-0.333"
+   ]
+  },
+  "typed_text": {
+   "kind": "typed",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7699100876736040244"
+   ],
+   "n": 2,
+   "tier": "OPTIONAL",
+   "chars_per_s": {
+    "values": [
+     22.2,
+     20.4,
+     null,
+     null
+    ],
+    "n": 2,
+    "median": 21.3,
+    "min": 20.4,
+    "max": 22.2
+   },
+   "frames_per_char": {
+    "values": [
+     1.35,
+     1.47,
+     null,
+     null
+    ],
+    "n": 2,
+    "median": 1.41,
+    "min": 1.35,
+    "max": 1.47
+   },
+   "clip_notes": {
+    "7702430597297278228": "text appears word by word, not per character; not measured",
+    "7702801642646899989": "no typed text measured (a typing instance exists but was not measurable)"
+   },
+   "disagree": [
+    "see clip_notes (observed differences not captured by the numbers)"
+   ]
+  },
+  "pill_progress": {
+   "kind": "hop",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7699100876736040244",
+    "7702801642646899989"
+   ],
+   "n": 3,
+   "tier": "CORE",
+   "hop_frames": {
+    "values": [
+     1.0,
+     1.0,
+     null,
+     1.0
+    ],
+    "n": 3,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0
+   },
+   "pop_scale": {
+    "values": [
+     1.17,
+     1.08,
+     null,
+     1.07
+    ],
+    "n": 3,
+    "median": 1.08,
+    "min": 1.07,
+    "max": 1.17
+   },
+   "settle_s": {
+    "values": [
+     0.2,
+     0.033,
+     null,
+     0.033
+    ],
+    "n": 3,
+    "median": 0.033,
+    "min": 0.033,
+    "max": 0.2
+   },
+   "disagree": [
+    "settle differs 0.033-0.2s",
+    "see clip_notes (observed differences not captured by the numbers)"
+   ],
+   "clip_notes": {
+    "7702430597297278228": "progress dot only ~1px wide in the jump frame; not measurable"
+   }
+  },
+  "flag_plant.pole": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "reach_s": {
+    "values": [
+     0.2,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.2,
+    "min": 0.2,
+    "max": 0.2
+   },
+   "settle_s": {
+    "values": [
+     0.2,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.2,
+    "min": 0.2,
+    "max": 0.2
+   },
+   "overshoot": {
+    "values": [
+     0.0,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     0.233,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.233,
+    "min": 0.233,
+    "max": 0.233
+   },
+   "ease_nearest_by_clip": [
+    "power2.out",
+    null,
+    null,
+    null
+   ],
+   "bezier_by_clip": [
+    null,
+    null,
+    null,
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "H",
+   "disagree": [
+    "see clip_notes (observed differences not captured by the numbers)"
+   ],
+   "clip_notes": {
+    "7702430597297278228": "flag is a single-frame appear; not measured"
+   }
+  },
+  "flag_plant.banner": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "reach_s": {
+    "values": [
+     0.167,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.167,
+    "min": 0.167,
+    "max": 0.167
+   },
+   "settle_s": {
+    "values": [
+     0.3,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.3,
+    "min": 0.3,
+    "max": 0.3
+   },
+   "overshoot": {
+    "values": [
+     0.058,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.058,
+    "min": 0.058,
+    "max": 0.058
+   },
+   "distance_frac": {
+    "values": [
+     0.286,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.286,
+    "min": 0.286,
+    "max": 0.286
+   },
+   "ease_nearest_by_clip": [
+    "back.out(1.0)",
+    null,
+    null,
+    null
+   ],
+   "bezier_by_clip": [
+    [
+     0.4,
+     0.8,
+     0.3,
+     1.2
+    ],
+    null,
+    null,
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "W",
+   "disagree": [
+    "see clip_notes (observed differences not captured by the numbers)"
+   ],
+   "clip_notes": {
+    "7702430597297278228": "flag is a single-frame appear; not measured"
+   }
+  },
+  "node_radial": {
+   "kind": "nodes",
+   "clips_with_instance": [
+    "20261028-230040"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "mean_gap_s": {
+    "values": [
+     0.16,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.16,
+    "min": 0.16,
+    "max": 0.16
+   },
+   "arrival_span_s": {
+    "values": [
+     0.8,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.8,
+    "min": 0.8,
+    "max": 0.8
+   }
+  },
+  "button_swell_pre_click": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "20261028-230040"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "reach_s": {
+    "values": [
+     1.4,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 1.4,
+    "min": 1.4,
+    "max": 1.4
+   },
+   "settle_s": {
+    "values": [
+     1.4,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 1.4,
+    "min": 1.4,
+    "max": 1.4
+   },
+   "overshoot": {
+    "values": [
+     0.0,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     0.106,
+     null,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.106,
+    "min": 0.106,
+    "max": 0.106
+   },
+   "ease_nearest_by_clip": [
+    "power1.in",
+    null,
+    null,
+    null
+   ],
+   "bezier_by_clip": [
+    [
+     0.6,
+     0.2,
+     0.3,
+     0.2
+    ],
+    null,
+    null,
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "W",
+   "disagree": []
+  },
+  "camera_dive": {
+   "kind": "vscroll",
+   "clips_with_instance": [
+    "20261028-230040",
+    "7702430597297278228"
+   ],
+   "n": 2,
+   "tier": "OPTIONAL",
+   "phase1": {
+    "peak_frac_H_per_frame": {
+     "values": [
+      0.016,
+      null,
+      0.254,
+      null
+     ],
+     "n": 2,
+     "median": 0.135,
+     "min": 0.016,
+     "max": 0.254
+    }
+   },
+   "phase2": {
+    "peak_frac_H_per_frame": {
+     "values": [
+      0.091,
+      null,
+      0.051,
+      null
+     ],
+     "n": 2,
+     "median": 0.071,
+     "min": 0.051,
+     "max": 0.091
+    }
+   },
+   "disagree": [
+    "peak speed differs 0.016-0.254 H/frame",
+    "see clip_notes (observed differences not captured by the numbers)"
+   ],
+   "clip_notes": {
+    "7699100876736040244": "no camera dive in this clip",
+    "7702801642646899989": "no camera dive in this clip"
+   }
+  },
+  "chart_bar_fall.bar2": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "7699100876736040244"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "reach_s": {
+    "values": [
+     null,
+     0.2,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.2,
+    "min": 0.2,
+    "max": 0.2
+   },
+   "settle_s": {
+    "values": [
+     null,
+     0.2,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.2,
+    "min": 0.2,
+    "max": 0.2
+   },
+   "overshoot": {
+    "values": [
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     null,
+     0.025,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.025,
+    "min": 0.025,
+    "max": 0.025
+   },
+   "ease_nearest_by_clip": [
+    null,
+    "power1.inOut",
+    null,
+    null
+   ],
+   "bezier_by_clip": [
+    null,
+    [
+     0.8,
+     0.2,
+     0.3,
+     0.8
+    ],
+    null,
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "H",
+   "disagree": [
+    "see clip_notes (observed differences not captured by the numbers)"
+   ],
+   "clip_notes": {
+    "7699100876736040244": "bars 2-3 of the OEE chart FALL (100% -> 85% -> 72.3%), they do not rise"
+   }
+  },
+  "chart_bar_fall.bar3": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "7699100876736040244"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "reach_s": {
+    "values": [
+     null,
+     0.333,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.333,
+    "min": 0.333,
+    "max": 0.333
+   },
+   "settle_s": {
+    "values": [
+     null,
+     0.333,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.333,
+    "min": 0.333,
+    "max": 0.333
+   },
+   "overshoot": {
+    "values": [
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     null,
+     0.023,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.023,
+    "min": 0.023,
+    "max": 0.023
+   },
+   "ease_nearest_by_clip": [
+    null,
+    "sine.out",
+    null,
+    null
+   ],
+   "bezier_by_clip": [
+    null,
+    [
+     0.7,
+     0.4,
+     0.0,
+     0.8
+    ],
+    null,
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "H",
+   "disagree": [
+    "see clip_notes (observed differences not captured by the numbers)"
+   ],
+   "clip_notes": {
+    "7699100876736040244": "bars 2-3 of the OEE chart FALL (100% -> 85% -> 72.3%), they do not rise"
+   }
+  },
+  "button_pop": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "7699100876736040244"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "reach_s": {
+    "values": [
+     null,
+     0.6,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.6,
+    "min": 0.6,
+    "max": 0.6
+   },
+   "settle_s": {
+    "values": [
+     null,
+     0.6,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.6,
+    "min": 0.6,
+    "max": 0.6
+   },
+   "overshoot": {
+    "values": [
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     null,
+     0.042,
+     null,
+     null
+    ],
+    "n": 1,
+    "median": 0.042,
+    "min": 0.042,
+    "max": 0.042
+   },
+   "ease_nearest_by_clip": [
+    null,
+    "none",
+    null,
+    null
+   ],
+   "bezier_by_clip": [
+    null,
+    [
+     0.3,
+     0.8,
+     1.0,
+     0.2
+    ],
+    null,
+    null
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "W",
+   "disagree": []
+  },
+  "chat_autoscroll": {
+   "kind": "vscroll",
+   "clips_with_instance": [
+    "7699100876736040244"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "phase1": {
+    "peak_frac_H_per_frame": {
+     "values": [
+      null,
+      0.008,
+      null,
+      null
+     ],
+     "n": 1,
+     "median": 0.008,
+     "min": 0.008,
+     "max": 0.008
+    }
+   },
+   "disagree": []
+  },
+  "button_click_swell": {
+   "kind": "ease",
+   "clips_with_instance": [
+    "7702801642646899989"
+   ],
+   "n": 1,
+   "tier": "OPTIONAL",
+   "reach_s": {
+    "values": [
+     null,
+     null,
+     null,
+     0.067
+    ],
+    "n": 1,
+    "median": 0.067,
+    "min": 0.067,
+    "max": 0.067
+   },
+   "settle_s": {
+    "values": [
+     null,
+     null,
+     null,
+     0.067
+    ],
+    "n": 1,
+    "median": 0.067,
+    "min": 0.067,
+    "max": 0.067
+   },
+   "overshoot": {
+    "values": [
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "n": 1,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "distance_frac": {
+    "values": [
+     null,
+     null,
+     null,
+     0.013
+    ],
+    "n": 1,
+    "median": 0.013,
+    "min": 0.013,
+    "max": 0.013
+   },
+   "ease_nearest_by_clip": [
+    null,
+    null,
+    null,
+    "expo.out"
+   ],
+   "bezier_by_clip": [
+    null,
+    null,
+    null,
+    [
+     0.2,
+     1.0,
+     0.3,
+     1.0
+    ]
+   ],
+   "bezier_note": "cubic-bezier kept only where fit rmse <= 0.05 and plausible (no overshoot in the data -> no y>1); otherwise null. Coarse grid fit, treat as a hint; the named GSAP ease is the working value.",
+   "frac_of": "W",
+   "disagree": []
+  }
+ },
+ "observations_by_clip": {
+  "7702430597297278228": {
+   "_layout": "list_card corner measured on a tilted card; 'yellow' = text highlight only"
+  },
+  "7702801642646899989": {
+   "_layout": "cta_frame corners are sharp (square)"
+  }
+ },
+ "content_not_style": {
+  "rule": "motif seen in one clip only = content of that clip, not style (shared visual vocabulary is listed in preset.md)",
+  "motifs": {
+   "iceberg (phan noi / phan chim)": [
+    "20261028-230040"
+   ],
+   "80/20 hanging number": [
+    "20261028-230040"
+   ],
+   "Skill box + Microsoft Build mockup": [
+    "20261028-230040"
+   ],
+   "flag 'dau moc'": [
+    "20261028-230040"
+   ],
+   "6-node mindmap Agentic AI Analytics": [
+    "20261028-230040"
+   ],
+   "OEE water-bucket leak metaphor": [
+    "7699100876736040244"
+   ],
+   "isometric factory": [
+    "7699100876736040244"
+   ],
+   "waffle grid of units (60.000 / 72.000)": [
+    "7699100876736040244"
+   ],
+   "'Con AI?' chat panel": [
+    "7699100876736040244"
+   ],
+   "road + car + fuel gauge (cash runway)": [
+    "7702430597297278228"
+   ],
+   "scoreboard card 'BANG DIEM' grade A": [
+    "7702430597297278228"
+   ],
+   "water jar / cash-flow pipes": [
+    "7702430597297278228"
+   ],
+   "+200 trieu / 1,2 ty cash numbers": [
+    "7702430597297278228"
+   ],
+   "phone mockup": [
+    "7702801642646899989"
+   ],
+   "cracked house": [
+    "7702801642646899989"
+   ],
+   "iso staircase / 6-layer stack ('tang')": [
+    "7702801642646899989"
+   ],
+   "frog 'nhay coc'": [
+    "7702801642646899989"
+   ],
+   "lego question block": [
+    "7702801642646899989"
+   ]
+  }
+ },
+ "transitions": {
+  "cuts": {
+   "values": [
+    30.0,
+    18.0,
+    21.0,
+    32.0
+   ],
+   "n": 1,
+   "median": 30.0,
+   "min": 30.0,
+   "max": 30.0,
+   "unreliable_clips": [
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "tier": "OPTIONAL"
+  },
+  "kinds": {
+   "bar-wipe": {
+    "share_by_clip": [
+     0.167,
+     0.0,
+     0.143,
+     0.031
+    ],
+    "median_share": 0.167,
+    "min": 0.167,
+    "max": 0.167,
+    "n": 1,
+    "tier": "OPTIONAL",
+    "duration_s": {
+     "values": [
+      0.333,
+      null,
+      0.467,
+      0.333
+     ],
+     "n": 1,
+     "median": 0.333,
+     "min": 0.333,
+     "max": 0.333,
+     "unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ],
+     "tier": "OPTIONAL"
+    },
+    "seen_in_unreliable_clips": [
+     "7702430597297278228",
+     "7702801642646899989"
+    ]
+   },
+   "dissolve": {
+    "share_by_clip": [
+     0.333,
+     0.556,
+     0.571,
+     0.562
+    ],
+    "median_share": 0.333,
+    "min": 0.333,
+    "max": 0.333,
+    "n": 1,
+    "tier": "OPTIONAL",
+    "duration_s": {
+     "values": [
+      0.333,
+      0.333,
+      0.383,
+      0.383
+     ],
+     "n": 1,
+     "median": 0.333,
+     "min": 0.333,
+     "max": 0.333,
+     "unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ],
+     "tier": "OPTIONAL"
+    },
+    "seen_in_unreliable_clips": [
+     "7699100876736040244",
+     "7702430597297278228",
+     "7702801642646899989"
+    ]
+   },
+   "flash-wipe": {
+    "share_by_clip": [
+     0.067,
+     0.0,
+     0.095,
+     0.0
+    ],
+    "median_share": 0.067,
+    "min": 0.067,
+    "max": 0.067,
+    "n": 1,
+    "tier": "OPTIONAL",
+    "duration_s": {
+     "values": [
+      0.333,
+      null,
+      0.733,
+      null
+     ],
+     "n": 1,
+     "median": 0.333,
+     "min": 0.333,
+     "max": 0.333,
+     "unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ],
+     "tier": "OPTIONAL"
+    },
+    "seen_in_unreliable_clips": [
+     "7702430597297278228"
+    ]
+   },
+   "hard": {
+    "share_by_clip": [
+     0.2,
+     0.333,
+     0.048,
+     0.219
+    ],
+    "median_share": 0.2,
+    "min": 0.2,
+    "max": 0.2,
+    "n": 1,
+    "tier": "OPTIONAL",
+    "duration_s": {
+     "values": [
+      0.033,
+      0.2,
+      0.067,
+      0.2
+     ],
+     "n": 1,
+     "median": 0.033,
+     "min": 0.033,
+     "max": 0.033,
+     "unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ],
+     "tier": "OPTIONAL"
+    },
+    "seen_in_unreliable_clips": [
+     "7699100876736040244",
+     "7702430597297278228",
+     "7702801642646899989"
+    ]
+   },
+   "wash": {
+    "share_by_clip": [
+     0.233,
+     0.111,
+     0.143,
+     0.188
+    ],
+    "median_share": 0.233,
+    "min": 0.233,
+    "max": 0.233,
+    "n": 1,
+    "tier": "OPTIONAL",
+    "duration_s": {
+     "values": [
+      0.233,
+      0.117,
+      0.167,
+      0.3
+     ],
+     "n": 1,
+     "median": 0.233,
+     "min": 0.233,
+     "max": 0.233,
+     "unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ],
+     "tier": "OPTIONAL"
+    },
+    "seen_in_unreliable_clips": [
+     "7699100876736040244",
+     "7702430597297278228",
+     "7702801642646899989"
+    ]
+   }
+  },
+  "approximate": true,
+  "cut_source_by_clip": [
+   "eye (cuts.json)",
+   "rule (cuts_rule.json)",
+   "rule (cuts_rule.json)",
+   "rule (cuts_rule.json)"
+  ],
+  "cut_reliability": {
+   "20261028-230040": {
+    "reliable": true,
+    "reason": "eye-curated cuts (precision/recall of the rule on this clip: 25/33 / 25/30)"
+   },
+   "7699100876736040244": {
+    "reliable": false,
+    "reason": "rule cuts; by-eye spot-check of 10 cuts: 5/10 real (precision only: recall unknown, so missed soft changes cannot be bounded; the rule's recall on clip 1 was 25/30)"
+   },
+   "7702430597297278228": {
+    "reliable": false,
+    "reason": "rule cuts; by-eye spot-check of 10 cuts: 6/10 real (precision only: recall unknown, so missed soft changes cannot be bounded; the rule's recall on clip 1 was 25/30)"
+   },
+   "7702801642646899989": {
+    "reliable": false,
+    "reason": "rule cuts; by-eye spot-check of 10 cuts: 8/10 real (precision only: recall unknown, so missed soft changes cannot be bounded; the rule's recall on clip 1 was 25/30)"
+   }
+  },
+  "reliable_clip_count": 1,
+  "cut_rule": "UNRELIABLE for clips 2-4: their cuts come from the energy rule (E_peak>=9 or D_peak>=0.15, >=1s apart), which on clip 1 has precision 25/33 and recall 25/30 (tol 0.35s), and in a by-eye spot-check of 10 cuts per clip only 5/10, 6/10 and 8/10 were real (recall never checked). Cut-dependent tokens (cuts, shot length, cuts/min, end hold, transition shares and durations) therefore use clip 1's eye cuts only (n=1); clips 2-4 are listed in `values` but excluded from median/min/max/n.",
+  "cut_agreement_clip1": {
+   "rule_cuts": 33,
+   "eye_cuts": 30,
+   "rule_matched": 25,
+   "eye_matched": 25,
+   "precision": "25/33",
+   "recall": "25/30",
+   "tolerance_s": 0.35,
+   "rule_only": [
+    2.667,
+    23.8,
+    39.5,
+    43.1,
+    47.5,
+    97.0,
+    99.067,
+    101.7
+   ],
+   "eye_only": [
+    37.867,
+    65.3,
+    86.067,
+    131.2,
+    162.0
+   ]
+  },
+  "spot_check_by_clip": {
+   "7699100876736040244": {
+    "n": 10,
+    "real_cuts": 5,
+    "precision": "5/10",
+    "method": "10 rule cuts evenly spaced in time, judged by eye on 0.9s strips (-0.3..+0.5s): real = the composition/title is replaced; in-shot = same scene keeps animating",
+    "times": [
+     9.633,
+     13.633,
+     33.4,
+     78.533,
+     98.267,
+     109.2,
+     121.4,
+     130.367,
+     140.267,
+     165.033
+    ],
+    "notes": "real cuts at 13.6 (blue burst), 78.5 and 109.2 (diagonal blue wipe), 140.3, 165.0 (MDA); in-shot at 9.6, 33.4, 98.3, 121.4, 130.4"
+   },
+   "7702430597297278228": {
+    "n": 10,
+    "real_cuts": 6,
+    "precision": "6/10",
+    "method": "10 rule cuts evenly spaced in time, judged by eye on 0.9s strips (-0.3..+0.5s): real = the composition/title is replaced; in-shot = same scene keeps animating",
+    "times": [
+     3.333,
+     13.867,
+     31.533,
+     51.067,
+     59.3,
+     89.933,
+     110.467,
+     151.133,
+     159.867,
+     164.3
+    ],
+    "notes": "real at 3.3, 13.9, 59.3, 110.5, 159.9, 164.3; in-shot at 31.5, 51.1, 89.9, 151.1"
+   },
+   "7702801642646899989": {
+    "n": 10,
+    "real_cuts": 8,
+    "precision": "8/10",
+    "method": "10 rule cuts evenly spaced in time, judged by eye on 0.9s strips (-0.3..+0.5s): real = the composition/title is replaced; in-shot = same scene keeps animating",
+    "times": [
+     5.433,
+     30.3,
+     53.1,
+     80.567,
+     116.767,
+     135.533,
+     149.033,
+     159.9,
+     168.5,
+     173.8
+    ],
+    "notes": "real at 5.4, 30.3, 80.6, 116.8, 135.5, 149.0, 168.5, 173.8; in-shot at 53.1, 159.9"
+   }
+  }
+ },
+ "rhythm": {
+  "shot_len_median": {
+   "values": [
+    4.77,
+    7.47,
+    5.38,
+    3.27
+   ],
+   "n": 1,
+   "median": 4.77,
+   "min": 4.77,
+   "max": 4.77,
+   "unreliable_clips": [
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "tier": "OPTIONAL"
+  },
+  "shot_len_p10": {
+   "values": [
+    2.43,
+    2.1,
+    2.33,
+    1.33
+   ],
+   "n": 1,
+   "median": 2.43,
+   "min": 2.43,
+   "max": 2.43,
+   "unreliable_clips": [
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "tier": "OPTIONAL"
+  },
+  "shot_len_p90": {
+   "values": [
+    8.17,
+    14.41,
+    16.13,
+    12.73
+   ],
+   "n": 1,
+   "median": 8.17,
+   "min": 8.17,
+   "max": 8.17,
+   "unreliable_clips": [
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "tier": "OPTIONAL"
+  },
+  "shot_cuts_per_min": {
+   "values": [
+    10.9,
+    6.5,
+    7.5,
+    10.9
+   ],
+   "n": 1,
+   "median": 10.9,
+   "min": 10.9,
+   "max": 10.9,
+   "unreliable_clips": [
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "tier": "OPTIONAL"
+  },
+  "shot_shots": {
+   "values": [
+    31.0,
+    19.0,
+    22.0,
+    33.0
+   ],
+   "n": 1,
+   "median": 31.0,
+   "min": 31.0,
+   "max": 31.0,
+   "unreliable_clips": [
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "tier": "OPTIONAL"
+  },
+  "energy_mean": {
+   "values": [
+    1.296,
+    0.721,
+    1.079,
+    1.145
+   ],
+   "n": 4,
+   "median": 1.112,
+   "min": 0.721,
+   "max": 1.296
+  },
+  "energy_median": {
+   "values": [
+    0.307,
+    0.146,
+    0.243,
+    0.287
+   ],
+   "n": 4,
+   "median": 0.265,
+   "min": 0.146,
+   "max": 0.307
+  },
+  "energy_window_p90": {
+   "values": [
+    3.359,
+    1.913,
+    2.785,
+    2.715
+   ],
+   "n": 4,
+   "median": 2.75,
+   "min": 1.913,
+   "max": 3.359
+  },
+  "still_frame_share_E_lt_0.1": {
+   "values": [
+    0.297,
+    0.428,
+    0.334,
+    0.289
+   ],
+   "n": 4,
+   "median": 0.316,
+   "min": 0.289,
+   "max": 0.428
+  },
+  "bursts_per_min": {
+   "values": [
+    34.8,
+    21.6,
+    27.5,
+    32.4
+   ],
+   "n": 4,
+   "median": 29.95,
+   "min": 21.6,
+   "max": 34.8
+  },
+  "burst_len_median_s": {
+   "values": [
+    0.38,
+    0.42,
+    0.33,
+    0.33
+   ],
+   "n": 4,
+   "median": 0.355,
+   "min": 0.33,
+   "max": 0.42
+  },
+  "hold_median_s": {
+   "values": [
+    0.83,
+    0.9,
+    0.83,
+    0.77
+   ],
+   "n": 4,
+   "median": 0.83,
+   "min": 0.77,
+   "max": 0.9
+  },
+  "hold_share_of_clip": {
+   "values": [
+    0.327,
+    0.52,
+    0.401,
+    0.339
+   ],
+   "n": 4,
+   "median": 0.37,
+   "min": 0.327,
+   "max": 0.52
+  },
+  "end_hold_median_s": {
+   "values": [
+    0.13,
+    0.63,
+    0.23,
+    0.37
+   ],
+   "n": 1,
+   "median": 0.13,
+   "min": 0.13,
+   "max": 0.13,
+   "unreliable_clips": [
+    "7699100876736040244",
+    "7702430597297278228",
+    "7702801642646899989"
+   ],
+   "tier": "OPTIONAL"
+  },
+  "text_dwell_median_s": {
+   "values": [
+    1.67,
+    5.25,
+    2.27,
+    1.75
+   ],
+   "n": 4,
+   "median": 2.01,
+   "min": 1.67,
+   "max": 5.25
+  },
+  "tier": "CORE",
+  "n": 4,
+  "approximate": true,
+  "approximate_note": "shot_*, end_hold_median_s: clip 1 only (eye cuts), clips 2-4 unreliable (see transitions.cut_rule). energy, still share, bursts, holds and text dwell do not depend on cuts and use all 4 clips"
+ },
+ "build_defaults": {
+  "rule": "one value per token. Colours/sizes/specs: median over the clips that have it. Eases: the ease family most CORE clips share, ties broken toward the Power BI clip (clip 1); duration/overshoot = median over the clips of that family. Anything not measured is labelled guess.",
+  "status": "proposal derived from measurements; the font is pending owner approval (chờ chủ duyệt)",
+  "colors": {
+   "surface": "#ffffff",
+   "accent_dark": "#1664ba",
+   "accent_primary": "#1872ce",
+   "accent_mid": "#3e9cec",
+   "accent_light": "#8ec8f6",
+   "ink": "#010102",
+   "ink_secondary": "#383a3b",
+   "yellow": "#fcc435",
+   "surface_measured_median": "#fdfdfd",
+   "page_tint": "#eef7fc",
+   "yellow_use": "single small accent (highlight bar, flag); absent in 1 of 4 clips"
+  },
+  "page_background": {
+   "modes": {
+    "tint": {
+     "colour": "#eef7fc",
+     "frame_share_median": 0.778,
+     "frame_share_range": [
+      0.536,
+      0.925
+     ],
+     "lum_range_p10_p90": [
+      236.8,
+      251.85
+     ]
+    },
+    "white": {
+     "colour": "#ffffff",
+     "measured_median": "#fdfdfd",
+     "frame_share_median": 0.221,
+     "frame_share_range": [
+      0.075,
+      0.464
+     ]
+    }
+   },
+   "when_to_use": "two page modes, both normal. Tint (#eef7fc) is the default: 78% of frames (range 54-92%). White (22% of frames, range 8-46%) is used for the parts of the clip at 50-60%, 60-70% of the running time (median over clips). What triggers white inside a clip (title cards, quiet explainer scenes, end card) is NOT measured; pick per scene, and keep the surface cards `#ffffff` in both modes (on white they are separated by the shadow only).",
+   "white_share_by_decile_median": [
+    0.0,
+    0.175,
+    0.0,
+    0.0,
+    0.294,
+    0.5,
+    0.556,
+    0.057,
+    0.0,
+    0.343
+   ],
+   "tint_flat_css": "#eef7fc",
+   "tint_optional_vignette_stops": [
+    [
+     0.025,
+     "#ecf5fc"
+    ],
+    [
+     0.275,
+     "#f1f9fd"
+    ],
+    [
+     0.525,
+     "#f5fafd"
+    ],
+    [
+     0.775,
+     "#eff8fc"
+    ],
+    [
+     0.975,
+     "#e8f4fc"
+    ]
+   ],
+   "note": "the tint is practically flat (differences <= 8 lum). centre_minus_edge_lum median -2.7 = the centre patch is slightly DARKER than the edge median; the side-edge vertical stops show the middle band lighter than top/bottom, so the direction is inconsistent: use the flat colour. Scenes swing in tint between p10 and p90 (see tint lum range)."
+  },
+  "type_scale": {
+   "roles": {
+    "headline": {
+     "font_size_px_1080x1920": 84,
+     "weight": 800,
+     "range_px": [
+      60,
+      105
+     ],
+     "disagree": [
+      "letter gap varies 2.4x (0.08-0.19)"
+     ]
+    },
+    "subhead": {
+     "font_size_px_1080x1920": 56,
+     "weight": 700,
+     "range_px": [
+      36,
+      87
+     ],
+     "disagree": [
+      "size varies 2.4x (0.0187-0.0453)"
+     ]
+    },
+    "caption": {
+     "font_size_px_1080x1920": 80,
+     "weight": 800,
+     "range_px": [
+      64,
+      124
+     ],
+     "disagree": [
+      "stem/x-height varies 3.0x (0.12-0.36)",
+      "letter gap varies 6.0x (0.03-0.18)"
+     ]
+    },
+    "list_item": {
+     "font_size_px_1080x1920": 50,
+     "weight": 800,
+     "range_px": [
+      37,
+      66
+     ],
+     "disagree": []
+    },
+    "pill_label": {
+     "font_size_px_1080x1920": 40,
+     "weight": 800,
+     "range_px": [
+      32,
+      43
+     ],
+     "disagree": [
+      "stem/x-height varies 2.3x (0.12-0.28)"
+     ]
+    },
+    "display_number": {
+     "font_size_px_1080x1920": 154,
+     "weight": 800,
+     "range_px": [
+      118,
+      302
+     ],
+     "disagree": [
+      "size varies 2.6x (0.0614-0.1574)",
+      "letter gap varies 5.0x (0.01-0.05)"
+     ]
+    },
+    "percent_label": {
+     "font_size_px_1080x1920": 90,
+     "weight": 800,
+     "range_px": [
+      56,
+      115
+     ],
+     "disagree": [
+      "size varies 2.1x (0.029-0.06)"
+     ]
+    }
+   },
+   "line_height_em": 1.03,
+   "letter_spacing": "0 (measured glyph gap/x-height 0.14-0.18)",
+   "colour_pattern": "ink for plain words, accent_primary for the key word",
+   "note": "sizes are medians; display_number varies a lot between clips (see range_px) - pick per layout, the median is the default"
+  },
+  "card_specs": {
+   "main_card": {
+    "width_frac_W": 0.677,
+    "width_px_1080": 731,
+    "height_frac_H": 0.296,
+    "padding_px_1080": {
+     "left": 113,
+     "right": 82,
+     "top": 29,
+     "bottom": 75
+    },
+    "radius_px_1080": 24,
+    "box_shadow": "0 13px 53px rgba(21,101,192,0.18)",
+    "surface": "#ffffff",
+    "n": 4,
+    "disagree": [
+     "width varies 2.8x (0.306-0.851)"
+    ],
+    "note": "box-shadow: blur = measured extent below the card edge (layout.shadow_extent_frac_W); alpha = median darkening at 4px converted with an assumed accent_dark tint (guess); y offset = blur/4 is a GUESS (the above-edge extent could not be measured cleanly)"
+   },
+   "pill": {
+    "width_frac_W": 0.435,
+    "width_px_1080": 470,
+    "height_frac_H": 0.043,
+    "padding_px_1080": {
+     "left": 12,
+     "right": 24,
+     "top": 19,
+     "bottom": 17
+    },
+    "radius_px_1080": 41,
+    "box_shadow": "0 10px 40px rgba(21,101,192,0.19)",
+    "surface": "#ffffff",
+    "n": 4,
+    "disagree": [
+     "width varies 2.0x (0.307-0.608)",
+     "shadow blur varies 3.8x (0.0292-0.112)"
+    ],
+    "note": "box-shadow: blur = measured extent below the card edge (layout.shadow_extent_frac_W); alpha = median darkening at 4px converted with an assumed accent_dark tint (guess); y offset = blur/4 is a GUESS (the above-edge extent could not be measured cleanly)"
+   }
+  },
+  "background_pattern": {
+   "default": "line_grid (clips 1, 4); dot_grid in clips 2, 3 - both very faint (contrast 2-24 lum), pattern family present in 4/4 clips",
+   "patterns": {
+    "dot_grid": {
+     "pitch_frac_W": 0.043,
+     "pitch_px_1080": 46,
+     "contrast_lum": 10.6,
+     "n": 2,
+     "tier": "OPTIONAL"
+    },
+    "line_grid": {
+     "pitch_frac_W": 0.167,
+     "pitch_px_1080": 180,
+     "contrast_lum": 23.2,
+     "n": 2,
+     "tier": "OPTIONAL"
+    }
+   }
+  },
+  "iso_block": {
+   "iso_block": {
+    "faces_light_to_dark": [
+     "#aad5fa",
+     "#90c7f3",
+     "#1b74d0"
+    ],
+    "n": 3,
+    "tier": "CORE"
+   }
+  },
+  "safe_zone": {
+   "content_box_px_1080x1920": [
+    143,
+    290,
+    874,
+    1415
+   ],
+   "content_box_frac": [
+    0.132,
+    0.151,
+    0.809,
+    0.737
+   ],
+   "reserved_bottom_frac_H": 0.263,
+   "note": "median ink bounding box over 1fps frames; bottom ~26% of the frame is mostly empty (platform UI)"
+  },
+  "motion": {
+   "card_slide_in": {
+    "gsap_ease": "power2.out",
+    "consensus": false,
+    "family_share": "2/4",
+    "tie_broken_by_power_bi_clip": true,
+    "duration_s": 0.475,
+    "settle_s": 0.475,
+    "overshoot": 0.0,
+    "distance_frac": 0.327,
+    "distance_of": "H",
+    "clip_indexes_used": [
+     0,
+     1
+    ],
+    "note": "no two clips share an ease family: the value is the Power BI clip's (tie rule); treat as a free choice"
+   },
+   "number_count_up.bar_driven": {
+    "gsap_ease": "sine.out",
+    "consensus": false,
+    "family_share": "1/3",
+    "tie_broken_by_power_bi_clip": true,
+    "duration_s": 0.767,
+    "settle_s": 0.933,
+    "overshoot": 0.0,
+    "distance_frac": 0.531,
+    "distance_of": "W",
+    "clip_indexes_used": [
+     0
+    ],
+    "note": "no two clips share an ease family: the value is the Power BI clip's (tie rule); treat as a free choice"
+   },
+   "bar_fill": {
+    "gsap_ease": "power1.inOut",
+    "consensus": true,
+    "family_share": "2/4",
+    "tie_broken_by_power_bi_clip": false,
+    "duration_s": 0.683,
+    "settle_s": 0.683,
+    "overshoot": 0.0,
+    "distance_frac": 0.487,
+    "distance_of": "W",
+    "clip_indexes_used": [
+     1,
+     2
+    ]
+   },
+   "chart_pop.bar1": {
+    "gsap_ease": "back.out(2.5)",
+    "consensus": false,
+    "family_share": "2/4",
+    "tie_broken_by_power_bi_clip": true,
+    "duration_s": 0.117,
+    "settle_s": 0.433,
+    "overshoot": 0.181,
+    "distance_frac": 0.097,
+    "distance_of": "H",
+    "clip_indexes_used": [
+     0,
+     3
+    ],
+    "stagger_s_clip1_only": [
+     0.167,
+     0.133
+    ],
+    "use_for_all_bars": "bars 2-3 have too few clips (family 1/3); reuse bar1 ease, duration and overshoot for every bar",
+    "note": "no two clips share an ease family: the value is the Power BI clip's (tie rule); treat as a free choice"
+   },
+   "chart_pop.bar2": {
+    "gsap_ease": "back.out(2.5)",
+    "consensus": false,
+    "family_share": "1/3",
+    "tie_broken_by_power_bi_clip": true,
+    "duration_s": 0.133,
+    "settle_s": 0.433,
+    "overshoot": 0.171,
+    "distance_frac": 0.082,
+    "distance_of": "H",
+    "clip_indexes_used": [
+     0
+    ],
+    "note": "no two clips share an ease family: the value is the Power BI clip's (tie rule); treat as a free choice"
+   },
+   "chart_pop.bar3": {
+    "gsap_ease": "back.out(1.7)",
+    "consensus": false,
+    "family_share": "1/3",
+    "tie_broken_by_power_bi_clip": true,
+    "duration_s": 0.1,
+    "settle_s": 0.3,
+    "overshoot": 0.181,
+    "distance_frac": 0.159,
+    "distance_of": "H",
+    "clip_indexes_used": [
+     0
+    ],
+    "note": "no two clips share an ease family: the value is the Power BI clip's (tie rule); treat as a free choice"
+   },
+   "pill_progress": {
+    "hop_frames": 1,
+    "pop_scale": 1.08,
+    "settle_s": 0.033,
+    "disagree": [
+     "settle differs 0.033-0.2s",
+     "see clip_notes (observed differences not captured by the numbers)"
+    ]
+   }
+  },
+  "motion_optional_not_defaulted": [
+   "button_click_swell",
+   "button_pop",
+   "button_swell_pre_click",
+   "camera_dive",
+   "chart_bar_fall.bar2",
+   "chart_bar_fall.bar3",
+   "chat_autoscroll",
+   "flag_plant.banner",
+   "flag_plant.pole",
+   "node_radial",
+   "typed_text"
+  ],
+  "transitions": {
+   "source": "reliable (eye-cut) clips only: 20261028-230040 (n=1); clips 2-4 excluded: rule cuts only 5/10, 6/10, 8/10 real in the spot-check and recall unknown",
+   "n": 1,
+   "kinds": {
+    "bar-wipe": {
+     "share": 0.167,
+     "duration_s": 0.333,
+     "seen_in_unreliable_clips": [
+      "7702430597297278228",
+      "7702801642646899989"
+     ]
+    },
+    "dissolve": {
+     "share": 0.333,
+     "duration_s": 0.333,
+     "seen_in_unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ]
+    },
+    "flash-wipe": {
+     "share": 0.067,
+     "duration_s": 0.333,
+     "seen_in_unreliable_clips": [
+      "7702430597297278228"
+     ]
+    },
+    "hard": {
+     "share": 0.2,
+     "duration_s": 0.033,
+     "seen_in_unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ]
+    },
+    "wash": {
+     "share": 0.233,
+     "duration_s": 0.233,
+     "seen_in_unreliable_clips": [
+      "7699100876736040244",
+      "7702430597297278228",
+      "7702801642646899989"
+     ]
+    }
+   }
+  },
+  "rhythm": {
+   "cut_dependent_source": "clip 1 only (eye cuts), n=1",
+   "shot_len_median_s": 4.77,
+   "shot_len_p10_p90_s": [
+    2.43,
+    8.17
+   ],
+   "cuts_per_min": 10.9,
+   "hold_median_s": 0.83,
+   "burst_len_median_s": 0.355,
+   "bursts_per_min": 29.95,
+   "approximate": true
+  },
+  "font": {
+   "status": "chủ duyệt 2026-11-03: chọn Be Vietnam Pro thay Montserrat (xếp đầu theo IoU) vì độ rộng chữ chỉ lệch 5% so với 15%, xuống dòng giống gốc",
+   "family": "Be Vietnam Pro",
+   "weight": 800,
+   "weight_rule": "weight whose rendered stem/x-height is closest to the measured 0.33 (headline, 4 clips); per-weight stem ratios and IoU in fonts.<family>.per_weight",
+   "rule": "eligible = single font with 100% of the Vietnamese codepoints (Fontsource files); rank by mean over the 8 cropped strings of the best-weight raw IoU (rendered text resized to the crop's ink box vs the crop); aspect error (width/height of rendered text vs crop) is reported separately, not mixed into the rank",
+   "top2": [
+    {
+     "family": "Montserrat",
+     "mean_best_iou": 0.634,
+     "mean_abs_aspect_error": 0.146,
+     "stem_over_xheight_by_weight": {
+      "700": 0.286,
+      "800": 0.35,
+      "900": 0.415
+     }
+    },
+    {
+     "family": "Be Vietnam Pro",
+     "mean_best_iou": 0.581,
+     "mean_abs_aspect_error": 0.052,
+     "stem_over_xheight_by_weight": {
+      "700": 0.289,
+      "800": 0.321,
+      "900": 0.358
+     }
+    }
+   ],
+   "excluded": {
+    "Outfit (primary)": "28.4% Vietnamese coverage (no vietnamese subset); 'Outfit + Be Vietnam Pro fallback' is a mixed font, listed for comparison only (mean_best_iou 0.536)"
+   },
+   "caveat": "the reference letters look single-storey (a, g) like Outfit; none of the eligible fonts has a single-storey a. IoU is a rough shape match, not font identification: choose by eye on a test scene.",
+   "scores_all": {
+    "Be Vietnam Pro": {
+     "mean_best_iou": 0.581,
+     "mean_abs_aspect_error_at_best_iou": 0.052,
+     "vietnamese_coverage_pct_primary": 100.0
+    },
+    "Montserrat": {
+     "mean_best_iou": 0.634,
+     "mean_abs_aspect_error_at_best_iou": 0.146,
+     "vietnamese_coverage_pct_primary": 100.0
+    },
+    "Outfit + Be Vietnam Pro fallback": {
+     "mean_best_iou": 0.536,
+     "mean_abs_aspect_error_at_best_iou": 0.058,
+     "vietnamese_coverage_pct_primary": 28.4
+    },
+    "Plus Jakarta Sans": {
+     "mean_best_iou": 0.534,
+     "mean_abs_aspect_error_at_best_iou": 0.062,
+     "vietnamese_coverage_pct_primary": 100.0
+    }
+   }
+  }
+ },
+ "beat_formula": [
+  "wow demo / hook",
+  "hanging number or question",
+  "authority quote or setup",
+  "metaphor",
+  "checklist / steps",
+  "costly detail",
+  "lessons",
+  "CTA",
+  "loop back to the hook"
+ ]
+}

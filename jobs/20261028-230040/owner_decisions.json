@@ -1,0 +1,4 @@
+{
+  "font": {"family": "Be Vietnam Pro", "weight": 800, "date": "2026-11-03",
+           "note": "chọn Be Vietnam Pro thay Montserrat (xếp đầu theo IoU) vì độ rộng chữ chỉ lệch 5% so với 15%, xuống dòng giống gốc"}
+}

@@ -1,0 +1,515 @@
+{
+ "id": "7699100876736040244",
+ "title": "OEE",
+ "url": "https://www.tiktok.com/@phantichdulieu.mda/video/7699100876736040244",
+ "samples": {
+  "yellow_flag": [
+   152.5,
+   375,
+   243,
+   3
+  ],
+  "card_white": [
+   74,
+   200,
+   400,
+   4
+  ],
+  "dot_active": [
+   156.5,
+   442,
+   528,
+   2
+  ]
+ },
+ "text": {
+  "headline": {
+   "t": 163.4,
+   "box": [
+    30,
+    265,
+    550,
+    320
+   ],
+   "thr": 100,
+   "note": "Con so chi tao ra hanh dong, (black + blue word)"
+  },
+  "subhead": {
+   "t": 77.5,
+   "box": [
+    60,
+    252,
+    400,
+    295
+   ],
+   "thr": 100,
+   "note": "Hay nhat: boc nguoc no ra"
+  },
+  "caption": {
+   "t": 152.6,
+   "box": [
+    130,
+    675,
+    440,
+    720
+   ],
+   "thr": 100,
+   "note": "Do la phan tu duy. (1 line)"
+  },
+  "list_item": {
+   "t": 152.5,
+   "box": [
+    130,
+    450,
+    375,
+    640
+   ],
+   "thr": 100,
+   "note": "chi phi sua / anh huong day chuyen / bai toan kinh doanh"
+  },
+  "pill_label": {
+   "t": 161.5,
+   "box": [
+    195,
+    755,
+    385,
+    790
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "OEE ~ 60% pill"
+  },
+  "display_number": {
+   "t": 125.0,
+   "box": [
+    65,
+    175,
+    380,
+    265
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "60.000"
+  },
+  "percent_label": {
+   "t": 63.0,
+   "box": [
+    400,
+    385,
+    530,
+    455
+   ],
+   "thr": 100,
+   "digits": true,
+   "note": "~61%"
+  }
+ },
+ "corner": [
+  {
+   "name": "main_card",
+   "t": 74,
+   "box": [
+    95,
+    355,
+    180,
+    450
+   ],
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "list_card",
+   "t": 153,
+   "box": [
+    70,
+    447,
+    150,
+    508
+   ],
+   "mask": {
+    "rgb": "227,241,253,8"
+   }
+  },
+  {
+   "name": "pill",
+   "t": 161.5,
+   "box": [
+    185,
+    740,
+    260,
+    805
+   ],
+   "mask": {
+    "light": "252"
+   }
+  },
+  {
+   "name": "cta_frame",
+   "t": 153,
+   "box": [
+    55,
+    385,
+    140,
+    470
+   ],
+   "mask": {
+    "rgb": "21,101,192,45"
+   }
+  }
+ ],
+ "shadow": [
+  {
+   "name": "main_card",
+   "t": 74,
+   "axis": "y",
+   "idx": 285,
+   "a": 604,
+   "len": 40
+  },
+  {
+   "name": "pill",
+   "t": 161.5,
+   "axis": "y",
+   "idx": 290,
+   "a": 796,
+   "len": 36
+  }
+ ],
+ "stroke": [
+  {
+   "name": "cta_frame",
+   "t": 153,
+   "axis": "x",
+   "idx": 520,
+   "a": 40,
+   "b": 120,
+   "thr": 30
+  }
+ ],
+ "dwell": {
+  "headline_con_so_gop": {
+   "t0": 70.0,
+   "t1": 78.0,
+   "box": [
+    60,
+    175,
+    350,
+    255
+   ]
+  },
+  "headline_khi_tach_ra": {
+   "t0": 78.7,
+   "t1": 86.3,
+   "box": [
+    60,
+    175,
+    350,
+    255
+   ]
+  },
+  "headline_chi_phi_co_dinh": {
+   "t0": 113.3,
+   "t1": 116.6,
+   "box": [
+    60,
+    180,
+    430,
+    250
+   ]
+  },
+  "caption_do_la_phan_tu_duy": {
+   "t0": 150.0,
+   "t1": 153.2,
+   "box": [
+    130,
+    675,
+    440,
+    720
+   ]
+  }
+ },
+ "motion": [
+  {
+   "primitive": "card_slide_in",
+   "kind": "ease",
+   "t0": 2.5,
+   "t1": 3.3,
+   "box": [
+    60,
+    440,
+    540,
+    1024
+   ],
+   "axis": "y1",
+   "mask": {
+    "light": "252",
+    "minrow": "20"
+   },
+   "label": "Bao cao lai lo card from below (bottom edge)"
+  },
+  {
+   "primitive": "card_slide_in",
+   "kind": "ease",
+   "t0": 5.2,
+   "t1": 5.9,
+   "box": [
+    60,
+    0,
+    540,
+    420
+   ],
+   "axis": "y",
+   "mask": {
+    "light": "252",
+    "minrow": "20"
+   },
+   "label": "Sep chat card from top (top edge)"
+  },
+  {
+   "primitive": "number_count_up",
+   "part": "bar_driven",
+   "kind": "ease",
+   "t0": 102.6,
+   "t1": 105.8,
+   "box": [
+    62,
+    400,
+    470,
+    603
+   ],
+   "axis": "area",
+   "mask": {
+    "rgb": "30,112,205,45",
+    "minrow": "4"
+   },
+   "label": "counter 0->60.000 via warehouse square fill (area)"
+  },
+  {
+   "primitive": "bar_fill",
+   "kind": "ease",
+   "t0": 65.55,
+   "t1": 66.3,
+   "box": [
+    70,
+    700,
+    470,
+    760
+   ],
+   "axis": "x1",
+   "mask": {
+    "rgb": "21,101,192,40",
+    "minrow": "4"
+   },
+   "label": "OEE that ~60% bar"
+  },
+  {
+   "primitive": "chart_pop",
+   "part": "bar1",
+   "kind": "ease",
+   "t0": 55.45,
+   "t1": 56.3,
+   "box": [
+    60,
+    360,
+    160,
+    620
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "40,130,230,50",
+    "minrow": "20"
+   },
+   "onset_min": 300,
+   "label": "100% bar rises"
+  },
+  {
+   "primitive": "chart_bar_fall",
+   "part": "bar2",
+   "kind": "ease",
+   "t0": 59.9,
+   "t1": 60.7,
+   "box": [
+    150,
+    380,
+    240,
+    600
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "66,164,245,40",
+    "minrow": "20"
+   },
+   "onset_min": 300,
+   "label": "bar drops 100%->85% (falling bar)"
+  },
+  {
+   "primitive": "chart_bar_fall",
+   "part": "bar3",
+   "kind": "ease",
+   "t0": 60.3,
+   "t1": 61.3,
+   "box": [
+    245,
+    380,
+    330,
+    600
+   ],
+   "axis": "h",
+   "mask": {
+    "rgb": "66,164,245,40",
+    "minrow": "20"
+   },
+   "onset_min": 300,
+   "label": "bar drops 85%->72.3% (falling bar)"
+  },
+  {
+   "primitive": "typed_text",
+   "kind": "typed",
+   "t0": 5.85,
+   "t1": 6.85,
+   "box": [
+    90,
+    240,
+    400,
+    285
+   ],
+   "mask": {
+    "rgb": "30,111,207,50",
+    "minrow": "2"
+   },
+   "label": "chars read by eye at exact 0-based frame indexes (n/30 s)",
+   "chars_eye": [
+    [
+     5.9,
+     1
+    ],
+    [
+     6.83333,
+     20
+    ]
+   ]
+  },
+  {
+   "primitive": "pill_progress",
+   "kind": "hop",
+   "t0": 155.3,
+   "t1": 155.9,
+   "box": [
+    100,
+    500,
+    560,
+    556
+   ],
+   "mask": {
+    "rgb": "24,118,211,18",
+    "minrow": "10"
+   },
+   "label": "timeline active dot slot2->slot3"
+  },
+  {
+   "primitive": "button_pop",
+   "kind": "ease",
+   "t0": 164.37,
+   "t1": 165.0,
+   "box": [
+    150,
+    690,
+    430,
+    810
+   ],
+   "axis": "w",
+   "mask": {
+    "rgb": "24,118,211,35",
+    "minrow": "4"
+   },
+   "label": "HANH DONG button pop then relax"
+  },
+  {
+   "primitive": "chat_autoscroll",
+   "kind": "vscroll",
+   "phases": {
+    "phase1": [
+     143.0,
+     146.0
+    ]
+   }
+  }
+ ],
+ "content_motifs": [
+  "OEE water-bucket leak metaphor",
+  "isometric factory",
+  "waffle grid of units (60.000 / 72.000)",
+  "'Con AI?' chat panel"
+ ],
+ "notes": {
+  "chart_bar_fall": "bars 2-3 of the OEE chart FALL (100% -> 85% -> 72.3%), they do not rise",
+  "number_count_up": "counter is linear over ~2.3s, driven by area fill (no per-digit ease)",
+  "camera_dive": "no camera dive in this clip"
+ },
+ "cards": [
+  {
+   "name": "main_card",
+   "t": 74,
+   "box": [
+    60,
+    330,
+    520,
+    640
+   ]
+  },
+  {
+   "name": "pill",
+   "t": 161.5,
+   "box": [
+    150,
+    720,
+    430,
+    830
+   ]
+  }
+ ],
+ "grid": [
+  {
+   "name": "dot_grid",
+   "t": 161.5,
+   "box": [
+    0,
+    20,
+    576,
+    200
+   ]
+  }
+ ],
+ "iso": [
+  {
+   "name": "iso_block",
+   "t": 1.0,
+   "box": [
+    100,
+    300,
+    470,
+    670
+   ]
+  }
+ ],
+ "cut_spot_check": {
+  "n": 10,
+  "real_cuts": 5,
+  "precision": "5/10",
+  "method": "10 rule cuts evenly spaced in time, judged by eye on 0.9s strips (-0.3..+0.5s): real = the composition/title is replaced; in-shot = same scene keeps animating",
+  "times": [
+   9.633,
+   13.633,
+   33.4,
+   78.533,
+   98.267,
+   109.2,
+   121.4,
+   130.367,
+   140.267,
+   165.033
+  ],
+  "notes": "real cuts at 13.6 (blue burst), 78.5 and 109.2 (diagonal blue wipe), 140.3, 165.0 (MDA); in-shot at 9.6, 33.4, 98.3, 121.4, 130.4"
+ }
+}
