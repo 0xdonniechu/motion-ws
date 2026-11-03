@@ -6,6 +6,8 @@ Số đo máy đọc nằm ở `style.json`: mỗi token có giá trị từng c
 
 Trạng thái: có số đo 4 clip, token và giá trị dựng mặc định. Có kit `kit/` (từ vựng `catalog.json`: 24 component, 10 effect, 5 transition; scene chỉ gọi theo tên), tách `language.json` (chuyển động, cố định) và `themes/<tên>.json` (màu, font, kiểu chữ), xem `THEMING.md`; clip mẫu đủ 8 beat ở `jobs/20261103-corp-demo-dashboard/full/`. Font: CHỜ CHỦ DUYỆT.
 
+Lệnh mỏng `/corporate-motion` (skill `.claude/skills/corporate-motion/`): LLM chỉ viết `script.json` (dạng ở `script.schema.json`: tiêu đề, theme, beat theo khung beat dưới đây, item = tên component trong catalog + prop chữ/số, effect theo tên + giây từ đầu beat, chuyển cảnh); máy làm phần còn lại. `tools/build-clip.mjs` kiểm schema + catalog + `layouts.json` (slot = toạ độ, thuộc preset) rồi sinh scene toàn lời gọi kit; thiếu tên trong catalog thì dừng ("thiếu mục X trong catalog"), không vẽ. `tools/make.sh <script.json> [--theme t]` sinh, render, `hyperframes check`, thử tua, `tools/style-check.py` (so DNA, chỉ báo cáo). Clip mẫu: `jobs/20261103-corp-demo-dashboard/script.json`.
+
 ## Bốn clip (cột trong mọi mảng `values` của style.json theo đúng thứ tự này)
 
 | # | Job | Clip | Dài | Nguồn | Mốc cắt |

@@ -1,5 +1,5 @@
 {
- "_doc": "Từ vựng của preset corporate-motion. Scene chỉ gọi theo tên (Kit.make / Kit.fx / Kit.tx); cần thứ chưa có thì thêm vào đây + kit.js + ../demo/ trước. build-tokens.mjs --check-catalog kiểm khớp với kit.js (khi nạp) và demo. Prop có \"internal\": true (ease, reach, dur) CHỈ để kit dùng nội bộ: language cố định nên scene không được truyền; verify/--check-scenes báo lỗi.",
+ "_doc": "Từ vựng của preset corporate-motion. Scene chỉ gọi theo tên (Kit.make / Kit.fx / Kit.tx); cần thứ chưa có thì thêm vào đây + kit.js + ../demo/ trước. build-tokens.mjs --check-catalog kiểm khớp với kit.js (khi nạp) và demo. Prop có \"internal\": true (ease, reach, dur) CHỈ để kit dùng nội bộ: language cố định nên scene không được truyền; verify/--check-scenes báo lỗi. Trường prop mở rộng (build-clip.mjs đọc): required (true, hoặc \"unless:typing@<target>\" = được bỏ trống nếu có effect typing nhắm vào target đó), min/max (số), maxLen (chuỗi), schema (kiểu JSON Schema cho prop có cấu trúc: mảng/đối tượng, kèm khoảng giá trị), example, system (do máy đặt: cấm trong script, vd at/from/to/parent của transition).",
  "call": {
   "component": "Kit.make(name, parent, props) -> handle",
   "effect": "Kit.fx(name, tl, target, props)",
@@ -124,7 +124,10 @@
     "text": {
      "type": "string",
      "default": "",
-     "desc": "nội dung, hỗ trợ *nhấn*"
+     "desc": "chữ (bỏ trống nếu có effect typing nhắm vào chính nó); `*từ*` = từ nhấn",
+     "required": "unless:typing@self",
+     "maxLen": 70,
+     "example": "Dashboard *đẹp* như phim."
     },
     "align": {
      "type": "left|center|right",
@@ -144,7 +147,9 @@
     "size": {
      "type": "px",
      "default": null,
-     "desc": "ghi đè cỡ"
+     "desc": "cỡ chữ px (ghi đè thang chữ của language; thường KHÔNG dùng)",
+     "min": 40,
+     "max": 300
     }
    },
    "returns": "{el}",
@@ -219,7 +224,9 @@
     "size": {
      "type": "px",
      "default": 48,
-     "desc": "cỡ"
+     "desc": "cỡ",
+     "min": 24,
+     "max": 400
     },
     "tone": {
      "type": "accent|ink|surface|mid",
@@ -269,12 +276,17 @@
     "initials": {
      "type": "string",
      "default": "",
-     "desc": "chữ cái"
+     "desc": "1-3 chữ cái đầu (không tên thật)",
+     "required": true,
+     "maxLen": 3,
+     "example": "MA"
     },
     "size": {
      "type": "px",
      "default": 96,
-     "desc": "đường kính"
+     "desc": "đường kính",
+     "min": 48,
+     "max": 300
     },
     "w": {
      "type": "px",
@@ -358,17 +370,36 @@
     "values": {
      "type": "number[]",
      "default": [],
-     "desc": "chiều cao tương đối"
+     "desc": "chiều cao cột, 1-8 số >= 0; tỉ lệ so với `max`",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 100000
+      }
+     },
+     "example": [
+      200,
+      280,
+      330
+     ]
     },
     "max": {
      "type": "number",
      "default": null,
-     "desc": "giá trị ứng với h"
+     "desc": "giá trị ứng với cao 100% (mặc định: số lớn nhất)",
+     "min": 1
     },
     "barW": {
      "type": "px",
      "default": 60,
-     "desc": "rộng mỗi cột"
+     "desc": "rộng mỗi cột, px",
+     "min": 20,
+     "max": 120
     },
     "baseline": {
      "type": "bool",
@@ -417,12 +448,32 @@
     "values": {
      "type": "number[]",
      "default": [],
-     "desc": "giá trị"
+     "desc": "2-12 điểm >= 0",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 12,
+      "items": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 100000
+      }
+     },
+     "example": [
+      3,
+      5,
+      4,
+      8,
+      7,
+      9
+     ]
     },
     "max": {
      "type": "number",
      "default": null,
-     "desc": "giá trị ứng với h"
+     "desc": "giá trị ứng với h",
+     "min": 1
     }
    },
    "returns": "{el}",
@@ -451,17 +502,23 @@
     "size": {
      "type": "px",
      "default": 300,
-     "desc": "đường kính"
+     "desc": "đường kính",
+     "min": 150,
+     "max": 500
     },
     "value": {
      "type": "0..1",
      "default": 1,
-     "desc": "tỉ lệ cuối"
+     "desc": "tỉ lệ vòng 0..1; effect ringFill chạy tới giá trị `to`",
+     "min": 0,
+     "max": 1
     },
     "label": {
      "type": "string",
      "default": null,
-     "desc": "chữ ở giữa"
+     "desc": "chữ ở giữa vòng",
+     "maxLen": 12,
+     "example": "72%"
     },
     "w": {
      "type": "px",
@@ -500,12 +557,28 @@
     "rows": {
      "type": "px[]",
      "default": [],
-     "desc": "rộng từng dòng"
+     "desc": "rộng từng dòng xương, px (100-740), 1-4 dòng",
+     "schema": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+       "type": "number",
+       "minimum": 100,
+       "maximum": 740
+      }
+     },
+     "example": [
+      620,
+      440
+     ]
     },
     "gap": {
      "type": "px",
      "default": 35,
-     "desc": "khoảng dòng"
+     "desc": "khoảng dòng",
+     "min": 20,
+     "max": 80
     },
     "w": {
      "type": "px",
@@ -543,12 +616,14 @@
     "label": {
      "type": "string",
      "default": "",
-     "desc": "nhãn"
+     "desc": "nhãn",
+     "maxLen": 30
     },
     "value": {
      "type": "string",
      "default": null,
-     "desc": "số tĩnh (bỏ nếu dùng countUp)"
+     "desc": "số tĩnh (bỏ nếu dùng countUp)",
+     "maxLen": 10
     },
     "w": {
      "type": "px",
@@ -597,7 +672,10 @@
     "label": {
      "type": "string",
      "default": "",
-     "desc": "chữ trên nút"
+     "desc": "chữ trên nút",
+     "required": true,
+     "maxLen": 24,
+     "example": "Lưu lại"
     }
    },
    "returns": "{el}",
@@ -630,17 +708,22 @@
     "label": {
      "type": "string",
      "default": "CÂU",
-     "desc": "nhãn"
+     "desc": "tiền tố, mặc định CÂU",
+     "maxLen": 10
     },
     "total": {
      "type": "int",
      "default": 3,
-     "desc": "tổng bước"
+     "desc": "tổng bước",
+     "min": 2,
+     "max": 8
     },
     "step": {
      "type": "int",
      "default": 1,
-     "desc": "bước đầu"
+     "desc": "bước đầu",
+     "min": 1,
+     "max": 8
     },
     "h": {
      "type": "px",
@@ -684,17 +767,54 @@
     "title": {
      "type": "string",
      "default": "",
-     "desc": "tiêu đề nhỏ"
+     "desc": "tiêu đề nhỏ",
+     "maxLen": 40
     },
     "kpi": {
      "type": "{label}",
      "default": {},
-     "desc": "nhãn KPI"
+     "desc": "nhãn bên phải số KPI (số do effect countUp trên `num`)",
+     "required": true,
+     "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "label"
+      ],
+      "properties": {
+       "label": {
+        "type": "string",
+        "maxLength": 30
+       }
+      }
+     },
+     "example": {
+      "label": "đạt kế hoạch"
+     }
     },
     "bars": {
      "type": "number[]",
      "default": [],
-     "desc": "cột (max 400)"
+     "desc": "3-8 cột, mỗi số 0-400 (400 = cao hết khung)",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "items": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 400
+      }
+     },
+     "example": [
+      200,
+      280,
+      240,
+      330,
+      300,
+      380
+     ]
     },
     "skeleton": {
      "type": "px[]",
@@ -702,7 +822,17 @@
       620,
       440
      ],
-     "desc": "dòng xương"
+     "desc": "rộng dòng xương, px (100-740), 1-3 dòng",
+     "schema": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+       "type": "number",
+       "minimum": 100,
+       "maximum": 740
+      }
+     }
     },
     "cls": {
      "type": "string",
@@ -745,17 +875,24 @@
     "tag": {
      "type": "string",
      "default": null,
-     "desc": "nhãn góc"
+     "desc": "nhãn góc phải; ghi \"Số minh hoạ\" khi số là bịa",
+     "maxLen": 24,
+     "example": "Số minh hoạ"
     },
     "lead": {
      "type": "string",
      "default": "",
-     "desc": "dòng dẫn"
+     "desc": "dòng dẫn phía trên SỐ (ngắn: <= 34 ký tự, dài hơn đè lên số)",
+     "required": true,
+     "maxLen": 34,
+     "example": "Dashboard họp tuần có"
     },
     "unit": {
      "type": "string",
      "default": "",
-     "desc": "đơn vị/nhãn dưới số"
+     "desc": "đơn vị/kết câu dưới SỐ",
+     "maxLen": 30,
+     "example": "biểu đồ."
     },
     "highlight": {
      "type": "bool",
@@ -770,17 +907,79 @@
     "progressW": {
      "type": "px",
      "default": 574,
-     "desc": "rộng thanh"
+     "desc": "rộng thanh",
+     "min": 200,
+     "max": 740
     },
     "chart": {
      "type": "{values,h,barW,top,caption}",
      "default": null,
-     "desc": "biểu đồ cột thay thanh"
+     "desc": "biểu đồ cột trong thẻ: values 2-14 số >= 0; h = cao px 60-200 (mặc định 160); barW = rộng cột px 20-60 (40); top = y của biểu đồ trong thẻ, 520-560 (540); caption chữ dưới. Chỉ dùng ở slot cao >= top+h+70 (stat-chart-line)",
+     "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "values"
+      ],
+      "properties": {
+       "values": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 14,
+        "items": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 1000
+        }
+       },
+       "h": {
+        "type": "number",
+        "minimum": 60,
+        "maximum": 200
+       },
+       "barW": {
+        "type": "number",
+        "minimum": 20,
+        "maximum": 60
+       },
+       "top": {
+        "type": "number",
+        "minimum": 520,
+        "maximum": 560
+       },
+       "caption": {
+        "type": "string",
+        "maxLength": 40
+       }
+      }
+     },
+     "example": {
+      "values": [
+       6,
+       5,
+       7,
+       6,
+       6,
+       6,
+       5,
+       7,
+       6,
+       6,
+       6,
+       6
+      ],
+      "h": 160,
+      "barW": 40,
+      "top": 540,
+      "caption": "12 tuần × 6 giờ"
+     }
     },
     "numberScale": {
      "type": "number",
      "default": 1.558,
-     "desc": "cỡ số theo display_number"
+     "desc": "cỡ số theo display_number",
+     "min": 0.8,
+     "max": 2
     },
     "cls": {
      "type": "string",
@@ -825,17 +1024,25 @@
     "tag": {
      "type": "string",
      "default": "",
-     "desc": "nhãn nguồn chung"
+     "desc": "nhãn trên (chung, KHÔNG tên người)",
+     "maxLen": 40,
+     "example": "Ai làm dữ liệu lâu cũng nhận ra:"
     },
     "line1": {
      "type": "string",
      "default": "",
-     "desc": "dòng 1"
+     "desc": "dòng 1 tĩnh",
+     "required": true,
+     "maxLen": 40,
+     "example": "Không cần thêm biểu đồ."
     },
     "line2": {
      "type": "string",
      "default": null,
-     "desc": "dòng 2; bỏ để lấy khung typing"
+     "desc": "dòng 2: để trống rồi gõ bằng effect typing target line2",
+     "required": "unless:typing@line2",
+     "maxLen": 40,
+     "example": "Họ cần một *câu trả lời*."
     },
     "cls": {
      "type": "string",
@@ -878,12 +1085,71 @@
     "pins": {
      "type": "[fx,fy][]",
      "default": [],
-     "desc": "ghim theo tỉ lệ thẻ"
+     "desc": "ghim [fx, fy], mỗi số 0..1 theo tỉ lệ rộng/cao của thẻ, 1-12 ghim",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+       "type": "array",
+       "minItems": 2,
+       "maxItems": 2,
+       "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+       }
+      }
+     },
+     "example": [
+      [
+       0.14,
+       0.3
+      ],
+      [
+       0.58,
+       0.7
+      ],
+      [
+       0.88,
+       0.5
+      ]
+     ]
     },
     "roads": {
      "type": "[x1,y1,x2,y2][]",
      "default": null,
-     "desc": "đường (toạ độ 0..100)"
+     "desc": "đường [x1,y1,x2,y2], toạ độ 0..100 (mặc định có sẵn bộ đường: thường KHÔNG truyền)",
+     "schema": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+       "type": "array",
+       "minItems": 4,
+       "maxItems": 4,
+       "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+       }
+      }
+     },
+     "example": [
+      [
+       0,
+       22,
+       100,
+       22
+      ],
+      [
+       20,
+       0,
+       20,
+       100
+      ]
+     ]
     },
     "cls": {
      "type": "string",
@@ -926,17 +1192,23 @@
     "icon": {
      "type": "string",
      "default": "check",
-     "desc": "tên biểu tượng"
+     "desc": "tên biểu tượng: check, question, arrow-right, arrow-down, pin, user, quote, chart, chat, plus",
+     "example": "question"
     },
     "text": {
      "type": "string",
      "default": "",
-     "desc": "câu"
+     "desc": "câu",
+     "required": true,
+     "maxLen": 40,
+     "example": "điểm đến?"
     },
     "iconSize": {
      "type": "px",
      "default": 84,
-     "desc": "cỡ icon"
+     "desc": "cỡ icon",
+     "min": 40,
+     "max": 160
     },
     "role": {
      "type": "list|label|headline",
@@ -986,12 +1258,16 @@
     "text": {
      "type": "string",
      "default": "",
-     "desc": "câu, hỗ trợ *nhấn*"
+     "desc": "câu, hỗ trợ *nhấn*",
+     "required": true,
+     "maxLen": 50,
+     "example": "Ai là người *chốt*?"
     },
     "icon": {
      "type": "string",
      "default": "check",
-     "desc": "biểu tượng"
+     "desc": "biểu tượng",
+     "example": "check"
     },
     "cls": {
      "type": "string",
@@ -1034,12 +1310,17 @@
     "n": {
      "type": "int|string",
      "default": 1,
-     "desc": "số bước"
+     "desc": "số (hoặc chữ ngắn) trong huy hiệu",
+     "required": true,
+     "example": 1
     },
     "text": {
      "type": "string",
      "default": "",
-     "desc": "câu"
+     "desc": "câu",
+     "required": true,
+     "maxLen": 30,
+     "example": "Quyết định"
     },
     "cls": {
      "type": "string",
@@ -1106,22 +1387,65 @@
     "columns": {
      "type": "string[]",
      "default": [],
-     "desc": "tiêu đề cột"
+     "desc": "tiêu đề cột",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+       "type": "string",
+       "maxLength": 20
+      }
+     },
+     "example": [
+      "Tuần",
+      "Giờ"
+     ]
     },
     "rows": {
      "type": "string[][]",
      "default": [],
-     "desc": "dữ liệu"
+     "desc": "mỗi hàng có đúng số ô bằng số cột",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+       "type": "array",
+       "minItems": 2,
+       "maxItems": 4,
+       "items": {
+        "type": "string",
+        "maxLength": 20
+       }
+      }
+     },
+     "example": [
+      [
+       "12",
+       "6"
+      ],
+      [
+       "13",
+       "6"
+      ]
+     ]
     },
     "rowH": {
      "type": "px",
      "default": 84,
-     "desc": "cao hàng"
+     "desc": "cao hàng",
+     "min": 60,
+     "max": 140
     },
     "highlight": {
      "type": "int",
      "default": null,
-     "desc": "chỉ số hàng nhấn"
+     "desc": "chỉ số hàng dữ liệu được nhấn (từ 0)",
+     "min": 0,
+     "max": 5
     },
     "h": {
      "type": "px",
@@ -1165,7 +1489,43 @@
     "messages": {
      "type": "{from,text}[]",
      "default": [],
-     "desc": "tin nhắn"
+     "desc": "5-6 tin nhắn {from: user|bot, text} (đủ lấp khung)",
+     "required": true,
+     "schema": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 6,
+      "items": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "from",
+        "text"
+       ],
+       "properties": {
+        "from": {
+         "enum": [
+          "user",
+          "bot"
+         ]
+        },
+        "text": {
+         "type": "string",
+         "maxLength": 50
+        }
+       }
+      }
+     },
+     "example": [
+      {
+       "from": "user",
+       "text": "Số nào quan trọng?"
+      },
+      {
+       "from": "bot",
+       "text": "Số đổi được quyết định."
+      }
+     ]
     },
     "h": {
      "type": "px",
@@ -1194,12 +1554,16 @@
     "y": {
      "type": "px",
      "default": 28,
-     "desc": "quãng"
+     "desc": "quãng trượt lên, px (0 = chỉ hiện dần)",
+     "min": 0,
+     "max": 100
     },
     "duration": {
      "type": "s",
      "default": 0.35,
-     "desc": "thời lượng"
+     "desc": "thời lượng",
+     "min": 0.1,
+     "max": 1
     },
     "ease": {
      "type": "string",
@@ -1240,12 +1604,16 @@
     "dist": {
      "type": "px",
      "default": 628,
-     "desc": "quãng"
+     "desc": "quãng",
+     "min": 100,
+     "max": 1000
     },
     "fade": {
      "type": "s",
      "default": 0.1,
-     "desc": "hiện dần; 0 = hiện ngay"
+     "desc": "hiện dần; 0 = hiện ngay",
+     "min": 0,
+     "max": 0.5
     },
     "reach": {
      "type": "s",
@@ -1276,7 +1644,10 @@
     "text": {
      "type": "string",
      "default": "",
-     "desc": "chữ, *nhấn*"
+     "desc": "chữ sẽ gõ (cái chủ thể text phải để trống)",
+     "required": true,
+     "maxLen": 70,
+     "example": "Dashboard *đẹp* như phim."
     },
     "at": {
      "type": "s",
@@ -1286,7 +1657,9 @@
     "cps": {
      "type": "number",
      "default": 21.3,
-     "desc": "ký tự/giây"
+     "desc": "ký tự/giây",
+     "min": 15,
+     "max": 30
     },
     "caret": {
      "type": "bool",
@@ -1296,7 +1669,9 @@
     "caretHold": {
      "type": "s",
      "default": 0.5,
-     "desc": "con trỏ giữ sau ký tự cuối"
+     "desc": "con trỏ giữ sau ký tự cuối",
+     "min": 0,
+     "max": 1
     }
    },
    "language": "motion.typed_text",
@@ -1317,7 +1692,9 @@
     "to": {
      "type": "number",
      "default": null,
-     "desc": "giá trị cuối"
+     "desc": "giá trị đích",
+     "required": true,
+     "example": 47
     },
     "from": {
      "type": "number",
@@ -1332,17 +1709,22 @@
     "prefix": {
      "type": "string",
      "default": "",
-     "desc": "tiền tố"
+     "desc": "tiền tố",
+     "maxLen": 6
     },
     "suffix": {
      "type": "string",
      "default": "",
-     "desc": "hậu tố"
+     "desc": "hậu tố",
+     "maxLen": 6,
+     "example": "%"
     },
     "decimals": {
      "type": "int",
      "default": 0,
-     "desc": "số thập phân"
+     "desc": "số thập phân",
+     "min": 0,
+     "max": 3
     },
     "align": {
      "type": "left|center|right",
@@ -1385,7 +1767,9 @@
     "to": {
      "type": "0..1",
      "default": 1,
-     "desc": "tỉ lệ cuối"
+     "desc": "tỉ lệ cuối",
+     "min": 0,
+     "max": 1
     },
     "like": {
      "type": "count|null",
@@ -1430,7 +1814,26 @@
       0.167,
       0.133
      ],
-     "desc": "so le"
+     "desc": "so le giữa các cột, giây (mặc định theo language: thường KHÔNG truyền)",
+     "schema": {
+      "oneOf": [
+       {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 0.5
+       },
+       {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 4,
+        "items": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 0.5
+        }
+       }
+      ]
+     }
     },
     "reach": {
      "type": "s",
@@ -1464,7 +1867,26 @@
       0.167,
       0.133
      ],
-     "desc": "so le"
+     "desc": "so le",
+     "schema": {
+      "oneOf": [
+       {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 0.5
+       },
+       {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 4,
+        "items": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 0.5
+        }
+       }
+      ]
+     }
     },
     "reach": {
      "type": "s",
@@ -1494,7 +1916,9 @@
     "to": {
      "type": "0..1",
      "default": 1,
-     "desc": "tỉ lệ cuối"
+     "desc": "tỉ lệ cuối",
+     "min": 0,
+     "max": 1
     },
     "reach": {
      "type": "s",
@@ -1505,6 +1929,7 @@
    },
    "language": "motion.bar_fill",
    "suits": [
+    "wow-demo",
     "costly-detail"
    ],
    "example": "Kit.fx(\"ringFill\", tl, donut, { at: 1, to: 0.72 })",
@@ -1523,12 +1948,16 @@
     "pulses": {
      "type": "int",
      "default": 1,
-     "desc": "số lần"
+     "desc": "số lần",
+     "min": 1,
+     "max": 5
     },
     "gap": {
      "type": "s",
      "default": 0.3,
-     "desc": "nghỉ giữa các lần"
+     "desc": "nghỉ giữa các lần",
+     "min": 0.1,
+     "max": 1
     },
     "reach": {
      "type": "s",
@@ -1557,7 +1986,9 @@
     "to": {
      "type": "int",
      "default": "bước kế",
-     "desc": "bước đích"
+     "desc": "bước đích",
+     "min": 1,
+     "max": 8
     }
    },
    "language": "motion.pill_progress",
@@ -1576,17 +2007,20 @@
     "from": {
      "type": "element",
      "default": null,
-     "desc": "cảnh ra"
+     "desc": "cảnh ra (do máy đặt, cấm trong script)",
+     "system": true
     },
     "to": {
      "type": "element",
      "default": null,
-     "desc": "cảnh vào (nằm trên)"
+     "desc": "cảnh vào (nằm trên) (do máy đặt, cấm trong script)",
+     "system": true
     },
     "at": {
      "type": "s",
      "default": 0,
-     "desc": "bắt đầu"
+     "desc": "bắt đầu (do máy đặt, cấm trong script)",
+     "system": true
     },
     "dur": {
      "type": "s",
@@ -1597,7 +2031,8 @@
     "parent": {
      "type": "element",
      "default": null,
-     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`) (do máy đặt, cấm trong script)",
+     "system": true
     }
    },
    "suits": [
@@ -1621,17 +2056,20 @@
     "from": {
      "type": "element",
      "default": null,
-     "desc": "cảnh ra"
+     "desc": "cảnh ra (do máy đặt, cấm trong script)",
+     "system": true
     },
     "to": {
      "type": "element",
      "default": null,
-     "desc": "cảnh vào"
+     "desc": "cảnh vào (do máy đặt, cấm trong script)",
+     "system": true
     },
     "at": {
      "type": "s",
      "default": 0,
-     "desc": "bắt đầu"
+     "desc": "bắt đầu (do máy đặt, cấm trong script)",
+     "system": true
     },
     "dur": {
      "type": "s",
@@ -1642,7 +2080,8 @@
     "parent": {
      "type": "element",
      "default": null,
-     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`) (do máy đặt, cấm trong script)",
+     "system": true
     }
    },
    "suits": [
@@ -1666,17 +2105,20 @@
     "from": {
      "type": "element",
      "default": null,
-     "desc": "cảnh ra"
+     "desc": "cảnh ra (do máy đặt, cấm trong script)",
+     "system": true
     },
     "to": {
      "type": "element",
      "default": null,
-     "desc": "cảnh vào"
+     "desc": "cảnh vào (do máy đặt, cấm trong script)",
+     "system": true
     },
     "at": {
      "type": "s",
      "default": 0,
-     "desc": "khung cắt"
+     "desc": "khung cắt (do máy đặt, cấm trong script)",
+     "system": true
     },
     "dur": {
      "type": "s",
@@ -1687,7 +2129,8 @@
     "parent": {
      "type": "element",
      "default": null,
-     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`) (do máy đặt, cấm trong script)",
+     "system": true
     }
    },
    "suits": [
@@ -1711,22 +2154,27 @@
     "from": {
      "type": "element",
      "default": null,
-     "desc": "cảnh ra"
+     "desc": "cảnh ra (do máy đặt, cấm trong script)",
+     "system": true
     },
     "to": {
      "type": "element",
      "default": null,
-     "desc": "cảnh vào"
+     "desc": "cảnh vào (do máy đặt, cấm trong script)",
+     "system": true
     },
     "at": {
      "type": "s",
      "default": 0,
-     "desc": "bắt đầu"
+     "desc": "bắt đầu (do máy đặt, cấm trong script)",
+     "system": true
     },
     "barW": {
      "type": "px",
      "default": 410,
-     "desc": "rộng dải"
+     "desc": "rộng dải",
+     "min": 200,
+     "max": 1080
     },
     "dur": {
      "type": "s",
@@ -1737,7 +2185,8 @@
     "parent": {
      "type": "element",
      "default": null,
-     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`) (do máy đặt, cấm trong script)",
+     "system": true
     }
    },
    "suits": [
@@ -1761,17 +2210,20 @@
     "from": {
      "type": "element",
      "default": null,
-     "desc": "cảnh ra"
+     "desc": "cảnh ra (do máy đặt, cấm trong script)",
+     "system": true
     },
     "to": {
      "type": "element",
      "default": null,
-     "desc": "cảnh vào"
+     "desc": "cảnh vào (do máy đặt, cấm trong script)",
+     "system": true
     },
     "at": {
      "type": "s",
      "default": 0,
-     "desc": "bắt đầu"
+     "desc": "bắt đầu (do máy đặt, cấm trong script)",
+     "system": true
     },
     "dur": {
      "type": "s",
@@ -1782,7 +2234,8 @@
     "parent": {
      "type": "element",
      "default": null,
-     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`)"
+     "desc": "nơi gắn lớp phủ chuyển cảnh (mặc định: cha của cảnh `to`) (do máy đặt, cấm trong script)",
+     "system": true
     }
    },
    "suits": [

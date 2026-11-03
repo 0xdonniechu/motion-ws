@@ -1,0 +1,422 @@
+{
+ "_doc": "Bố cục của preset corporate-motion: mỗi beat chọn MỘT layout; item đặt vào slot theo tên. Toạ độ nằm ở đây (bố cục thuộc preset, không thuộc kịch bản): script.json không được truyền x, y, w, h, minH, align cho component. `for` = component được phép vào slot (build-clip.mjs kiểm). Số lấy từ clip mẫu jobs/20261103-corp-demo-dashboard/full/. Thêm layout mới = thêm vào đây rồi mới dùng.",
+ "layouts": {
+  "headline-dashboard": {
+   "beat": "wow-demo",
+   "about": "Tiêu đề gõ phía trên, thẻ dashboard lớn phía dưới.",
+   "slots": {
+    "headline": {
+     "x": 100,
+     "y": 290,
+     "w": 880,
+     "minH": 180,
+     "for": [
+      "text"
+     ]
+    },
+    "card": {
+     "x": 90,
+     "y": 540,
+     "w": 900,
+     "h": 860,
+     "for": [
+      "dashboardCard",
+      "card",
+      "table"
+     ]
+    }
+   }
+  },
+  "stat-question": {
+   "beat": "hanging-number",
+   "about": "Thẻ số lớn (dòng dẫn, số, đơn vị) và một câu hỏi treo bên dưới.",
+   "slots": {
+    "stat": {
+     "x": 90,
+     "y": 380,
+     "w": 900,
+     "h": 600,
+     "for": [
+      "statCard",
+      "card"
+     ]
+    },
+    "question": {
+     "x": 100,
+     "y": 1050,
+     "w": 880,
+     "align": "center",
+     "for": [
+      "text"
+     ]
+    }
+   }
+  },
+  "quote-card": {
+   "beat": "authority",
+   "about": "Một thẻ câu chốt phổ quát ở giữa khung.",
+   "slots": {
+    "quote": {
+     "x": 90,
+     "y": 470,
+     "w": 900,
+     "h": 780,
+     "for": [
+      "quoteCard",
+      "card"
+     ]
+    }
+   }
+  },
+  "lines-map-dest": {
+   "beat": "metaphor",
+   "about": "Hai dòng chữ, bản đồ, và thẻ nhỏ ghi điểm đến (ẩn dụ).",
+   "slots": {
+    "line1": {
+     "x": 100,
+     "y": 290,
+     "w": 880,
+     "minH": 175,
+     "for": [
+      "text"
+     ]
+    },
+    "line2": {
+     "x": 100,
+     "y": 480,
+     "w": 880,
+     "minH": 175,
+     "for": [
+      "text"
+     ]
+    },
+    "map": {
+     "x": 90,
+     "y": 720,
+     "w": 900,
+     "h": 660,
+     "for": [
+      "mapCard",
+      "card"
+     ]
+    },
+    "dest": {
+     "x": 540,
+     "y": 1200,
+     "w": 420,
+     "h": 150,
+     "for": [
+      "iconCard"
+     ]
+    }
+   }
+  },
+  "pill-three-rows": {
+   "beat": "checklist",
+   "about": "Pill tiến trình và ba hàng checklist.",
+   "slots": {
+    "pill": {
+     "x": 100,
+     "y": 300,
+     "for": [
+      "pill"
+     ]
+    },
+    "row1": {
+     "x": 90,
+     "y": 520,
+     "w": 900,
+     "h": 220,
+     "for": [
+      "listCard",
+      "iconCard"
+     ]
+    },
+    "row2": {
+     "x": 90,
+     "y": 780,
+     "w": 900,
+     "h": 220,
+     "for": [
+      "listCard",
+      "iconCard"
+     ]
+    },
+    "row3": {
+     "x": 90,
+     "y": 1040,
+     "w": 900,
+     "h": 220,
+     "for": [
+      "listCard",
+      "iconCard"
+     ]
+    }
+   }
+  },
+  "stat-chart-line": {
+   "beat": "costly-detail",
+   "about": "Thẻ số lớn có biểu đồ cột bên trong và một câu kết bên dưới.",
+   "slots": {
+    "stat": {
+     "x": 90,
+     "y": 380,
+     "w": 900,
+     "h": 790,
+     "for": [
+      "statCard",
+      "card"
+     ]
+    },
+    "line": {
+     "x": 100,
+     "y": 1230,
+     "w": 880,
+     "align": "center",
+     "for": [
+      "text"
+     ]
+    }
+   }
+  },
+  "rule-three-steps": {
+   "beat": "lesson",
+   "about": "Quy tắc gõ phía trên, ba thẻ bước nối bằng hai mũi tên.",
+   "slots": {
+    "rule": {
+     "x": 100,
+     "y": 290,
+     "w": 880,
+     "minH": 260,
+     "for": [
+      "text"
+     ]
+    },
+    "step1": {
+     "x": 160,
+     "y": 640,
+     "w": 760,
+     "h": 190,
+     "for": [
+      "stepCard"
+     ]
+    },
+    "step2": {
+     "x": 160,
+     "y": 900,
+     "w": 760,
+     "h": 190,
+     "for": [
+      "stepCard"
+     ]
+    },
+    "step3": {
+     "x": 160,
+     "y": 1160,
+     "w": 760,
+     "h": 190,
+     "for": [
+      "stepCard"
+     ]
+    },
+    "link1": {
+     "x": 540,
+     "y": 830,
+     "h": 70,
+     "for": [
+      "connector"
+     ]
+    },
+    "link2": {
+     "x": 540,
+     "y": 1090,
+     "h": 70,
+     "for": [
+      "connector"
+     ]
+    }
+   }
+  },
+  "stat-ask-button": {
+   "beat": "cta",
+   "about": "Quay về số treo, một câu hỏi cho người xem và nút kêu gọi.",
+   "slots": {
+    "stat": {
+     "x": 90,
+     "y": 380,
+     "w": 900,
+     "h": 600,
+     "for": [
+      "statCard",
+      "card"
+     ]
+    },
+    "ask": {
+     "x": 100,
+     "y": 1040,
+     "w": 880,
+     "align": "center",
+     "for": [
+      "text"
+     ]
+    },
+    "button": {
+     "x": 330,
+     "y": 1260,
+     "w": 420,
+     "h": 120,
+     "for": [
+      "button"
+     ]
+    }
+   }
+  },
+  "headline-line": {
+   "beat": "wow-demo",
+   "about": "Tiêu đề gõ phía trên, biểu đồ đường hoặc cột lớn phía dưới (không thẻ).",
+   "slots": {
+    "headline": {
+     "x": 100,
+     "y": 290,
+     "w": 880,
+     "minH": 180,
+     "for": [
+      "text"
+     ]
+    },
+    "chart": {
+     "x": 90,
+     "y": 640,
+     "w": 900,
+     "h": 700,
+     "for": [
+      "lineChart",
+      "barChart"
+     ]
+    }
+   }
+  },
+  "headline-ring": {
+   "beat": "wow-demo",
+   "about": "Tiêu đề gõ phía trên, biểu đồ vòng ở giữa.",
+   "slots": {
+    "headline": {
+     "x": 100,
+     "y": 290,
+     "w": 880,
+     "minH": 180,
+     "for": [
+      "text"
+     ]
+    },
+    "ring": {
+     "x": 190,
+     "y": 640,
+     "w": 700,
+     "h": 700,
+     "for": [
+      "donutChart"
+     ]
+    }
+   }
+  },
+  "quote-avatar": {
+   "beat": "authority",
+   "about": "Chân dung chữ cái đầu (không tên thật) phía trên thẻ câu chốt.",
+   "slots": {
+    "avatar": {
+     "x": 90,
+     "y": 300,
+     "w": 120,
+     "h": 120,
+     "size": 120,
+     "for": [
+      "avatar"
+     ]
+    },
+    "quote": {
+     "x": 90,
+     "y": 470,
+     "w": 900,
+     "h": 780,
+     "for": [
+      "quoteCard",
+      "card"
+     ]
+    }
+   }
+  },
+  "chart-caption": {
+   "beat": "costly-detail",
+   "about": "Biểu đồ đường hoặc cột lớn và một câu kết bên dưới.",
+   "slots": {
+    "chart": {
+     "x": 90,
+     "y": 420,
+     "w": 900,
+     "h": 700,
+     "for": [
+      "lineChart",
+      "barChart"
+     ]
+    },
+    "line": {
+     "x": 100,
+     "y": 1230,
+     "w": 880,
+     "align": "center",
+     "for": [
+      "text"
+     ]
+    }
+   }
+  },
+  "ring-caption": {
+   "beat": "costly-detail",
+   "about": "Biểu đồ vòng ở giữa và một câu kết bên dưới.",
+   "slots": {
+    "ring": {
+     "x": 290,
+     "y": 480,
+     "w": 500,
+     "h": 500,
+     "for": [
+      "donutChart"
+     ]
+    },
+    "line": {
+     "x": 100,
+     "y": 1230,
+     "w": 880,
+     "align": "center",
+     "for": [
+      "text"
+     ]
+    }
+   }
+  },
+  "rule-chat": {
+   "beat": "lesson",
+   "about": "Quy tắc gõ phía trên, khung chat mock bên dưới.",
+   "slots": {
+    "rule": {
+     "x": 100,
+     "y": 290,
+     "w": 880,
+     "minH": 260,
+     "for": [
+      "text"
+     ]
+    },
+    "chat": {
+     "x": 90,
+     "y": 620,
+     "w": 900,
+     "for": [
+      "chatBox"
+     ]
+    }
+   }
+  }
+ }
+}
