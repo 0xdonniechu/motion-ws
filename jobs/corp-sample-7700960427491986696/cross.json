@@ -1,0 +1,50 @@
+{
+ "clip": "corp-sample-7700960427491986696",
+ "t0_s": 41.5,
+ "frame_w": 1080,
+ "accent_px_by_frame": [
+  3194,
+  3196,
+  3190,
+  3213,
+  3210,
+  3213,
+  3207,
+  7909,
+  11143,
+  12059,
+  12293,
+  12436,
+  12489,
+  12471,
+  12555,
+  12603,
+  12586,
+  12664,
+  12656,
+  12751,
+  12702,
+  12689,
+  12700,
+  12752
+ ],
+ "first_visible_frame": 7,
+ "full_frame": 11,
+ "draw_frames": 5,
+ "stroke_px": 11.7,
+ "stroke_over_W": 0.0108,
+ "cap_h_KHO_px": 36,
+ "stroke_over_cap_h": 0.324,
+ "x_bbox_px": [
+  357,
+  720,
+  699,
+  1041
+ ],
+ "colour_rgb": [
+  23,
+  100,
+  189
+ ],
+ "note": "ước lượng thô (chỉ 1 thể hiện; hộp bao gồm cả khung nét đứt cùng màu nhấn nên x_bbox dư)"
+}

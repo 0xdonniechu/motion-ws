@@ -301,7 +301,7 @@
       const tip = [Math.round((to - 1) * k.pitch + k.pitch / 2 + tb.cursor.tip_dx_frac_pitch * k.pitch), tb.cursor.tip_dy_px_from_strip_top], c = t.cursor, org = k.pos || [tip[0] + G.origin_offset_px[0], tip[1] + G.origin_offset_px[1]];
       const show = Math.max(at, 1 / FPS);   // không tl.set ở thời điểm 0 (tua lùi về 0 đảo thứ tự các set)
       c.classList.add("k-anim"); tl.set(c, { opacity: 1 }, show);
-      tl.fromTo(c, { x: org[0], y: org[1] }, { x: tip[0], y: tip[1], duration: durFor(G.ease, G.reach_s), ease: G.ease, immediateRender: false }, show);
+      tl.fromTo(c, { x: org[0], y: org[1] }, { x: tip[0], y: tip[1], duration: G.dur_s, ease: G.ease, immediateRender: false }, show);
       k.pos = tip; start = snap(show + G.reach_s);
     }
     if (to !== from) {
@@ -329,6 +329,89 @@
   F.mark = (tl, t, o) => {   // mark: vệt tô vàng quét trái -> phải sau mọi cụm {..} trong chữ
     const host = node(t), m = T.motion.mark, at = snap(o.at || 0), D = durFor(m.ease, m.reach_s);
     host.querySelectorAll(".k-mark__bg").forEach((b) => { b.classList.add("k-anim"); tl.fromTo(b, { scaleX: 0 }, { scaleX: 1, duration: D, ease: m.ease }, at); });
+    return snap(at + D);
+  };
+
+  // ---- con trỏ độc lập + gợn bấm, nét bút vẽ tay: effect nhắm vào MỘT phần tử có sẵn (component của beat); toạ độ lấy từ hộp của phần tử trong cảnh, không từ script
+  const sceneOf = (e) => e.closest(".k-scene") || e.parentElement;
+  function boxOf(e, sc) {   // hộp của phần tử theo toạ độ cảnh: cộng offset dọc chuỗi offsetParent; jsdom (thử tua) không có layout nên lùi về style nội tuyến
+    let x = 0, y = 0, p = e;
+    while (p && p !== sc) { x += p.offsetLeft || parseFloat(p.style.left) || 0; y += p.offsetTop || parseFloat(p.style.top) || 0; p = p.offsetParent || p.parentElement; }
+    return { x, y, w: e.offsetWidth || parseFloat(e.style.width) || 0, h: e.offsetHeight || parseFloat(e.style.height) || 0 };
+  }
+  const cvar = (tok) => "var(--k-" + (tok === "accent_primary" ? "accent" : tok.replace(/_/g, "-")) + ")";   // tên token màu của theme -> biến CSS do applyVars đặt
+  const relLumRgb = (c) => { const [r, g, b] = c.map((v) => v / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+  const contrastRgb = (a, b) => { const [x, y] = [relLumRgb(a), relLumRgb(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+  const cssRgb = (v) => { const m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?/.exec(v || ""); return m && (m[4] === undefined || +m[4] >= 0.5) ? [+m[1], +m[2], +m[3]] : null; };   // rgb()/rgba() tính toán được; trong suốt (alpha < 0.5) hoặc không đọc được -> null
+  function fillUnder(start, sc) {   // màu nền THẬT dưới một phần tử: nền đặc đầu tiên đi ngược lên tới cảnh, không có thì nền trang (.k-page), không có nữa thì page.tint
+    for (let p = start; p; p = p.parentElement) { const c = cssRgb(getComputedStyle(p).backgroundColor); if (c) return c; if (p === sc) break; }
+    const pg = sc.querySelector(".k-page"), c = pg && cssRgb(getComputedStyle(pg).backgroundColor); return c || rgb(T.page.tint);
+  }
+  function penColour(pref, unders) {   // chọn token màu nét/gợn theo nền THẬT bên dưới: ưu tiên token đo được (pref), không đủ tương phản >= 3.0 trên MỌI nền thì thử accent_primary, accent_dark, surface, ink; không token nào đạt thì lấy token có tương phản thấp nhất cao nhất. build-tokens.mjs bảo đảm mỗi nền đơn của theme có token đạt
+    let best = null;
+    for (const tok of [pref].concat(["accent_primary", "accent_dark", "surface", "ink"].filter((x) => x !== pref))) {
+      const c = rgb(T.colors[tok]), m = Math.min(...unders.map((u) => contrastRgb(c, u)));
+      if (m >= 3) return cvar(tok); if (!best || m > best.m) best = { tok, m };
+    }
+    return cvar(best.tok);
+  }
+  function inkBoxOf(e, sc) {   // hộp chữ thật của đích là chữ (class k-text): hợp các hộp của node chữ (không tính phần tử con định vị tuyệt đối) trừ hộp của chính nó, cộng vào hộp bố cục (không dính transform lúc dựng); không đo được (jsdom) thì dùng hộp bố cục
+    const b = boxOf(e, sc); if (!e.classList.contains("k-text") || !e.ownerDocument.createRange || typeof e.ownerDocument.createRange().getBoundingClientRect !== "function") return b;
+    const er = e.getBoundingClientRect(), tw = e.ownerDocument.createTreeWalker(e, 4); let l = Infinity, t = Infinity, r = -Infinity, bt = -Infinity;
+    for (let n = tw.nextNode(); n; n = tw.nextNode()) { if (!n.nodeValue.trim()) continue; const rg = e.ownerDocument.createRange(); rg.selectNodeContents(n); const q = rg.getBoundingClientRect(); if (q.width > 0) { l = Math.min(l, q.left); t = Math.min(t, q.top); r = Math.max(r, q.right); bt = Math.max(bt, q.bottom); } }
+    if (!(r > l)) return b;
+    const G = T.motion.pen_mark.circle, fs = parseFloat(getComputedStyle(e).fontSize) || 0;   // hộp nội dung chữ cao (ascent + descent) em: thu về băng cao-chữ-in -> đỉnh = đường chữ - cap_h, đáy = đường chữ cuối (khoanh không cắt dòng kề)
+    if (fs) { t += (G.ink_ascent_em - G.ink_cap_h_em) * fs; bt -= G.ink_descent_em * fs; }
+    return { x: b.x + (l - er.left), y: b.y + (t - er.top), w: r - l, h: Math.max(bt - t, 0.4 * fs) };
+  }
+  const curReg = new WeakMap();   // cảnh -> con trỏ riêng của cảnh + vị trí hiện tại (các lần bấm nối tiếp lướt từ chỗ cũ)
+  F.cursorClick = (tl, t, o) => {   // cursor_click: con trỏ lướt tới đích (expo.inOut 0.375s), co 0.82x 6 khung rồi gợn tròn nở ra mờ dần (tuyến tính 12 -> 63px, 0.508s)
+    const e = node(t), sc = sceneOf(e), K = T.motion.cursor_click, G = K.glide, S = K.click.squish, R = K.ripple, tb = T.tabs.cursor, at = snap(o.at || 0);
+    const b = boxOf(e, sc), tip = [Math.round(b.x + (o.fx === undefined ? 0.5 : o.fx) * b.w), Math.round(b.y + (o.fy === undefined ? 0.5 : o.fy) * b.h)];
+    let st = curReg.get(sc);
+    if (!st) {
+      const c = el("i", "k-cursor k-hold", sc); c.appendChild(svg('<polygon points="2,2 2,39 12,30 19,46 26,43 19,29 33,29"/>', "0 0 " + tb.w_px + " " + tb.h_px));
+      c.style.width = px(tb.w_px); c.style.height = px(tb.h_px); c.setAttribute("data-layout-allow-occlusion", ""); c.classList.add("k-anim"); st = { c, pos: null }; curReg.set(sc, st);
+    }
+    const c = st.c, org = st.pos || [tip[0] + G.origin_offset_px[0], tip[1] + G.origin_offset_px[1]], show = Math.max(at, 1 / FPS);   // không tl.set ở thời điểm 0
+    tl.set(c, { opacity: 1 }, show);
+    tl.fromTo(c, { x: org[0], y: org[1] }, { x: tip[0], y: tip[1], duration: G.dur_s, ease: G.ease, immediateRender: false }, show);
+    st.pos = tip;
+    const click = snap(show + G.click_after_start_s);
+    const tipSvg = c.firstChild;   // co trên <svg> con (cỡ gốc ở đầu mũi tên), không trên c: c đang chạy x/y, hai tween chung một transform làm tua sai ở mốc bắt đầu
+    tl.fromTo(tipSvg, { scale: 1 }, { scale: S.scale, duration: S.down_s, ease: S.ease, immediateRender: false }, click);
+    tl.fromTo(tipSvg, { scale: S.scale }, { scale: 1, duration: S.up_s, ease: S.ease, immediateRender: false }, snap(click + S.down_s));
+    if (o.ripple !== false) {
+      const hold = el("i", "k-ripple k-hold", sc), ring = el("i", "k-ripple__ring", hold);   // hold: ẩn bằng opacity tới lúc bấm (như con trỏ); ring: vòng viền, đổi opacity/cỡ bằng tween
+      hold.setAttribute("data-layout-allow-occlusion", ""); ring.style.borderWidth = px(R.stroke_px); ring.style.borderColor = penColour("accent_primary", [fillUnder(e, sc)]);   // màu theo nền THẬT của đích (nút nền màu nhấn -> màu khác), không chỉ nền trang
+      gsap.set(hold, { x: tip[0], y: tip[1] }); gsap.set(ring, { xPercent: -50, yPercent: -50, width: 2 * R.r_start_px, height: 2 * R.r_start_px });
+      tl.set(hold, { opacity: 1 }, click);
+      tl.fromTo(ring, { width: 2 * R.r_start_px, height: 2 * R.r_start_px }, { width: 2 * R.r_end_px, height: 2 * R.r_end_px, duration: R.dur_s, ease: R.expand_ease, immediateRender: false }, click);
+      tl.fromTo(ring, { opacity: R.alpha_start }, { opacity: 0, duration: R.dur_s, ease: R.alpha_ease, immediateRender: false }, click);
+      return snap(click + R.dur_s);
+    }
+    return snap(click + S.down_s + S.up_s);
+  };
+  const penPath = (pts) => "M" + pts.map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L");
+  F.penMark = (tl, t, o) => {   // pen_mark: nét bút vẽ dần (stroke-dashoffset 1 -> 0) quanh/đè lên đích: circle (khoanh quanh hộp chữ thật, cao theo cap-height, của chữ; hoặc hộp bố cục của khối), tick (dấu tick ở góc dưới phải), cross (X chéo)
+    const e = node(t), sc = sceneOf(e), P = T.motion.pen_mark, shape = o.shape, cfg = P[shape], at = snap(o.at || 0);
+    if (!cfg || shape === "source" || shape === "disagree") throw new Error("kit: penMark shape '" + shape + "' không có trong language (circle | tick | cross)");
+    const b = inkBoxOf(e, sc), sw = cfg.stroke_over_W * W, own = fillUnder(e, sc), outer = fillUnder(e.parentElement || sc, sc), unders = shape === "cross" ? [own] : shape === "circle" ? [outer] : [own, outer], colour = penColour(cfg.colour_token, unders), svgEl = document.createElementNS("http://www.w3.org/2000/svg", "svg"), paths = [];
+    svgEl.setAttribute("class", "k-pen k-hold k-anim"); svgEl.setAttribute("viewBox", "0 0 " + W + " " + H); svgEl.setAttribute("data-layout-allow-occlusion", ""); sc.appendChild(svgEl);
+    const add = (pts) => { const p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", penPath(pts)); p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 2"; p.style.stroke = colour; p.style.strokeWidth = sw.toFixed(2); svgEl.appendChild(p); paths.push(p); };
+    const cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+    if (shape === "circle") {   // elip quanh hộp, bắt đầu ở góc trên-trái, quét thuận chiều kim đồng hồ, vượt khép một chút; độ lệch tay cố định (hàm của góc, không ngẫu nhiên)
+      const px_ = Math.min(b.w / 2 * (cfg.size_over_target_w - 1), cfg.pad_max_px), py_ = Math.min(b.h / 2 * (cfg.size_over_target_w - 1), cfg.pad_max_px), rx = b.w / 2 + px_, ry = Math.max(b.h / 2 + py_, rx / cfg.max_aspect), a0 = 235 * Math.PI / 180, sweep = 2 * Math.PI * (1 + cfg.overshoot_frac), pts = [];
+      for (let i = 0; i <= 96; i++) { const u = i / 96, a = a0 + sweep * u, wob = 1 + cfg.wobble_over_diameter * (Math.sin(2 * a + 0.7) + 0.5 * Math.sin(3 * a + 2.1)) - 0.03 * u; pts.push([cx + rx * wob * Math.cos(a), cy + ry * wob * Math.sin(a)]); }
+      add(pts);
+    } else if (shape === "tick") {
+      const s = cfg.size_over_target_min_side * Math.min(b.w, b.h), x0 = b.x + b.w - s / 2, y0 = b.y + b.h - s / 2; add([[x0, y0 + 0.55 * s], [x0 + 0.38 * s, y0 + s], [x0 + s, y0]]);
+    } else {
+      const i = P.cross.inset_over_target, ix = b.w * i, iy = b.h * i; add([[b.x + ix, b.y + iy], [b.x + b.w - ix, b.y + b.h - iy]]); add([[b.x + b.w - ix, b.y + iy], [b.x + ix, b.y + b.h - iy]]);
+    }
+    const D = cfg.dur_s !== undefined ? cfg.dur_s : durFor(cfg.ease, cfg.reach_s), show = Math.max(at, 1 / FPS);
+    tl.set(svgEl, { opacity: 1 }, show);
+    paths.forEach((p) => tl.fromTo(p, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: D, ease: cfg.ease }, at));
     return snap(at + D);
   };
 

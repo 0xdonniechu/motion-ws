@@ -316,6 +316,135 @@ window.KIT_TOKENS = {
      0.989
     ]
    ]
+  },
+  "cursor_click": {
+   "source": "jobs/corp-sample-7700960427491986696/cursor_ripple.json (measure_cursor_ripple.py); n=1 lần bấm (ô \"Tìm bộ dữ liệu...\" ~44.2-45.0s) trong 1 clip; con trỏ độc lập thấy bằng mắt ở >=4 clip (7700960427491986696, 7702043938013629716, 7700229527049358612, 7699477231017446676)",
+   "glide": {
+    "ease": "expo.inOut",
+    "dur_s": 0.375,
+    "click_after_start_s": 0.355,
+    "fit": "9 mẫu 30fps, quãng 347px (862,601)->(522,531), khớp TỰ DO (D, t0) từng ease (jobs/corp-sample-7700960427491986696/cursor_ripple.json -> glide.fit_ranking): expo.inOut rmse 0.0075 (D 0.375s, t0 -1.65 khung, khoảng 2%->98% 5.2 khung = 0.17s), circ.inOut 0.0087, power4.inOut 0.013, power3.inOut 0.015, power2.inOut 0.0175 (D 0.208s, khoảng 2%->98% 4.1 khung = 0.14s), power1.inOut 0.024; khoảng đo được 0.015 -> 0.985 là 6 khung (0.2s). CHỌN expo.inOut vì sát số đo nhất (cả rmse lẫn khoảng); power2.inOut (họ của motion.cursor_glide/tabSwitch) lệch hơn và nhanh hơn thật ~1.4x, nên KHÔNG dùng chỉ để cho đồng họ. Co + gợn bắt đầu 0.355s sau khi tween bắt đầu (khung co đầu tiên - khung t0 của khớp)",
+    "disagree": "motion.cursor_glide (tabSwitch, n=2 trong 1 clip) là power2.inOut chạm 98% sau 0.367s bất kể quãng 599 hay 246px; lần bấm này (quãng 347px) là expo.inOut (nửa đầu rất chậm rồi lao qua, 0.2s thấy được): khác cả họ ease lẫn thời lượng; 9 mẫu và 1 lần bấm nên chưa kết luận hai primitive khác nhau hay cùng một primitive đo lệch",
+    "progress_by_frame": [
+     0,
+     0.015,
+     0.056,
+     0.15,
+     0.503,
+     0.871,
+     0.953,
+     0.985,
+     1
+    ],
+    "origin_offset_px": [
+     340,
+     70
+    ],
+    "origin_note": "điểm đứng yên trước lần lướt so với đích (phải-dưới nhẹ); lần lướt kế tiếp trong cảnh bắt đầu từ chỗ cũ"
+   },
+   "click": {
+    "note": "co mũi tên + gợn bắt đầu 0.355s sau khi tween lướt bắt đầu (xem glide.click_after_start_s)",
+    "squish": {
+     "scale": 0.82,
+     "down_s": 0.1,
+     "up_s": 0.1,
+     "ease": "power1.inOut",
+     "origin_px": [
+      2,
+      2
+     ],
+     "scale_by_frame": [
+      1,
+      0.945,
+      0.855,
+      0.818,
+      0.873,
+      0.982,
+      1
+     ],
+     "note": "tỉ lệ cao hộp con trỏ / 55px; neo ở đầu mũi tên"
+    }
+   },
+   "ripple": {
+    "r_start_px": 12,
+    "r_end_px": 63,
+    "dur_s": 0.508,
+    "expand_ease": "none",
+    "alpha_ease": "power1.out",
+    "alpha_start": 1,
+    "stroke_px": 4,
+    "fit": "tâm cố định tại đầu mũi tên (-2,-2px); bán kính đo 12,15,19,22,25,29,32,36,39,42,45px ở 11 khung đầu (tăng ĐỀU 3.35px/khung: tuyến tính), rồi tắt (biên độ <5% ở khung thứ 12); độ đậm tương đối 1, .86, .66, .57, .52, .49, .45, .33, .25, .16, .05: 1-ease power1.out chu kỳ 15.25 khung (rmse 0.053); nét dày 4px (nửa biên độ); r_end 63px là ngoại suy tuyến tính tới hết chu kỳ (ĐOÁN, đo tới 45px)",
+    "colour": "theo nền THẬT dưới đích (kit.js penColour): ưu tiên colors.accent_primary (đo (23,121,230) ở khung đầu, trên ô trắng), không đạt tương phản >= 3.0 thì accent_dark, surface, ink; đo chỉ trên nền trắng, các nền khác là ĐOÁN",
+    "centre_offset_px": [
+     -2,
+     -2
+    ]
+   },
+   "cursor": {
+    "w_px": 40,
+    "h_px": 55,
+    "note": "hộp mực đo ở clip 1080x1920; kit dùng lại hình con trỏ + cỡ của tabs.cursor (37x50, cùng mũi tên)"
+   }
+  },
+  "pen_mark": {
+   "source": "jobs/corp-sample-7702043938013629716/pen.json (measure_pen.py: khoanh, tick); jobs/corp-sample-7700960427491986696/cross.json (measure_cross.py: dấu X); vạch chéo 'nội dung khó viết' ở clip 7701337835403726101 (~145.4s) hiện đủ trong 1 khung (không đo); bút vẽ DẦN chỉ đo được ở clip 7702043938013629716 (khoanh, tick: n=1 clip)",
+   "circle": {
+    "ease": "power1.in",
+    "dur_s": 0.283,
+    "fit": "đầu nét theo bin góc 4/8/15/27/42/48 trên 72 bin ở khung 17-22 (30fps), kín vòng ở khung 24: power1.in D 8.5 khung rmse 0.028 (nét đi nhanh dần); vòng vẽ tay lệch +-4px ở đường kính ~98px, vượt khép ~đầu nét (ĐOÁN 6%)",
+    "stroke_over_W": 0.0052,
+    "stroke_over_W_range": [
+     0.0035,
+     0.0087
+    ],
+    "stroke_over_cap_h": 0.176,
+    "stroke_over_cap_h_note": "3px nét / 17px cao chữ in K của 'Kênh A' (clip 576 rộng; mẫu 2-5px)",
+    "size_over_target_w": 1.35,
+    "size_note": "vòng rộng ~101px quanh ô biểu tượng ~75px: 1.35x (n=1). Với đích là chữ (class k-text) kit lấy hộp CHỮ thật (không phải hộp bố cục rộng cả khối); khoảng hở mỗi bên chặn ở pad_max_px 45 và ellipse không dẹt hơn max_aspect 2.2:1 (nếu dẹt hơn thì phình theo chiều cao): cả hai là ĐOÁN, chỉ để vòng không tràn khung; hợp với từ/số/biểu tượng, đích rộng dẹt (thẻ cả hàng) sẽ ra vòng cao",
+    "wobble_over_diameter": 0.04,
+    "overshoot_frac": 0.06,
+    "colour_token": "accent_primary",
+    "colour_rgb_measured": [
+     24,
+     114,
+     207
+    ],
+    "pad_max_px": 45,
+    "max_aspect": 2.2,
+    "colour_note": "khoanh vẽ NGOÀI đích nên chỉ xét nền QUANH đích (không xét nền của chính đích); tick và X xét nền dưới đích (tick cả nền quanh)",
+    "ink_ascent_em": 1,
+    "ink_descent_em": 0.265,
+    "ink_cap_h_em": 0.74,
+    "ink_note": "hộp chữ từ Range = vùng nội dung font (ascent + descent), không phải mực: thu về băng cao-chữ-in (đỉnh = đường chữ - 0.74 em, đáy = đường chữ cuối) để vòng không cắt dòng kề; hhea Be Vietnam Pro ascent 1.0, descent 0.265, cap 0.74 (language type.outline.cap_h_em); Montserrat (theme night) lệch ~0.01-0.03 em: ĐOÁN. Dấu thanh/đuôi chữ nằm ngoài băng này nên vòng có thể cắt chúng"
+   },
+   "tick": {
+    "ease": "power2.in",
+    "dur_s": 0.167,
+    "fit": "đếm điểm nhấn trong hộp dưới vòng, khung 28-35: power2.in D 5 khung rmse 0.016",
+    "stroke_over_W": 0.0052,
+    "size_over_target_min_side": 0.45,
+    "size_note": "tick ~35px rộng cạnh ô biểu tượng 75px (n=1, ĐOÁN vị trí: góc dưới phải của đích)",
+    "colour_token": "accent_primary",
+    "colour_note": "token ưu tiên; kit.js đổi sang accent_primary/accent_dark/surface/ink nếu tương phản < 3.0 với nền THẬT dưới đích (và nền quanh đích với khoanh/tick); chỉ đo trên nền trắng/tint"
+   },
+   "cross": {
+    "ease": "expo.out",
+    "reach_s": 0.133,
+    "fit": "hai nét chéo cùng lúc; điểm nhấn: 0.49 (khung đầu), 0.83, 0.90, 0.96, 0.975, 0.98 -> chạm 97.5% sau 4 khung (n=1 thể hiện)",
+    "stroke_over_W": 0.0108,
+    "stroke_over_cap_h": 0.324,
+    "stroke_note": "11.7px / 36px cao chữ in 'KHO' ở khung 1080 (đã quy về 1080 rộng)",
+    "inset_over_target": 0.06,
+    "colour_token": "accent_dark",
+    "colour_rgb_measured": [
+     23,
+     100,
+     189
+    ],
+    "colour_note": "token ưu tiên; kit.js đổi sang accent_primary/accent_dark/surface/ink nếu tương phản < 3.0 với nền THẬT dưới đích (và nền quanh đích với khoanh/tick); chỉ đo trên nền trắng/tint"
+   },
+   "disagree": "độ dày nét 0.0052 W (khoanh/tick, clip 576, sai số +-1px) so với 0.0108 W (dấu X, clip 1080) lệch 2.1x nên mỗi hình một giá trị; màu là accent_primary ở khoanh/tick và accent_dark ở dấu X (đều token theme, KHÔNG có màu cố định đỏ/bút dạ); vạch chéo và X ở clip 7701337835403726101 / 7700960427491986696 hiện trong 1-4 khung, không có kiểu vẽ dần dài như khoanh",
+   "known_limit": "cổng tương phản (build-tokens.mjs) chỉ bảo đảm MỖI nền đơn có ít nhất một màu nét đạt >= 3.0; nền đích và nền quanh đích cùng lúc có thể không có màu nào đạt (vd nút nền accent trên nền tối ở theme night: màu ink lùi lại chỉ 1.73:1 với nền accent). Hình hiện có không chạm nền accent trong thực tế (khoanh vẽ ngoài đích, tick qua góc bo tròn), nhưng tick trên đích nền accent GÓC VUÔNG vẫn đè lên nền accent mà cổng không phủ"
   }
  },
  "transitions": {
@@ -423,7 +552,9 @@ window.KIT_TOKENS = {
    "pillHop",
    "tabSwitch",
    "strike",
-   "mark"
+   "mark",
+   "cursorClick",
+   "penMark"
   ],
   "transition": [
    "dissolve",

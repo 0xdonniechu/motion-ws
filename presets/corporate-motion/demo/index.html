@@ -15,9 +15,9 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 </style>
 </head>
 <body>
-<!-- Thẻ demo cho MỌI mục của catalog.json (25 component, 13 effect, 5 transition): mỗi mục có nhãn tên và được gọi đúng một lần. Cảnh = lời gọi theo tên, không vẽ riêng.
-     `node build-tokens.mjs --check-catalog` kiểm mỗi tên catalog có trong tệp này; chuyển cảnh nối g1..g9 theo thứ tự dissolve, wash, bar-wipe, hard, flash, dissolve, hard, hard, hard. -->
-<div id="root" data-composition-id="main" data-start="0" data-duration="24.4" data-width="1080" data-height="1920" data-fps="30">
+<!-- Thẻ demo cho MỌI mục của catalog.json (25 component, 15 effect, 5 transition): mỗi mục có nhãn tên và được gọi đúng một lần. Cảnh = lời gọi theo tên, không vẽ riêng.
+     `node build-tokens.mjs --check-catalog` kiểm mỗi tên catalog có trong tệp này; chuyển cảnh nối g1..g10 theo thứ tự dissolve, wash, bar-wipe, hard, flash, dissolve, hard, hard, hard, hard. -->
+<div id="root" data-composition-id="main" data-start="0" data-duration="26.4" data-width="1080" data-height="1920" data-fps="30">
   <section id="g1" class="clip k-scene" data-start="0" data-duration="2.6667" data-track-index="1"></section>
   <section id="g2" class="clip k-scene" data-start="2.3333" data-duration="2.6" data-track-index="2"></section>
   <section id="g3" class="clip k-scene" data-start="4.7" data-duration="2.6667" data-track-index="3"></section>
@@ -28,6 +28,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
   <section id="g8" class="clip k-scene" data-start="16.8" data-duration="2.4" data-track-index="8"></section>
   <section id="g9" class="clip k-scene" data-start="19.2" data-duration="2.4" data-track-index="9"></section>
   <section id="g10" class="clip k-scene" data-start="21.6" data-duration="2.8" data-track-index="10"></section>
+  <section id="g11" class="clip k-scene" data-start="24" data-duration="2.4" data-track-index="11"></section>
 </div>
 <script>
 const tl = gsap.timeline({ paused: true }), f = (n) => n / 30, S = Kit.scene;
@@ -156,6 +157,20 @@ Kit.fx("fadeUp", tl, k1, { at: g(9) + f(8) });
 Kit.fx("strike", tl, k1, { at: g(9) + f(28) });
 Kit.fx("fadeUp", tl, m1, { at: g(9) + f(12) });
 Kit.fx("mark", tl, m1, { at: g(9) + f(36) });
+
+// ---- g11 (tint): cursorClick (con trỏ độc lập + gợn bấm) + penMark (khoanh, tick, X) ----
+Kit.tx("hard", tl, { from: S("g10"), to: S("g11"), at: g(10) });
+Kit.make("page", S("g11"), { mode: "tint" });
+tag(S("g11"), "cursorClick · penMark", 90, 300);
+const cc1 = Kit.make("card", S("g11"), { x: 90, y: 400, w: 440, h: 240 });
+const cc2 = Kit.make("card", S("g11"), { x: 550, y: 400, w: 440, h: 240 });
+const cbtn = Kit.make("button", S("g11"), { label: "Gửi", x: 330, y: 760, w: 420, h: 120 });
+const ctx = Kit.make("text", S("g11"), { role: "headline", text: "Bỏ qua dữ liệu", x: 90, y: 1000, w: 900 });
+Kit.fx("cursorClick", tl, cc1, { at: g(10) + f(6) });
+Kit.fx("penMark", tl, cc2, { at: g(10) + f(18), shape: "circle" });
+Kit.fx("penMark", tl, cc2, { at: g(10) + f(30), shape: "tick" });
+Kit.fx("cursorClick", tl, cbtn, { at: g(10) + f(34) });
+Kit.fx("penMark", tl, ctx, { at: g(10) + f(54), shape: "cross" });
 
 window.__timelines["main"] = tl;
 </script>

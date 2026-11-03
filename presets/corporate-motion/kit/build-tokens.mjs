@@ -94,6 +94,19 @@ for (const f of fs.readdirSync(path.join(root, "themes")).filter((x) => x.endsWi
   const tc = J(path.join(root, "themes", f)).colors || {}, cr = contrast(need(tc.mark, "colors.mark (theme " + f + ")"), need(tc.ink, "colors.ink (theme " + f + ")"));
   if (cr < 3.0) { console.error("theme " + f + ": colors.mark " + tc.mark + " so với colors.ink " + tc.ink + " chỉ " + cr.toFixed(2) + ":1 (< 3.0): chữ trên vệt tô không đọc được; chỉnh colors.mark"); process.exit(1); }
 }
+// nét bút `penMark` và gợn `cursorClick` vẽ ĐÈ lên đích có nền riêng (nút, huy hiệu, tick, bong bóng, pill của tabs, khối iso...) mà hyperframes check không thấy. kit.js chọn màu nét theo nền thật dưới đích trong chuỗi
+// [token ưu tiên] -> accent_primary -> accent_dark -> surface -> ink, lấy token đầu tiên có tương phản >= 3.0. Cổng chung (không theo từng đích): với MỌI màu nền mà theme có thể đặt dưới nét (mọi colors.*, page.tint, page.white, iso.*)
+// phải có ít nhất một token trong chuỗi đạt >= 3.0, ở MỌI theme; không thì dừng
+for (const f of fs.readdirSync(path.join(root, "themes")).filter((x) => x.endsWith(".json"))) {
+  const tj = J(path.join(root, "themes", f)), tc = tj.colors || {}, fills = { "page.tint": need(tj.page && tj.page.tint, "page.tint (theme " + f + ")"), "page.white": need(tj.page.white, "page.white (theme " + f + ")") };
+  for (const [k, v] of Object.entries(tc)) fills["colors." + k] = v;
+  (tj.iso || []).forEach((v, i) => { fills["iso[" + i + "]"] = v; });
+  const chain = ["accent_primary", "accent_dark", "surface", "ink"].map((k) => [k, need(tc[k], "colors." + k + " (theme " + f + ")")]);
+  for (const [fn, fc] of Object.entries(fills)) {
+    const best = chain.map(([k, c]) => [k, contrast(c, fc)]).sort((a, b) => b[1] - a[1])[0];
+    if (best[1] < 3.0) { console.error("theme " + f + ": nền " + fn + " " + fc + ": không token nào trong [accent_primary, accent_dark, surface, ink] đạt tương phản >= 3.0 (tốt nhất " + best[0] + " " + best[1].toFixed(2) + ":1): nét bút/gợn đè lên nền này không đủ nổi; chỉnh màu"); process.exit(1); }
+  }
+}
 need(theme.page && theme.page.tint, "page.tint"); need(theme.page.white, "page.white"); need(theme.font && theme.font.family, "font.family"); need(theme.font.body_weight, "font.body_weight");
 need(theme.type && theme.type.roles, "type.roles"); need(theme.font.accent_family, "font.accent_family"); need(theme.type.accent_italic && theme.type.accent_italic.weight, "type.accent_italic.weight"); need(lang.type.accent_italic && lang.type.accent_italic.size_ratio, "language type.accent_italic.size_ratio"); need(theme.shadow && theme.shadow.rgb, "shadow.rgb");
 const roleMap = { headline: "headline", subhead: "subhead", caption: "caption", list_item: "list_item", pill_label: "pill_label", display_number: "display_number", percent_label: "percent_label" };
