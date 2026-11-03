@@ -3,6 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=1080, height=1920">
 <script src="gsap.min.js"></script>
+<script src="morph.js"></script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,9 +22,6 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #split span { display: inline-block; text-shadow: 8px 8px 0 #c9451c; }
 #tung { position: absolute; left: -6px; top: 900px; font: 400 150px/1 Anton, sans-serif; color: #c9451c; white-space: nowrap; letter-spacing: 2px; }
 #shapes { position: absolute; left: 0; top: 0; }
-#gtxt { position: absolute; left: -30px; top: 560px; width: 600px; text-align: center; font: 400 880px/1 Anton, sans-serif; color: #c9451c; -webkit-text-stroke: 8px #141414; text-shadow: 14px 14px 0 #141414; }
-#ldots { position: absolute; left: 0; top: 1500px; width: 534px; height: 420px;
-  background-image: radial-gradient(#c9451c 12px, transparent 13px); background-size: 46px 46px; }
 #gdots { position: absolute; left: 0; top: 520px; width: 534px; height: 900px;
   background-image: radial-gradient(#c9451c 9px, transparent 10px); background-size: 22px 22px;
   -webkit-mask-image: radial-gradient(ellipse 52% 48% at 45% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse 52% 48% at 45% 50%, #000 55%, transparent 100%); }
@@ -38,9 +36,10 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #chip2 i { display: inline-block; font: 500 26px/60px JBMono, monospace; font-style: normal; padding: 0 20px; color: #fff; background: #c9451c; border: 3px solid #141414; border-radius: 0 30px 30px 0; line-height: 54px; }
 
 /* phải */
+#rdots { position: absolute; left: 0; top: 600px; width: 542px; height: 1320px; opacity: 0; background-image: radial-gradient(#c9451c 13px, transparent 14px); background-size: 60px 60px; background-position: 29px 3px; }
 #A, #B { position: absolute; left: 0; top: 0; width: 542px; height: 1920px; }
 .big { position: absolute; left: -10px; font: 400 250px/1 Anton, sans-serif; white-space: nowrap; }
-.big span { background: linear-gradient(#2a2a2a 25%, #a39f99 100%); -webkit-background-clip: text; color: transparent; }
+.big span { display: inline-block; background: linear-gradient(#2a2a2a 25%, #a39f99 100%); -webkit-background-clip: text; color: transparent; }
 #bigMask { position: absolute; left: 0; top: 330px; width: 542px; height: 330px; overflow: hidden; }
 #bigMask .big { top: 70px; }
 .tabs { position: absolute; left: -76px; top: 648px; white-space: nowrap; }
@@ -64,9 +63,9 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #pbox div { position: absolute; left: 36px; top: 26px; width: 740px; font: 600 38px/48px Inter, sans-serif; color: #141414; letter-spacing: -.5px; }
 #ptab { position: absolute; left: 760px; top: 766px; padding: 4px 22px; background: #f7f5f0; border: 3px solid #141414; border-radius: 20px; font: 500 22px JBMono, monospace; color: #6b665f; }
 
-#glogo { position: absolute; left: 150px; top: 1190px; width: 124px; height: 124px; border-radius: 26px; background: #fff; border: 5px solid #141414; box-shadow: 5px 7px 0 #141414; opacity: 0; }
+#glogo { position: absolute; left: 138px; top: 1175px; width: 124px; height: 124px; border-radius: 26px; background: #fff; border: 5px solid #141414; box-shadow: 5px 7px 0 #141414; opacity: 0; }
 #glogo div { position: absolute; left: 14px; top: 14px; width: 86px; height: 86px; background: #141414; border-radius: 12px; font: 400 36px/86px Anton, sans-serif; color: #0ae448; text-align: center; font-style: italic; }
-#mlogo { position: absolute; left: 856px; top: 1190px; width: 124px; height: 124px; border-radius: 26px; background: #fff; border: 5px solid #141414; box-shadow: 5px 7px 0 #141414; opacity: 0; }
+#mlogo { position: absolute; left: 809px; top: 1174px; width: 124px; height: 124px; border-radius: 26px; background: #fff; border: 5px solid #141414; box-shadow: 5px 7px 0 #141414; opacity: 0; }
 #mlogo svg { position: absolute; left: 10px; top: 10px; }
 
 #tag { position: absolute; left: 130px; top: 128px; font: 500 26px JBMono, monospace; color: #1a1a1a; }
@@ -82,17 +81,17 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
     <div class="faint" data-layout-ignore style="left:-40px;top:560px">WORDS CHARS</div>
     <div class="faint" data-layout-ignore style="left:-60px;top:1100px">LINES MASK</div>
     <div class="faint" data-layout-ignore style="left:-30px;top:1250px">STAGGER</div>
-    <div id="ldots"></div>
     <div id="split" data-layout-ignore></div>
     <div id="tung" data-layout-ignore>TỪNG KÝ TỰ</div>
-    <svg id="shapes" width="534" height="1920" viewBox="0 0 534 1920"><g id="shp">
-      <polygon id="e3" fill="none" stroke="#141414" stroke-width="3"/><polygon id="e2" fill="none" stroke="#c9451c" stroke-width="3"/><polygon id="e1" fill="none" stroke="#141414" stroke-width="3"/>
-      <polygon id="shMain" fill="#c9451c" stroke="#141414" stroke-width="9" stroke-linejoin="round"/></g></svg>
-    <div id="gtxt" data-layout-ignore>G</div>
+    <svg id="rays" width="534" height="1920" viewBox="0 0 534 1920" style="position:absolute;left:0;top:0;overflow:visible"><g id="raysG" opacity="0"></g></svg>
+    <svg id="shapes" width="534" height="1920" viewBox="0 0 534 1920">
+      <defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4501a"/><stop offset="0.28" stop-color="#c4430c"/><stop offset="1" stop-color="#c4430c"/></linearGradient></defs>
+      <g id="ghosts"></g><path id="shMain" fill="url(#gl)" stroke="#141414" stroke-width="9" stroke-linejoin="round" d=""/></svg>
     <div id="bandbg"></div><div id="chip"><div id="chipt"></div></div>
     <div id="chip2" data-layout-ignore><b>gsap.timeline()</b><i>&lt;motion.div layout&gt;</i></div>
   </div>
   <div class="clip layer" id="R" data-start="0" data-duration="2.15" data-track-index="1" data-layout-allow-occlusion data-layout-allow-overlap data-layout-allow-overflow>
+    <div id="rdots"></div>
     <div id="blurs"></div>
     <div id="A">
       <div id="bigMask"><div class="big" id="bigG" data-layout-ignore><span>GIAO DIỆN</span></div><div class="big" id="bigL" data-layout-ignore><span>layout</span></div></div>
@@ -100,7 +99,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
       <div id="cards"></div>
     </div>
     <div id="B">
-      <div id="bigMask2" style="position:absolute;left:0;top:330px;width:542px;height:330px;overflow:hidden"><div class="big" style="top:70px;left:-20px" data-layout-ignore><span>THÊM BỚT</span></div></div>
+      <div id="bigMask2" style="position:absolute;left:0;top:330px;width:542px;height:330px;overflow:hidden"><div class="big" style="top:70px;left:-20px" data-layout-ignore><span class="lt">T</span><span class="lt">H</span><span class="lt">Ê</span><span class="lt">M</span><span class="lt">&nbsp;</span><span class="lt">B</span><span class="lt">Ớ</span><span class="lt">T</span></div></div>
       <div id="band"><div id="rows"></div></div>
     </div>
   </div>
@@ -136,33 +135,7 @@ const SPL = "SplitText";
 $("#split").innerHTML = [...SPL].map(c => `<span>${c}</span>`).join("");
 const FLY = [[-300, -200, -60], [260, -300, 70], [-200, 320, -90], [330, 250, 50], [-380, 40, 120], [200, 420, -40], [-120, -380, 80], [360, -80, -110], [-300, 300, 30]];
 
-// 3 + 1 đa giác morph: tròn -> sao -> blob
-const N = 72;
-function circle(cx, cy, r) { const a = []; for (let i = 0; i < N; i++) { const t = -Math.PI / 2 + i / N * 2 * Math.PI; a.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]); } return a; }
-function starPts(cx, cy, R, r) { const v = []; for (let i = 0; i < 10; i++) { const t = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; v.push([cx + rr * Math.cos(t), cy + rr * Math.sin(t)]); } return v; }
-function resample(v) {
-  const per = []; let tot = 0;
-  for (let i = 0; i < v.length; i++) { const a = v[i], b = v[(i + 1) % v.length]; const d = Math.hypot(b[0] - a[0], b[1] - a[1]); per.push(d); tot += d; }
-  const out = [];
-  for (let k = 0; k < N; k++) {
-    let d = k / N * tot, i = 0; while (d > per[i]) { d -= per[i]; i++; }
-    const a = v[i], b = v[(i + 1) % v.length], f = d / per[i];
-    out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
-  }
-  return out;
-}
-function blob(cx, cy, r) { const a = []; for (let i = 0; i < N; i++) { const t = -Math.PI / 2 + i / N * 2 * Math.PI; const rr = r + 46 * Math.sin(3 * t + 1) + 32 * Math.sin(5 * t); a.push([cx + rr * Math.cos(t), cy + rr * Math.sin(t)]); } return a; }
-const SH = { c: circle(300, 950, 430), s: resample(starPts(290, 960, 440, 190)), b: blob(300, 950, 400) };
-const cur = { k: 0 };   // 0 tròn, 1 sao, 2 blob
-function mix(a, b, f) { return a.map((p, i) => [p[0] + (b[i][0] - p[0]) * f, p[1] + (b[i][1] - p[1]) * f]); }
-function drawShape() {
-  let pts = cur.k <= 1 ? mix(SH.c, SH.s, cur.k) : mix(SH.s, SH.b, cur.k - 1);
-  const cx = 295, cy = 950;
-  const f = (s) => pts.map(p => `${(cx + (p[0] - cx) * s).toFixed(1)},${(cy + (p[1] - cy) * s).toFixed(1)}`).join(" ");
-  $("#shMain").setAttribute("points", f(1)); $("#e1").setAttribute("points", f(1.06)); $("#e2").setAttribute("points", f(1.12)); $("#e3").setAttribute("points", f(1.19));
-}
-drawShape();
-
+// hình morph: shared/morph.js (cùng đoạn morph với s06; bbox từng khung đo từ gốc, hàm thuần của thời gian)
 // thẻ dashboard (cột phải, trạng thái A)
 const cardsEl = $("#cards");
 const CCOL = ["#1d8a52", "#7a3cf0", "#e0a312", "#2f5bea"];
@@ -177,9 +150,9 @@ for (let i = 0; i < 10; i++) {
 }
 // bảng Tasks (trạng thái B)
 const ROWS = [["layout", "#e0a312", 20, 720], ["exit", "#1d8a52", 250, 800], ["stagger", "#2f5bea", 20, 900], ["initial", "#7a3cf0", 230, 980],
-  ["animate", "#2f5bea", 20, 1090], ["useSpring", "#7a3cf0", 200, 1200], ["popLayout", "#7a3cf0", 90, 1310]];
+  ["animate", "#2f5bea", 20, 1090], ["useSpring", "#7a3cf0", 200, 1200], ["popLayout", "#7a3cf0", 90, 1310], ["layoutId", "#e0a312", 20, 1200]];
 ROWS.forEach(([t, col, x, y], i) => {
-  const r = document.createElement("div"); r.className = "row"; r.id = "rw" + i; r.setAttribute("data-layout-allow-occlusion",""); r.setAttribute("data-layout-allow-overlap","");
+  const r = document.createElement("div"); r.className = "row trk"; r.id = "rw" + i; r.setAttribute("data-layout-allow-occlusion",""); r.setAttribute("data-layout-allow-overlap","");
   r.style.left = x + "px"; r.style.top = (y - 660) + "px"; r.style.width = "300px";
   r.innerHTML = `<i style="left:14px;background:${col}"></i><span style="left:74px">${t}</span><em></em>`;
   $("#rows").appendChild(r);
@@ -187,7 +160,6 @@ ROWS.forEach(([t, col, x, y], i) => {
 // UI mờ ở đáy
 const BL = [[-60, 1560, "#7b6cf0"], [210, 1600, "#3fae7a"], [-20, 1760, "#e0a312"], [250, 1790, "#4b7bec"]];
 BL.forEach(([x, y, c]) => { const d = document.createElement("div"); d.className = "blur"; d.style.left = x + "px"; d.style.top = y + "px"; d.innerHTML = `<i style="background:${c}"></i><b></b>`; $("#blurs").appendChild(d); });
-$("#ldots").style.opacity = 0;
 
 // phụ đề
 const CAPS = [
@@ -208,8 +180,8 @@ CAPS.forEach((g, gi) => {
 // J14: gốc cắt cứng sang nền kem ở 28.5 (t = 0.1); 0 – 0.1 trong suốt để s14 (post) còn mờ dần phía dưới.
 tl.set("#L, #R, #mid, #top", { opacity: 0 }, 0);
 tl.set("#top", { opacity: 1 }, 0.1);
-// gốc: khung 855 (28.5) còn kem trống, nội dung vào từ khung 856
-tl.set("#L, #R, #mid", { opacity: 1 }, 0.1334);
+// gốc: khung 855 (28.50s, f4 của cảnh) còn kem trống, nội dung vào ở khung 856 (28.533s = f5 = tl 4/30; năng lượng f5 gốc 12.3)
+tl.set("#L, #R, #mid", { opacity: 1 }, 4 / 30 - 1e-4);
 
 // ---- trái: SplitText bay vào rồi tan ----
 // gốc: ký tự rơi/lao vào từ xa (±600-800px), xoay mạnh, mỗi khung một chỗ mới, ráp xong ~0.37 (28.77); bản cũ ±300-420px, 0.3s êm
@@ -230,16 +202,85 @@ chipTo('morphSVG: "#star"', 0.95, 0.15);
 chipTo('morphSVG: "#blob"', 1.22, 0.15);
 chipTo('morphSVG: "#G"', 1.57, 0.15);
 
-// ---- trái: hình morph ----
-tl.fromTo("#shp", { scale: 0, transformOrigin: "295px 950px" }, { scale: 1, duration: 0.3, ease: "back.out(1.3)" }, 0.5);
-tl.to(cur, { k: 1, duration: 0.2, ease: "power2.inOut", onUpdate: drawShape }, 0.9);
-tl.to("#shp", { rotation: 8, duration: 0.5, ease: "sine.inOut", transformOrigin: "295px 950px" }, 0.95);
-tl.to(cur, { k: 2, duration: 0.22, ease: "power2.inOut", onUpdate: drawShape }, 1.2);
-tl.to("#e1,#e2,#e3", { opacity: 0.3, duration: 0.2 }, 1.2);
-// gốc: hình cam vuông giữ tới ~29.95, rồi vỡ thành chữ G trong 2-3 khung lúc ~30.0 (tl 1.6) và G bật to hơn rồi lún về (vọt ~12%)
-tl.fromTo("#gtxt", { opacity: 0, scale: 1.25, transformOrigin: "50% 60%" }, { opacity: 1, scale: 1, duration: 0.12, ease: "back.out(2.5)" }, 1.57);
-tl.to("#shp", { scale: 0.9, opacity: 0, duration: 0.1, ease: "power2.in", transformOrigin: "295px 950px" }, 1.57);
-tl.to("#gtxt", { opacity: 0, duration: 0.08 }, 1.93);
+// ---- trái: hình morph (cùng đoạn morph với s06, xem shared/morph.js và SPEC "Morph (mục 5)") ----
+// gốc: dãy chiều cao hình theo khung của s15 f24..f57 trùng s06 f5..f38 (lệch 19 khung): tròn f24-28, sao f29-37, blob f38-41, vuông f42-50, G f51-57;
+// hình ở giữa cột trái (tâm x 267 = 540 - 273), bị cắt bởi mép cột. Bóng ma như s06 (Morph.ghost / Morph.ghostW; bảng đo ở gốc theo khung s06, s15 f = s06 f + 19): bản của hình hiện tại dịch lên 50-250 px, chồng sao loe ngang.
+// Cảnh này không có pre (mốc 28.40 = khung nguyên) nên khung ghép f hiện đúng tl = (f - 1)/30; tl của lịch TR của s06 (đã chỉnh theo nửa khung lấy mẫu) = tl - 19/30 + 0.5/30.
+const TR = [[0.25, 0.07, "power1.inOut"], [0.58, 0.07, "power1.inOut"], [0.72, 0.12, "power1.inOut"], [0.97, 0.11, "power1.in"]];
+const SHIFT = 19, DX = -273;
+const shpEl = $("#shMain"), DRV = { t: 0 }, ghostEls = [];
+for (let k = 0; k < 5; k++) {
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  p.setAttribute("fill", "none"); p.setAttribute("stroke", k % 2 ? "#c4430c" : "#141414"); p.setAttribute("stroke-width", 5); p.setAttribute("opacity", 0);
+  $("#ghosts").appendChild(p); ghostEls.push(p);
+}
+// Thẻ đen "layout" (đo `band`/dải biên trên gốc, mốc f = 1 + tl*30): KHÔNG trượt từ phải mà NỞ RA từ mép trái cột phải (x 538) — bbox [phải, trên, dưới] (px tuyệt đối):
+// f23 619,1102,1255; f24 763,1028,1307; f25 919,1022,1361; f26 1054,771,1409; f27 1079,719,1447; f28 .,686,1474; f29 .,665,1489; f30 .,651,1498; f31 .,644,1503; f32+ .,642,1505.
+// Bản cũ: cả cột B (kể cả chữ THÊM BỚT) trượt từ phải 0.72-1.12s, diện tích đen tăng muộn 3-4 khung (f26-f31 so với f22-f29 ở gốc).
+const BC = { 23: [619, 1102, 1255], 24: [763, 1028, 1307], 25: [919, 1022, 1361], 26: [1054, 771, 1409], 27: [1079, 719, 1447], 28: [1079, 686, 1474], 29: [1079, 665, 1489], 30: [1079, 651, 1498], 31: [1079, 644, 1503] };
+function applyBand(f) {
+  const r = f < 23 ? null : (BC[Math.min(f, 31)] || [1079, 642, 1505]);
+  if (!r) { $("#band").style.clipPath = "inset(100% 0 0 0)"; return; }
+  const top = Math.max(0, r[1] - 660), bot = Math.max(0, 846 - (r[2] - 660)), right = Math.max(0, 542 - (r[0] - 538));
+  $("#band").style.clipPath = `inset(${top}px ${right}px ${bot}px 0px)`;
+}
+// chấm cam lưới 60px (tâm x địa phương 59 mod 60, y tuyệt đối 33 mod 60 đo bằng gấp mặt nạ cam f24-f27 và tự tương quan: chu kỳ 60 ở cả x và y), nằm dưới thẻ; độ phủ cam vùng y 1520-1900 theo khung
+// (gốc: 0.3, 1.6, 4.1, 6.3, 7.8, 8.7, 9.2 %, f20-f26 -> 8.7, 7.5, 3.5, 0.6 %, f27-f30 -> bật lại 0.5, 1.2, 1.8, 1.2, 0.6, 0.1 %, f31-f36) chuẩn hoá theo đỉnh f26. Bản cũ: không có chấm ở cột phải (chấm 46px đặt nhầm ở cột trái).
+const RD = { 20: .03, 21: .17, 22: .45, 23: .68, 24: .85, 25: .95, 26: 1, 27: .95, 28: .82, 29: .38, 30: .07, 31: .05, 32: .13, 33: .2, 34: .13, 35: .07 };
+// Hàng bảng Tasks (đo `rows`: thẻ trắng trong thẻ đen, cờ cắt trái/phải của cột 542 px). Hàng gốc có chiều rộng CỐ ĐỊNH ~470 px (CSS 300 x 1.55) và chỉ TRƯỢT NGANG, bị mép cột cắt:
+// mép trái thật L = x1 − 470 khi bị cắt trái ("ate ✓", "utId ◯"), L = x0 khi bị cắt phải ("initial", "exit"); bản trước đọc nhầm phần nhìn thấy là chiều rộng nên co hàng lại (icon đè chữ).
+// Bảng: khung f -> [L, y, tỉ lệ so với 1.55]; null = ẩn từ khung đó; giữ giá trị cuối khi hết bảng. Khung hai hàng chạm nhau (thành phần hợp M) hoặc bị thẻ/logo che (h < 100) nội suy tuyến tính (ghi [~]).
+//   animate rw4: bay trái-lên f26-f30 (L -43 -> -327, y 1200 -> 1087), về -190 ở f37, rung trái -280, -371, ~-340, ~-330 (f39-f42), -312 (f43), ~-260, -207 (f45...) đứng yên;
+//   initial rw3: vào từ (360, 1019) f27 bay lên-trái (211, 957) f30 rồi trượt phải tới 285 (f38-f50), y 956 (đầu hàng nằm dưới hộp lời nhắc); hết ở f51 (không còn thành phần);
+//   exit rw1: mép nhìn thấy x 405 bị hộp lời nhắc che (nhãn "exit" bắt đầu ở x 487 = L + 115 => L 372), hạ 892 -> 819 (f27-f32, f28-f29 [~]) đứng 821 tới f50, vắng f51-f52, trở lại 875 (f53) -> 817 (f58);
+//   useSpring rw5: từ mép phải 373 (f38) trượt trái 188, 92, 70 (f41) phóng 1.10, ~112 [~], 155 (f43), ~211 [~], rồi sang phải 268 -> 322 (f45-f48), về 272 (f54);
+//   stagger rw2: hàng bị hộp lời nhắc che, chỉ thấy đáy (y 1022-1069): mép phải thấy 233...268, y = 1069 - 118 = 951; layoutId rw7: vào từ phải 240 (f48), 33, rồi trượt trái -129, -217, -260, -266 (f50-f53);
+//   layout rw0 hiện ở f58 (398, 817). popLayout rw6 chưa thấy ở gốc tới f58 nên ẩn. Bản cũ: cả bảy hàng bật cùng lúc từ f31 rồi đứng yên, thêm rw1 trượt ra và rw3 tụt 120 px ở 1.5s (không có ở gốc).
+const TRK = {
+  rw4: { 26: [-43, 1200], 27: [-204, 1153], 28: [-293, 1118], 29: [-327, 1095], 30: [-322, 1087], 31: [-297, 1088], 32: [-265, 1089], 33: [-235, 1090], 34: [-212, 1090], 35: [-198, 1088], 36: [-191, 1087], 37: [-190, 1086], 38: [-193, 1085], 39: [-280, 1084], 40: [-371, 1085], 41: [-340, 1085], 42: [-330, 1085], 43: [-312, 1085], 44: [-260, 1085], 45: [-207, 1085] },
+  rw3: { 27: [360, 1019], 28: [269, 986], 29: [224, 965], 30: [211, 957], 31: [217, 958], 32: [232, 959], 33: [249, 959], 34: [264, 957], 35: [275, 956], 36: [281, 956], 37: [284, 956], 38: [285, 956], 40: [284, 956], 41: [282, 956], 43: [281, 956], 44: [280, 956], 46: [281, 956], 50: [281, 955], 51: null },
+  rw1: { 27: [372, 892], 28: [372, 868], 29: [372, 847], 30: [372, 826], 31: [372, 823], 32: [372, 819], 33: [372, 818], 34: [372, 819], 35: [372, 821], 50: [372, 821], 51: null, 53: [372, 875], 54: [372, 855], 55: [372, 836], 56: [372, 824], 57: [372, 820], 58: [365, 817] },
+  rw5: { 38: [373, 1081, 1], 39: [188, 1083, 1], 40: [92, 1078, 1.1], 41: [70, 1078, 1.11], 42: [112, 1080, 1.08], 43: [155, 1082, 1.05], 44: [211, 1083, 1], 45: [268, 1085, 1], 46: [303, 1085, 1], 47: [321, 1084, 1], 48: [322, 1085, 1], 49: [315, 1085, 1], 50: [303, 1085, 1], 51: [292, 1085, 1], 52: [282, 1085, 1], 53: [275, 1085, 1], 54: [272, 1085, 1] },
+  rw2: { 32: [-237, 951], 33: [-219, 951], 34: [-247, 951], 35: [-270, 951], 36: [-270, 951], 37: [-258, 951], 38: [-242, 951], 39: [-227, 951], 40: [-215, 951], 41: [-208, 951], 42: [-203, 951], 43: [-202, 951], 46: [-204, 951], 47: [-205, 951], 48: [-206, 951] },
+  rw7: { 48: [240, 1208], 49: [33, 1212], 50: [-129, 1216], 51: [-217, 1217], 52: [-260, 1215], 53: [-266, 1211] },
+  rw0: { 58: [398, 817] }, rw6: {} };
+for (const id in TRK) TRK[id].keys = Object.keys(TRK[id]).map(Number).sort((a, b) => a - b);
+function drawRows(f) {
+  for (const id in TRK) {
+    const el = $("#" + id), T = TRK[id]; let k = null; for (const q of T.keys) if (q <= f) k = q;
+    const r = k === null ? null : T[k];
+    if (!r) { el.style.opacity = 0; continue; }
+    el.style.opacity = 1; el.style.left = r[0] + "px"; el.style.top = (r[1] - 660) + "px"; el.style.transformOrigin = "0 0"; el.style.transform = `scale(${(1.55 * (r[2] || 1)).toFixed(3)})`;
+  }
+}
+function drawMorph() {
+  applyRays(DRV.t);
+  applyBand(Math.round(DRV.t * 30) + 1); drawRows(Math.round(DRV.t * 30) + 1); $("#rdots").style.opacity = RD[Math.round(DRV.t * 30) + 1] || 0;
+  const tl_ = DRV.t, f = Math.round(tl_ * 30) + 1 - SHIFT, tc = tl_ - SHIFT / 30 + 0.5 / 30, on0 = f >= 5 && tl_ < 1.9 - 1e-6;   // f57 = G đặc cuối (1.867s); từ f58 (1.90s) gốc đã loãng thành hạt (cửa sổ 30.1s sát ngưỡng nếu giữ hình thêm 1 khung: 0.50)
+  shpEl.setAttribute("opacity", on0 ? 1 : 0);
+  const pts = on0 ? Morph.frame(tc, DX, TR, f) : null, gd = pts ? Morph.ghost(f) : [];
+  if (pts) shpEl.setAttribute("d", Morph.d(pts));
+  ghostEls.forEach((g, k) => {
+    g.setAttribute("opacity", k < gd.length ? 0.95 : 0);
+    if (k < gd.length) { const [sx, tx] = Morph.ghostW(k, gd.length), pv = 540 + DX; g.setAttribute("d", Morph.d(pts.map(p => [pv + (p[0] - pv) * sx + tx, p[1] - gd[k]]))); }
+  });
+}
+// quạt tia nền (cùng đoạn với s06: 11 tia cách 21.2°, nét 24px #e4e0d7, tâm (540,1000) của s06 = (267,1000) ở cột trái) nhảy từng khung theo bảng RAYU của s06
+// (khung k của bảng <-> s06 6.90 + k/30 <-> khung ghép f của s15 = k + 26)
+const RAYU = [-6.8, -9.1, -10.2, -13.7, -7.9, -18.3, -23.1, -25.1, -24.8, -24.7, -21.5, -21.5, -21.4, -30.1, -27.9, -18.9, -24.7, -26.6, -24.9, -22.8,
+  -28.3, -25.5, -14.1, -18.9, -18.9, -15.9, -11.6, -9.8, -19.9, -23.0, -22.2, -19.4], RAYMEAN = -21;
+for (let k = -5; k <= 5; k++) {
+  const a = (90 - 21.2 * k) * Math.PI / 180, r = 1700, l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  l.setAttribute("x1", 267); l.setAttribute("y1", 1000); l.setAttribute("x2", 267 + r * Math.cos(a)); l.setAttribute("y2", 1000 + r * Math.sin(a));
+  l.setAttribute("stroke", "#e4e0d7"); l.setAttribute("stroke-width", 24); l.setAttribute("stroke-linecap", "round"); $("#raysG").appendChild(l);
+}
+function applyRays(tl_) {
+  const k = Math.min(RAYU.length - 1, Math.max(0, Math.round(tl_ * 30) + 1 - 26));
+  $("#raysG").setAttribute("transform", `rotate(${(-(RAYU[k] - RAYMEAN)).toFixed(2)} 267 1000)`);
+}
+drawMorph();
+tl.fromTo("#raysG", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out", immediateRender: false }, 0.05 + SHIFT / 30);
+tl.fromTo(DRV, { t: 0 }, { t: 2.15, duration: 2.15, ease: "none", immediateRender: false, onUpdate: drawMorph }, 0);
 
 // ---- J15: chữ G tan thành đám hạt cam (đo từ gốc, 30fps, nửa trái, khung 270x480 nhân 4) ----
 // gốc: G (x 4-424, y 552-1360, ~10k điểm) loãng thành vân ở 30.30 (t 1.90), rồi đám hạt vuông đặc nở ra x 8-520, y 572-1488 (~23k điểm,
@@ -264,12 +305,13 @@ tl.to("#chip2, #glogo, #mlogo", { opacity: 0, duration: 0.1 }, 1.95);
 tl.to("#pbox", { opacity: 0, duration: 0.08 }, 2.0);
 tl.to("#R, #div", { opacity: 0, duration: 0.1 }, 2.05);
 tl.to("#L", { opacity: 0, duration: 0.1 }, 2.05);
-tl.to("#ldots", { opacity: 0.9, duration: 0.2 }, 0.55);
-tl.to("#ldots", { opacity: 0, duration: 0.25 }, 1.0);
-tl.fromTo("#chip2", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.14, ease: "power2.out" }, 1.84);
+// Logo GSAP / Motion + chip: gốc hiện ở f52 (1.70s) mờ ~35%, nhỏ ~55% (80px), f53 65% / 79% (115px, hơi xoay), f54 90% / 92%, f55 đủ (GSAP 146px, Motion 160px, tâm (205,1242) và (876,1241)),
+// chip gsap.timeline() hiện từ f53; bản cũ hiện ở 1.86-1.90s (muộn 6 khung: f58) và nhỏ hơn (134px), lệch tâm (217,1257) và (923,1257). Số đo đọc bằng mắt từng khung (ô logo bị nét viền che nên `logo` không đo được).
+[[1.7, .55, .35], [1.7333, .79, .65], [1.7667, .92, .9], [1.8, 1, 1]].forEach(([t, sc, op]) => {
+  tl.set("#glogo", { scale: 1.09 * sc, opacity: op }, t - 1e-4); tl.set("#mlogo", { scale: 1.19 * sc, opacity: op }, t - 1e-4);
+});
+tl.fromTo("#chip2", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.1, ease: "power2.out" }, 1.7);
 tl.to("#chip", { opacity: 0, duration: 0.1 }, 1.84);
-tl.fromTo("#glogo", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2)" }, 1.86);
-tl.fromTo("#mlogo", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2)" }, 1.9);
 
 // ---- phải: GIAO DIỆN -> layout, thẻ xáo trộn, rồi bảng Tasks ----
 // gốc (phase-correlation cả nửa phải, 28.50-28.77): cột phải trượt vào từ mép phải, tốc độ 153 px/khung giảm dần tới 0 trong 8 khung
@@ -284,12 +326,14 @@ tl.set("#tcode", { background: "#141414", color: "#fff", borderColor: "#141414" 
 // gốc: thẻ bắt đầu xáo từ 28.77 (tl .37) và bay rất nhanh, chồng lên nhau, kéo ~0.45s tới 29.2; bản cũ bắt đầu .55, power3.inOut êm
 PERM.forEach((to, i) => tl.to("#dc" + i, { x: GRID[to][0] - GRID[i][0], y: GRID[to][1] - GRID[i][1], duration: 0.3, ease: "back.inOut(1.6)" }, 0.37 + i * 0.015));
 // gốc: khối tối (bảng Tasks) hiện từ ~29.1 (tl .7), nhịp mượt hơn; bản cũ .92 power3.inOut
-tl.fromTo("#B", { x: 560 }, { x: 0, duration: 0.4, ease: "power2.inOut" }, 0.72);
-tl.to("#A", { x: -140, opacity: 0, duration: 0.4, ease: "power2.inOut" }, 0.72);
-tl.fromTo(".row", { scale: 0.6, opacity: 0, transformOrigin: "0 50%" }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(1.6)", stagger: 0.07 }, 1.0);
-tl.to("#rw1", { x: 300, opacity: 0, duration: 0.2, ease: "power2.in", overwrite: "auto" }, 1.5);
-tl.to("#rw3", { y: 120, duration: 0.25, ease: "power3.inOut" }, 1.5);
-tl.fromTo("#rw0", { y: 0 }, { y: 6, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.0);
+// chữ lớn "layout" (A) đứng yên tới f31 rồi nhoè + mờ trong 3 khung (f31-f33), không trượt; bản cũ trượt -140 px và mờ 0.72-1.12s
+// đo `blur` (vùng x 560-1070, y 400-640): độ nét 1.09, 1.07, 0.91, 0.34, 0.12, 0.10 và độ phủ tối 24.7, 24.5, 16.1, 2.4, 0.0, 0.0 % ở f28-f34 -> chữ mờ còn ~66% ở f31, ~10% ở f32 (nhoè mạnh), hết ở f33
+tl.set("#bigMask", { opacity: 0.66, filter: "blur(1px)" }, 1.0 - 1e-4);
+tl.set("#bigMask", { opacity: 0.1, filter: "blur(5px)" }, 1.0333 - 1e-4);
+tl.set("#bigMask", { opacity: 0 }, 1.0667 - 1e-4);
+tl.to("#A", { opacity: 0, duration: 0.05, ease: "none" }, 1.1);
+// chữ THÊM BỚT: gốc từng chữ trồi lên từ đáy mặt nạ f35-f39 (độ phủ chữ 2, 5, 12, 13, 17 % ở f34-f39), mỗi chữ trễ 1 khung; bản cũ trượt cả cột từ phải ở 0.72s (sớm 10 khung)
+tl.fromTo("#bigMask2 .lt", { yPercent: 110 }, { yPercent: 0, duration: 0.1, ease: "power3.out", stagger: 1 / 30 }, 1.1);
 
 // ---- hộp lời nhắc ----
 tl.fromTo("#pbox", { scale: 0.8, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.22, ease: "back.out(1.4)" }, 0.5);
@@ -300,8 +344,8 @@ tl.to(ty, { n: 3, duration: 0.05, ease: "none", onUpdate() { $("#ptxt").textCont
   const from = i ? a[i - 1][1] : 3, t0 = i ? a[i - 1][0] : 0.6;
   tl.fromTo(ty, { n: from }, { n, duration: t - t0, ease: "none", immediateRender: false, onUpdate() { $("#ptxt").textContent = MSG.slice(0, Math.round(ty.n)); } }, t0);
 });
-tl.to("#pbox", { opacity: 0.35, duration: 0.2 }, 1.8);
-tl.to("#ptab", { opacity: 0, duration: 0.15 }, 1.8);
+tl.to("#pbox", { opacity: 0.35, duration: 0.1 }, 1.9);   // gốc: hộp lời nhắc trắng 255 tới f57, mờ từ f58 (1.90s): 251, 247, 225, 188, 112 (f58-f62); bản cũ mờ từ 1.8s
+tl.to("#ptab", { opacity: 0, duration: 0.15 }, 1.9);
 tl.to("#div", { backgroundColor: "#bdb7ac", duration: 0.2 }, 0.75);
 
 window.__timelines = window.__timelines || {};
