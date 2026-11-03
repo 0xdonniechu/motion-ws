@@ -1,0 +1,192 @@
+{
+ "title": "Vì sao dashboard đẹp mà không ai quyết gì",
+ "theme": "default",
+ "beats": [
+  {
+   "type": "wow-demo", "duration": 4, "layout": "headline-dashboard", "page": {"mode":"tint","grid":"line"}, "transition": {"use":"wash"},
+   "items": [
+    { "use": "text", "slot": "headline", "props": {"role":"headline"},
+      "effects": [
+        {"use":"typing","at":0.73,"props":{"text":"Dashboard *đẹp* như phim.","caretHold":0.3}}
+      ]
+    },
+    { "use": "dashboardCard", "slot": "card", "props": {"title":"Doanh thu tuần 12","kpi":{"label":"đạt kế hoạch"},"bars":[200,280,240,330,300,380]},
+      "effects": [
+        {"use":"slideIn","at":0,"props":{"fade":0}},
+        {"use":"countUp","at":0.67,"target":"num","props":{"to":87,"suffix":"%"}},
+        {"use":"barFill","at":0.67,"target":"fill","props":{"to":0.87,"like":"count"}},
+        {"use":"chartPop","at":0.57}
+      ]
+    }
+   ]
+  },
+  {
+   "type": "hanging-number", "duration": 4, "layout": "stat-question", "page": {"mode":"white"}, "transition": {"use":"bar-wipe"},
+   "items": [
+    { "use": "statCard", "slot": "stat", "props": {"tag":"Số minh hoạ","lead":"Dashboard họp tuần có","unit":"biểu đồ.","progress":true},
+      "effects": [
+        {"use":"slideIn","at":0.1,"props":{"fade":0}},
+        {"use":"countUp","at":0.77,"target":"num","props":{"to":47,"align":"center"}},
+        {"use":"barFill","at":0.77,"target":"fill","props":{"to":0.94}},
+        {"use":"fadeUp","at":1.27,"target":"unit"},
+        {"use":"fadeUp","at":1.43,"target":"bar","props":{"y":0}},
+        {"use":"fadeUp","at":0.2,"target":"tag","props":{"y":0,"duration":0.2}}
+      ]
+    },
+    { "use": "text", "slot": "question", "props": {"role":"headline","text":"Mấy cái *đổi được* một quyết định?"},
+      "effects": [
+        {"use":"fadeUp","at":1.67}
+      ]
+    }
+   ]
+  },
+  {
+   "type": "authority", "duration": 4, "layout": "quote-card", "page": {"mode":"tint","grid":"line"}, "transition": {"use":"dissolve"},
+   "items": [
+    { "use": "quoteCard", "slot": "quote", "props": {"tag":"Ai làm dữ liệu lâu cũng nhận ra:","line1":"Không cần thêm biểu đồ."},
+      "effects": [
+        {"use":"slideIn","at":0.17,"props":{"fade":0}},
+        {"use":"fadeUp","at":0.33,"target":"tag"},
+        {"use":"fadeUp","at":0.53,"target":"line1"},
+        {"use":"typing","at":1,"target":"line2","props":{"text":"Họ cần một *câu trả lời*.","caretHold":0.2}}
+      ]
+    }
+   ]
+  },
+  {
+   "type": "metaphor", "duration": 5, "layout": "lines-map-dest", "page": {"mode":"tint","grid":"line"}, "transition": {"use":"hard"},
+   "items": [
+    { "use": "text", "slot": "line1", "props": {"role":"headline"},
+      "effects": [
+        {"use":"typing","at":0.4,"props":{"text":"Bản đồ *chi tiết* đến từng ngõ,","caretHold":0.3}}
+      ]
+    },
+    { "use": "text", "slot": "line2", "props": {"role":"headline","text":"mà không ghi *điểm đến*."},
+      "effects": [
+        {"use":"fadeUp","at":2.1}
+      ]
+    },
+    { "use": "mapCard", "slot": "map", "props": {"pins":[[0.14,0.3],[0.3,0.62],[0.44,0.25],[0.58,0.7],[0.72,0.38],[0.84,0.78],[0.2,0.88],[0.66,0.18],[0.88,0.5]]},
+      "effects": [
+        {"use":"slideIn","at":0.2,"props":{"fade":0}},
+        {"use":"chartPop","at":0.6,"target":"pins"}
+      ]
+    },
+    { "use": "iconCard", "slot": "dest", "props": {"icon":"question","text":"điểm đến?"},
+      "effects": [
+        {"use":"slideIn","at":2.67,"props":{"from":"right","fade":0}}
+      ]
+    }
+   ]
+  },
+  {
+   "type": "checklist", "duration": 8, "layout": "pill-three-rows", "page": {"mode":"white"}, "transition": {"use":"dissolve"},
+   "items": [
+    { "use": "pill", "slot": "pill", "props": {"total":3,"step":1},
+      "effects": [
+        {"use":"fadeUp","at":0.07},
+        {"use":"pillHop","at":2.4,"props":{"to":2}},
+        {"use":"pillHop","at":4.6,"props":{"to":3}}
+      ]
+    },
+    { "use": "listCard", "slot": "row1", "props": {"text":"Quyết định nào cần *chốt*?"},
+      "effects": [
+        {"use":"slideIn","at":0.2,"props":{"from":"right","fade":0}},
+        {"use":"popIn","at":1,"target":"tick"}
+      ]
+    },
+    { "use": "listCard", "slot": "row2", "props": {"text":"*Ai* là người chốt?"},
+      "effects": [
+        {"use":"slideIn","at":2.4,"props":{"from":"right","fade":0}},
+        {"use":"popIn","at":3.2,"target":"tick"}
+      ]
+    },
+    { "use": "listCard", "slot": "row3", "props": {"text":"Con số nào *đổi được* hành động?"},
+      "effects": [
+        {"use":"slideIn","at":4.6,"props":{"from":"right","fade":0}},
+        {"use":"popIn","at":5.4,"target":"tick"}
+      ]
+    }
+   ]
+  },
+  {
+   "type": "costly-detail", "duration": 5, "layout": "stat-chart-line", "page": {"mode":"tint"}, "transition": {"use":"flash"},
+   "items": [
+    { "use": "statCard", "slot": "stat", "props": {"tag":"Số minh hoạ","lead":"Mỗi quý, làm báo cáo mất","unit":"giờ.","chart":{"values":[6,5,7,6,6,6,5,7,6,6,6,6],"h":160,"barW":40,"top":540,"caption":"12 tuần × 6 giờ"}},
+      "effects": [
+        {"use":"slideIn","at":0.03,"props":{"fade":0}},
+        {"use":"fadeUp","at":0.13,"target":"tag","props":{"y":0,"duration":0.2}},
+        {"use":"countUp","at":0.7,"target":"num","props":{"to":72,"align":"center"}},
+        {"use":"chartPop","at":0.83,"target":"bars"},
+        {"use":"fadeUp","at":1.2,"target":"unit"},
+        {"use":"fadeUp","at":1.37,"target":"bar","props":{"y":0}}
+      ]
+    },
+    { "use": "text", "slot": "line", "props": {"role":"headline","text":"mà không ai dùng để *quyết*."},
+      "effects": [
+        {"use":"fadeUp","at":2.07}
+      ]
+    }
+   ]
+  },
+  {
+   "type": "lesson", "duration": 5, "layout": "rule-three-steps", "page": {"mode":"tint","grid":"line"}, "transition": {"use":"dissolve"},
+   "items": [
+    { "use": "text", "slot": "rule", "props": {"role":"headline"},
+      "effects": [
+        {"use":"typing","at":0.4,"props":{"text":"Chốt *quyết định* trước. Vẽ biểu đồ sau.","caretHold":0.3}}
+      ]
+    },
+    { "use": "stepCard", "slot": "step1", "props": {"n":1,"text":"Quyết định"},
+      "effects": [
+        {"use":"slideIn","at":1.67,"props":{"from":"right","fade":0}}
+      ]
+    },
+    { "use": "stepCard", "slot": "step2", "props": {"n":2,"text":"Câu hỏi"},
+      "effects": [
+        {"use":"slideIn","at":2.07,"props":{"from":"right","fade":0}}
+      ]
+    },
+    { "use": "stepCard", "slot": "step3", "props": {"n":3,"text":"Biểu đồ"},
+      "effects": [
+        {"use":"slideIn","at":2.47,"props":{"from":"right","fade":0}}
+      ]
+    },
+    { "use": "connector", "slot": "link1",
+      "effects": [
+        {"use":"fadeUp","at":1.87,"props":{"y":0}}
+      ]
+    },
+    { "use": "connector", "slot": "link2",
+      "effects": [
+        {"use":"fadeUp","at":2.27,"props":{"y":0}}
+      ]
+    }
+   ]
+  },
+  {
+   "type": "cta", "duration": 6, "layout": "stat-ask-button", "page": {"mode":"white"},
+   "items": [
+    { "use": "statCard", "slot": "stat", "props": {"lead":"Trong 47 biểu đồ, giữ lại","unit":"con số."},
+      "effects": [
+        {"use":"slideIn","at":0.03,"props":{"fade":0}},
+        {"use":"countUp","at":0.7,"target":"num","props":{"from":47,"to":1,"align":"center"}},
+        {"use":"fadeUp","at":1.2,"target":"unit"},
+        {"use":"fadeUp","at":1.37,"target":"bar","props":{"y":0}}
+      ]
+    },
+    { "use": "text", "slot": "ask", "props": {"role":"headline","text":"Bạn sẽ giữ *con số* nào?"},
+      "effects": [
+        {"use":"fadeUp","at":1.6}
+      ]
+    },
+    { "use": "button", "slot": "button", "props": {"label":"Lưu lại"},
+      "effects": [
+        {"use":"fadeUp","at":2},
+        {"use":"pulse","at":2.5}
+      ]
+    }
+   ]
+  }
+ ]
+}

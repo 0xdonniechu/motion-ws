@@ -1,0 +1,110 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "corporate-motion/script.schema.json",
+ "title": "script.json của preset corporate-motion",
+ "description": "Kịch bản một clip: CHỈ nội dung và tên trong kit/catalog.json. Mọi thứ còn lại (toạ độ, ease, thời lượng chuyển động, màu, font) do máy lấy từ layouts.json, language.json và theme. build-clip.mjs kiểm thêm những gì schema không diễn đạt được: tên component/effect/transition phải có trong catalog (thiếu thì dừng, không vẽ), prop phải là prop công khai (không internal, không toạ độ), item phải vào slot của layout, target effect phải nằm trong `returns` của component, mục phải hợp loại beat (`suits`).",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["title", "beats"],
+ "properties": {
+  "title": { "type": "string", "minLength": 1, "maxLength": 80, "description": "Tên clip (chỉ để ghi nhận, không hiện trên màn hình)." },
+  "theme": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Tên tệp trong themes/ (mặc định `default`). Chỉ đổi màu, font, kiểu chữ; chuyển động giữ nguyên." },
+  "beats": {
+   "type": "array",
+   "minItems": 2,
+   "maxItems": 20,
+   "description": "Theo khung beat của preset, theo thứ tự: wow-demo, hanging-number, authority, metaphor, checklist, costly-detail, lesson, cta (được bỏ hoặc lặp beat; đảo thứ tự là lỗi; beat cuối bắt buộc là cta).",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["type", "items"],
+    "properties": {
+     "type": { "type": "string", "description": "Một giá trị của `suits_values` trong catalog.json." },
+     "duration": {
+      "description": "Giây (số) hoặc \"auto\"/bỏ trống: máy tự tính từ nhịp của language.json (độ dài cảnh trung vị, hoặc lúc effect cuối + thời gian gõ + thời gian đứng yên chữ, lấy số lớn hơn). Làm tròn về khung 30fps.",
+      "oneOf": [{ "type": "number", "minimum": 1, "maximum": 30 }, { "const": "auto" }]
+     },
+     "layout": { "type": "string", "description": "Tên trong layouts.json cho đúng loại beat; bỏ trống = layout đầu tiên của loại đó." },
+     "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Nền trang = prop công khai của component `page`.",
+      "properties": {
+       "mode": { "enum": ["tint", "white"], "description": "tint là mặc định; trắng cho beat yên tĩnh (số treo, checklist, CTA)." },
+       "grid": { "enum": ["line", "dot", null] }
+      }
+     },
+     "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": ["use", "slot"],
+       "properties": {
+        "use": { "type": "string", "description": "Tên component trong catalog.json (kind component)." },
+        "slot": { "type": "string", "description": "Tên slot của layout; mỗi slot một item." },
+        "props": { "type": "object", "description": "Prop công khai của component trong catalog (chữ, số liệu). Cấm prop `internal` và x, y, w, h, minH, align (thuộc layout). Chữ ngắn, tối đa 70 ký tự mỗi chuỗi." },
+        "effects": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["use", "at"],
+          "properties": {
+           "use": { "type": "string", "description": "Tên effect trong catalog.json (kind effect)." },
+           "at": { "type": "number", "minimum": 0, "description": "Giây tính từ ĐẦU beat (làm tròn về khung). Phải nhỏ hơn độ dài beat." },
+           "target": { "type": "string", "description": "`self` (mặc định) hoặc một khoá trong `returns` của component, ví dụ num, fill, unit, bars, pins, tick, line2." },
+           "props": { "type": "object", "description": "Prop công khai của effect (không `at`; không internal như ease, reach)." }
+          }
+         }
+        }
+       }
+      }
+     },
+     "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["use"],
+      "description": "Chuyển cảnh vào beat kế tiếp (beat cuối không có). Bỏ trống = dissolve, kiểu phổ biến nhất của preset.",
+      "properties": {
+       "use": { "type": "string", "description": "Tên transition trong catalog.json (dissolve, wash, hard, bar-wipe, flash)." },
+       "props": { "type": "object", "description": "Prop công khai của transition (vd barW)." }
+      }
+     }
+    }
+   }
+  }
+ },
+ "examples": [
+  {
+   "title": "Ví dụ hai beat",
+   "theme": "default",
+   "beats": [
+    {
+     "type": "hanging-number", "duration": 4, "layout": "stat-question", "page": { "mode": "white" },
+     "items": [
+      { "use": "statCard", "slot": "stat", "props": { "tag": "Số minh hoạ", "lead": "Dashboard họp tuần có", "unit": "biểu đồ.", "progress": true },
+        "effects": [
+         { "use": "slideIn", "at": 0.1, "props": { "fade": 0 } },
+         { "use": "countUp", "at": 0.77, "target": "num", "props": { "to": 47, "align": "center" } },
+         { "use": "barFill", "at": 0.77, "target": "fill", "props": { "to": 0.94 } },
+         { "use": "fadeUp", "at": 1.27, "target": "unit" }
+        ] },
+      { "use": "text", "slot": "question", "props": { "role": "headline", "text": "Mấy cái *đổi được* một quyết định?" },
+        "effects": [{ "use": "fadeUp", "at": 1.6 }] }
+     ],
+     "transition": { "use": "bar-wipe" }
+    },
+    {
+     "type": "cta", "duration": 6, "layout": "stat-ask-button", "page": { "mode": "white" },
+     "items": [
+      { "use": "text", "slot": "ask", "props": { "role": "headline", "text": "Bạn sẽ giữ *con số* nào?" }, "effects": [{ "use": "fadeUp", "at": 0.5 }] },
+      { "use": "button", "slot": "button", "props": { "label": "Lưu lại" }, "effects": [{ "use": "fadeUp", "at": 1.0 }, { "use": "pulse", "at": 2.0 }] }
+     ]
+    }
+   ]
+  }
+ ]
+}

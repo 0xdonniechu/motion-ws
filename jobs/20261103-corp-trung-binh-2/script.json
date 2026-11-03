@@ -1,0 +1,44 @@
+{
+ "title": "3 cái bẫy khi đọc số trung bình",
+ "beats": [
+  {"type":"hanging-number","layout":"stat-question","page":{"mode":"white"},
+   "items":[
+    {"use":"statCard","slot":"stat","props":{"tag":"Số minh hoạ","lead":"Lương trung bình công ty","unit":"triệu một tháng.","progress":true},
+     "effects":[{"use":"slideIn","at":0.1,"props":{"fade":0}},{"use":"countUp","at":0.77,"target":"num","props":{"to":18,"align":"center"}},{"use":"barFill","at":0.77,"target":"fill","props":{"to":0.6,"like":"count"}},{"use":"fadeUp","at":1.27,"target":"unit"}]},
+    {"use":"text","slot":"question","props":{"role":"headline","text":"Bao nhiêu người *thật sự* nhận mức đó?"},"effects":[{"use":"fadeUp","at":1.8}]}
+   ],"transition":{"use":"bar-wipe"}},
+  {"type":"authority","layout":"quote-card",
+   "items":[
+    {"use":"quoteCard","slot":"quote","props":{"tag":"Ai đọc số liệu lâu cũng nhận ra:","line1":"Trung bình không phải điển hình."},
+     "effects":[{"use":"fadeUp","at":0.1},{"use":"typing","at":0.8,"target":"line2","props":{"text":"Nó che mất *phân phối*."}}]}
+   ]},
+  {"type":"checklist","layout":"pill-three-rows","page":{"mode":"white"},
+   "items":[
+    {"use":"pill","slot":"pill","props":{"total":3,"step":1},"effects":[{"use":"fadeUp","at":0.1},{"use":"pillHop","at":1.6,"props":{"to":2}},{"use":"pillHop","at":2.8,"props":{"to":3}}]},
+    {"use":"listCard","slot":"row1","props":{"text":"Một số *quá lớn* kéo cả nhóm"},"effects":[{"use":"fadeUp","at":0.5},{"use":"popIn","at":0.8,"target":"tick"}]},
+    {"use":"listCard","slot":"row2","props":{"text":"Hai nhóm khác nhau bị *gộp* làm một"},"effects":[{"use":"fadeUp","at":1.7},{"use":"popIn","at":2.0,"target":"tick"}]},
+    {"use":"listCard","slot":"row3","props":{"text":"Mẫu *quá ít* mà vẫn gọi là trung bình"},"effects":[{"use":"fadeUp","at":2.9},{"use":"popIn","at":3.2,"target":"tick"}]}
+   ]},
+  {"type":"costly-detail","layout":"chart-caption",
+   "items":[
+    {"use":"barChart","slot":"chart","props":{"values":[10,11,9,12,10,11,60],"barW":60},"effects":[{"use":"chartPop","at":0.3,"target":"bars"}]},
+    {"use":"text","slot":"line","props":{"role":"headline","text":"Một con số *ngoại lệ* kéo cả trung bình."},"effects":[{"use":"fadeUp","at":1.8}]}
+   ]},
+  {"type":"lesson","layout":"rule-three-steps","page":{"mode":"white"},
+   "items":[
+    {"use":"text","slot":"rule","props":{"role":"headline"},"effects":[{"use":"typing","at":0.1,"props":{"text":"Trước khi tin, hỏi *ba câu*."}}]},
+    {"use":"stepCard","slot":"step1","props":{"n":1,"text":"Phân phối ra sao?"},"effects":[{"use":"fadeUp","at":1.5},{"use":"popIn","at":1.7,"target":"badge"}]},
+    {"use":"connector","slot":"link1","effects":[{"use":"fadeUp","at":2.2}]},
+    {"use":"stepCard","slot":"step2","props":{"n":2,"text":"Trung vị là bao nhiêu?"},"effects":[{"use":"fadeUp","at":2.6},{"use":"popIn","at":2.8,"target":"badge"}]},
+    {"use":"connector","slot":"link2","effects":[{"use":"fadeUp","at":3.3}]},
+    {"use":"stepCard","slot":"step3","props":{"n":3,"text":"Mẫu có bao nhiêu?"},"effects":[{"use":"fadeUp","at":3.7},{"use":"popIn","at":3.9,"target":"badge"}]}
+   ]},
+  {"type":"cta","layout":"stat-ask-button","page":{"mode":"white"},
+   "items":[
+    {"use":"statCard","slot":"stat","props":{"lead":"Gặp số trung bình, nhớ","unit":"câu hỏi."},
+     "effects":[{"use":"slideIn","at":0.1,"props":{"fade":0}},{"use":"countUp","at":0.77,"target":"num","props":{"to":3,"align":"center"}},{"use":"fadeUp","at":1.27,"target":"unit"}]},
+    {"use":"text","slot":"ask","props":{"role":"headline","text":"Bạn đã từng bị *bẫy* nào?"},"effects":[{"use":"fadeUp","at":1.8}]},
+    {"use":"button","slot":"button","props":{"label":"Lưu lại"},"effects":[{"use":"fadeUp","at":2.4},{"use":"pulse","at":3.2}]}
+   ]}
+ ]
+}

@@ -15,6 +15,8 @@ jobs/*/scenes/*.mp4
 jobs/*/scenes/*/.hyperframes/
 jobs/*/preview/
 jobs/*/tmp/
+# clip HyperFrames do presets/corporate-motion/tools/build-clip.mjs sinh từ script.json (tái tạo được)
+jobs/*/clip/
 jobs/*/joins/
 jobs/*/list.txt
 jobs/*/render-log.txt
