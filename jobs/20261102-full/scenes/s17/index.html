@@ -22,7 +22,10 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #ft1 { left: 8px; }
 #ft2 { left: 18px; opacity: 0; font-size: 178px; }
 #chk { position: absolute; left: 800px; top: 100px; width: 74px; height: 74px; border-radius: 50%; background: #c9451c; opacity: 0; }
-#chk::after { content: ""; position: absolute; left: 25px; top: 13px; width: 16px; height: 32px; border: solid #fff; border-width: 0 7px 7px 0; transform: rotate(40deg); }
+#chk::after { content: ""; position: absolute; left: 50%; top: 50%; width: 22%; height: 44%; margin: -30% 0 0 -12%; border: solid #fff; border-width: 0 7px 7px 0; transform: rotate(40deg); opacity: var(--ck, 0); }
+#r17 { position: absolute; left: 451px; top: 1010px; width: 0; height: 0; border: 3px solid #c9451c; border-radius: 50%; box-sizing: border-box; opacity: 0; }
+#y17 { position: absolute; left: 451px; top: 1010px; width: 0; height: 0; opacity: 0; }
+#y17 i { position: absolute; left: -2px; top: calc(-1px * var(--r1)); width: 4px; height: calc(1px * (var(--r1) - var(--r0))); border-radius: 2px; background: #c9451c; transform-origin: 2px calc(1px * var(--r1)); }
 
 #user { position: absolute; left: 134px; top: 1184px; width: 486px; height: 104px; border-radius: 52px; background: #fff; border: 4px solid #141414; box-shadow: 0 6px 0 rgba(20,20,20,.15);
   font: 800 38px/96px Inter, sans-serif; color: #141414; padding-left: 112px; letter-spacing: -.5px; white-space: nowrap; }
@@ -56,6 +59,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
     <div id="icons"></div>
     <div id="av" data-layout-allow-occlusion><div class="c" data-layout-ignore>GH</div><div class="hl"></div></div>
     <div id="fx" data-layout-allow-occlusion></div>
+    <div id="r17"></div><div id="y17"></div>
     <svg id="cur" viewBox="0 0 40 50"><path d="M3 2 L3 38 L12 30 L19 46 L26 43 L19 28 L32 28Z" fill="#fff" stroke="#141414" stroke-width="3" stroke-linejoin="round"/></svg>
   </div>
   <div class="clip layer" id="htL" data-start="0" data-duration="3.03" data-track-index="2" data-layout-allow-occlusion data-layout-ignore><div id="ht"></div></div>
@@ -100,10 +104,17 @@ const tl = gsap.timeline({ paused: true });
 // rồi co lại cũng từ góc trên-trái, lộ nền kem + LƯU. Ngoài chấm là trong suốt cho tới khi đen phủ kín.
 tl.set("#paper, #main1", { opacity: 0 }, 0);
 tl.set("#paper, #main1", { opacity: 1 }, 0.18);
-// khung đầu (33.0): chấm đã có ở góc trên-trái (cỡ ~1), mép quét chéo xuống dưới-phải
-tl.fromTo("#ht s", { scale: (i) => Math.max(0, 0.9 - dly(i) / 0.22 * 1.5) }, { scale: 1.5, duration: 0.07, ease: "none", stagger: (i) => dly(i) * 0.3 }, 0);
-// gốc: co chấm bắt đầu ~33.18 (năng lượng nhảy lên 28 ngay khung 33.20, đỉnh 48 ở 33.33); bản cũ bắt đầu .2 power2.inOut nên trễ ~0.07s và vụt gắt
-tl.fromTo("#ht s", { scale: 1.5 }, { scale: 0, duration: 0.2, ease: "power1.out", stagger: (i) => dly(i) * 0.85, immediateRender: false }, 0.16);
+// Nhịp đo trên gốc (measure_details.py cover: phủ tối của 5 mảnh 200x200, f1–f15). Hệ số phủ ≈ 0.826·s² (ô lưới 39 px, chấm 40·s px):
+//  - nở: s tăng ~0.3/khung (9/s) từ 0, mép quét chéo TL→BR trễ ~0.10 s (TL s≈0.57 ở f1, BR bắt đầu ở ~0.04 s); kín hoàn toàn ở f6–f7
+//  - co: s rơi 1.5 → 0.78 (TL) / 1.0–1.07 (TR, giữa, BL) trong khung đầu (f7→f8), rồi TL ds ≈ −0.19/khung tuyến tính (hết f11), các mảnh khác chậm hơn và tăng tốc dần (hết f13–f14)
+// (bản trước: nở 0.64/khung với trễ 0.066 s, co power1.out 0.2 s với trễ 0.19 s tới 2.5 khung: phủ f3 TL 1.0 (gốc 0.87), f4–f5 BR 0.95 (gốc 0.67), co mảnh TR/giữa trễ 2 khung và dốc hơn)
+$("#ht").querySelectorAll("s").forEach((el, i) => {
+  const n = dly(i) / 0.22, d = -0.063 + 0.102 * n, s0 = d < 0 ? -9 * d : 0, t0 = Math.max(0, d);
+  const D = 0.78 + 0.6 * n;     // s sau khung đầu của đợt co: TL 0.78 · TR/giữa/BL 1.0–1.07 (suy từ phủ f8)
+  tl.fromTo(el, { scale: s0 }, { scale: 1.5, duration: (1.5 - s0) / 9, ease: "none" }, t0);   // immediateRender mặc định: khung 0 đã có chấm TL cỡ 0.57 (gốc f1 phủ 0.27)
+  tl.fromTo(el, { scale: 1.5 }, { scale: D, duration: 0.033, ease: "none", immediateRender: false }, 0.2);
+  tl.fromTo(el, { scale: D }, { scale: 0, duration: 0.133 + 0.1 * n, ease: n > 0.2 ? "power1.in" : "none", immediateRender: false }, 0.233);
+});
 
 // ---- LƯU + bookmark ----
 tl.fromTo("#luu span", { yPercent: 40, opacity: 0, rotation: -6 }, { yPercent: 0, opacity: 1, rotation: 0, duration: 0.3, ease: "back.out(1.8)", stagger: 0.05 }, 0.26);
@@ -113,7 +124,13 @@ burst("b0", 390, 590, 0.42, 10);
 
 // ---- & + FOLLOW ----
 tl.fromTo("#amp", { scale: 0, rotation: -20, opacity: 0, transformOrigin: "50% 80%" }, { scale: 1, rotation: 0, opacity: 1, duration: 0.3, ease: "back.out(2)" }, 0.6);
-tl.fromTo("#fol", { scale: 0.3, opacity: 0, rotation: -6, transformOrigin: "0 50%" }, { scale: 1, opacity: 1, rotation: -1.5, duration: 0.3, ease: "back.out(1.7)" }, 0.62);
+// FOLLOW hiện nguyên cỡ ở f22 (0.70s) rồi dao động tắt dần: mép phải của nút (đo màu đỏ f22–f33, y 880–1190) = 855, 819, 846, 821, 802, 797, 803, 811, 816, 817, 814, 811 px;
+// rộng so với lúc nghỉ (≈700 px từ mép trái 114): 1.06, 1.0, 1.045, 1.0, 0.98, 0.975, 0.985, 0.996, 1.003, 1.003, 0.998, 0.996 (bản trước: lớn dần 0.3 → 1 trong 0.3s, mép phải 749 → 870)
+tl.set("#fol", { opacity: 0, rotation: -1.5, transformOrigin: "0 50%" }, 0);
+tl.set("#fol", { opacity: 1 }, 0.7);
+[1.06, 1.0, 1.045, 1.0, 0.98, 0.975, 0.985, 0.996, 1.003, 1.003, 0.998, 0.996].forEach((k, i) => {
+  tl.set("#fol", { scale: k }, 0.7 + i / 30);
+});
 tl.set("#folbg", { scaleX: 704 / 914 }, 0);
 tl.fromTo("#user", { scale: 0.4, opacity: 0, transformOrigin: "0 50%" }, { scale: 1, opacity: 1, duration: 0.26, ease: "back.out(1.7)" }, 0.74);
 burst("b1", 470, 1000, 0.7, 12);
@@ -124,17 +141,33 @@ tl.to("#cur", { opacity: 1, duration: 0.1 }, 0.66);
 tl.to("#cur", { x: 898, y: 1421, duration: 0.17, ease: "power2.inOut" }, 0.66);
 tl.to("#cur", { x: 520, y: 1056, duration: 0.34, ease: "power3.inOut" }, 0.83);
 // gốc: pha bấm -> FOLLOWING nằm ở 34.13-34.37 (đo diện tích đỏ/đen theo khung), muộn hơn bản cũ ~0.07s => dời cả cụm +0.07
-tl.to("#cur", { scale: 0.8, duration: 0.07, ease: "power2.in" }, 1.17);
-tl.to("#cur", { scale: 1, duration: 0.1, ease: "power2.out" }, 1.24);
-burst("b2", 540, 1060, 1.19, 10);
+tl.to("#cur", { scale: 0.8, duration: 0.07, ease: "power2.in" }, 1.137);
+tl.to("#cur", { scale: 1, duration: 0.1, ease: "power2.out" }, 1.207);
+
 // gốc 34.13-34.37: FOLLOW bị ép dẹt (~0.4 chiều cao) trong 2 khung, đổi sang thanh đen, rồi bật dày lên vọt ~12-15% (diện tích 27k -> 37.8k -> 30k) rồi lún về
-tl.to("#fol", { scaleY: 0.4, duration: 0.067, ease: "power2.in" }, 1.16);
-tl.to("#fol", { scaleY: 1.15, duration: 0.067, ease: "power2.out" }, 1.227);
-tl.to("#fol", { scaleY: 1, duration: 0.1, ease: "power2.inOut" }, 1.294);
-tl.to("#ft1", { opacity: 0, duration: 0.08 }, 1.19);
-tl.fromTo("#ft2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, 1.21);
-tl.to("#folbg", { scaleX: 1, backgroundColor: "#141414", duration: 0.22, ease: "back.out(2.2)" }, 1.19);
-tl.fromTo("#chk", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 1.37);
+tl.to("#fol", { scaleY: 0.4, duration: 0.067, ease: "power2.in" }, 1.127);
+tl.to("#fol", { scaleY: 1.15, duration: 0.067, ease: "power2.out" }, 1.194);
+tl.to("#fol", { scaleY: 1, duration: 0.1, ease: "power2.inOut" }, 1.261);
+tl.to("#ft1", { opacity: 0, duration: 0.08 }, 1.157);
+tl.fromTo("#ft2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, 1.177);
+tl.to("#folbg", { backgroundColor: "#141414", duration: 0.1, ease: "none" }, 1.157);
+// thanh FOLLOWING: mép phải đo trên gốc (vùng tối y 850–1190, f36–f49) = 1011, 1049, 999, 1079, 1061, 1022, 1009, 1013, 1026, 1037, 1039, 1036, 1030, 1027 px: nhảy khỏi 809 (nút FOLLOW) ngay f36,
+// rồi vọt/lún tắt dần quanh 1027 (bản trước: một tween back.out 0.22s, không lún dưới mức nghỉ). scaleX = (mép phải − 116) / 914.
+[1011, 1049, 999, 1079, 1061, 1022, 1009, 1013, 1026, 1037, 1039, 1036, 1030, 1027].forEach((e, i) => {
+  const k = (e - 116) / 914;
+  tl.set("#folbg", { scaleX: k }, (35 + i) / 30);
+});
+// Vòng đỏ + tia khi bấm (đo `rg17`/`ry17` trên gốc, tâm vòng (451,1010), vùng y 800–1230): vòng mảnh r = 75, 77, 111, 135, 140 px ở f37–f41 (số điểm ảnh đỏ 15385, 4584, 5296, 3687, 1596, rồi 604, 223 ⇒ độ đục 0.9, 0.9, 1, 0.75, 0.35, 0.13, 0.05);
+// ~12–15 tia rời (f39 14 mảnh, f40 15, f41 24, f42 13, f43 4): bán kính trong–ngoài 58–105 (f39), 95–142 (f40), 118–160 (f41), 130–165 (f42). Bản trước: vòng 300 px nở từ 1.157s (f35) bằng một tween power2.out + 10 tia 40 px.
+[[37, 75, .9], [38, 77, .9], [39, 111, 1], [40, 135, .75], [41, 140, .35], [42, 140, .13], [43, 140, .05]].forEach(([f, r, o]) => tl.set("#r17", { width: 2 * r, height: 2 * r, marginLeft: -r, marginTop: -r, opacity: o }, (f - 1) / 30));
+tl.set("#r17", { opacity: 0 }, 43 / 30);
+$("#y17").innerHTML = [...Array(12).keys()].map(k => `<i style="transform:rotate(${k * 30}deg)"></i>`).join("");
+[[39, 58, 105, .85], [40, 95, 142, .9], [41, 118, 160, .7], [42, 130, 165, .4], [43, 135, 170, .1]].forEach(([f, r0, r1, o]) => tl.set("#y17", { "--r0": r0, "--r1": r1, opacity: o }, (f - 1) / 30));
+tl.set("#y17", { opacity: 0 }, 43 / 30);
+// Dấu tích: ô đỏ bắt đầu ở f39 (đường kính 31 px, tâm (1001,974)), 65, 89, 101, 105, 103, 99, 93, 89, 87, 85 ở f40–f49, nghỉ ~86 tâm (934,984); chữ ✓ hiện từ f41 (f38 chỉ chấm, f40 chevron nhỏ). Bản trước hiện ở ~f43 (1.37s), 74 px ở tâm (953,1007).
+[[39, 31, 1001, 974], [40, 65, 965, 979], [41, 89, 930, 983], [42, 101, 918, 986], [43, 105, 922, 986], [44, 103, 933, 983], [45, 99, 943, 982], [46, 93, 946, 982], [47, 89, 942, 982], [48, 87, 937, 983], [49, 85, 934, 984], [50, 86, 934, 984]]
+  .forEach(([f, d, cx, cy]) => tl.set("#chk", { opacity: 1, width: d, height: d, left: cx - 116 - d / 2, top: cy - 870 - d / 2 }, (f - 1) / 30));
+[[41, .5], [42, 1]].forEach(([f, v]) => tl.set("#chk", { "--ck": v }, (f - 1) / 30));
 tl.to("#cur", { x: 580, y: 1150, duration: 0.5, ease: "power2.inOut" }, 1.37);
 tl.to("#cur", { opacity: 0, duration: 0.12 }, 1.79);
 
@@ -143,18 +176,15 @@ tl.fromTo(".ic", { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 
 
 // ---- avatar ----
 tl.fromTo("#av", { y: 400, scale: 0.8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.4)" }, 0.12);
-// gốc: nhân vật không nhún đều; trọng tâm (khối áo tối, vùng dưới-phải) nhảy từng khung theo tư thế tay: đỉnh +/-10-17px dọc, lệch ngang tới +42px
-// (đo 33.50-35.40, 540->1080). Avatar thay nhân vật nên bám quỹ đạo y đo được (đủ biên độ) và nghiêng theo độ lệch x (0.07°/px, tới ~3°);
-// bản cũ: dao động sin ±14px/3° đều đặn 2.25s, không có trong gốc. Dùng CSS translate/rotate (không đè transform GSAP của lúc vào).
-const AVX = [5.0, 5.9, 4.3, 42.4, 40.6, 37.0, 21.9, 18.2, 28.4, 27.8, 26.1, 23.5, 17.4, 11.5, 9.0, 10.3, 12.0, 12.2, 12.2, 12.3, 12.5, 12.6, 32.2, 32.7, 29.2, 25.8, 27.8, 27.0, 26.5, 26.7, 26.5, 26.3, 40.9, 40.4, 37.9, 32.6, 25.2, 19.4, 18.5, 20.1, 22.3, 22.5, 22.6, 22.6, 22.8, 23.7, 23.2, 21.3, 22.0, 21.8, 21.8, 3.2, 0.1, 0.1, 0.2, 0.1, 0.2, 0.2, 0.1, 0.0], AVY = [3.1, 3.7, 2.7, 7.9, 8.6, 9.8, 9.7, 3.9, -4.4, -4.9, -5.8, -8.2, -5.6, -2.2, -11.3, -2.9, 2.3, 2.9, 2.8, 2.7, 2.7, 2.7, 3.5, 4.5, 11.7, 4.1, -4.5, -5.7, -5.6, -3.8, -2.3, -1.1, 3.6, 2.0, -0.5, -4.6, -10.2, -15.6, -16.8, -10.6, -2.0, -0.0, 1.6, 1.1, -0.4, 0.0, 7.2, 13.2, 9.4, 8.1, 8.2, -0.4, -0.5, -0.5, -0.3, -0.2, -0.1, 0.0, -0.1, 0.0];
+// Đĩa GH = đầu nhân vật, lệch so với tư thế nghỉ (766,1574) theo trọng tâm vùng da lớn nhất từng khung (measure_details.py arms/armtab; khung f = t*30 + 1; bậc thang).
+// Gốc còn có thân và hai tay (đổi hình nguyên khung); owner chọn chỉ giữ đĩa GH nên không vẽ thân/tay (bảng đo nằm trong SPEC mục 6).
+const AVH = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[-6,2],[-10,6],[-12,6],[-14,4],[-13,4],[-15,2],[28,10],[26,8],[29,19],[13,14],[6,6],[-2,6],[-2,4],[-3,2],[-3,1],[-3,0],[-2,-1],[-2,-2],[-2,-1],[-1,-2],[-1,-1],[0,0],[0,0],[0,0],[0,0],[8,18],[8,10],[6,-4],[2,-18],[3,-16],[2,-18],[1,-17],[2,-13],[2,-9],[1,-4],[35,7],[34,1],[30,-5],[20,-11],[6,-13],[0,-20],[-2,-20],[-2,-17],[-2,-13],[-1,-3],[-1,-2],[0,-2],[0,-8],[0,-7],[0,-10],[0,-4],[0,-1],[0,1],[0,1],[0,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,4],[0,-1],[0,-1],[0,-1],[0,-1],[-1,-1],[-1,-1],[-1,-1],[-1,-1],[-2,-1],[-2,-1],[-2,-1],[-2,-1],[-3,-2],[-3,-1],[-3,-2],[-3,-2]];
 const AVC = { t: 0 };
 function applyAv() {
-  const k = Math.round((AVC.t - 0.5) * 30);
-  const el = document.getElementById("av");
-  if (k < 0 || k >= AVY.length) { el.style.translate = ""; el.style.rotate = ""; return; }
-  el.style.translate = `0px ${AVY[k].toFixed(1)}px`; el.style.rotate = `${(AVX[k] * 0.07).toFixed(2)}deg`;
+  const k = Math.max(0, Math.min(AVH.length - 1, Math.round(AVC.t * 30)));
+  document.getElementById("av").style.translate = `${AVH[k][0]}px ${AVH[k][1]}px`;
 }
-tl.fromTo(AVC, { t: 0 }, { t: 2.45, duration: 2.45, ease: "none", onUpdate: applyAv }, 0);
+tl.fromTo(AVC, { t: 0 }, { t: 3.0, duration: 3.0, ease: "none", onUpdate: applyAv }, 0);
 
 window.__timelines = window.__timelines || {};
 window.__timelines["main"] = tl;

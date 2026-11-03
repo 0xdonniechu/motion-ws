@@ -100,6 +100,9 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #term .tcur { display: inline-block; width: 28px; height: 62px; background: #9a958d; vertical-align: -10px; margin-left: 4px; }
 #term .mh { position: absolute; right: 22px; bottom: 16px; padding: 4px 16px; border: 3px solid #e9e5dc; border-radius: 24px; font: 500 21px JBMono, monospace; color: #fff; background: #141210; }
 #logo { position: absolute; left: 826px; top: 622px; width: 134px; height: 134px; border-radius: 28px; background: #fff; border: 5px solid #141414; box-shadow: 6px 8px 0 #141414; opacity: 0; }
+#ring13 { position: absolute; left: 893px; top: 689px; width: 0; height: 0; border: 4px solid #c9451c; border-radius: 50%; box-sizing: border-box; opacity: 0; }
+.dash13 { position: absolute; left: 893px; top: 689px; width: 0; height: 0; opacity: 0; }
+.dash13 i { position: absolute; left: -2px; top: calc(-1px * var(--r1)); width: 5px; height: calc(1px * (var(--r1) - var(--r0))); border-radius: 2px; background: #c9451c; transform-origin: 2px calc(1px * var(--r1)); }
 #logo svg { position: absolute; left: 10px; top: 10px; }
 </style>
 </head>
@@ -136,7 +139,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
       <div class="ln"><span class="d">$ </span><span class="tcur"></span></div>
       <div class="mh" data-layout-ignore>Minh hoạ</div>
     </div>
-    <div id="logo"></div>
+    <div id="logo"></div><div id="ring13"></div><div id="dashA" class="dash13"></div><div id="dashB" class="dash13"></div>
   </div>
   <div id="top" class="clip layer" data-start="0" data-duration="3.15" data-track-index="4">
     <div id="tag">AI Tips</div>
@@ -262,7 +265,23 @@ tl.to(".ghost", { opacity: 0.55, duration: 0.1 }, 0.4);
 tl.to(".ghost", { opacity: 0, duration: 0.25 }, 1.65);
 
 // NÉM bị con trỏ thứ hai túm và ném đi
-follow("#nem", 243, 300, [[0, 413, 532, 0, 1], [1.8, 413, 532, 0, 1], [2.0, 390, 490, -2, 1.02], [2.25, 396, 520, -4, 1.03], [2.5, 540, 601, -14, 1.04], [2.75, 560, 612, -12, 1], [3.0, 560, 612, -12, 1]], 0);
+// Đo lại bằng matchTemplate (measure_details.py nem; chữ NÉM + 2 thanh xám, quét xoay/tỉ lệ; NCC ≥ 0.7 ở các khung có số): thẻ ĐỨNG YÊN tới f67 (2.2s) ở (406,454) rồi bị kéo xuống-trái 6 khung,
+// rồi ném đu đưa qua lại dưới terminal: f68–f76 (404,458) … (338,546) (236,638) | f79–f83 (550,596) (750,528) (936,466) (812,508) (632,564) | f89–f92 (512,618) (620,582) (720,550) (856,502).
+// Khung f77–f78 và f84–f88 thẻ nằm sau terminal (NCC 0.55–0.60, không tin): nội suy tuyến tính giữa hai khung có số. Tâm thẻ = (413,532) + (tâm mẫu − (406,454)); xoay CSS = −(góc cv2 + 3).
+// (bản trước: dịch tới (390,490) từ 1.8s, kéo về (560,612) bằng 3 khoá, không đu đưa: gốc đứng yên tới 2.2s và còn quét tới x 936 lúc 2.667s)
+const NEMT = { 67: [406, 454, -3], 68: [404, 458, -3], 69: [402, 464, -3], 70: [398, 470, -3], 71: [396, 476, -3], 72: [394, 484, -3], 73: [390, 490, -3], 74: [388, 496, -3], 75: [338, 546, 3], 76: [236, 638, 9],
+  79: [550, 596, -9], 80: [750, 528, -15], 81: [936, 466, -21], 82: [812, 508, -15], 83: [632, 564, 3], 89: [512, 618, -21], 90: [620, 582, -21], 91: [720, 550, -27], 92: [856, 502, -27] };
+const NEMK = [[0, 413, 532, 0, 1], [2.2, 413, 532, 0, 1]];
+{
+  const fs = Object.keys(NEMT).map(Number);
+  for (let f = 68; f <= 92; f++) {
+    let v = NEMT[f];
+    if (!v) { const a = Math.max(...fs.filter(g => g < f)), b = Math.min(...fs.filter(g => g > f)), u = (f - a) / (b - a); v = NEMT[a].map((c, i) => c + (NEMT[b][i] - c) * u); }
+    NEMK.push([(f - 1) / 30, 413 + (v[0] - 406), 532 + (v[1] - 454), -(v[2] + 3), 1]);
+  }
+}
+follow("#nem", 243, 300, NEMK, 0);
+tl.set("#nem", { zIndex: 6 }, 2.2);
 
 // con trỏ trên bảng trên: kéo KÉO, rồi túm NÉM
 tl.set("#curT", { x: 640, y: 740, opacity: 0 }, 0);
@@ -279,6 +298,10 @@ PILLS.forEach((_, i) => tl.to("#pl" + i, { y: "+=" + (8 + (i % 3) * 4), x: "+=" 
 
 // ----- thẻ dưới -----
 tl.set("#throw", { x: 33, y: 1058 }, 0);
+// thẻ throw bị hất lên-trái rồi nảy về (đo trên gốc, measure_details.py throw: mép trái/phải và đáy thành phần trắng lớn nhất; lệch so với lúc nghỉ): f22–f41 = (−27,−27) (−42,−42) (−41,−39) (−31,−27) (−19,−14)
+// (−7,−3) (1,3) (6,7) (8,7) (7,6) (5,4) (3,2) (1,1) (0,−1) (0,−1) (−1,−2) (0,−1) (0,−1) (0,−1) (0,0). Bản trước đứng yên tới 2.72s. (Sau f58 con trỏ trắng dính vào thành phần nên không đo được.)
+[[-27, -27], [-42, -42], [-41, -39], [-31, -27], [-19, -14], [-7, -3], [1, 3], [6, 7], [8, 7], [7, 6], [5, 4], [3, 2], [1, 1], [0, -1], [0, -1], [-1, -2], [0, -1], [0, -1], [0, -1], [0, 0]]
+  .forEach(([dx, dy], i) => tl.set("#throw", { x: 33 + dx, y: 1058 + dy }, (21 + i) / 30));
 tl.set("#inertia", { x: 405, y: 1058 }, 0);
 // thẻ drag: con trỏ kéo rồi buông, trượt quán tính
 follow("#drag", 270, 270, mix([[0, 330, 1498, 0, 1.0], [0.15, 342, 1494, 0, 1.05], [0.5, 360, 1512, -8, 1.08], [0.75, 515, 1411, -4, 1.08], [1.0, 630, 1314, 2, 1.06],
@@ -315,18 +338,34 @@ words("#capB", [1.12, 1.2, 1.28, 1.4, 1.5, 1.58, 1.68], null);
 // ---------- J13 (khớp-khung): gốc ~23.433 phủ xám nhanh (2 khung), phụ đề "mọi thứ..." tắt, "Còn Motion," hiện,
 // terminal bật ra, nhãn Draggable/drag·dragElastic biến mất, pill velocity hiện. s14 tiếp tục đúng khung cuối này.
 const TJ = 2.583;   // 23.433 - (21.0 - 0.15)
+// 10 tia, bước 36° (đo: góc trung bình −168, −133, −97, −61, −26, 11, 48, 84, 121, 156; tia chẵn A ở −168+72k, tia lẻ B ở −132+72k)
+["A", "B"].forEach((g, j) => { document.getElementById("dash" + g).innerHTML = [...Array(5).keys()].map(k => `<i style="transform:rotate(${-168 + 36 * j + 72 * k + 90}deg)"></i>`).join(""); });
 $("#logo").innerHTML = `<svg width="104" height="104" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#141414"/>
 <path d="M17 68 L33 36 H46 L30 68Z" fill="#fff"/><path d="M38 68 L54 36 H67 L51 68Z" fill="#fff"/><path d="M59 68 L72 42 Q76 36 70 36 H64 L78 36" fill="#fff"/><circle cx="80" cy="38" r="7" fill="#fff"/></svg>`;
 main.set("#capB", { opacity: 0 }, TJ);
 main.set("#tag2, #lab, #vel", { opacity: 0 }, TJ);
-main.set("#shade", { opacity: 0.3 }, TJ);
-main.set("#shade", { opacity: 0.7 }, TJ + 0.034);
-main.to("#shade", { opacity: 1, duration: 0.1, ease: "none" }, TJ + 0.067);
+// phủ xám: độ sáng nền gốc ở 3 điểm sạch (30,40) (1050,150) (1050,300) f73–f84 = 239, 213, 186, 164, 150, 140, 133, 129, 130, 129, 128, 128 ⇒ α = (239−v)/(239−128) giảm đều qua ~6 khung (bản trước: 0.3, 0.7, 1.0 trong 3 khung)
+[0.234, 0.477, 0.676, 0.802, 0.892, 0.955, 0.99, 1].forEach((a, i) => main.set("#shade", { opacity: a }, TJ + i / 30));
 const cs = document.querySelectorAll("#capC span");
 main.fromTo(cs[0], { opacity: 0 }, { opacity: 1, duration: 0.07, ease: "none" }, TJ);
 main.fromTo(cs[1], { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, TJ + 0.1);
 main.fromTo("#tm", { opacity: 0, y: 60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.17, ease: "power2.out" }, TJ);
-main.fromTo("#logo", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(1.8)" }, TJ + 0.1);
+// logo Motion: gốc hiện ở f81 (bề rộng ô trắng 86, 110, 126 px ở f81–f83, nghỉ ~128) tức 23.667s, bản trước bật lúc 23.533s (sớm 4 khung) bằng back.out
+[0.67, 0.86, 0.98, 1].forEach((k, i) => main.set("#logo", { opacity: 1, scale: k }, PRE + (80 + i) / 30));
+// vòng đỏ + tia quanh logo (đo trên gốc, tâm (893,689)): vòng mảnh r = 57.5, 96.5, 117.5, 129.5, 135.5 px ở f81–f85 (điểm ảnh đỏ ở đỉnh 727, 881, 983, 305, 229: mờ từ f84), rồi mất;
+// 10 tia (đo `rays`: thành phần đỏ rời trong 70–185 px quanh logo, f84–f92): nhóm A (−168, −96, −24, 48, 120°) và B (−132, −60, 12, 84, 156°); mỗi tia dài tới ~28–45 px, bề rộng ~5 px.
+// bán kính trong–ngoài (px) và điểm ảnh/tia (gốc, ⇒ độ đục = điểm ảnh / 156): A f84–f92 = 72–100 (156), 74–99 (133), 76–103 (130), 75–107 (122), 75–109 (124), 83–109 (112), 82–111 (104), 96–111 (49), 100–111 (42);
+// B = 90–116 (117), 94–125 (157), 96–131 (187), 95–137 (192), 94–137 (183), 108–142 (156), 113–141 (142), 123–141 (54), 128–142 (43). Bản trước: 12 tia 22 px đặt ngoài vòng ở f86–f88, không đo.
+[[81, 57.5, 1], [82, 96.5, 1], [83, 117.5, 1], [84, 129.5, 0.4], [85, 135.5, 0.3]].forEach(([f, r, o]) => {
+  main.set("#ring13", { width: 2 * r, height: 2 * r, marginLeft: -r, marginTop: -r, opacity: o }, PRE + (f - 1) / 30);
+});
+main.set("#ring13", { opacity: 0 }, PRE + 85 / 30);
+const RA = [[72, 100, 1], [74, 99, .85], [76, 103, .83], [75, 107, .78], [75, 109, .8], [83, 109, .72], [82, 111, .67], [96, 111, .31], [100, 111, .27]];
+const RB = [[90, 116, .75], [94, 125, 1], [96, 131, 1], [95, 137, 1], [94, 137, 1], [108, 142, 1], [113, 141, .9], [123, 141, .35], [128, 142, .28]];
+[["#dashA", RA], ["#dashB", RB]].forEach(([id, tb]) => {
+  tb.forEach(([r0, r1, o], i) => main.set(id, { "--r0": r0, "--r1": r1, opacity: o }, PRE + (83 + i) / 30));
+  main.set(id, { opacity: 0 }, PRE + 92 / 30 + 1 / 30);
+});
 main.set("#vel2", { opacity: 0.85 }, TJ);
 const vj = { v: 270 };
 main.to(vj, { v: 2929, duration: 3.15 - TJ, ease: "none", onUpdate() { $("#vel2v").textContent = Math.round(vj.v); } }, TJ);

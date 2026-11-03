@@ -15,6 +15,16 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 .cell { position: absolute; width: 334px; height: 334px; border: 5px solid #141414; border-radius: 30px; overflow: hidden; background: #f4f1ea; box-shadow: 0 7px 0 rgba(20,20,20,.22); }
 .cell > div, .cell > svg { position: absolute; }
 .fill { left: 0; top: 0; width: 324px; height: 324px; }
+.gh6 { position: absolute; left: 0; top: 0; width: 106px; height: 126px; border: 2px solid #c9451c; border-radius: 8px; opacity: 0; }
+.mq3 { position: absolute; left: 0; white-space: nowrap; font-family: Anton, sans-serif; }
+#mq3a { top: 440px; font-size: 215px; line-height: 1; letter-spacing: 4px; }
+#mq3a span { background: linear-gradient(#262626 25%, #a09c95 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+#mq3a i { font-style: normal; color: #c9451c; -webkit-text-fill-color: #c9451c; font-size: 56px; vertical-align: 52px; margin: 0 34px; }
+#mq3b { top: 1375px; font-size: 168px; line-height: 1; letter-spacing: 3px; color: #c9451c; -webkit-text-stroke: 3px #1d1511; }
+#mq3b i { font-style: normal; -webkit-text-stroke: 0; font-size: 56px; vertical-align: 40px; margin: 0 26px; }
+.p3 { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; }
+.f3 { position: absolute; left: -300px; top: -300px; width: 600px; height: 600px; border: 7px solid #1b1612; display: flex; align-items: center; justify-content: center; font: 400 150px/1 Anton, sans-serif; color: #fff; letter-spacing: 3px; backface-visibility: hidden; }
+.f3 b { font-weight: 400; display: block; transform: skewX(-6deg); }
 .t { font-family: JBMono, monospace; white-space: nowrap; }
 .pill { position: absolute; padding: 0 12px; height: 30px; line-height: 28px; border-radius: 15px; background: #141414; color: #e0a312; font: 500 17px/30px JBMono, monospace; }
 .dkcard { position: absolute; border: 4px solid #141414; border-radius: 16px; box-shadow: 5px 6px 0 #141414; }
@@ -35,6 +45,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: transp
 #lg { left: 132px; } #lm { left: 430px; }
 #lg div { position: absolute; left: 30px; top: 30px; width: 185px; height: 182px; background: #141414; font: 400 62px/182px Anton, sans-serif; font-style: italic; color: #0ae448; text-align: center; }
 #lm svg { position: absolute; left: 28px; top: 28px; }
+/* hai ô logo cuối cảnh + dấu ? hoạt hoạ scale/xoay: không khai báo lớp riêng thì Chrome lúc gộp lúc tách lớp theo tải, viền ô lệch 1 px (74 mức xám) ở f68–f75 giữa các lần render (bisect: ẩn #lg/#lm/#qm hoặc will-change ⇒ 0 khung lệch) */
+#lg, #lm, #qm { will-change: transform; }
 #qm { position: absolute; left: 372px; top: 1180px; font: 400 190px/1 Anton, sans-serif; color: #c9451c; opacity: 0; transform: rotate(-12deg); }
 #av { position: absolute; left: 637px; top: 1225px; width: 318px; height: 370px; border-radius: 30px; border: 5px solid #141414; background: #e3dfd7; overflow: hidden; opacity: 0; box-shadow: 0 8px 0 rgba(0,0,0,.25); }
 #av .c { position: absolute; left: 39px; top: 70px; width: 240px; height: 240px; border-radius: 50%; background: #1d2540; font: 400 112px/240px Anton, sans-serif; color: #efece6; text-align: center; letter-spacing: 3px; }
@@ -94,9 +106,9 @@ cells[1].innerHTML = `
   <svg class="fill" id="s1" width="324" height="324" viewBox="0 0 324 324"><g id="g1">
     <polygon id="m3" fill="none" stroke="#141414" stroke-width="2.5"/><polygon id="m2" fill="none" stroke="#c9451c" stroke-width="2.5"/>
     <polygon id="m1" fill="#c9451c" stroke="#141414" stroke-width="5" stroke-linejoin="round"/></g></svg>
-  <div class="fill" id="gg" style="opacity:0"><div class="t" style="position:absolute;left:30px;top:-30px;width:270px;text-align:center;font:400 330px/1 Anton,sans-serif;color:#c9451c;-webkit-text-stroke:5px #141414;text-shadow:7px 7px 0 #141414">G</div></div>
+  <div class="fill" id="gg" style="opacity:0"><div class="t" style="position:absolute;left:30px;top:-30px;width:270px;text-align:center;transform-origin:135px 165px;transform:translate(-38px,26px) scale(1.9,1.19);font:400 330px/1 Anton,sans-serif;color:#c9451c;-webkit-text-stroke:5px #141414;text-shadow:7px 7px 0 #141414">G</div></div>
   <div class="fill" id="od" style="opacity:0;${DOTS('#c9451c', 6, 14)}"></div>
-  <div class="fill" id="of" style="opacity:0;background:#c9451c;"><div class="fill" style="${DOTS('#a83a15', 5, 12)}"></div><div class="fill" style="background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.75) 0, transparent 55%)"></div></div>
+  <div class="fill" id="of" style="opacity:0;background:#c9451c;"><div class="fill" style="${DOTS('#efece6', 3.3, 12)}"></div><div class="fill" style="background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.75) 0, transparent 55%)"></div></div>
   <div class="fill" id="ht" style="opacity:0;background:#efece6;${DOTS('#8d8a86', 8, 18)}"></div>`;
 const N = 60, CX = 162, CY = 162;
 const ring = (f) => { const a = []; for (let i = 0; i < N; i++) { const t = -Math.PI / 2 + i / N * 2 * Math.PI; const [x, y] = f(t); a.push([CX + x, CY + y]); } return a; };
@@ -107,13 +119,13 @@ function resample(v) {
   for (let k = 0; k < N; k++) { let d = k / N * tot, i = 0; while (d > per[i]) { d -= per[i]; i++; } const a = v[i], b = v[(i + 1) % v.length], f = d / per[i]; out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); }
   return out;
 }
-const star = []; for (let i = 0; i < 10; i++) { const t = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 66 : 150; star.push([CX + r * Math.cos(t), CY + r * Math.sin(t)]); }
+const star = []; for (let i = 0; i < 10; i++) { const t = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 75 : 170; star.push([CX + r * Math.cos(t), CY + r * Math.sin(t)]); }
 const SHP = [
-  ring((t) => [138 * Math.cos(t), 138 * Math.sin(t)]),
+  ring((t) => [175 * Math.cos(t), 175 * Math.sin(t)]),
   resample(star),
-  ring((t) => { const r = 128 + 16 * Math.sin(5 * t) + 10 * Math.sin(2 * t); return [r * Math.cos(t), r * Math.sin(t)]; }),
-  ring((t) => [138 * Math.cos(t), 138 * Math.sin(t)]),
-  ring((t) => { const c = Math.cos(t), s = Math.sin(t), p = 5; return [128 * Math.sign(c) * Math.pow(Math.abs(c), 2 / p), 128 * Math.sign(s) * Math.pow(Math.abs(s), 2 / p)]; })];
+  ring((t) => { const r = 150 + 16 * Math.sin(5 * t) + 10 * Math.sin(2 * t); return [r * Math.cos(t), r * Math.sin(t)]; }),
+  ring((t) => [172 * Math.cos(t), 172 * Math.sin(t)]),
+  ring((t) => { const c = Math.cos(t), s = Math.sin(t), p = 5; return [168 * Math.sign(c) * Math.pow(Math.abs(c), 2 / p), 168 * Math.sign(s) * Math.pow(Math.abs(s), 2 / p)]; })];
 const cur = { k: 0 };
 function drawShape() {
   const i = Math.min(3, Math.floor(cur.k)), f = cur.k - i;
@@ -149,9 +161,16 @@ cells[2].innerHTML = `<div class="fill" id="tk" style="background:#141414">
 // ---- ô 3: khối SCROLL ----
 cells[3].innerHTML = `<div class="fill" style="background:#f1eee8"></div>
   <div style="left:0;top:296px;width:324px;height:40px;border-radius:50%;background:radial-gradient(#141414 30%, transparent 70%)"></div>
-  <div id="cube" style="left:0;top:0;width:324px;height:324px;perspective:700px">
-    <div id="cf" style="position:absolute;left:24px;top:40px;width:210px;height:220px;background:#c9451c;transform:skewY(-5deg);"><div class="t" id="cft" style="position:absolute;left:10px;top:60px;font:400 84px/1 Anton,sans-serif;font-style:italic;color:#fff">SCROLL</div></div>
-    <div id="cs" style="position:absolute;left:234px;top:34px;width:100px;height:226px;background:#8f2f10;transform:skewY(10deg);"><div class="t" style="position:absolute;left:12px;top:70px;font:400 60px/1 Anton,sans-serif;color:#fff">SCR</div></div>
+  <div id="cw3" style="left:-378px;top:-798px;width:1080px;height:1920px;perspective:1621px;perspective-origin:540px 960px;transform:scale(.5);transform-origin:540px 960px">
+    <div id="mq3a" class="mq3"></div><div id="mq3b" class="mq3"></div>
+    <div id="cb3" class="p3" style="left:540px;top:960px">
+      <div class="p3"><div class="p3" style="transform:translateZ(300px)"><div class="f3" style="background:#c23f0c"><b>SCROLL</b></div></div></div>
+      <div class="p3"><div class="p3" style="transform:rotateY(180deg) translateZ(300px)"><div class="f3" style="background:#97340d"><b>GSAP</b></div></div></div>
+      <div class="p3"><div class="p3" style="transform:rotateY(90deg) translateZ(300px)"><div class="f3" style="background:#882c07"><b>PIN</b></div></div></div>
+      <div class="p3"><div class="p3" style="transform:rotateY(-90deg) translateZ(300px)"><div class="f3" style="background:#71280a"><b>SCRUB</b></div></div></div>
+      <div class="p3"><div class="p3" style="transform:rotateX(90deg) translateZ(300px)"><div class="f3" style="background:#fff"></div></div></div>
+      <div class="p3"><div class="p3" style="transform:rotateX(-90deg) translateZ(300px)"><div class="f3" style="background:#a19e9c"></div></div></div>
+    </div>
   </div>
   <div class="pill" style="left:0;top:14px;color:#e0a312;background:#141414">0.2×</div><div class="pill" style="left:0;top:58px">0.5×</div><div class="pill" style="left:0;top:104px">1×</div><div class="pill" style="left:0;top:274px">product pin</div>`;
 
@@ -165,12 +184,13 @@ cells[4].innerHTML = `<div class="fill" id="q0" style="background:#efece6;${DOTS
 $("#q1").style.webkitMaskImage = "radial-gradient(circle at 50% 50%, #000 40%, transparent 78%)";
 
 // ---- ô 6: KÉO / NÉM / TRƯỢT ----
-cells[6].innerHTML = `<div class="fill" style="background:#f1eee8;${DOTS('#d7d2c8', 3, 20)}"></div>
-  <div class="dkcard" id="nem" style="left:56px;top:38px;width:104px;height:150px;background:#141414;transform:rotate(-4deg)"><b>NÉM</b></div>
-  <div class="dkcard" id="keo" style="left:222px;top:18px;width:104px;height:130px;background:#c9451c;transform:rotate(18deg)"><b>KÉO</b></div>
-  <div class="dkcard" id="truot" style="left:140px;top:168px;width:106px;height:128px;background:#7a3cf0;transform:rotate(-2deg)"><b style="font-size:30px">TRƯỢT</b></div>
+cells[6].innerHTML = `<div id="w6" style="position:absolute;left:0;top:0;width:324px;height:324px"><div class="fill" style="background:#f1eee8;${DOTS('#d7d2c8', 3, 20)}"></div>
+  <div class="dkcard" id="nem" style="left:52px;top:38px;width:102px;height:126px;background:#141414;z-index:6"><b>NÉM</b></div>
+  <div class="gh6" id="kg1"></div><div class="gh6" id="kg2"></div><div class="gh6" id="kg3"></div>
+  <div class="dkcard" id="keo" style="left:0;top:0;width:106px;height:126px;background:#c9451c"><b>KÉO</b></div>
+  <div class="dkcard" id="truot" style="left:166px;top:159px;width:101px;height:118px;background:#7a3cf0"><b style="font-size:30px">TRƯỢT</b></div>
   <div class="pill" style="left:-8px;top:96px;background:#e0a312;color:#141414;transform:rotate(-8deg)">snap</div>
-  <div class="t" style="left:0;top:296px;width:200px;height:28px;background:#141414;color:#e0a312;font:500 17px/28px JBMono,monospace;padding-left:8px">v 3298 px/s</div>`;
+  <div class="t" style="position:absolute;left:0;top:296px;width:200px;height:28px;background:#141414;color:#e0a312;font:500 17px/28px JBMono,monospace;padding-left:8px">v 3298 px/s</div></div>`;
 
 // ---- ô 7: logo Motion ----
 cells[7].innerHTML = `<div class="fill" style="background:#f1eee8;${DOTS('#d7d2c8', 3, 20)}"></div>
@@ -211,12 +231,14 @@ CAPS.forEach((g) => {
 tl.fromTo("#bg", { opacity: 0 }, { opacity: 1, duration: 0.04, ease: "none" }, 0.1);   // gốc: s15 (đám hạt) còn hiện tới ~30.5 rồi biến mất cứng
 // J15 fix: ô đặc (opacity 1) ngay khi bật, chỉ co giãn (gốc: f913 ô giữa ~0.5, f914 các ô còn lại ~0.85-0.9, f915 đủ cỡ)
 tl.set("#c0,#c1,#c2,#c3,#c4,#c5,#c6,#c7,#c8", { opacity: 0 }, 0);
-tl.set("#c4", { opacity: 1 }, 0.02);
-tl.fromTo("#c4", { scale: 0.5 }, { scale: 1, duration: 0.09, ease: "power2.out", immediateRender: false }, 0.02);
-[0, 1, 2, 3, 5, 6, 7, 8].forEach((k, n) => {
-  const t0 = 0.062 + (n % 3) * 0.002;
-  tl.set("#c" + k, { opacity: 1 }, t0);
-  tl.fromTo("#c" + k, { scale: 0.82 }, { scale: 1, duration: 0.07, ease: "power2.out", immediateRender: false }, t0);
+// Cỡ ô theo khung (đo viền trái/phải của ô (2,1) trên hàng y=1116 và ô (2,2): rộng so với lúc nghỉ 329 px; ô thường: f3 0.62, f5 0.93, f6 1.018, f7 1.044, f8 1.058, f9 1.059, f10 1.036, f11 1.014, f12 1.0;
+// ô giữa: f3 0.91, f4 0.995, f5 1.04, f6 1.073, f7 1.05, f8 1.036, f9 1.03, f12 ~1.0). Ô phình quá cỡ tới ~6% rồi lắng ở f12 ⇒ nội dung lấn ra khe giữa các ô (năng lượng khe f6–f12: gốc 37.6, remake 0.5).
+// (bản trước: ô giữa nở 0.5 → 1 trong 0.09s, ô khác 0.82 → 1 trong 0.07s bằng power2.out, không phình quá cỡ)
+tl.set("#c4", { opacity: 1, scale: 0.5 }, 0.02);
+[[3, .91, .62], [4, .995, .79], [5, 1.04, .93], [6, 1.073, 1.018], [7, 1.05, 1.044], [8, 1.036, 1.058], [9, 1.03, 1.059], [10, 1.02, 1.036], [11, 1.008, 1.014], [12, 1, 1]].forEach(([f, c, o]) => {
+  const t = (f - 1) / 30;
+  tl.set("#c4", { scale: c }, t);
+  [0, 1, 2, 3, 5, 6, 7, 8].forEach((k, n) => tl.set("#c" + k, f === 3 ? { opacity: 1, scale: o } : { scale: o }, t + (f === 3 ? (n % 3) * 0.002 : 0)));
 });
 
 // Mỗi ô của gốc chạy lại cảnh cũ ở cỡ nhỏ, đồng thời, với nhịp thật (hạt gợn sóng, chữ bay, hình biến, thẻ ném, hộp xoay, lò xo rơi).
@@ -229,24 +251,30 @@ tl.fromTo("#sx1", { x: -260, rotation: -10 }, { x: 0, rotation: 0, duration: 0.2
 tl.fromTo("#sx2", { x: 260, rotation: 8 }, { x: 0, rotation: 0, duration: 0.2, ease: "back.out(2)" }, 0.1);
 tl.to("#sx1", { x: 40, y: -16, rotation: 4, duration: 0.2, ease: "power2.inOut" }, 0.3);
 tl.to("#sx2", { x: -50, y: 22, rotation: -5, duration: 0.2, ease: "power2.inOut" }, 0.3);
-tl.to("#sx", { opacity: 0, duration: 0.1 }, 0.5);
-tl.to("#h1", { opacity: 0, duration: 0.1 }, 0.4);
-tl.fromTo("#g1", { scale: 0.05, transformOrigin: "162px 162px", opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(1.8)" }, 0.42);
-tl.to(cur, { k: 1, duration: 0.2, ease: "power2.inOut", onUpdate: drawShape }, 0.68);
-tl.to(cur, { k: 2, duration: 0.2, ease: "power2.inOut", onUpdate: drawShape }, 0.92);
-tl.to(cur, { k: 3, duration: 0.18, ease: "power2.inOut", onUpdate: drawShape }, 1.14);
-tl.to(cur, { k: 4, duration: 0.18, ease: "power2.inOut", onUpdate: drawShape }, 1.34);
-tl.to("#g1", { rotation: 40, duration: 1.0, ease: "power1.inOut", transformOrigin: "162px 162px" }, 0.6);
-tl.to("#g1", { opacity: 0, scale: 0.7, duration: 0.14, transformOrigin: "162px 162px" }, 1.52);
-tl.fromTo("#gg", { opacity: 0, scale: 0.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.16, ease: "back.out(2)" }, 1.52);
-tl.to("#gg", { opacity: 0, duration: 0.16 }, 1.82);
+// ô (1,2) = chuỗi hình của s06 chạy lại, đo từng khung (`sh12`: tỉ lệ điểm ảnh cam + hộp bao của ô, ô f = (f−1)/30): SplitText tới f12, f13–f14 bóng mờ; tròn f15–f18 (cam 0.76–0.9, tràn khung: bán kính ≈ 175); chuyển sao f19–f20; SAO f20–f28 (0.34–0.38, R ≈ 170, r ≈ 75, tràn ngang);
+// qua blob → tròn f29–f36 (0.58 → 0.95); vuông bo f37–f40 (0.93–0.98); G f41–f48 (cam 0.31–0.48, hộp 255×322 ⇒ chữ G phóng ×1.9 ngang, ×1.19 dọc; lưới f53–f58: cam đặc với lỗ kem bán kính ~3 px bước 12 px (cam 0.76)); chấm tán f49–f52 (0.12 → 0.48); lưới cam f53–f58 (0.67–0.77); vòng halftone f59–f63 (0.74 → 0.02); xám từ f64.
+// (bản trước: SplitText tới f18, sao ở f25–f31, tròn f33–f43, G f49–f55; hình nhỏ hơn: bán kính 138, sao R 150; sao xoay 40° không có ở gốc)
+tl.set("#sx", { opacity: 0 }, 0.4);
+tl.set("#g1", { opacity: 0 }, 0);
+tl.set("#g1", { opacity: 1, scale: 0.45, svgOrigin: "162 162" }, 13 / 30);
+tl.set("#g1", { scale: 1, svgOrigin: "162 162" }, 14 / 30);
+tl.to(cur, { k: 1, duration: 2 / 30, ease: "none", onUpdate: drawShape }, 17 / 30);
+tl.to(cur, { k: 3, duration: 3 / 30, ease: "none", onUpdate: drawShape }, 28 / 30);
+tl.to(cur, { k: 4, duration: 3 / 30, ease: "none", onUpdate: drawShape }, 36 / 30);
+tl.set("#g1", { opacity: 0 }, 41 / 30);
+tl.set("#gg", { opacity: 1 }, 41 / 30);
+tl.set("#gg", { opacity: 0 }, 48 / 30);
 // ô 2: Tasks — hàng chip đổi chỗ liên tục, huy hiệu nhảy số, rồi chip lò xo rơi
 $("#c2").insertAdjacentHTML("beforeend", `<div id="dsh" style="position:absolute;left:0;top:0;width:324px;height:324px;background:#f1eee8"></div>`);
 [[14, 20, "#2f5bea"], [172, 14, "#e0a312"], [14, 170, "#7a3cf0"], [172, 164, "#1d8a52"]].forEach(([x, y, c], k) => {
   $("#dsh").insertAdjacentHTML("beforeend", `<div class="dc" style="position:absolute;left:${x}px;top:${y}px;width:136px;height:132px;border-radius:18px;background:#fff;box-shadow:0 5px 0 #d9d4ca"><i style="position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:${c}"></i><b style="position:absolute;left:14px;top:56px;width:70px;height:8px;border-radius:4px;background:#d4d0c8"></b><u style="position:absolute;left:20px;bottom:14px;width:18px;height:34px;border-radius:3px;background:${c}"></u><u style="position:absolute;left:48px;bottom:14px;width:18px;height:22px;border-radius:3px;background:#d4d0c8"></u><u style="position:absolute;left:76px;bottom:14px;width:18px;height:44px;border-radius:3px;background:${c}"></u></div>`);
 });
-tl.fromTo("#dsh .dc", { scale: 0.2, rotation: (i) => (i % 2 ? 14 : -14) }, { scale: 1, rotation: 0, duration: 0.2, ease: "back.out(2.4)", stagger: 0.04 }, 0.06);
-tl.to("#dsh .dc", { x: (i) => (i % 2 ? 120 : -120), y: (i) => (i < 2 ? -40 : 40), rotation: (i) => (i % 2 ? 16 : -16), duration: 0.2, ease: "power3.in", stagger: 0.03 }, 0.3);
+// ô (1,3) = s10 thu nhỏ zoom vào (measure ORB giữa hai khung liền nhau trong ô, similarity RANSAC): hệ số zoom f4→f5 1.609, f5→f6 1.233, f6→f7 1.141, f7→f8 1.067, f8→f9 1.020, f9→f10 1.013, rồi
+// f10→f13 0.995, 0.990, 0.975 kèm dịch (1,−27) (2,−20) (−34,−10), tâm zoom ≈ (175,152) (tâm ô). Tích luỹ (f10 = 1): f3 0.39, f4 0.40, f5 0.645, f6 0.795, f7 0.907, f8 0.968, f9 0.987, f10 1.
+// (bản trước: bốn thẻ nở từ 0.2 bằng back.out rồi bay ra bốn góc, không có số đo)
+[[3, .393, 0, 0], [4, .401, 0, 0], [5, .645, 0, 0], [6, .795, 0, 0], [7, .907, 0, 0], [8, .968, 0, 0], [9, .987, 0, 0], [10, 1, 0, 0], [11, .995, 1, -27], [12, .985, 3, -46], [13, .96, -31, -56]]
+  .forEach(([f, k, x, y]) => tl.set("#dsh", { scale: k, x, y, transformOrigin: "175px 152px" }, (f - 1) / 30));
+tl.set("#dsh", { scale: 0.393, x: 0, y: 0, transformOrigin: "175px 152px" }, 0);
 tl.set("#dsh", { opacity: 0 }, 0.55);
 tl.set("#tk", { opacity: 0 }, 0);
 tl.set("#tk", { opacity: 1 }, 0.3);
@@ -260,42 +288,72 @@ tl.fromTo("#r0,#r1,#r2,#r3,#r4", { x: 120, opacity: 0.6 }, { x: 0, opacity: 1, d
 });
 [[0.35, 6], [0.7, 8], [1.05, 5]].forEach(([t, n]) => tl.set("#badge", { textContent: n }, t));
 tl.fromTo("#badge", { scale: 1.5 }, { scale: 1, duration: 0.15, ease: "back.out(3)" }, 0.35);
-tl.to("#tk", { opacity: 0, duration: 0.16 }, 1.4);
-tl.to("#sp2", { opacity: 1, duration: 0.16 }, 1.4);
-tl.fromTo("#sp2 .bc", { y: -190 }, { y: 0, duration: 0.6, ease: "bounce.out", stagger: 0.07 }, 1.42);
-// ô 3: hộp SCROLL xoay giật (gốc: ±40-50 độ, mặt SCRUB/GSAP lật qua lại)
-{
-  const kf = [], amp = [-56, 22, -48, 16, -40, 14, -32, 10, -26, 8, -18, 0];
-  amp.forEach((a, i) => kf.push({ rotateY: a, rotateX: i % 2 ? -6 : 8, scale: i % 2 ? 1 : 1.1, duration: i < 11 ? 0.15 : 0.3, ease: i < 11 ? "power3.out" : "back.out(2)" }));
-  tl.to("#cube", { keyframes: kf }, 0.1);
+// ô (1,3), nhịp đo trên gốc (ảnh ô từng khung): Tasks tới f47; f48–f51 thoáng giao diện s10 (tab Design/Code) kéo vào; f52 trở đi là cảnh lò xo của s12 (chip 0.2/0.4/0.6 rơi, nền "Spring" mờ).
+// (bản trước: Tasks tắt dần lúc 1.4s = f43, lò xo hiện cùng lúc, không có thoáng giao diện)
+tl.set("#tk", { opacity: 0 }, 47 / 30);
+tl.set("#dsh", { opacity: 1 }, 47 / 30);
+tl.set("#dsh", { opacity: 0 }, 51 / 30);
+tl.set("#sp2", { opacity: 1 }, 51 / 30);
+tl.fromTo("#sp2 .bc", { y: -190 }, { y: 0, duration: 0.6, ease: "bounce.out", stagger: 0.07 }, 51 / 30);
+// ô 3: hộp SCROLL = hộp 3D + chữ chạy ngang đo ở s08 (bảng tư thế CP của s08, đo từng khung bằng measure_cube.py) chạy lại ở cỡ ×0.5, lệch thời gian +1.87 s (mặt GSAP quay thẳng ra trước ở f22 của gốc
+// = f78 của s08 → 2.567 − 0.7). Bản trước: hai mặt phẳng nghiêng, lật tay (rotateY ±56…) và co mặt GSAP, không có phối cảnh 3D hay thứ tự mặt SCROLL → SCRUB → GSAP → PIN → SCROLL.
+const CP3 = [[1.6,-2.8,4.4,-349.9,-22.1,-29.5,-10.7],[1.6333,-2.9,4.5,-348.6,-22.1,-29.1,-10.6],[1.6667,-3.0,4.5,-348.0,-22.2,-28.5,-10.3],[1.7,-2.9,4.5,-347.8,-22.4,-27.0,-10.0],[1.7333,-2.8,4.6,-347.2,-22.7,-25.4,-9.4],[1.7667,-2.5,4.6,-345.8,-23.0,-22.7,-8.7],[1.8,-1.9,4.4,-345.2,-23.3,-20.3,-7.7],[1.8333,-1.6,4.2,-346.3,-23.6,-16.7,-6.4],[1.8667,-0.5,4.1,-348.9,-24.0,-12.8,-5.1],[1.9,1.4,4.1,-351.5,-24.3,-9.6,-3.5],[1.9333,1.8,3.9,-351.9,-24.5,-4.4,-1.6],[1.9667,-0.1,3.8,-350.0,-24.5,2.0,0.8],[2.0,-0.9,3.9,-347.3,-24.2,9.3,3.2],[2.0333,0.9,4.2,-346.3,-23.7,13.8,5.4],[2.0667,2.2,4.8,-347.7,-23.0,21.1,7.8],[2.1,3.2,5.2,-349.3,-21.9,28.8,10.4],[2.1333,5.1,5.3,-353.0,-20.4,36.6,12.9],[2.1667,6.5,5.2,-359.1,-18.3,45.5,15.3],[2.2,7.2,4.9,-364.4,-15.7,54.6,17.4],[2.2333,5.9,7.0,-370.4,-12.2,64.1,19.4],[2.2667,3.1,10.1,-372.0,-8.5,74.1,20.8],[2.3,7.2,8.3,-366.6,-5.7,82.0,21.2],[2.3333,17.4,7.8,-371.2,-2.4,87.5,21.0],[2.3667,15.3,10.2,-381.9,2.5,98.6,20.5],[2.4,2.8,6.3,-386.0,6.3,113.2,18.8],[2.4333,-0.2,-0.0,-394.0,7.9,124.8,15.8],[2.4667,3.3,-4.2,-401.9,8.3,137.6,12.2],[2.5,-7.5,-10.1,-413.9,8.2,151.3,7.9],[2.5333,-24.5,-15.5,-422.8,7.7,174.3,3.6],[2.5667,-16.4,-13.5,-407.2,7.3,183.4,-0.1],[2.6,1.3,-5.5,-383.0,7.4,189.7,-2.3],[2.6333,3.2,1.5,-364.5,7.0,201.2,-3.7],[2.6667,0.6,5.5,-358.9,6.1,212.8,-5.1],[2.7,0.8,6.3,-362.8,4.7,223.7,-6.1],[2.7333,0.9,6.1,-362.3,3.1,233.3,-6.8],[2.7667,0.3,6.7,-353.7,2.0,243.3,-7.3],[2.8,-3.3,8.6,-348.8,1.1,252.6,-7.7],[2.8333,-7.3,11.8,-352.5,0.1,263.2,-8.0],[2.8667,-3.6,12.6,-352.1,-1.2,269.6,-8.1],[2.9,7.3,12.5,-356.5,-2.0,274.7,-8.2],[2.9333,11.3,10.5,-359.9,-3.2,279.1,-8.1],[2.9667,3.8,5.3,-348.1,-5.6,289.1,-7.8],[3.0,-1.0,3.0,-342.7,-6.9,295.0,-7.6],[3.0333,-0.7,3.2,-347.6,-7.3,300.6,-7.2],[3.0667,-0.9,2.8,-350.9,-8.0,306.1,-6.8],[3.1,-0.9,3.2,-352.8,-8.4,310.9,-6.4],[3.1333,-0.9,5.1,-353.9,-8.5,315.4,-5.9],[3.1667,-0.8,7.4,-355.0,-8.5,319.2,-5.4],[3.2,-0.8,9.1,-355.3,-8.5,323.0,-4.9],[3.2333,-1.6,10.5,-354.6,-8.5,325.3,-4.5],[3.2667,-1.7,11.4,-354.2,-8.5,327.6,-4.2],[3.3,-1.1,11.9,-353.2,-8.5,330.0,-4.1],[3.3333,-1.0,12.4,-352.3,-8.5,331.1,-3.9],[3.3667,-1.1,12.7,-352.3,-8.4,331.9,-3.8],[3.4,-1.0,12.8,-352.1,-8.4,332.1,-3.7],[3.4333,-0.8,12.9,-351.0,-8.4,332.3,-3.7],[3.4667,-0.9,12.9,-349.5,-8.5,332.3,-3.7],[3.5,-1.0,12.1,-347.4,-8.5,332.4,-3.7],[3.5333,-0.8,9.3,-342.7,-8.5,332.4,-3.6],[3.5667,-0.3,3.9,-333.5,-8.4,332.3,-3.5],[3.6,0.5,-3.0,-316.2,-7.9,332.6,-3.2],[3.6333,1.4,-10.9,-285.7,-6.8,332.8,-2.6],[3.6667,2.7,-21.2,-245.9,-5.7,333.5,-1.7],[3.7,3.5,-24.2,-213.4,-4.0,333.7,-0.3],[3.7333,1.5,-9.4,-197.4,-0.3,334.7,1.0],[3.7667,7.7,-23.0,-130.6,2.8,334.3,3.0],[3.8,6.9,-34.1,-40.4,8.7,334.3,6.6],[3.8333,-19.7,-99.3,130.5,14.6,334.2,10.2],[3.8667,36.1,-120.9,233.3,20.6,334.2,13.8],[3.9,27.5,-137.0,258.9,22.9,333.9,14.6],[3.9333,23.0,-174.0,266.2,22.2,334.3,14.5],[3.9667,22.5,-219.1,268.0,21.1,334.2,15.5],[4.0,32.0,-300.2,248.2,18.4,335.1,13.5],[4.0333,26.8,-360.9,270.8,12.1,337.2,11.8],[4.0667,36.4,-422.9,276.6,8.7,337.5,11.0],[4.1,38.9,-484.9,287.7,4.8,337.1,8.5],[4.1333,35.4,-542.8,298.4,2.1,337.3,7.6],[4.1667,32.7,-592.9,305.4,0.4,337.5,7.4],[4.2,30.9,-644.9,314.9,-1.3,337.7,7.2],[4.2333,28.1,-695.4,322.6,-2.9,337.9,7.1],[4.2667,27.4,-742.1,321.0,-2.9,337.9,7.1],[4.3,27.4,-791.5,321.0,-2.9,337.9,7.1],[4.3333,27.4,-841.0,321.0,-2.9,337.9,7.1],[4.3667,27.4,-890.4,321.0,-2.9,337.9,7.1]];
+function pose3(t) {
+  if (t <= CP3[0][0]) return CP3[0].slice(1);
+  for (let k = 1; k < CP3.length; k++) if (t <= CP3[k][0]) { const a = CP3[k - 1], b = CP3[k], u = (t - a[0]) / (b[0] - a[0]); return a.slice(1).map((v, i) => v + (b[i + 1] - v) * u); }
+  return CP3[CP3.length - 1].slice(1);
 }
-tl.fromTo("#cube", { scale: 1.3, x: -120 }, { scale: 1, x: 0, duration: 0.45, ease: "back.out(1.4)", transformOrigin: "50% 50%" }, 0.06);
-tl.to("#cube", { keyframes: [{ x: 40, duration: 0.14, ease: "power3.out" }, { x: -30, duration: 0.16, ease: "power3.out" }, { x: 20, duration: 0.16, ease: "power3.out" }, { x: 0, duration: 0.2, ease: "back.out(2)" }] }, 0.6);
-tl.to("#cf", { scaleX: 0.04, transformOrigin: "100% 50%", duration: 0.14, ease: "power2.in" }, 0.5);
-tl.set("#cft", { textContent: "GSAP" }, 0.64);
-tl.to("#cf", { scaleX: 1, duration: 0.18, ease: "power2.out" }, 0.64);
+document.getElementById("mq3a").innerHTML = Array(7).fill('<span>CUỘN</span><i>■</i><span>SCROLL</span><i>■</i>').join("");
+document.getElementById("mq3b").innerHTML = Array(7).fill('NHIỀU LỚP<i>■</i>KHÁC TỐC ĐỘ<i>■</i>').join("");
+const T3 = { t: 0 };
+function set3() { const [x, y, z, rx, ry, rz] = pose3(T3.t + 1.87);
+  const ts = T3.t + 1.87;   // chữ chạy ngang như s08: mq1 −600 px/s từ x=455, mq2 −1400 px/s từ x=1130 lúc 1.35 s
+  document.getElementById("mq3a").style.transform = `translateX(${455 - 600 * ts}px)`;
+  document.getElementById("mq3b").style.transform = `translateX(${ts < 1.35 ? 1130 : 1130 - 1400 * (ts - 1.35)}px)`;
+  document.getElementById("cb3").style.transform = `translate3d(${x}px,${y}px,${z}px) rotateZ(${rz}deg) rotateX(${rx}deg) rotateY(${ry}deg)`; }
+set3();
+tl.fromTo(T3, { t: 0 }, { t: 2.8, duration: 2.8, ease: "none", onUpdate: set3, immediateRender: false }, 0);
+
 // ô 4: vòng halftone nở rồi co lại, lưới tối, chấm cam
 // ô 5: lò xo — chip rơi nảy, dây giãn đàn hồi
 tl.fromTo("#c5 .bc", { y: -180 }, { y: 0, duration: 0.6, ease: "bounce.out", stagger: 0.07 }, 0.08);
 tl.fromTo("#c5 svg", { rotation: 22, transformOrigin: "50% 0%" }, { rotation: 0, duration: 0.7, ease: "elastic.out(1,0.25)", stagger: 0.03 }, 0.06);
 tl.fromTo("#c5 svg", { scaleY: 0.55 }, { scaleY: 1, duration: 0.9, ease: "elastic.out(1,0.28)", stagger: 0.04, transformOrigin: "50% 0%" }, 0.08);
 // ô 6: KÉO/NÉM/TRƯỢT bị ném qua lại (đo: mỗi cú ~0.15 s, tâm thẻ lệch ~100-200 px ở khung 1080)
-tl.fromTo("#nem,#truot", { x: (i) => (i ? 240 : -240), rotation: (i) => (i ? 24 : -24) }, { x: 0, rotation: -2, duration: 0.3, ease: "back.out(1.6)" }, 0.04);
-tl.to("#keo", { keyframes: [{ x: -90, y: 26, rotation: 46, duration: 0.14, ease: "power3.out" }, { x: -30, y: 96, rotation: -8, duration: 0.14, ease: "power3.out" },
-  { x: -120, y: 66, rotation: 30, duration: 0.14, ease: "power3.out" }, { x: -10, y: 24, rotation: 4, duration: 0.14, ease: "power3.out" },
-  { x: -80, y: 70, rotation: 38, duration: 0.16, ease: "power3.out" }, { x: -40, y: 10, rotation: 20, duration: 0.2, ease: "back.out(2)" }] }, 0.1);
-tl.to("#nem", { keyframes: [{ x: 14, y: 20, rotation: 10, duration: 0.18, ease: "power3.out" }, { x: -6, y: -6, rotation: -8, duration: 0.2, ease: "power3.out" },
-  { x: 22, y: 26, rotation: 12, duration: 0.2, ease: "power3.out" }, { x: 0, y: 0, rotation: -2, duration: 0.3, ease: "back.out(2)" }] }, 0.2);
-tl.to("#truot", { keyframes: [{ x: 30, y: -24, rotation: 10, duration: 0.18, ease: "power3.out" }, { x: -10, y: 14, rotation: -6, duration: 0.2, ease: "power3.out" },
-  { x: 26, y: -20, rotation: 8, duration: 0.2, ease: "power3.out" }, { x: 0, y: 0, rotation: -2, duration: 0.3, ease: "back.out(2)" }] }, 0.4);
 // ô 7: logo Motion bật to rồi nảy
 // ô 8: thẻ drag bị kéo giật theo con trỏ
 
 
+// zoom của ô (3,1) (ORB giữa hai khung liền nhau, f4→f5 1.548, 1.260, 1.141, 1.078, 1.034, 1.007 (f9→f10), rồi 0.990, 0.980, 0.981 kèm dịch (1,2) (3,4) (3,3); tâm zoom ≈ (150,175)): bốn ô góc (1,1) (1,3) (3,1) (3,3) cùng zoom ~×2.5 trong f4–f9; ba ô cạnh/cực nhẹ hơn.
+// Tích luỹ (f10 = 1): f3 0.39, f4 0.40, f5 0.619, f6 0.780, f7 0.890, f8 0.960, f9 0.993, f10 1, f11 0.99, f12 0.97, f13 0.952.
+[[3, .393, 0, 0], [4, .4, 0, 0], [5, .619, 0, 0], [6, .78, 0, 0], [7, .89, 0, 0], [8, .96, 0, 0], [9, .993, 0, 0], [10, 1, 0, 0], [11, .99, 1, 2], [12, .97, 4, 6], [13, .952, 7, 9]]
+  .forEach(([f, k, x, y]) => tl.set("#w6", { scale: k, x, y, transformOrigin: "150px 175px" }, (f - 1) / 30));
+tl.set("#w6", { scale: 0.393, x: 0, y: 0, transformOrigin: "150px 175px" }, 0);
+// KÉO của ô (3,1): bảng đo từng khung của s13 (MEAS.keo, tâm thẻ) chạy lại ×0.42, lệch 10 khung (ô f = s13 f − 10): ô = (103,101) + 0.42·(tâm s13 − (413,532)); thẻ 106×126. TRƯỢT đứng yên ở s13 (562,670 góc trên-trái) ⇒ tâm ô (216,218).
+// (bản trước: KÉO và TRƯỢT nhún bằng các tween ±20–110 px không có số đo)
+const KEO3 = [[0.2,160,785,2],[0.233,184,782,2],[0.267,193,780,3],[0.3,202,778,2],[0.333,211,777,3],[0.367,218,776,3],[0.4,226,774,3],[0.433,384,749,5],[0.467,541,709,10],[0.5,705,662,17],[0.533,864,613,21],[0.567,835,579,11],[0.6,695,620,-4],[0.633,479,683,-17],[0.667,343,737,-20],[0.7,213,780,-22],[0.733,202,777,-24],[0.767,316,742,-4],[0.8,427,697,9],[0.833,536,654,16],[0.867,640,626,20],[0.9,780,583,23],[0.933,873,581,24],[0.967,892,608,25],[1.0,818,634,4],[1.033,739,648,-8],[1.067,664,677,-14],[1.1,593,706,-18],[1.133,525,733,-19],[1.167,430,768,-20],[1.2,371,785,-19],[1.233,315,793,-18],[1.267,262,779,-18],[1.3,210,766,-17],[1.333,162,749,-16],[1.367,163,734,-9],[1.4,202,718,0],[1.433,258,696,7],[1.467,293,682,9],[1.5,326,668,9],[1.533,357,657,10],[1.567,386,648,10],[1.6,413,637,9],[1.633,439,634,9],[1.667,462,627,8],[1.7,492,622,7],[1.733,510,616,7],[1.767,527,612,6],[1.8,542,608,6],[1.833,556,604,5],[1.867,570,600,5],[1.9,581,596,4],[1.933,592,593,4],[1.967,606,590,4],[2.0,615,587,3],[2.033,622,585,3],[2.067,629,583,2],[2.1,635,581,2],[2.133,640,579,2],[2.167,645,578,2],[2.2,649,577,2],[2.233,654,576,2],[2.267,657,575,1],[2.3,659,574,0],[2.333,661,573,1],[2.367,663,573,0],[2.4,664,572,0],[2.433,678,580,0],[2.467,678,580,0],[2.5,678,580,0],[2.533,678,580,0],[2.567,678,580,0],[2.6,678,580,0],[2.633,678,580,0],[2.667,678,580,0],[2.7,678,580,0],[2.733,678,580,0],[2.767,678,580,0],[2.8,678,580,0],[2.833,678,580,0],[2.867,678,580,0],[2.9,678,580,0],[2.933,678,580,0],[2.967,678,580,0],[3.0,678,580,0],[3.033,678,580,0]];
+KEO3.forEach(([t13, x, y, r]) => { const t = Math.max(0, t13 - 0.333); tl.set("#keo", { x: 103 + 0.42 * (x - 413) - 53, y: 101 + 0.42 * (y - 532) - 63, rotation: r }, t); });
+// 3 viền ma bám KÉO trễ 0.07/0.14/0.21s, đục 0.55 từ 0.4s (s13), tắt dần 1.65–1.9s (s13) ⇒ ô: 0.067s, tắt 1.317–1.567s
+[[0.07, "#kg1"], [0.14, "#kg2"], [0.21, "#kg3"]].forEach(([d, g]) => {
+  KEO3.forEach(([t13, x, y, r]) => { const t = Math.max(0, t13 - 0.333 + d); tl.set(g, { x: 103 + 0.42 * (x - 413) - 53, y: 101 + 0.42 * (y - 532) - 63, rotation: r }, t); });
+  tl.set(g, { opacity: 0.55 }, 0.067 + d); tl.to(g, { opacity: 0, duration: 0.25 }, 1.317);
+});
+// ô (3,1) = s13 thu nhỏ ×0.42 (matchTemplate của chữ NÉM của s13 trên khung ô; NCC 0.65–0.87): thẻ NÉM ĐỨNG YÊN ở (100,68) từ f8 tới f57 rồi bị ném đu đưa: tâm chữ (cell f58 → …) khớp bảng NEMT của s13 lệch 10 khung
+// (f65 (70,109) ↔ s13 f75 (338,546); f69 (166,132) ↔ f79; f70 (258,102) ↔ f80; f73 (204,118) ↔ f83; f74 (94,158) ↔ f84). Vị trí ô = (100,68) + 0.42·(tâm mẫu s13 − (406,454)); xoay giữ nguyên, bước 1 khung.
+// Khung s13 f77–f78, f84–f88 (thẻ sau terminal) nội suy tuyến tính. (bản trước: thẻ nhún ±20 px bằng ba tween không có số đo)
+{
+  const T = { 67: [406, 454, -3], 68: [404, 458, -3], 69: [402, 464, -3], 70: [398, 470, -3], 71: [396, 476, -3], 72: [394, 484, -3], 73: [390, 490, -3], 74: [388, 496, -3], 75: [338, 546, 3], 76: [236, 638, 9],
+    79: [550, 596, -9], 80: [750, 528, -15], 81: [936, 466, -21], 82: [812, 508, -15], 83: [632, 564, 3], 89: [512, 618, -21], 90: [620, 582, -21], 91: [720, 550, -27], 92: [856, 502, -27] };
+  const fs = Object.keys(T).map(Number);
+  for (let f = 68; f <= 92; f++) {
+    let v = T[f];
+    if (!v) { const a = Math.max(...fs.filter(g => g < f)), b = Math.min(...fs.filter(g => g > f)), u = (f - a) / (b - a); v = T[a].map((c, i) => c + (T[b][i] - c) * u); }
+    tl.set("#nem", { x: 0.42 * (v[0] - 406), y: 0.42 * (v[1] - 454), rotation: -(v[2] + 3) }, (f - 10 - 1) / 30);
+  }
+}
+
 // ---- kéo dài nhịp ô tới ~1.9 s như gốc (ô nào cũng còn chuyển động tới cuối đợt) ----
 // ô 3: hộp tiếp tục xoay giật (đã gộp vào chuỗi xoay chính)
-tl.to("#cf", { scaleX: 0.04, transformOrigin: "100% 50%", duration: 0.12, ease: "power2.in" }, 1.55);
-tl.to("#cf", { scaleX: 1, duration: 0.16, ease: "power2.out" }, 1.67);
 // ô 4: ánh sáng halftone quét chéo
 // ô 5: chip lò xo bị giật thêm hai lần
 [0.75, 1.05, 1.35].forEach((t, n) => {
@@ -303,19 +361,11 @@ tl.to("#cf", { scaleX: 1, duration: 0.16, ease: "power2.out" }, 1.67);
   tl.fromTo("#c5 svg", { scaleY: 0.8 }, { scaleY: 1, duration: 0.5, ease: "elastic.out(1,0.3)", stagger: 0.03, transformOrigin: "50% 0%", immediateRender: false }, t);
 });
 // ô 6: KÉO tiếp tục bị ném
-tl.to("#keo", { keyframes: [{ x: -110, y: 70, rotation: 34, duration: 0.16, ease: "power3.out" }, { x: -20, y: 20, rotation: 6, duration: 0.16, ease: "power3.out" },
-  { x: -90, y: 100, rotation: 26, duration: 0.16, ease: "power3.out" }, { x: -30, y: 40, rotation: 14, duration: 0.2, ease: "back.out(2)" }] }, 0.8);
-tl.to("#truot", { keyframes: [{ x: 22, y: -16, rotation: 8, duration: 0.16, ease: "power3.out" }, { x: -6, y: 10, rotation: -4, duration: 0.18, ease: "back.out(2)" }] }, 1.1);
-tl.to("#nem", { keyframes: [{ x: 18, y: 24, rotation: 9, duration: 0.16, ease: "power3.out" }, { x: 0, y: 0, rotation: -2, duration: 0.2, ease: "back.out(2)" }] }, 1.0);
 // ô 8: thẻ drag bị kéo thêm
 // ô 1: mây chấm / lưới halftone cuối đợt trôi và nảy
 
 
 // ô 6/8/2 kéo dài thêm tới ~2.2 s
-tl.to("#keo", { keyframes: [{ x: -100, y: 60, rotation: 30, duration: 0.16, ease: "power3.out" }, { x: -20, y: 14, rotation: 6, duration: 0.16, ease: "power3.out" },
-  { x: -70, y: 90, rotation: 24, duration: 0.16, ease: "power3.out" }, { x: -40, y: 30, rotation: 12, duration: 0.2, ease: "back.out(2)" }] }, 1.35);
-tl.to("#truot", { keyframes: [{ x: 26, y: -20, rotation: 9, duration: 0.15, ease: "power3.out" }, { x: -8, y: 12, rotation: -5, duration: 0.17, ease: "back.out(2)" }] }, 1.5);
-tl.to("#nem", { keyframes: [{ x: 20, y: 20, rotation: 10, duration: 0.15, ease: "power3.out" }, { x: 0, y: 0, rotation: -2, duration: 0.2, ease: "back.out(2)" }] }, 1.45);
 [1.7, 1.95, 2.2].forEach((t, n) => {
   tl.fromTo("#sp2 svg", { rotation: n % 2 ? -16 : 18, transformOrigin: "50% 0%" }, { rotation: 0, duration: 0.5, ease: "elastic.out(1,0.3)", stagger: 0.03, immediateRender: false }, t);
   tl.fromTo("#sp2 .bc", { y: -120 + n * 25 }, { y: 0, duration: 0.5, ease: "bounce.out", stagger: 0.05, immediateRender: false }, t);
@@ -413,16 +463,13 @@ tl.to("#k8e", { x: -100, y: 112, rotation: 10, duration: 0.2, ease: "power3.out"
 tl.to("#k8i", { x: -10, y: 8, duration: 0.2, ease: "power2.out" }, 0.9); tl.to("#k8i", { x: 0, y: 0, duration: 0.3, ease: "back.out(2)" }, 1.1);
 
 // ô 1 — mây chấm / lưới halftone cuối đợt (giữ từ bản trước)
-tl.fromTo("#od", { opacity: 0, backgroundPosition: "0px 0px" }, { opacity: 1, backgroundPosition: "90px 40px", duration: 0.3, ease: "none" }, 1.8);
-tl.fromTo("#of", { opacity: 0 }, { opacity: 1, duration: 0.18 }, 2.0);
-tl.fromTo("#ht", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 2.2);
-tl.fromTo("#of", { scale: 1.2 }, { scale: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 2.0);
-tl.fromTo("#ht", { backgroundPosition: "0px 0px" }, { backgroundPosition: "36px 18px", duration: 0.6, ease: "none" }, 2.2);
+tl.fromTo("#od", { opacity: 0, backgroundPosition: "0px 0px" }, { opacity: 1, backgroundPosition: "90px 40px", duration: 0.3, ease: "none" }, 1.6);
+tl.fromTo("#of", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 1.7);
+tl.fromTo("#ht", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 1.93);
+tl.fromTo("#of", { scale: 1.2 }, { scale: 1, duration: 0.2, ease: "power2.out", immediateRender: false }, 1.7);
+tl.fromTo("#ht", { backgroundPosition: "0px 0px" }, { backgroundPosition: "36px 18px", duration: 0.6, ease: "none" }, 1.93);
 
 
-// ô 3 (hộp SCROLL): cú xoay giật thứ hai ở nửa sau (gốc: mặt hộp còn lật tới ~32.3)
-tl.to("#cube", { keyframes: [{ rotateY: 38, duration: 0.14, ease: "power3.out" }, { rotateY: -30, duration: 0.15, ease: "power3.out" }, { rotateY: 24, duration: 0.15, ease: "power3.out" },
-  { rotateY: -18, duration: 0.15, ease: "power3.out" }, { rotateY: 10, duration: 0.15, ease: "power3.out" }, { rotateY: 0, duration: 0.25, ease: "back.out(2)" }] }, 1.5);
 // ô 7: logo Motion nảy tiếp, các thẻ quanh trượt
 [[1.5, 14, 4], [1.72, -12, -4], [1.95, 9, 3], [2.15, -6, -2]].forEach(([t, y, r]) => tl.to("#mbig", { y, rotation: r, duration: 0.12, ease: "power3.out" }, t));
 tl.to("#u7", { x: 22, duration: 0.14, ease: "power3.out" }, 1.4); tl.to("#u7", { x: 0, duration: 0.25, ease: "back.out(2.5)" }, 1.56);
